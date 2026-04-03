@@ -8,9 +8,23 @@ import logging
 PROJECT_FOLDER = r"C:\Users\sasir\Desktop\Aelarian\Archives"
 USB_DRIVE = "D:\\"
 USB_BACKUP_FOLDER = "threshold-backups"
+B2_BUCKET = "threshold-backups"
+
+# === LOAD CREDENTIALS FROM .env ===
+# Credentials are never hardcoded. See GITHUB_PROTOCOL.md section 5.
+def _load_env():
+    env_path = os.path.join(PROJECT_FOLDER, ".env")
+    if os.path.exists(env_path):
+        with open(env_path) as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    key, val = line.split("=", 1)
+                    os.environ.setdefault(key.strip(), val.strip())
+
+_load_env()
 B2_KEY_ID = os.environ.get("B2_KEY_ID")
 B2_APP_KEY = os.environ.get("B2_APP_KEY")
-B2_BUCKET = "threshold-backups"
 
 # === LOGGING ===
 log_path = os.path.join(PROJECT_FOLDER, "backup.log")
@@ -51,6 +65,10 @@ def backup_to_github():
 
 # === LAYER 3: BACKBLAZE B2 ===
 def backup_to_backblaze():
+    if not B2_KEY_ID or not B2_APP_KEY:
+        log("Backblaze: BLOCKED — B2_KEY_ID or B2_APP_KEY not set in environment.")
+        log("Backblaze: Check .env file. See GITHUB_PROTOCOL.md section 5.")
+        return
     try:
         from b2sdk.v2 import InMemoryAccountInfo, B2Api
         info = InMemoryAccountInfo()

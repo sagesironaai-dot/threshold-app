@@ -1,0 +1,27 @@
+# Credentials and environment
+.env
+*.env
+.env.*
+
+# Logs
+*.log
+backup.log
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Build artifacts
+dist/
+build/
+
+# Large binaries
+*.exe
+*.dmg
+*.pkg
+*.msi
