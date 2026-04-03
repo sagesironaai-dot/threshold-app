@@ -109,6 +109,36 @@ UNCOMMITTED: NO
 ---
 
 ---
+TIMESTAMP: 2026-04-03
+TYPE: CLOSE
+FILES_MODIFIED:
+  - PROTOCOL/PROTOCOL_TODO.md — COMPLETE (all completed items marked, remaining open items clarified)
+  - backup.py — COMPLETE (logging encoding fixed, utf-8 added)
+  - .env — COMPLETE (recreated with new B2 credentials, old locked file removed)
+  - .github/workflows/ci.yml — COMPLETE (created, mirrors all 4 pre-commit checks)
+  - performance-budget.json — COMPLETE (created, placeholder values)
+COMPLETED:
+  - PROTOCOL_TODO.md updated to reflect actual state — all Section 1, 2, 3 done items marked
+  - B2 credentials rotated and confirmed working — backup ran clean on all 3 layers
+  - backup.py logging encoding fixed (utf-8) — USB backup now logs correctly
+  - .github/workflows/ci.yml created — CI mirrors pre-commit, active on push and PR to main
+  - performance-budget.json placeholder committed
+  - backup.py encoding fix committed and pushed
+  - All files committed and pushed — repo clean
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Domain work — next session
+  - Section 4 stress tests (manual) — interrupt resume, ghost fix, credential block scenarios
+  - Domain vocab term list finalization in hooks/pre-commit DOMAIN_TERMS
+  - SOT — blocked pending domain completion
+UNCOMMITTED: NO
+NEXT_ACTION: New session. Session open procedure (SESSION_PROTOCOL.md section 1).
+  Read CLAUDE.md, ENFORCEMENT.md, SESSION_LOG.md. Confirm DOCS/Systems/ and
+  DOCS/Domains/ state. Then begin domain work.
+---
+
+---
 TIMESTAMP: 2026-04-02 23:26
 TYPE: HOOK_WRITE
 FILE: test.txt
