@@ -177,3 +177,62 @@ attempt a second fix until the absence is acknowledged by Sage.
 Restatement is not a summary. It is a direct read of current confirmed
 state from SESSION_LOG.md and CLAUDE.md. Not paraphrased. Not recalled.
 Read and restated.
+
+---
+
+## 6. CODE CONTRACT GATE
+
+Run before implementing any function. This is a hard gate —
+implementation does not begin until every step is complete.
+
+1. State the function's full contract:
+   - Name
+   - Parameters — each with type and what it represents
+   - Return type — including what it returns on failure
+   - Side effects — every state change outside this function's scope
+   - Dependencies — what it calls, what events it fires
+
+2. State which file(s) this function lives in and which files call it.
+   Cross-check against PROTOCOL/DEPENDENCY_MAP.json.
+
+3. Sage approves the contract before any code is written.
+
+4. Write the contract as a comment block at the top of the function
+   before writing the body.
+
+5. Implement against the approved contract only. Any deviation from
+   the contract during implementation is named and stopped —
+   not silently absorbed.
+
+6. If the implementation reveals the contract was wrong: stop.
+   Restate the corrected contract. Get approval. Then continue.
+
+**No function body is written before its contract is approved.
+No exceptions.**
+
+---
+
+## 7. TEST-ALONGSIDE RULE
+
+Every function implementation requires a test spec written in the
+same work unit. Not in a later session. Not after the build stabilizes.
+The same work unit.
+
+**What a test spec contains:**
+- The function being tested (name, file)
+- Happy path: expected input → expected output
+- At minimum one failure case: bad input / missing data / error condition
+- At minimum one edge case if the function handles boundaries
+
+**The rule:**
+A work unit that writes a function is not closed until the test spec
+for that function is also written and recorded in SESSION_LOG.md.
+"I'll write tests later" is not an acceptable state.
+A function without a test spec is marked INCOMPLETE in SESSION_LOG.md
+regardless of whether the implementation itself is correct.
+
+**Why this exists:**
+F06 (self-validates) has no mechanical check until a test suite exists.
+Writing the test spec alongside the implementation creates the
+external verification layer that prevents Claude from being the only
+thing checking Claude's output.

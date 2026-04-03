@@ -158,6 +158,11 @@ Check before implementation begins, not after.
   is implemented.** Invalid states must be unreachable by construction —
   not by assumption or by never being tested.
 
+- **No function is complete until a test spec for it is written in the
+  same session.** Implementation and test spec are one work unit.
+  A function without a test spec is INCOMPLETE regardless of whether
+  the code itself is correct. See SESSION_PROTOCOL.md section 7.
+
 ---
 
 ## STRESS TEST PROTOCOL

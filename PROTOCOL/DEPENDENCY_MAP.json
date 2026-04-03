@@ -1,0 +1,212 @@
+{
+  "version": 1,
+  "last_updated": "2026-04-03",
+  "note": "Living document. Every new file gets an entry when it is created. Every new import, event connection, or shared constant gets added to affects[]. Update this map as part of the work unit that introduces the dependency — never after the fact.",
+  "files": {
+
+    "core/data.js": {
+      "affects": [
+        "core/composite_id.js",
+        "core/tagger.js",
+        "core/emergence.js",
+        "core/thread_trace_db.js",
+        "core/mtm.js",
+        "core/nexus_routine.js"
+      ],
+      "reason": "DB_VERSION shared with thread_trace_db.js — version mismatch locks the tab. createEntry/getEntries/updateEntry API used by composite_id, tagger, emergence, mtm, nexus_routine. Store name constants used across all IDB operations."
+    },
+
+    "core/schema.js": {
+      "affects": [
+        "core/data.js",
+        "core/composite_id.js",
+        "core/tagger.js",
+        "core/emergence.js",
+        "core/mtm.js",
+        "core/nexus_routine.js",
+        "index.html"
+      ],
+      "reason": "PHASE_CODES, PAGE_CODES, and enums are imported across the system. Any change to a code or enum value cascades to every file that references it."
+    },
+
+    "core/composite_id.js": {
+      "affects": [
+        "index.html"
+      ],
+      "reason": "CompositeIdBus singleton wired into INT panel in index.html. previewCompositeId() called on every keystroke. buildCompositeId() called on confirmed save only."
+    },
+
+    "core/tagger.js": {
+      "affects": [
+        "core/tagger_bus.js",
+        "core/emergence.js",
+        "core/resonance_engine.js",
+        "index.html"
+      ],
+      "reason": "resolveTagIds() uses TAG_VOCAB_BY_SEED from tags-vocab.js — routing chain must be complete. Fires ae:tagCommit to emergence and resonance_engine. TaggerBus wraps this file. ae:tagCommit payload structure is a contract shared with resonance_engine."
+    },
+
+    "core/tagger_bus.js": {
+      "affects": [
+        "index.html"
+      ],
+      "reason": "TaggerBus singleton is the API surface used by index.html for all tagging calls. Any change to TaggerBus public API breaks index.html call sites."
+    },
+
+    "core/tags-vocab.js": {
+      "affects": [
+        "core/tagger.js",
+        "core/emergence.js",
+        "core/resonance_engine.js"
+      ],
+      "reason": "TAG_VOCAB_BY_SEED is the source for resolveTagIds() in tagger.js. NODE_REGISTRY used by emergence.js. seed_id/layer_id/threshold_id/pillar_id structure used by resonance_engine.js payload."
+    },
+
+    "core/emergence.js": {
+      "affects": [
+        "core/thread_trace_ui.js",
+        "index.html"
+      ],
+      "reason": "Uses window.ThreadTraceUI bridge — not ES module import. setEntriesFetcher() must be called before EmergenceEngine.init(). Missing this causes silent failure. onTagSessionComplete() always fetches fresh — never cached corpus. PAL object uses hardcoded rgba only."
+    },
+
+    "core/thread_trace.js": {
+      "affects": [
+        "core/thread_trace_ui.js",
+        "core/thread_trace_db.js"
+      ],
+      "reason": "Core logic used by both UI and DB layers. API contract must stay stable — both layers call into it."
+    },
+
+    "core/thread_trace_ui.js": {
+      "affects": [
+        "core/emergence.js",
+        "index.html"
+      ],
+      "reason": "Exposed as window.ThreadTraceUI — emergence.js depends on this global, not an ES module import. Graph export stub in this file must stay in sync with emergence.js graph export stub. Both updated together — never one without the other."
+    },
+
+    "core/thread_trace_db.js": {
+      "affects": [
+        "core/data.js"
+      ],
+      "reason": "REQUIRED_VERSION must match DB_VERSION in data.js at all times. Version mismatch triggers onblocked and locks the tab. Both incremented together — never one without the other."
+    },
+
+    "core/resonance_engine.js": {
+      "affects": [
+        "index.html"
+      ],
+      "reason": "Owns its dedicated canvas element. Not bg-canvas (NurseryBG territory). Receives ae:tagCommit only — never called directly. Canvas element reference in index.html must match what resonance_engine expects."
+    },
+
+    "core/mtm.js": {
+      "affects": [
+        "core/nexus_routine.js",
+        "index.html"
+      ],
+      "reason": "MTM.runSynthesis() is called by nexus_routine.js as step 1 of DNR. Public API must match what nexus_routine expects. MTM never receives deposits — synthesis only."
+    },
+
+    "core/nexus_routine.js": {
+      "affects": [
+        "index.html"
+      ],
+      "reason": "Orchestrates DNR sequence. Calls MTM.runSynthesis() then routes Findings to Liber Novus. Triggered by Close Session in global dropdown. WSC is not triggered by this routine."
+    },
+
+    "index.html": {
+      "affects": [
+        "core/data.js",
+        "core/schema.js",
+        "core/composite_id.js",
+        "core/tagger.js",
+        "core/tagger_bus.js",
+        "core/tags-vocab.js",
+        "core/emergence.js",
+        "core/thread_trace.js",
+        "core/thread_trace_ui.js",
+        "core/thread_trace_db.js",
+        "core/resonance_engine.js",
+        "core/mtm.js",
+        "core/nexus_routine.js"
+      ],
+      "reason": "App shell. Loads and wires all core files. Canvas element ownership defined here. All API call sites live here. Any structural change to index.html may affect initialization order, canvas references, or API surface of any core file."
+    },
+
+    "DOCS/Systems/TAGGER SCHEMA.md": {
+      "affects": [
+        "DOCS/Systems/RESONANCE ENGINE SCHEMA.md",
+        "DOCS/Systems/EMERGENCE SCHEMA.md",
+        "DOCS/Systems/Tagger System.md",
+        "DOCS/Systems/INTEGRATION SCHEMA.md"
+      ],
+      "reason": "ae:tagCommit payload structure is a shared contract with resonance_engine and emergence. Sync sequence must stay aligned with Tagger System.md. Tag routing feeds INT step 5."
+    },
+
+    "DOCS/Systems/RESONANCE ENGINE SCHEMA.md": {
+      "affects": [
+        "DOCS/Systems/TAGGER SCHEMA.md"
+      ],
+      "reason": "Receives ae:tagCommit payload — payload field names must match exactly what tagger fires. seed_id/layer_id/threshold_id/pillar_id not seed/layer/threshold/pillar."
+    },
+
+    "DOCS/Systems/COMPOSITE ID SCHEMA.md": {
+      "affects": [
+        "DOCS/Systems/INTEGRATION SCHEMA.md",
+        "DOCS/Systems/INTEGRATION IDB SCHEMA.md"
+      ],
+      "reason": "Stamp format and sequence counter behavior referenced in integration flow. buildCompositeId() vs previewCompositeId() distinction load-bearing."
+    },
+
+    "DOCS/Systems/INTEGRATION SCHEMA.md": {
+      "affects": [
+        "DOCS/Systems/COMPOSITE ID SCHEMA.md",
+        "DOCS/Systems/INTEGRATION IDB SCHEMA.md",
+        "DOCS/Systems/TAGGER SCHEMA.md"
+      ],
+      "reason": "References composite ID stamp assignment, IDB store write sequence, and tagger routing at step 5. Changes here cascade to all three."
+    },
+
+    "DOCS/Systems/INTEGRATION IDB SCHEMA.md": {
+      "affects": [
+        "DOCS/Systems/INTEGRATION SCHEMA.md"
+      ],
+      "reason": "Store definitions must match what INTEGRATION SCHEMA.md describes. intake_status field placement is a confirmed conflict point — see file header."
+    },
+
+    "DOCS/Systems/METAMORPHOSIS SCHEMA.md": {
+      "affects": [
+        "DOCS/Systems/DAILY NEXUS ROUTINE SCHEMA.md"
+      ],
+      "reason": "MTM.runSynthesis() public API called by DNR as step 1. prior_mtm_session_ids (plural) confirmed in both. Return type must match what DNR expects."
+    },
+
+    "DOCS/Systems/DAILY NEXUS ROUTINE SCHEMA.md": {
+      "affects": [
+        "DOCS/Systems/METAMORPHOSIS SCHEMA.md"
+      ],
+      "reason": "Calls MTM.runSynthesis(). DNR sequence is strictly ordered — step 1 MTM, step 2 LNV notification. WSC is not part of this routine."
+    },
+
+    "DOCS/Systems/EMERGENCE SCHEMA.md": {
+      "affects": [
+        "DOCS/Systems/THREAD TRACE SCHEMA.md",
+        "DOCS/Systems/TAGGER SCHEMA.md"
+      ],
+      "reason": "Thread Trace bridge via window.ThreadTraceUI. onTagSessionComplete sequence depends on tagger commit hook. setEntriesFetcher order dependency."
+    },
+
+    "DOCS/Systems/THREAD TRACE SCHEMA.md": {
+      "affects": [
+        "DOCS/Systems/EMERGENCE SCHEMA.md"
+      ],
+      "reason": "window.ThreadTraceUI global used by emergence as bridge. Graph export stub must stay disabled in both. DB version dependency with data.js."
+    },
+
+    "DOCS/Domains/Master Domain List.txt": {
+      "affects": [],
+      "reason": "Top-level domain registry. Any domain addition, removal, or page code change should be reflected here."
+    }
+  }
+}

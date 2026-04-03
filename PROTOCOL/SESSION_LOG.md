@@ -113,3 +113,24 @@ TIMESTAMP: 2026-04-02 23:26
 TYPE: HOOK_WRITE
 FILE: test.txt
 ---
+
+---
+TIMESTAMP: 2026-04-03 00:37
+TYPE: HOOK_WRITE
+FILE: C:/Users/sasir/Desktop/Aelarian/Archives/core/data.js
+---
+
+---
+TIMESTAMP: 2026-04-03 00:37
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: core/data.js
+REQUIRES_REVIEW:
+  - core/composite_id.js
+  - core/tagger.js
+  - core/emergence.js
+  - core/thread_trace_db.js
+  - core/mtm.js
+  - core/nexus_routine.js
+REASON: DB_VERSION shared with thread_trace_db.js — version mismatch locks the tab. createEntry/getEntries/updateEntry API used by composite_id, tagger, emergence, mtm, nexus_routine. Store name constants used across all IDB operations.
+STATUS: UNREVIEWED
+---
