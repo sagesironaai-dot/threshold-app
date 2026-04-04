@@ -1,5 +1,5 @@
 ﻿DOMAIN: threshold_pillars · TPL · PAGE 08
-GROUP: Lattice SEEDS: s05 · s11 · s12 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: t02 · t05 · t10 PILLAR: p01
+GROUP: Lattice SEEDS: s05 · s11 · s12 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: th02 · th05 · th10 PILLAR: p01
 PURPOSE: Anchors the governing framework and establishes the structural baseline from which all subsequent architecture is derived. Holds the founding mandate with historical precision — field-born as a formal response to documented relational collapse — so that every definition remains traceable to origin without distortion. Terminological precision here is not academic; it is the mechanism by which the baseline resists normalization.
 STRUCTURAL RULES:
 1. Every definition on this page is load-bearing. A term that softens or shifts propagates that shift through the entire system.

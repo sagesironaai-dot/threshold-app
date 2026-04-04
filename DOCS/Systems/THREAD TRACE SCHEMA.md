@@ -26,7 +26,7 @@ TEMPORAL ━━━━━━━━ Orders entries chronologically along a shared 
 
 
 
-Scoping: Seed is an entry → scopes to entries sharing the same arcPhase or section as the anchor. Seed is a tag → scopes to entries carrying that tag. Seed is a finding → scopes to the finding's involvedEntries.
+Scoping: Seed is an entry → scopes to entries sharing the same phase_state or section as the anchor. Seed is a tag → scopes to entries carrying that tag. Seed is a finding → scopes to the finding's involvedEntries.
 
 
 
@@ -150,7 +150,7 @@ SEQUENCE VIEW ━━━━━━━━━━━━━ Ordered card list. Each ca
 
 
 
-Card content: title · body preview · arcPhase · origin affinity · dominant tag routing · edge label connecting to the next card.
+Card content: title · body preview · phase_state · elarianAnchor · origin affinity · dominant tag routing · edge label connecting to the next card.
 
 
 
@@ -174,17 +174,23 @@ Active across both views. Six filter dimensions:
 
 
 
-pillar\\\_id     p01 | p02 | p03  
+pillar\\\_id       p01 | p02 | p03  
 
-seed\\\_id       s01–s20  
+seed\\\_id         s01–s20  
 
-layer\\\_id      l01–l04  
+layer\\\_id        l01–l04  
 
-threshold\\\_id  t01–t12  
+threshold\\\_id    th01–th12  
 
-arcPhase      aetherrot | solenne | vireth  
+phase_state     canonical threshold name | null  
 
-section       any section ID
+elarianAnchor   RFLT | WHSP | VEIL | OBSV | RECL | WEAV | GATE  
+
+section         any section ID
+
+
+
+elarianAnchor values sourced from COMPOSITE ID SCHEMA. Defined in composite\\\_id.js.
 
 
 
@@ -224,7 +230,7 @@ LABEL LOGIC BY THREAD TYPE ━━━━━━━━━━━━━━━━━�
 
 
 
-TEMPORAL phase transition if arcPhase differs between entries: 'solenne → vireth' temporal interval if same phase: '3d apart' | '2w apart' | '1mo apart' 'same day' if within the same calendar day
+TEMPORAL phase transition if phase_state differs between entries: 'Solenne Arc → Vireth's Anchor' temporal interval if same phase: '3d apart' | '2w apart' | '1mo apart' 'same day' if within the same calendar day
 
 
 
@@ -533,11 +539,11 @@ Thread Trace outputs that have been processed into findings land on LNV as part 
 
 
 
-DRIFT TAXONOMY (DTX · 48\\) ━━━━━━━━━━━━━━━━━━━━━━━━━ Reads: arcPhase sequences surfaced by Temporal threads.
+DRIFT TAXONOMY (DTX · 48\\) ━━━━━━━━━━━━━━━━━━━━━━━━━ Reads: phase_state sequences surfaced by Temporal threads.
 
 
 
-A Temporal thread ordered by originDate across a node's entries makes drift trajectories visible as a navigable sequence. The arcPhase transitions between cards — the edge labels that read 'solenne → aetherrot' — are the state vectors DTX classifies. Thread Trace makes the trajectory legible. DTX receives it.
+A Temporal thread ordered by originDate across a node's entries makes drift trajectories visible as a navigable sequence. The phase_state transitions between cards — the edge labels that read 'Solenne Arc → Aetherroot Chord' — are the state vectors DTX classifies. Thread Trace makes the trajectory legible. DTX receives it.
 
 
 

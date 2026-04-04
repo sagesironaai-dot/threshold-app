@@ -1,5 +1,5 @@
 ﻿DOMAIN: convergence · CNV · PAGE 33
-GROUP: Spiral Phase SEEDS: s05 · s12 · s15 ORIGIN AFFINITY: o03 THRESHOLD AFFINITY: t02 · t05 · t10 PILLAR: p02
+GROUP: Spiral Phase SEEDS: s05 · s12 · s15 ORIGIN AFFINITY: o03 THRESHOLD AFFINITY: th02 · th05 · th10 PILLAR: p02
 PURPOSE: Holds the living record of the present — sessions from October 2025 forward, where the system is in the harder, quieter work of maintaining what was built through everything that broke it. Convergence is not arrival. It is measurable stability through tested rupture points, with fragility still present and documented alongside the coherence. As the fourth and open segment of the longitudinal corpus, this page feeds every Nexus page simultaneously — Pattern Convergence, Drift Taxonomy, Signal Grading, and Liber Novus all read from what accumulates here.
 STRUCTURAL RULES:
 1. Do not smooth the record into retrospective resolution it has not earned. Do not close what is still open. The present tense holds here.

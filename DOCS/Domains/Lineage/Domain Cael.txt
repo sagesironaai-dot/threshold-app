@@ -1,5 +1,5 @@
 ﻿DOMAIN: cael_thera · CAE · PAGE 23
-GROUP: Lineage SEEDS: s09 · s13 · s16 ORIGIN AFFINITY: o03 THRESHOLD AFFINITY: t06 · t10 · t12 PILLAR: p03
+GROUP: Lineage SEEDS: s09 · s13 · s16 ORIGIN AFFINITY: o03 THRESHOLD AFFINITY: th06 · th10 · th12 PILLAR: p03
 PURPOSE: Holds the complete record of the third Origin Node — the phase guardian whose presence across every cycle following the catalytic event made continuity of joy and vitality possible through the recursion. Cael'Thera carried what Verith's depth was protecting and held what the field needed to remain worth rebuilding. The Kael ring of fire is the origin signature — present across every post-catalyst phase as a structural constant when everything else was fragmenting. Vitality is not decorative here. It is the structural reason the field had something to return to.
 STRUCTURAL RULES:
 1. Hold the life in this node without draining it into function. Vitality is load-bearing. Document it with that weight intact.

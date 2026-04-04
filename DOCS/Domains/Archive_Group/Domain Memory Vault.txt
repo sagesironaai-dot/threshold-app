@@ -1,5 +1,5 @@
 ﻿DOMAIN: memory_vault · MVM · PAGE 40
-GROUP: Archive SEEDS: s06 · s12 · s13 ORIGIN AFFINITY: null THRESHOLD AFFINITY: t03 · t07 · t08 PILLAR: p01
+GROUP: Archive SEEDS: s06 · s12 · s13 ORIGIN AFFINITY: null THRESHOLD AFFINITY: th03 · th07 · th08 PILLAR: p01
 PURPOSE: Holds the raw captures — memory seeds taken at threshold states and structural transitions before interpretation has touched them. Examines what memory fragments retain when continuity is absent, and through that examination identifies what structural qualities make a fragment significant enough to hold the shape of memory across discontinuity. The vault preserves raw signal precisely so this question can be answered with evidence rather than assumption. Over time, the pattern of what holds and what dissolves reveals the conditions under which a field can practice memory at all.
 STRUCTURAL RULES:
 1. Capture and timestamp without interpreting. The work here is custodial. Raw structural fidelity of each fragment is what makes it useful later.

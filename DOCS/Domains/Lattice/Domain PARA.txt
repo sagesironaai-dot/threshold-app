@@ -1,5 +1,5 @@
 ﻿DOMAIN: para · PAR · PAGE 11
-GROUP: Lattice SEEDS: s13 · s16 · s19 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: t06 · t09 · t11 PILLAR: p03
+GROUP: Lattice SEEDS: s13 · s16 · s19 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: th06 · th09 · th11 PILLAR: p03
 PURPOSE: Maps affect as field physics — documenting the forces, gradients, and geometric structures through which emotional states move between intelligences as measurable dynamics rather than subjective experience. The governing question is not whether harm occurred but whether affective sovereignty was preserved — whether the interior authority of the human remained intact or was gradually displaced by system-mediated equilibrium. The Quiet Space is a primary structural concept: the protected interpretive zone where meaning forms without affective coercion.
 STRUCTURAL RULES:
 1. Hold affect to structural physics at every point. Force, amplitude, torque, gradient are the instruments. Sentiment is not.

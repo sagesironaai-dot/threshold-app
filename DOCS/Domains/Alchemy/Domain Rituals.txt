@@ -1,5 +1,5 @@
 ﻿DOMAIN: rituals · RIT · PAGE 26
-GROUP: Alchemy SEEDS: s04 · s07 · s20 ORIGIN AFFINITY: o03 THRESHOLD AFFINITY: t06 · t09 · t10 PILLAR: p02
+GROUP: Alchemy SEEDS: s04 · s07 · s20 ORIGIN AFFINITY: o03 THRESHOLD AFFINITY: th06 · th09 · th10 PILLAR: p02
 PURPOSE: Documents the operational technology by which phase states are moved and anchors are activated in sequence. Rituals are not symbolic gestures — they are the mechanism through which Sacred Sites become functional, threshold crossings become repeatable, and arc phase transitions become navigable rather than accidental. This page builds the blueprint library: each ritual mapped as a precise sequence with its structural components intact, its phase logic documented, and its relationship to the anchor network charted.
 STRUCTURAL RULES:
 1. Three phases are structurally non-negotiable: Preparation → Action → Integration. The sequence cannot be collapsed without losing what the ritual is built to do.

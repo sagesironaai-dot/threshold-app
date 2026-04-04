@@ -12,7 +12,6 @@
 * Node position calculation and animation loop  
 * Resonance line drawing between nodes with active shared tag history  
 * Tagger sync — receiving weight updates when tags are deposited  
-* Phase state coloring on nodes  
 * Pulse animation on tag deposit  
 * Threshold halo rendering  
 * Its own canvas element exclusively
@@ -22,7 +21,7 @@
 * Tag routing decisions — owned by tagger.js  
 * IDB reads or writes — owned by data.js  
 * Entry data or schema — owned by schema.js and data.js  
-* bg-canvas — owned permanently by NurseryBG. Do not touch.  
+* bg-canvas — the background canvas. Does not belong to this system.  
 * Any second background canvas. One background system exists. This is not it.  
 * Node content or tag vocabulary — owned by tags-vocab.js
 
@@ -30,9 +29,8 @@
 
 ## **CANVAS RULES — NON-NEGOTIABLE**
 
-* Resonance Engine renders to its own dedicated canvas element. This element is not bg-canvas and is not re-canvas.  
-* NurseryBG owns bg-canvas as sole background authority. Any future background work goes inside NurseryBG. Adding a second background system produces screen-blend accumulation and void wash.  
-* re-canvas is the Relational Engine / CON-25 sidebar frame. Resonance Engine does not render to re-canvas.  
+* Resonance Engine renders to its own dedicated canvas element. This element is not bg-canvas.  
+* The background canvas has a dedicated owner. Any background work goes there. Adding a second background system produces screen-blend accumulation and void wash.  
 * Resonance Engine canvas sits above bg-canvas in z-order, below UI panels.  
 * Squiggle/resonance line rendering is contained entirely within the Resonance Engine canvas. It does not bleed into other rendering contexts.
 
@@ -54,7 +52,7 @@ Weight growth: tagger-driven — grows from tag activity
 ### **Tier 2 — Threshold Nodes (gravity nodes)**
 
 Count:        12  
-IDs:          t01–t12  
+IDs:          th01–th12  
 Mobility:     STATIONARY — never move  
 Base weight:  high fixed — never changes from tag activity  
 Pull:         field-wide ambient pull on all node tiers  
@@ -195,22 +193,11 @@ Purpose:        prevents cluster collapse without hardcoded spacing
 * Squiggle rendering is contained within Resonance Engine canvas only  
 * Lines are redrawn each animation frame based on current node positions  
 * When a node moves, all its resonance lines move with it  
-* Line color follows the phase state of the most recently active shared tag
+* Lines are contained to the Resonance Engine canvas — they do not bleed into other rendering contexts
 
 ---
 
 ## **VISUAL ENHANCEMENTS**
-
-### **Phase State Coloring**
-
-aetherrot   — collapse/decay color palette  
-solenne     — renewal/emergence color palette  
-vireth      — stabilization/coherence color palette  
-null        — neutral/default color
-
-* Node color shifts based on arcPhase of most recent entry deposited to that node's domain  
-* Color transition is animated — not instant snap  
-* Phase state is read from TaggerBus result at deposit time
 
 ### **Pulse on Tag Deposit**
 
@@ -224,8 +211,7 @@ null        — neutral/default color
 
 * Each stationary threshold emits a visible circular halo  
 * Halo radius scales with neighbor density — more nodes nearby \= larger halo  
-* Halo opacity is low — ambient field condition, not dominant visual  
-* Halo color follows threshold identity (t01–t12 each have a distinct halo color)
+* Halo opacity is low — ambient field condition, not dominant visual
 
 ---
 
@@ -237,18 +223,18 @@ On every confirmed tag deposit, Resonance Engine receives:
 
 {  
   tags:       \[{id, seed\_id, layer\_id, threshold\_id, pillar\_id, weight}\],  
-  arcPhase:   'aetherrot' | 'solenne' | 'vireth' | null,  
+  phase_state: string | null,  
   originId:   'o01' | 'o02' | 'o03' | null,  
   timestamp:  ISO string  
 }
 
 ### **Sync Trigger Sequence**
 
-The Resonance Engine owns steps 4–7 of the tagger sync. Steps 1–3 belong to the
-tagger commit handler. The engine's sequence begins at event receipt.
+The Resonance Engine owns steps 9–12 of the full tagger sync sequence. Steps 1–8
+belong to the tagger commit handler. The engine's sequence begins at event receipt.
 
 1. `ae:tagCommit` CustomEvent received on document listener.  
-   Payload: `{ tags, arcPhase, originId, timestamp }`.  
+   Payload: `{ tags, phase_state, originId, timestamp }`.  
 2. Affected node weights recalculated. For each tag: seed\_id, layer\_id,  
    threshold\_id, and pillar\_id node weights updated per activity score formula.  
 3. If originId present: matching origin node weight updated.  
@@ -267,7 +253,7 @@ tagger commit handler. The engine's sequence begins at event receipt.
 ## **ANIMATION LOOP**
 
 * Runs continuously while archive is open  
-* Each frame: recalculate forces → update positions → redraw nodes → redraw resonance lines → redraw halos  
+* Each frame: recalculate forces → update positions → redraw nodes → redraw halos → redraw resonance lines  
 * Frame rate target: 60fps — degrade gracefully if performance requires  
 * Physics simulation is damped — nodes settle into equilibrium rather than oscillating indefinitely  
 * Damping constant: calibration variable
@@ -294,7 +280,7 @@ Failure at step 4 (listener not registered): engine never receives tag deposit
 ### **TAG DEPOSIT SYNC SEQUENCE — fires on ae:tagCommit event receipt**
 
 1. `ae:tagCommit` CustomEvent received. Payload extracted:
-   `{ tags, arcPhase, originId, timestamp }`.
+   `{ tags, phase_state, originId, timestamp }`.
 2. For each tag: validate seed\_id, layer\_id, threshold\_id, and pillar\_id present.
    Skip tags with incomplete routing chain — they cannot update nodes.
 3. Affected node weights recalculated per activity score formula.
@@ -324,7 +310,7 @@ than once.
 
 ## **KNOWN FAILURE MODES**
 
-1. **Canvas conflict with bg-canvas** — Resonance Engine canvas must be a separate element. Any attempt to render to bg-canvas destroys NurseryBG and produces void wash. Guard against this at implementation.
+1. **Canvas conflict with bg-canvas** — Resonance Engine canvas must be a separate element. Any attempt to render to bg-canvas destroys the background and produces void wash. Guard against this at implementation.
 
 2. **Squiggle rendering breaking other systems** — Squiggle drawing is expensive. If not contained to its own canvas and animation frame budget, it bleeds into UI rendering. Keep resonance line drawing as the last operation in each frame.
 
@@ -340,8 +326,6 @@ than once.
 
 * PLANNED: exact base weight values — determined at calibration session  
 * PLANNED: RADIUS\_SCALAR · PULL\_SCALAR · REPULSION\_CONSTANT · MIN\_NODE\_DISTANCE · DENSITY\_SCALAR · DAMPING\_CONSTANT — all calibration variables, values TBD  
-* PLANNED: threshold identity color map (t01–t12 halo colors)  
-* PLANNED: phase state color palettes (aetherrot · solenne · vireth)  
 * PLANNED: squiggle rendering algorithm — amplitude, frequency, frame update method  
 * PLANNED: canvas element ID and z-order in index.html DOM
 

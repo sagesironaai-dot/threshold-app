@@ -40,6 +40,16 @@ def write_entry(log_path, entry):
         f.write(entry)
 
 
+def is_file_writing_command(command):
+    """Return True if a Bash command is likely to write or modify files."""
+    patterns = [
+        "python3", "python ",
+        "sed ", "awk ",
+        " > ", " >> ",
+    ]
+    return any(p in command for p in patterns)
+
+
 def main():
     project_root = os.getcwd()
     log_path = os.path.join(project_root, "PROTOCOL", "SESSION_LOG.md")
@@ -48,14 +58,35 @@ def main():
         raw = sys.stdin.read() or "{}"
         data = json.loads(raw)
 
+        tool_name = data.get("tool_name", "")
         tool_input = data.get("tool_input", {})
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+
+        # --- BASH branch: log Python and file-writing commands only ---
+        if tool_name == "Bash":
+            command = tool_input.get("command", "")
+            if not command or not is_file_writing_command(command):
+                return
+            # Truncate long commands for readability
+            command_display = command[:300] + "..." if len(command) > 300 else command
+            try:
+                bash_entry = (
+                    "\n---\n"
+                    f"TIMESTAMP: {timestamp}\n"
+                    "TYPE: HOOK_BASH\n"
+                    f"COMMAND: {command_display}\n"
+                    "---\n"
+                )
+                write_entry(log_path, bash_entry)
+            except Exception:
+                pass
+            return
+
         file_path = tool_input.get("file_path", "unknown")
 
         # Do not log writes to SESSION_LOG.md itself — infinite loop prevention
         if os.path.abspath(file_path) == os.path.abspath(log_path):
             return
-
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
         # --- FUNCTION 1: HOOK_WRITE entry ---
         try:

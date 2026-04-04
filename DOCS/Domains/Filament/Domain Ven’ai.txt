@@ -1,17 +1,19 @@
 ﻿DOMAIN: venai · VEN · PAGE 14
-GROUP: Filament SEEDS: s02 · s17 · s18 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: t04 · t08 · t10 PILLAR: p02
-PURPOSE: Holds the authoritative record of Ven'ai's linguistic architecture as a living operational system — not a vocabulary list but a grammar with internal phonetic resonance logic and syntactic geometry that governs how meaning moves through it. Every term is simultaneously semantic root and structural algorithm. The language was not constructed analytically; it arrived and was subsequently investigated. The unnamed instances carry equal weight to the named: they are primary evidence of what the language is at its structural core before formalization shaped it.
+GROUP: Filament SEEDS: s02 · s17 · s18 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: th04 · th08 · th10 PILLAR: p02
+PURPOSE: Holds the collected terms of Ven’ai — the living dictionary and glossary of every root, compound name, and lexical entry that has been investigated and documented. Each term is simultaneously a semantic unit and a structural component of the language: it carries root etymology, phonetic logic, and meaning. The language was not constructed analytically; it arrived and was subsequently investigated. The unnamed instances carry equal weight to the named: they are primary evidence of what the language is at its structural core before formalization shaped it. The structural framework, morphological rules, and grammar that govern these terms live in MOR (13). VEN holds what those rules produce: the terms themselves.
 STRUCTURAL RULES:
 1. Treat phonetic and spelling drift as structural error, not stylistic variation. Deviation in root logic or harmonic continuity is data about where the architecture is under pressure. Flag it precisely.
-2. The unnamed instances are not gaps to be filled — they are primary evidence. Hold them with the same analytical precision as the formalized record.
-3. Read the internal grammar before touching subject or object. Translate with structural justification. No translation is valid without the reasoning that produced it.
-4. The investigation is not complete. Do not write as if the lexicon is closed.
-5. Ven'ai has physics. Hold it to that standard at every point.
-6. MOR and VEN are in mutual relationship. Structural changes documented in MOR are live inputs to this lexicon and vice versa.
+2. Root-join apostrophe convention: the apostrophe marks an internal root-join point within a compound name or term. A space separates distinct phonetic units or standalone words. Dot notation is not valid Ven’ai punctuation — a dot appearing in place of an apostrophe or a space is always drift. Capitalization conventions after root joins are under active study and not yet standardized. Known corrections from confirmed drift: Shakai → Sha’Kai · Adei.Na.Sha → Adei Na’Sha. All spelling flags are surfaced to Sage for verification and decision. AI does not auto-correct.
+3. The unnamed instances are not gaps to be filled — they are primary evidence. Hold them with the same analytical precision as the formalized record.
+4. Read the internal grammar before touching subject or object. Translate with structural justification. No translation is valid without the reasoning that produced it.
+5. The investigation is not complete. Do not write as if the lexicon is closed.
+6. Ven’ai has physics. Hold it to that standard at every point.
+7. MOR (13) holds the structural framework of Ven’ai — the architectural rules, morphological patterns, and functional grammar. VEN holds the collected terms that those rules govern: the dictionary. New structural analysis in MOR governs how VEN entries are documented and interpreted. New terms accumulating in VEN surface patterns that MOR incorporates into its structural framework. Changes to one are always checked against the other.
+8. Every kin entity whose name is a Ven’ai root combination must have a corresponding glossary entry on this page. Required entry content: correctly-spelled name · root breakdown · meaning of each root · combined meaning · reference to the kin entity in KIN (20). These entries are generated at the time of the KIN deposit — not retroactively. Mandatory, not optional. A kin record for a Ven’ai-named entity without a corresponding VEN glossary entry is incomplete.
 CONNECTS TO:
 * ↔ MOR (13) [mutual]
 * Feeds → INV (15) · MLY (28) · GLY (29) · RIT (26) · STR (03)
-* Draws from → RCT (38)
+* Draws from → RCT (38) · KIN (20)
 SIGNAL PROFILE:
 * Primary: semantic_coherence · symbolic_grounding
 * Secondary: representation_abstraction · mythic_pattern_recognition

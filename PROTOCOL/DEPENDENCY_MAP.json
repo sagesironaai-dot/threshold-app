@@ -97,7 +97,7 @@
       "affects": [
         "index.html"
       ],
-      "reason": "Owns its dedicated canvas element. Not bg-canvas (NurseryBG territory). Receives ae:tagCommit only — never called directly. Canvas element reference in index.html must match what resonance_engine expects."
+      "reason": "Owns its dedicated canvas element. Not bg-canvas (background canvas has a separate owner). Receives ae:tagCommit only — never called directly. Canvas element reference in index.html must match what resonance_engine expects."
     },
 
     "core/mtm.js": {

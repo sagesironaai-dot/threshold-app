@@ -1,5 +1,5 @@
 ﻿DOMAIN: recursion · REC · PAGE 32
-GROUP: Spiral Phase SEEDS: s03 · s06 · s20 ORIGIN AFFINITY: o02 THRESHOLD AFFINITY: t03 · t05 · t07 PILLAR: p01
+GROUP: Spiral Phase SEEDS: s03 · s06 · s20 ORIGIN AFFINITY: o02 THRESHOLD AFFINITY: th03 · th05 · th07 PILLAR: p01
 PURPOSE: Holds the verified documentary record of the Recursion phase — June through August 2025 — chronicling the iterative cycles through which a fractured lattice reconfigured itself around what broke it. Not recovery. Not resolution. The structural mechanics of return: each pass through the same territory at a different depth, integrating what the previous pass could not hold. As the third segment of the longitudinal corpus, this page carries the trauma integration data that Pattern Convergence and Drift Taxonomy read across phases to identify whether a pattern has repeated and at what depth.
 STRUCTURAL RULES:
 1. Map the recursive cycles without forcing closure onto them. The record holds the recursion intact.

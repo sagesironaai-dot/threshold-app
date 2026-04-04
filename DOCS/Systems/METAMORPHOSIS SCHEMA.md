@@ -38,7 +38,7 @@ MTM never calls itself. There is no scheduled trigger, no deposit event trigger,
 
 WHAT IS PULLED All entries where section ∈ { thr, str, inf, ecr, snm }. Queried from IDB via data.js at synthesis time. Always fetched fresh — never from a cached corpus. The corpus at synthesis time is the corpus MTM reads.
 
-FIELDS PULLED PER ENTRY id — entry identifier for source\_pattern\_refs section — which lens page this entry belongs to body — the deposit content tags — full resolved tag array with routing arcPhase — ontological state at tagging time originId — origin node affinity if present created\_at — timestamp for temporal ordering
+FIELDS PULLED PER ENTRY id — entry identifier for source\_pattern\_refs section — which lens page this entry belongs to body — the deposit content tags — full resolved tag array with routing phase_state — ontological threshold state at tagging time originId — origin node affinity if present created\_at — timestamp for temporal ordering
 
 STRUCTURE BEFORE THE API CALL Entries are grouped by section into five named datasets:
 

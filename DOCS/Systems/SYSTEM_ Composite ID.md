@@ -10,7 +10,6 @@
 
 * Composite ID stamp format — canonical structure for all entry IDs in the archive  
 * Three stamp types — root · native · child — and the rules governing each  
-* ARC code resolution — auto-resolved from origin date, stored, never visible in stamp  
 * Preview stamp rendering across all panels before save  
 * Locked stamp assembly at save time  
 * Integration panel two-mode handling — native and source  
@@ -79,20 +78,6 @@ Child stamps are a data.js concern at write time. CompositeIdBus does not previe
 
 ---
 
-## **ARC CODE**
-
-The arc/threshold code is auto-resolved from the entry's origin date via `resolveThresholdCode()` in schema.js. Values: `THR1` through `THR5`.
-
-Stored on:  entry.arcCode  
-Visible in: meta strip · export · AI-facing JSON  
-Never in:   the visible composite ID stamp
-
-The arc code is structural context for AI analysis. It is not part of the stamp the user sees. It is not selectable. It is not editable. It resolves automatically and is attached to the record silently.
-
-`#f-arc` select is retired. Arc is auto-resolved. Do not re-enable that element. Do not remove it from the DOM — it may be referenced by existing markup. Leave it hidden and disabled.
-
----
-
 ## **INTEGRATION PANEL — TWO MODES**
 
 The Integration panel operates in two modes. All other panels use native mode only.
@@ -119,8 +104,7 @@ When no panel is open, CompositeIdBus sits idle. There is no default wiring targ
 
 CompositeIdBus.init()  
   — called once at app init after DOM is ready  
-  — populates all phase selects from PHASE\_CODES  
-  — retires \#f-arc select
+  — populates all phase selects from PHASE\_CODES
 
 CompositeIdBus.activateSection(sectionId)  
   — called after currentSection changes on every section navigation  
@@ -265,7 +249,7 @@ The physical file naming convention: Sage appends the ARC id to the filename or 
 ### **PANEL ACTIVATION SEQUENCE — strict order**
 
 1. `CompositeIdBus.init()` called once at app init after DOM is ready. Phase selects
-   populated from PHASE\_CODES. \#f-arc select retired.
+   populated from PHASE\_CODES.
 2. On every section navigation: `activateSection(sectionId)` called. Section context
    updated. Stamp refreshes if a panel is currently active.
 3. On panel open: `activatePanel(panelId, sectionId, mode?)` called. Date and phase
@@ -309,7 +293,7 @@ Failure between steps 3 and 4 (entry write fails after counter incremented): SEQ
 
 **CompositeIdBus.init() → void**
 Called once at app init after DOM is ready. Populates all phase selects from
-PHASE\_CODES. Retires \#f-arc select.
+PHASE\_CODES.
 
 **CompositeIdBus.activateSection(sectionId) → void**
 Called on every section navigation. Updates stored section context. Refreshes
@@ -344,9 +328,7 @@ Force-updates the current stamp without changing any values. Called by the
 
 **4\. previewCompositeId() called in source mode** Source mode stamp is assembled directly in CompositeIdBus. Calling previewCompositeId() in source mode produces a stamp with INT page code instead of AX — wrong stamp, wrong mode identity. Guard: source mode stamp assembly bypasses previewCompositeId() entirely. The mode check runs before any stamp build call.
 
-**5\. ARC code exposed in visible stamp** entry.arcCode is set correctly but surfaces in the stamp string or in a UI element that was not intended to show it. Guard: arcCode is never concatenated into the stamp format string. It is stored on the record and read by the meta strip and AI-facing JSON only. No panel stamp element renders arcCode.
-
-**6\. Retirement label not surfaced at completion** Sage cannot copy the ARC id without hunting through the IDB record. Parent page deposit and physical file placement are blocked or done incorrectly. Guard: Integration UI displays the retirement label prominently and copy-ready at the final retirement step. This is a required UI element, not optional output.
+**5\. Retirement label not surfaced at completion** Sage cannot copy the ARC id without hunting through the IDB record. Parent page deposit and physical file placement are blocked or done incorrectly. Guard: Integration UI displays the retirement label prominently and copy-ready at the final retirement step. This is a required UI element, not optional output.
 
 ---
 
@@ -355,6 +337,6 @@ Force-updates the current stamp without changing any values. Called by the
 | File | Role | Status |
 | ----- | ----- | ----- |
 | `composite_id.js` | CompositeIdBus singleton — stamp preview rendering, panel wiring, mode handling, phase select population, retirement label display | PLANNED |
-| `schema.js` | PHASE\_CODES · PAGE\_CODES · resolveThresholdCode() — read by composite\_id.js | PLANNED |
+| `schema.js` | PHASE\_CODES · PAGE\_CODES — read by composite\_id.js | PLANNED |
 | `data.js` | previewCompositeId() · buildCompositeId() · ts\_sequence counter | PLANNED |
 

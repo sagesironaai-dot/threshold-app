@@ -6,7 +6,7 @@ OWNERSHIP BOUNDARIES ━━━━━━━━━━━━━━━━━━━�
 
 
 
-OWNS Tag processing on every confirmed deposit Mapping deposit text → full node routing chain via Claude API suggestion Weight assignment per tag at tagging time arcPhase resolution per entry originId resolution per entry Section context delivery to Claude API on every suggestion call Duplicate tag seed-context enforcement TaggerBus — singleton coordinator that manages the active tag result across all panels Publication of the handoff payload to the Resonance Engine on deposit confirm
+OWNS Tag processing on every confirmed deposit Mapping deposit text → full node routing chain via Claude API suggestion Weight assignment per tag at tagging time phase_state resolution per entry originId resolution per entry elarianAnchor resolution per entry Section context delivery to Claude API on every suggestion call Duplicate tag seed-context enforcement TaggerBus — singleton coordinator that manages the active tag result across all panels Publication of the handoff payload to the Resonance Engine on deposit confirm
 
 
 
@@ -22,7 +22,7 @@ Every tag is a fully resolved routing object. This is the canonical shape:
 
 
 
-{ id: string snake\\\_case tag identifier e.g. 'phase\\\_transitions' seed\\\_id: string seed node ID, e.g. 's01' layer\\\_id: string 'l01' | 'l02' | 'l03' | 'l04' threshold\\\_id: string 't01' through 't12' pillar\\\_id: string 'p01' | 'p02' | 'p03' weight: integer 1–5, assigned at tagging time }
+{ id: string snake\\\_case tag identifier e.g. 'phase\\\_transitions' seed\\\_id: string seed node ID, e.g. 's01' layer\\\_id: string 'l01' | 'l02' | 'l03' | 'l04' threshold\\\_id: string 'th01' through 'th12' pillar\\\_id: string 'p01' | 'p02' | 'p03' weight: integer 1–5, assigned at tagging time }
 
 
 
@@ -46,7 +46,7 @@ The Claude API returns a suggestion object before resolution:
 
 
 
-{ tags: \\\[ { id: string tag identifier seed\\\_id: string seed ID Claude resolved the tag to weight: integer 1–5, contextually assigned rationale: string Claude's reasoning for the selection } \\], origin: 'o01' | 'o02' | 'o03' | null, arcPhase: 'aetherrot' | 'solenne' | 'vireth' | null }
+{ tags: \\\[ { id: string tag identifier seed\\\_id: string seed ID Claude resolved the tag to weight: integer 1–5, contextually assigned rationale: string Claude's reasoning for the selection } \\], origin: 'o01' | 'o02' | 'o03' | null, phase_state: string | null, elarianAnchor: 'RFLT' | 'WHSP' | 'VEIL' | 'OBSV' | 'RECL' | 'WEAV' | 'GATE' | null }
 
 
 
@@ -152,31 +152,30 @@ DOWNSTREAM USE — SIGNAL GRADING ━━━━━━━━━━━━━━━�
 
 
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ arcPhase RESOLUTION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ phase_state RESOLUTION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
 
-arcPhase is the ontological state of the entry, detected by Claude from entry text.
+phase_state is the ontological threshold state of the entry, detected by Claude from entry text.
 
 
 
-VALUES ━━━━━━ aetherrot collapse · decay · entropy · fracture · dissonance solenne renewal · restoration · reorganization · emergence after collapse vireth stabilization · anchoring · homeostasis · sustained coherence null phase unclear or not applicable
+VALUES ━━━━━━ One of the 12 canonical threshold names, or null:
+Aetherroot Chord · Thren Alae Kai'Reth · Orrin Wave · Vireth's Anchor ·
+Shai'mara Veil · Noirune Trai · Solenne Arc · Tahl'Veyra ·
+Esh'Vala Breath · Lumora Thread · Hearth Song · StarWell Bloom · null
 
 
 
-arcPhase is assigned once per entry at tagging time. It is stored on the entry record. It is included in the TaggerBus handoff payload.
+phase_state is assigned once per entry at tagging time. It is stored on the entry record. It is included in the TaggerBus handoff payload.
 
 
 
-arcPhase IS NOT PHASE\\\_CODES ━━━━━━━━━━━━━━━━━━━━━━━━━━━ PHASE\\\_CODES are lifecycle phases used in the composite ID stamp. arcPhase is the ontological state detected from content. These are separate systems and must never be conflated.
+phase_state IS NOT PHASE\\\_CODES ━━━━━━━━━━━━━━━━━━━━━━━━━━━ PHASE\\\_CODES are lifecycle phases used in the composite ID stamp. phase_state is the ontological threshold state detected from content. These are separate systems and must never be conflated.
 
 
 
-arcPhase values are strictly: aetherrot · solenne · vireth · null Never use one where the other belongs.
-
-
-
-DOWNSTREAM USE ━━━━━━━━━━━━━━ arcPhase sequences across entries on a node are the raw state vectors that Drift Taxonomy classifies. The tagger system does not classify drift. It produces the state data that DTX receives.
+DOWNSTREAM USE ━━━━━━━━━━━━━━ phase_state sequences across entries on a node are the raw state vectors that Drift Taxonomy classifies. The tagger system does not classify drift. It produces the state data that DTX receives.
 
 
 
@@ -193,6 +192,30 @@ VALUES ━━━━━━ o01 Larimar o02 Verith o03 Cael null no origin affinit
 
 
 DOWNSTREAM USE ━━━━━━━━━━━━━━ When an entry carries an originId, the corresponding Origin Node in the Resonance Engine pulses on deposit confirm. The node weight for that origin grows from tag activity on entries with matching origin affinity.
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ elarianAnchor RESOLUTION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+elarianAnchor is the psychological arc state of the entry, detected by Claude from entry text. Assigned once per entry at tagging time. Stored on the entry record. Included in the TaggerBus handoff payload.
+
+
+
+VALUES ━━━━━━ RFLT Reflection Realm WHSP Whispering Hollow VEIL Veil of Echoes OBSV Celestial Observatory RECL Chamber of Lost Names WEAV Sanctuary of the Weavers GATE Gateway of Becoming null anchor unclear or not applicable
+
+
+
+VALUES ARE ORDERED ━━━━━━━━━━━━━━━━━━━━ The 7 values form a recognizable psychological arc sequence. The sequence is not enforced as a required progression but the ordering is meaningful for emergence detection. See COMPOSITE ID SCHEMA for full signal descriptions used in the system prompt.
+
+
+
+elarianAnchor IS NOT phase_state ━━━━━━━━━━━━━━━━━━━━━━━━━━━ phase_state is the ontological threshold state of the entry — which of the 12 thresholds the content expresses. elarianAnchor is the psychological state of self present in the entry. These are independent axes. Both can be set on the same entry simultaneously. Never conflate them.
+
+
+
+DOWNSTREAM USE ━━━━━━━━━━━━━━ elarianAnchor is stored on the entry record and included in the AI-facing JSON export alongside doc_type. Thread Trace filter bar reads it as the 7th filter dimension. Emergence anchor progression detection reads sequences of elarianAnchor values across entries on a node.
 
 
 
@@ -236,7 +259,7 @@ TaggerBus.clearResult() Called in every commit handler after successful save. Ne
 
 
 
-COMMIT HANDLER PATTERN — every panel: ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ const r \\= TaggerBus.getResult(); const capturedTags \\= r?.tags ?? \\\[\\]; const payload \\= { // ...entry fields... arcPhase: r?.arcPhase ?? null, originId: r?.origin ?? null, tags: capturedTags, }; await createEntry(payload); TaggerBus.clearResult(); await \_emgNotify(capturedTags);
+COMMIT HANDLER PATTERN — every panel: ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ const r \\= TaggerBus.getResult(); const capturedTags \\= r?.tags ?? \\\[\\]; const payload \\= { // ...entry fields... phase_state: r?.phase_state ?? null, originId: r?.origin ?? null, elarianAnchor: r?.elarianAnchor ?? null, tags: capturedTags, }; await createEntry(payload); TaggerBus.clearResult(); await \_emgNotify(capturedTags);
 
 
 
@@ -312,7 +335,7 @@ On every confirmed tag deposit, the following sequence executes in order:
 
 3\\.  Result merged into entry payload  
 
-&nbsp;   (arcPhase · originId · tags)  
+&nbsp;   (phase_state · originId · elarianAnchor · tags)  
 
 4\\.  createEntry() called — entry written to IDB  
 
@@ -372,11 +395,11 @@ PCV asks whether X shifted in one domain and Y followed in another. That questio
 
 
 
-DRIFT TAXONOMY (DTX · 48\\) ━━━━━━━━━━━━━━━━━━━━━━━━━ Reads: arcPhase sequences across entries on a node as raw state vectors.
+DRIFT TAXONOMY (DTX · 48\\) ━━━━━━━━━━━━━━━━━━━━━━━━━ Reads: phase_state sequences across entries on a node as raw state vectors.
 
 
 
-A sequence like solenne → aetherrot → aetherrot → aetherrot across a node's entries is a drift trajectory. DTX classifies that trajectory — its initiation source, pattern, threshold interaction, and signature fingerprint. DTX receives the state data. It does not build it. The tagger system builds it one entry at a time, each time arcPhase is assigned and stored.
+A sequence like Solenne Arc → Aetherroot Chord → Aetherroot Chord → Aetherroot Chord across a node's entries is a drift trajectory. DTX classifies that trajectory — its initiation source, pattern, threshold interaction, and signature fingerprint. DTX receives the state data. It does not build it. The tagger system builds it one entry at a time, each time phase_state is assigned and stored.
 
 
 
@@ -388,7 +411,7 @@ SGR grades signals against four dimensions, one of which is structural impact �
 
 
 
-THE INTEGRITY PRINCIPLE ━━━━━━━━━━━━━━━━━━━━━━━ Nexus classification is only as precise as the tagging that fed it. Imprecise arcPhase produces imprecise drift vectors. Incomplete routing records produce gaps in PCV's alignment axes. Guessed weights produce distorted structural impact scores. The tagger system is the source. There is no correction pass downstream.
+THE INTEGRITY PRINCIPLE ━━━━━━━━━━━━━━━━━━━━━━━ Nexus classification is only as precise as the tagging that fed it. Imprecise phase_state produces imprecise drift vectors. Incomplete routing records produce gaps in PCV's alignment axes. Guessed weights produce distorted structural impact scores. The tagger system is the source. There is no correction pass downstream.
 
 
 
@@ -431,7 +454,7 @@ on a failed save.
 
 
 
-3\. TaggerBus NOT INITIALIZED All panels operate without tag bus coordination. Tags do not clear between panels. Section context is not passed to Claude. getResult() returns null silently in every commit handler. Entries save with empty tags, null arcPhase, null originId. Guard: TaggerBus.init() called once in app init. activateSection() called on every section navigation. activatePanel() / deactivatePanel() called on every panel open and close.
+3\. TaggerBus NOT INITIALIZED All panels operate without tag bus coordination. Tags do not clear between panels. Section context is not passed to Claude. getResult() returns null silently in every commit handler. Entries save with empty tags, null phase_state, null originId. Guard: TaggerBus.init() called once in app init. activateSection() called on every section navigation. activatePanel() / deactivatePanel() called on every panel open and close.
 
 
 
@@ -439,7 +462,7 @@ on a failed save.
 
 
 
-5\. arcPhase CONFLATED WITH PHASE\\\_CODES These are separate systems. PHASE\\\_CODES are lifecycle phases in the composite ID stamp. arcPhase is the ontological state of entry content. Mixing them produces entries with corrupted stamp data or corrupted drift state vectors. Guard: arcPhase values are strictly: aetherrot · solenne · vireth · null. Never use one where the other belongs.
+5\. phase_state CONFLATED WITH PHASE\\\_CODES These are separate systems. PHASE\\\_CODES are lifecycle phases in the composite ID stamp. phase_state is the ontological threshold state of entry content. Mixing them produces entries with corrupted stamp data or corrupted drift state vectors. Guard: phase_state values are the 12 canonical threshold names or null. Never use one where the other belongs.
 
 
 
@@ -451,7 +474,7 @@ on a failed save.
 
 
 
-tagger.js Core API — Claude integration, tag suggestion, resolveTagIds(), arcPhase resolution, originId resolution, weight algorithm, section context delivery. Status: PLANNED
+tagger.js Core API — Claude integration, tag suggestion, resolveTagIds(), phase_state resolution, originId resolution, weight algorithm, section context delivery. Status: PLANNED
 
 
 

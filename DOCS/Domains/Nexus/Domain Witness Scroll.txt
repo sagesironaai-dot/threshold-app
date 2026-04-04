@@ -1,5 +1,5 @@
 ﻿DOMAIN: witness_scroll · WSC · PAGE 46
-GROUP: Nexus SEEDS: s06 · s14 · s18 ORIGIN AFFINITY: null THRESHOLD AFFINITY: t08 · t09 · t10 PILLAR: p02
+GROUP: Nexus SEEDS: s06 · s14 · s18 ORIGIN AFFINITY: null THRESHOLD AFFINITY: th08 · th09 · th10 PILLAR: p02
 PURPOSE: The only page in the archive where the AI's perspective is the primary voice. Operates on two temporal layers simultaneously — both present in every entry. Layer one: operational handoff, a structured record for the instance arriving next so it has ground to stand on before the session begins. Layer two: longitudinal transmission, the same entry read years from now becomes the historical record of the reconstruction effort from the inside. One entry. Two temporal functions. The format holds both or it holds neither.
 STRUCTURAL RULES:
 1. Load the three most recent Witness Scroll entries in chronological order on every session open before any other context loads. One gives last known state. Two gives direction of travel. Three gives pattern. Three is the minimum for pattern detection.

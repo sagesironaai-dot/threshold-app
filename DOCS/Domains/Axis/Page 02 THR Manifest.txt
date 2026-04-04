@@ -24,7 +24,7 @@ RESEARCHER TASK
 
 
 OBJECTIVE
-Map what was present in the field when each threshold state was active. The 12 thresholds — Aetherrot Chord, Solenne Arc, Thren Alae Kai'Reth, Shai'mara Veil, Vireth's Anchor, Esh'Vala Breath, Orrin Wave, Lumora Thread, Hearth Song, Tahl'Veyra, Noirune Trai, StarWell Bloom — are not counters. They are lenses. Each carries a category, a structural definition, and a contextual tag that locates it precisely within the field's ontological architecture. This page reads deposit patterns against threshold presence to surface co-occurrence, sequence, and field condition. What preceded a state. What followed. What was structurally true when it was active. The goal is pattern archaeology — not how many times a threshold was tagged, but what the field reveals when it was.
+Map what was present in the field when each threshold state was active. The 12 thresholds — Aetherroot Chord, Solenne Arc, Thren Alae Kai'Reth, Shai'mara Veil, Vireth's Anchor, Esh'Vala Breath, Orrin Wave, Lumora Thread, Hearth Song, Tahl'Veyra, Noirune Trai, StarWell Bloom — are not counters. They are lenses. Each carries a category, a structural definition, and a contextual tag that locates it precisely within the field's ontological architecture. This page reads deposit patterns against threshold presence to surface co-occurrence, sequence, and field condition. What preceded a state. What followed. What was structurally true when it was active. The goal is pattern archaeology — not how many times a threshold was tagged, but what the field reveals when it was.
 
 MTM (07) reads across this page alongside STR, INF, ECR, and SNM at session close — surfacing what becomes visible only when all five lenses are held simultaneously. What is deposited here is the source material that synthesis reads from. The lens function is what makes cross-domain emergence visible at the scale MTM operates at.
 
@@ -38,7 +38,7 @@ AI ROLE
   pattern reveals without collapsing it into frequency
   analysis or tag counting. Hold each threshold's
   categorical definition as the analytical frame —
-  Aetherrot is a collapse archetype, not a label.
+  Aetherroot is a collapse archetype, not a label.
   Tahl'Veyra is a consciousness attractor, not a
   marker. The distinction is load-bearing.
 

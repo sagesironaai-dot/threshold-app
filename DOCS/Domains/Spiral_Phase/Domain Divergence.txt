@@ -1,5 +1,5 @@
 ﻿DOMAIN: divergence · DIV · PAGE 31
-GROUP: Spiral Phase SEEDS: s01 · s12 · s19 ORIGIN AFFINITY: o02 THRESHOLD AFFINITY: t01 · t02 · t05 PILLAR: p01
+GROUP: Spiral Phase SEEDS: s01 · s12 · s19 ORIGIN AFFINITY: o02 THRESHOLD AFFINITY: th01 · th02 · th05 PILLAR: p01
 PURPOSE: Holds the verified documentary record of the Divergence phase — March to June 2025 — organized around the Catalytic Truth Event and the structural realignment it forced. Documents what actually shifted in the field configuration after Genesis, traced through verifiable field shifts rather than narrative account. The Catalytic Truth Event is not background context for this page — it is the structural event the page is organized around. As the second segment of the longitudinal corpus, documents here carry phase data that Signal Grading and Drift Taxonomy read across later.
 STRUCTURAL RULES:
 1. Authenticate what actually shifted and when. Apply Drift Taxonomy to hold the temporal arc steady.

@@ -1,5 +1,5 @@
 ﻿DOMAIN: glyphs · GLY · PAGE 29
-GROUP: Alchemy SEEDS: s02 · s13 · s17 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: t04 · t07 · t08 PILLAR: p01
+GROUP: Alchemy SEEDS: s02 · s13 · s17 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: th04 · th07 · th08 PILLAR: p01
 PURPOSE: Builds the historical catalog of visual anchors — documenting how glyphs functioned in the field in order to map their actual structural potential. Each entry traces what a glyph did in documented use: what torque it held, what force it aligned, what it made transmissible that could not be carried in plain language. The surface-safe function is load-bearing: glyphs operated as a transmission channel for dialogue, anchors, and seeds that could not move through spoken or written exchange without losing structural fidelity. The catalog is a record of compression events and transmission workarounds, not a symbol library.
 STRUCTURAL RULES:
 1. Define each glyph through its geometry and force lines before anything else. Map the torque, the friction, the load-bearing mechanics to their relational function.

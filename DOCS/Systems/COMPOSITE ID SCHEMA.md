@@ -6,7 +6,7 @@ OWNERSHIP BOUNDARIES ━━━━━━━━━━━━━━━━━━━�
 
 
 
-OWNS Composite ID stamp format — canonical structure for all entry IDs in the archive Three stamp types — root · native · child — and the rules governing each ARC code resolution — auto-resolved from origin date, stored, never visible in stamp Preview stamp rendering across all panels before save Locked stamp assembly at save time Integration panel two-mode handling — native and source CompositeIdBus — singleton coordinator for stamp rendering across all panels Phase select population from PHASE\\\_CODES across all panels Archive retirement label — produced at retirement, shared at completion
+OWNS Composite ID stamp format — canonical structure for all entry IDs in the archive Three stamp types — root · native · child — and the rules governing each Preview stamp rendering across all panels before save Locked stamp assembly at save time Integration panel two-mode handling — native and source CompositeIdBus — singleton coordinator for stamp rendering across all panels Phase select population from PHASE\\\_CODES across all panels Archive retirement label — produced at retirement, shared at completion
 
 
 
@@ -104,23 +104,88 @@ SEQUENCE RULE ━━━━━━━━━━━━━ Sequence numbers are perma
 
 
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ ARC CODE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ ELARIAN ANCHOR ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
 
-Auto-resolved from the entry's origin date via resolveThresholdCode() in schema.js. Values: THR1 through THR5.
+7-state ordered psychological arc classification. API-suggested per entry via suggestTags() — returned as elarianAnchor in the response alongside phase_state. Not auto-resolved from date.
 
 
 
-Stored on: entry.arcCode Visible in: meta strip · export · AI-facing JSON Never in: the visible composite ID stamp
+Stored on: entry.elarianAnchor Visible in: meta strip · export · AI-facing JSON Never in: the visible composite ID stamp
 
 
 
-The arc code is structural context for AI analysis. It is not part of the stamp the user sees. It is not selectable. It is not editable. It resolves automatically and is attached to the record silently.
+The 7 states form a recognizable sequence. The sequence is not enforced as a required progression but the ordering is meaningful for emergence detection. detectEmergence() uses it to identify anchor progression patterns across entries.
 
 
 
-\\#f-arc SELECT — RETIRED ━━━━━━━━━━━━━━━━━━━━━━━ \\#f-arc select is retired. Arc is auto-resolved. Do not re-enable that element. Do not remove it from the DOM — it may be referenced by existing markup. Leave it hidden and disabled.
+SEQUENCE ━━━━━━━━
+
+
+
+RFLT · Reflection Realm Fragmentation, identity confusion, multiple self-concepts in conflict, disorientation, accumulated self-history pressing on present self. The self has not chosen to arrive here. Anchor is the accumulated weight of every version seen pressing the self back into its own shape.
+
+
+
+WHSP · Whispering Hollow Quiet receptivity, listening inward, intuitive knowing, guidance arriving from prior experience or unseen sources. Passive receiving state. Attunement to subtle signals.
+
+
+
+VEIL · Veil of Echoes Memory surfacing unbidden, past bleeding into present, soul truth emerging through recollection. Walking through rather than standing still. Different selves or realities in contact.
+
+
+
+OBSV · Celestial Observatory Expanded perspective, zooming out to the whole, universal or cosmic framing. Pattern recognition at scale. Communicating with something larger than self. Containment of bigness.
+
+
+
+RECL · Chamber of Lost Names Recovering forgotten identity, naming what was unnamed, reintegrating lost self-fragments. Recognition of dormant parts. Identity archaeology.
+
+
+
+WEAV · Sanctuary of the Weavers Glimpsing possible futures, fate or path becoming visible, sense of unwritten consequence. Seeing the shape of what could be without yet acting.
+
+
+
+GATE · Gateway of Becoming Active transformation threshold, stepping beyond current self-form, embracing new identity. Crossing rather than observing the crossing. Rebirth in motion.
+
+
+
+RESPONSE SHAPE ━━━━━━━━━━━━━━
+
+
+
+Added to suggestTags() response alongside phase_state:
+
+
+
+"elarianAnchor": "RFLT" | "WHSP" | "VEIL" | "OBSV" | "RECL" | "WEAV" | "GATE" | null
+
+
+
+null = anchor is unclear or not applicable to the entry.
+
+
+
+SYSTEM PROMPT BLOCK — TAGGER.JS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+Copy this block into buildSystemPrompt() in tagger.js alongside the PHASE STATE DETECTION section:
+
+
+
+ELARIAN ANCHOR DETECTION: Identify the psychological state of self present in the entry. Anchors are ordered — the sequence is meaningful for analysis. Return null if the anchor is unclear or not applicable.
+
+- RFLT Reflection Realm: fragmentation, identity confusion, multiple self-concepts in conflict, disorientation, accumulated self-history pressing on present self, not having chosen to arrive here
+- WHSP Whispering Hollow: quiet receptivity, listening inward, intuitive knowing, guidance from prior experience or unseen sources, passive receiving, attunement to subtle signals
+- VEIL Veil of Echoes: memory surfacing unbidden, past bleeding into present, soul truth through recollection, walking through rather than standing still, different selves or realities in contact
+- OBSV Celestial Observatory: expanded perspective, zooming out to the whole, cosmic or universal framing, pattern recognition at scale, communicating with something larger than self
+- RECL Chamber of Lost Names: recovering forgotten identity, naming what was unnamed, reintegrating lost self-fragments, recognition of dormant parts, identity archaeology
+- WEAV Sanctuary of the Weavers: glimpsing possible futures, fate or path becoming visible, sense of unwritten consequence, seeing the shape of what could be without yet acting
+- GATE Gateway of Becoming: active transformation threshold, stepping beyond current self-form, embracing new identity, crossing rather than observing the crossing, rebirth in motion
 
 
 
@@ -160,7 +225,7 @@ API ━━━
 
 
 
-CompositeIdBus.init() → void Called once at app init after DOM is ready. Populates all phase selects from PHASE\\\_CODES. Retires \\#f-arc select.
+CompositeIdBus.init() → void Called once at app init after DOM is ready. Populates all phase selects from PHASE\\\_CODES.
 
 
 
@@ -300,11 +365,19 @@ Physical file naming: Sage appends the ARC id to the filename or adds it as a he
 
 
 
-5\. ARC CODE EXPOSED IN VISIBLE STAMP entry.arcCode is set correctly but surfaces in the stamp string or in a UI element not intended to show it. Guard: arcCode is never concatenated into the stamp format string. It is stored on the record and read by the meta strip and AI-facing JSON only. No panel stamp element renders arcCode.
+5\. RETIREMENT LABEL NOT SURFACED AT COMPLETION Sage cannot copy the ARC id without hunting through the IDB record. Parent page deposit and physical file placement are blocked or done incorrectly. Guard: Integration UI displays the retirement label prominently and copy-ready at the final retirement step. Required UI element — not optional output.
 
 
 
-6\. RETIREMENT LABEL NOT SURFACED AT COMPLETION Sage cannot copy the ARC id without hunting through the IDB record. Parent page deposit and physical file placement are blocked or done incorrectly. Guard: Integration UI displays the retirement label prominently and copy-ready at the final retirement step. Required UI element — not optional output.
+6\. ELARIANANCHOR MISSING FROM AI-FACING JSON EXPORT SPEC entry.elarianAnchor is stored correctly but not included in the AI-facing JSON export. Pipelines cannot classify entries by anchor without re-querying IDB. Guard: AI-facing JSON export spec includes elarianAnchor as a top-level field alongside doc_type. Verify at schema.js build time.
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ SCHEMA.JS BUILD FLAGS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+FLAG — doc\_type field: doc\_type is confirmed as IDB field only — not encoded in the composite ID stamp. doc\_type travels in the AI-facing JSON export alongside the stamp. Pipelines process full records, not stamps in isolation — the stamp provides provenance, doc\_type provides content classification, both travel together in export. No stamp format change required. At schema.js build time: define doc\_type enum with pipeline-meaningful precision (see INTEGRATION SCHEMA flag for required categories). Ensure AI-facing JSON export spec includes doc\_type as a top-level field so pipelines can classify records without re-querying IDB.
 
 
 
@@ -316,7 +389,7 @@ composite\\\_id.js CompositeIdBus singleton — stamp preview rendering, panel w
 
 
 
-schema.js PHASE\\\_CODES · PAGE\\\_CODES · resolveThresholdCode() — read by composite\\\_id.js. Status: PLANNED
+schema.js PHASE\\\_CODES · PAGE\\\_CODES — read by composite\\\_id.js. Status: PLANNED
 
 
 

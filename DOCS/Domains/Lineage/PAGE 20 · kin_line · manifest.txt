@@ -29,6 +29,7 @@ AI ROLE
 
 AI FUNCTIONS
   Parse · Analyze · Organize · Map · Edit · Tag · Timestamp
+  Register kin names in VEN (14) glossary
 
 
 GOOD OUTPUT

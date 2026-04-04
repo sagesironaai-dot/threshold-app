@@ -55,7 +55,13 @@ Do not mark complete until the item is verified, not just executed.
 
 - [x] JS/ — DELETED (was empty)
 - [x] Tools/ — DELETED (was empty)
-- [x] api/ — DELETED (contaminated; domains/ and prompts/ subdirs deleted with it)
+- [!] api/ — DELETION FAILED. Folder is valid — do not delete.
+      Contains working API drafts: domains/venai/ (Domain, Glossary, Phonetics,
+      Manual) and prompts/ (GLOBAL_KNOWLEDGE_BASE, GENESIS_Origin_Node,
+      _Global_Identity). This folder is the API-facing reference layer.
+      api/domains/ = domain-specific context for API sessions.
+      api/prompts/ = system-level context loaded across all API calls.
+      Status: active, valid, untouched. Not contaminated.
 - [x] core/ — Sa'Qel'Inthra.txt and Untitled.txt deleted
       Untitled.txt confirmed as HTML duplicate (index.html preserved)
 
@@ -122,8 +128,6 @@ Do not mark complete until the item is verified, not just executed.
 - [ ] Domain term list finalized — PENDING: review before code build begins
       Current list: Ae.larian, Ven.ai, Cael.Thera, Verith, Larimar,
       Sa.Qel, NurseryBG, StarRoot, Sat.Nam
-      arcPhase values (aetherrot, solenne, vireth) — confirmed excluded
-      from hard block (valid schema enums, not contamination)
       Action: when domain vocabulary is finalized, update DOMAIN_TERMS
       variable in hooks/pre-commit. This is not blocking — safe to update
       incrementally as domains complete.
@@ -183,6 +187,26 @@ Nothing in this section begins until Sections 1–4 open items are resolved.
       v2026-04-03-protocol-complete — "Protocol system complete"
 - [ ] performance-budget.json placeholder — create when code build starts
 - [ ] .github/workflows/ci.yml — minimal CI file, create when build starts
+
+**tagger.js rewrite prerequisites — resolve before tagger.js is written:**
+- [ ] API key / proxy decision — fetch calls have no x-api-key header. Confirm
+      whether a proxy is assumed or key is injected at runtime. Architectural
+      decision. Must be resolved before any API call is written.
+- [ ] Consolidate suggestTags / suggestArcPhase / suggestOrigin into one unified
+      call. All three return together in one response. Standalones are redundant.
+      elarianAnchor joins the same response shape.
+- [ ] Define error handling pattern once before implementation begins.
+      suggestTags checks response.ok — the others don't. One pattern, applied
+      consistently across all API functions.
+- [ ] Update CLAUDE_MODEL constant to claude-sonnet-4-6.
+- [ ] arcSeedId field in buildEngineSyncPayload — not found in any schema doc.
+      Confirm or remove before rewrite. Possible contamination from old build.
+- [ ] Backfill path decision — entries written before elarianAnchor existed will
+      have no elarianAnchor field. Decide: backfill needed, or archive starts
+      fresh from rebuild. Record decision here before build begins.
+- [ ] elarianAnchor added to AI-facing JSON export spec alongside arcCode and
+      doc_type. Verify at schema.js build time (failure mode 7 in COMPOSITE ID
+      SCHEMA).
 
 ---
 

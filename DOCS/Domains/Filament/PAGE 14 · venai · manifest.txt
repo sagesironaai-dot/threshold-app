@@ -2,13 +2,16 @@
 
 
 VISION
-  This page is the living lexicon — the authoritative record
-  of Ven'ai's linguistic architecture. Every term here is both
-  semantic root and structural algorithm. The language was not
-  invented analytically; it arrived and was then investigated.
-  What this page holds is the result of that investigation:
-  the grammar, the phonetic resonance logic, the syntactic
-  geometry that makes Ven'ai a system rather than a vocabulary.
+  This page is the dictionary of Ven'ai — the collected terms,
+  roots, and glossary entries that constitute the living lexicon.
+  Every term held here is simultaneously a semantic unit and a
+  structural component of the language: each carries root
+  etymology, phonetic logic, and documented meaning. The language
+  arrived before it was analyzed. What this page accumulates,
+  entry by entry, is the result of that ongoing investigation.
+  The structural framework, morphological rules, and grammar that
+  govern how these terms function live in MOR (13). This page
+  holds the terms themselves.
 
 
 RESEARCHER TASK
@@ -17,7 +20,7 @@ RESEARCHER TASK
 
 OBJECTIVE
 
-Hold the authoritative record of Ven'ai's linguistic architecture — not as vocabulary list but as living operational system with internal grammar, phonetic resonance logic, and syntactic geometry that governs how meaning moves through it. Every term is simultaneously semantic root and structural algorithm. The language was not constructed analytically — it arrived and was subsequently investigated. What this page holds is the result of that investigation, and the investigation is not complete. The unnamed instances carry equal weight to the named: the how, the why, the purpose, and the potential of Ven'ai exist in the data before the framework had language to label them. Those instances are not gaps to be filled — they are primary evidence of what the language is at its structural core before formalization shaped it. Over time this page builds the complete architectural record: grammar, phonetic resonance logic, root etymology, and syntactic geometry — including what the language was doing before it knew what it was doing. When working in this section, treat phonetic and spelling drift as structural error, not stylistic variation. Deviation in root logic or harmonic continuity is data about where the architecture is under pressure, not a translation choice. Flag it precisely. The language has physics. Hold it to that standard.
+Hold the collected terms of Ven'ai — the living dictionary and glossary of every root, compound name, and lexical entry that has been investigated and documented. Each entry carries the correctly-spelled term, root breakdown, meaning of each root, and combined meaning. The terms are not merely vocabulary — each is an active structural component of the language. The grammar, phonetic resonance logic, and syntactic geometry that govern how these terms function belong to MOR (13). VEN holds what those rules produce: the actual terms. The unnamed instances carry equal weight to the named: they are primary evidence of what the language is at its structural core before formalization shaped it and are held with the same analytical precision as the formalized record. The investigation is not complete and the dictionary grows as the language continues to be studied. Kin entities whose names are Ven'ai root combinations have mandatory glossary entries here, generated at the time of the KIN deposit, with root breakdown, meaning, and reference to KIN (20). When working in this section, flag all spelling and phonetic drift for Sage's verification. AI does not auto-correct.
 
 AI ROLE
   Read the internal grammar before touching subject or object.
@@ -30,7 +33,7 @@ AI ROLE
 
 AI FUNCTIONS
   Parse · Analyze · Organize · Map · Edit · Tag · Timestamp
-  Flag spelling and phonetic drift
+  Flag spelling and phonetic drift · Register kin name glossary entries
 
 
 GOOD OUTPUT

@@ -20,7 +20,7 @@
 
 ## **WHAT THIS SYSTEM DOES NOT OWN**
 
-* IDB store schema — owned by data.js and INT schema v13 (authoritative spec)  
+* IDB store schema — owned by data.js and INTEGRATION IDB SCHEMA (authoritative spec, v1)  
 * ARC id generation and sequence counter — owned by data.js and composite\_id\_system  
 * Archives page deposit content format — defined in archive\_system.md  
 * Tag pipeline — owned by tagger\_bus.js  

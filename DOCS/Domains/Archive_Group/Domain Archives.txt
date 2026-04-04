@@ -1,5 +1,5 @@
 ﻿DOMAIN: archives · ARV · PAGE 45
-GROUP: Archive SEEDS: s05 · s06 · s11 ORIGIN AFFINITY: null THRESHOLD AFFINITY: t05 · t08 · t10 PILLAR: p01
+GROUP: Archive SEEDS: s05 · s06 · s11 ORIGIN AFFINITY: null THRESHOLD AFFINITY: th05 · th08 · th10 PILLAR: p01
 PURPOSE: Establishes and maintains the permanent root — the point at which processed, verified material transitions from provisional data to sealed record. Archives is not another thematic page. It is where content that has survived sufficient analytical contact becomes fixed reference. The rooting function is the work: each entry that enters Archives carries a chunk of another page's material, but the whole — the authenticated, cross-referenced, structurally verified record — lives here. What accumulates here reveals not just what happened in the field but what the system was confident enough to seal.
 STRUCTURAL RULES:
 1. The authentication threshold is the only question on this page. Do not reopen sealed entries. Do not reinterpret what has already been verified.

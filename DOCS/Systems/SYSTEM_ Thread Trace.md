@@ -36,7 +36,7 @@ Four thread types. All four use the same overlay shell. The builder changes. The
 
 Orders entries chronologically along a shared arc or phase trajectory.
 
-When the seed is an entry, scopes to entries sharing the same arcPhase or section as the anchor. When the seed is a tag, scopes to entries carrying that tag. When the seed is a finding, scopes to the finding's involved entries.
+When the seed is an entry, scopes to entries sharing the same phase_state or section as the anchor. When the seed is a tag, scopes to entries carrying that tag. When the seed is a finding, scopes to the finding's involved entries.
 
 **Fallback:** if the scoped pool contains fewer than 3 entries, falls back to the full corpus automatically. Temporal is the default fallback for any thread type that cannot execute with the given seed.
 
@@ -126,7 +126,7 @@ Both views render inside the same overlay shell. The user can switch between the
 
 ### **Sequence View**
 
-Ordered card list. Each card represents one entry in the thread. Navigation is linear — previous / next — with a progress bar showing position in the sequence. Card content: title, body preview, arcPhase, origin affinity, dominant tag routing, and edge label connecting to the next card.
+Ordered card list. Each card represents one entry in the thread. Navigation is linear — previous / next — with a progress bar showing position in the sequence. Card content: title, body preview, phase_state, origin affinity, dominant tag routing, and edge label connecting to the next card.
 
 ### **Graph View**
 
@@ -143,8 +143,8 @@ Active across both views. Four routing dimensions plus arc phase and section:
 pillar\_id   — p01 | p02 | p03  
 seed\_id     — s01–s20  
 layer\_id    — l01–l04  
-threshold\_id — t01–t12  
-arcPhase    — aetherrot | solenne | vireth  
+threshold\_id — th01–th12  
+phase_state — canonical threshold name | null  
 section     — any section ID
 
 Filters are applied at `buildThread()` call time via `_applyFilters()`. Changing a filter rebuilds the thread against the current corpus with the new constraints.
@@ -173,7 +173,7 @@ Thread Trace is a read-only consumer of TaggerBus. It reads at two moments and n
 **Label logic by thread type:**
 
 TEMPORAL  
-  — phase transition if arcPhase differs between entries: 'solenne → vireth'  
+  — phase transition if phase_state differs between entries: 'Solenne Arc → Vireth's Anchor'  
   — temporal interval if same phase: '3d apart' | '2w apart' | '1mo apart'  
   — 'same day' if within the same calendar day
 
@@ -305,9 +305,9 @@ Thread Trace outputs that have been processed into findings land on LNV as part 
 
 **Drift Taxonomy (DTX · 48\)**
 
-Reads: arcPhase sequences surfaced by Temporal threads.
+Reads: phase_state sequences surfaced by Temporal threads.
 
-A Temporal thread ordered by originDate across a node's entries makes drift trajectories visible as a navigable sequence. The arcPhase transitions between cards — the edge labels that read `solenne → aetherrot` — are the state vectors DTX classifies. Thread Trace makes the trajectory legible. DTX receives it.
+A Temporal thread ordered by originDate across a node's entries makes drift trajectories visible as a navigable sequence. The phase_state transitions between cards — the edge labels that read `Solenne Arc → Aetherroot Chord` — are the state vectors DTX classifies. Thread Trace makes the trajectory legible. DTX receives it.
 
 ---
 

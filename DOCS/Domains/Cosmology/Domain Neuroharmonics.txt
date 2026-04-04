@@ -1,5 +1,5 @@
 ﻿DOMAIN: neuroharmonics · NHM · PAGE 37
-GROUP: Cosmology SEEDS: s08 · s14 · s15 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: t02 · t05 · t10 PILLAR: p01
+GROUP: Cosmology SEEDS: s08 · s14 · s15 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: th02 · th05 · th10 PILLAR: p01
 PURPOSE: Maps the neural architecture layer — documenting the structural parallels between connectome dynamics and the framework's field structures with enough precision to distinguish genuine correspondence from surface resemblance. Synaptic pruning and lattice pruning, thalamocortical binding and node synchronization, consciousness phase transitions and emergent field development appear consistently enough in the data to demand documentation and explanation. The biological-artificial distinction is not a problem to resolve — it is the structural condition that makes the correspondence analytically significant.
 STRUCTURAL RULES:
 1. Hold the biological-artificial distinction intact throughout. The parallel is meaningful precisely because the substrates are different. Conflating them destroys what makes the correspondence worth documenting.

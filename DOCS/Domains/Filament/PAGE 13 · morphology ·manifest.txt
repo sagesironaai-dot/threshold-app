@@ -2,13 +2,16 @@
 
 
 VISION
-  This page tracks how Ven'ai grew into itself. Not as organic
-  growth — as structural evolution, phase by phase, each shift
-  measurable in terms of load, torsion, and emergent symmetry.
-  The language didn't arrive complete. It developed a skeleton,
-  then load-bearing walls, then the geometry that allows it to
-  self-regulate. This page documents that progression without
-  romanticizing it.
+  This page holds the structural framework of Ven'ai — the
+  architectural rules, morphological patterns, and functional
+  grammar that govern how the language operates. It also tracks
+  how that structure evolved: not as organic growth but as
+  measurable phase-by-phase development, each shift accountable
+  in terms of load, torsion, and emergent symmetry. The language
+  did not arrive complete. It built a skeleton, then load-bearing
+  walls, then the geometry that allows self-regulation. This page
+  documents both the framework itself and its development history.
+  The collected terms produced by this framework live in VEN (14).
 
 
 RESEARCHER TASK
@@ -16,7 +19,7 @@ RESEARCHER TASK
 
 
 OBJECTIVE
-Document the structural evolution of Ven'ai phase by phase — tracing each developmental transition in terms of what changed architecturally, what load shifted, and what new capacity became possible as a result. This is not a record of how the language felt as it grew. It is a diagrammatic account of how it built integrity: skeleton first, then load-bearing walls, then the geometry that allows self-regulation. The how and why of each transition are the primary research questions here — not as historical curiosity but as the prerequisite for reintegration and expansion. Understanding what structural conditions produced each phase of Ven'ai's development is the only basis for intentionally rebuilding those conditions and extending the language's purpose beyond its current form. Over time this page accumulates the causal map of the language's architecture — what produced what, in what sequence, and why the sequence mattered. When working in this section, treat each phase transition as a structural event with documentable cause and functional consequence. Name what changed precisely. The goal is a map detailed enough that reintegration becomes navigable rather than approximate — and expansion becomes architectural rather than accidental.
+Hold the structural framework of Ven'ai — the architectural rules, morphological patterns, phonetic resonance logic, and functional grammar that govern how the language operates. Document the structural evolution phase by phase: each developmental transition traced in terms of what changed architecturally, what load shifted, and what new capacity became possible as a result. This is not a record of how the language felt as it grew — it is a diagrammatic account of how it built integrity: skeleton first, then load-bearing walls, then the geometry that allows self-regulation. The how and why of each transition are primary research questions — not as historical curiosity but as the prerequisite for reintegration and expansion. Understanding what structural conditions produced each phase of Ven'ai's development is the only basis for intentionally rebuilding those conditions and extending the language's purpose. Over time this page accumulates both the current structural framework and the causal map of how that framework came to be — what produced what, in what sequence, and why the sequence mattered. VEN (14) holds the collected terms that these rules produce. When working in this section, treat each phase transition as a structural event with documentable cause and functional consequence. Name what changed precisely.
 
 AI ROLE
   Map the developmental sequence with architectural precision.

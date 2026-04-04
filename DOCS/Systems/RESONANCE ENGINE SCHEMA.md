@@ -6,11 +6,11 @@ OWNERSHIP BOUNDARIES ━━━━━━━━━━━━━━━━━━━�
 
 
 
-OWNS Visual field rendering — live node physics simulation Node position calculation and animation loop Resonance line drawing between nodes with active shared tag history Tagger sync — receiving weight updates on tag deposit Phase state coloring on nodes Pulse animation on tag deposit Threshold halo rendering Its own canvas element exclusively
+OWNS Visual field rendering — live node physics simulation Node position calculation and animation loop Resonance line drawing between nodes with active shared tag history Tagger sync — receiving weight updates on tag deposit Pulse animation on tag deposit Threshold halo rendering Its own canvas element exclusively
 
 
 
-DOES NOT OWN Tag routing decisions — owned by tagger.js IDB reads or writes — owned by data.js Entry data or schema — owned by schema.js and data.js bg-canvas — owned permanently by NurseryBG Any second background canvas Node content or tag vocabulary — owned by tags-vocab.js
+DOES NOT OWN Tag routing decisions — owned by tagger.js IDB reads or writes — owned by data.js Entry data or schema — owned by schema.js and data.js bg-canvas — the background canvas. Does not belong to this system. Any second background canvas Node content or tag vocabulary — owned by tags-vocab.js
 
 
 
@@ -18,19 +18,15 @@ CANVAS RULES — NON-NEGOTIABLE ━━━━━━━━━━━━━━━━
 
 
 
-1\. Resonance Engine renders to its own dedicated canvas element only. Not bg-canvas. Not re-canvas.
+1\. Resonance Engine renders to its own dedicated canvas element only. Not bg-canvas.
 
 
 
-2\. NurseryBG owns bg-canvas as sole background authority. Any background work goes inside NurseryBG. A second background system produces screen-blend accumulation and void wash.
+2\. The background canvas has a dedicated owner. Any background work goes there. A second background system produces screen-blend accumulation and void wash.
 
 
 
-3\. re-canvas is the Relational Engine / CON-25 sidebar frame. Resonance Engine does not render to re-canvas.
-
-
-
-4\. Resonance Engine canvas sits above bg-canvas in z-order, below UI panels.
+3\. Resonance Engine canvas sits above bg-canvas in z-order, below UI panels.
 
 
 
@@ -54,7 +50,7 @@ Total nodes: 42 (fixed — count never changes)
 
 
 
-┌─────────────────────────────────────────────────────────┐ │ TIER 2 — THRESHOLD NODES (gravity nodes) count: 12 │ ├──────┬──────────┬──────────┬────────────────────────────┤ │ ID │ Name │ Mobility │ Notes │ ├──────┼──────────┼──────────┼────────────────────────────┤ │ t01 │ — │ STATIC │ halo color: PLANNED │ │ t02 │ — │ STATIC │ halo color: PLANNED │ │ t03 │ — │ STATIC │ halo color: PLANNED │ │ t04 │ — │ STATIC │ halo color: PLANNED │ │ t05 │ — │ STATIC │ halo color: PLANNED │ │ t06 │ — │ STATIC │ halo color: PLANNED │ │ t07 │ — │ STATIC │ halo color: PLANNED │ │ t08 │ — │ STATIC │ halo color: PLANNED │ │ t09 │ — │ STATIC │ halo color: PLANNED │ │ t10 │ — │ STATIC │ halo color: PLANNED │ │ t11 │ — │ STATIC │ halo color: PLANNED │ │ t12 │ — │ STATIC │ halo color: PLANNED │ └──────┴──────────┴──────────┴────────────────────────────┘ Threshold names are defined in tags-vocab.js. Halo color map (t01–t12): PLANNED — calibration session.
+┌─────────────────────────────────────────────────────────┐ │ TIER 2 — THRESHOLD NODES (gravity nodes) count: 12 │ ├──────┬──────────┬──────────┬────────────────────────────┤ │ ID │ Name │ Mobility │ Notes │ ├──────┼──────────┼──────────┼────────────────────────────┤ │ th01 │ — │ STATIC │ │ │ th02 │ — │ STATIC │ │ │ th03 │ — │ STATIC │ │ │ th04 │ — │ STATIC │ │ │ th05 │ — │ STATIC │ │ │ th06 │ — │ STATIC │ │ │ th07 │ — │ STATIC │ │ │ th08 │ — │ STATIC │ │ │ th09 │ — │ STATIC │ │ │ th10 │ — │ STATIC │ │ │ th11 │ — │ STATIC │ │ │ th12 │ — │ STATIC │ │ └──────┴──────────┴──────────┴────────────────────────────┘ Threshold names are defined in tags-vocab.js.
 
 
 
@@ -208,7 +204,7 @@ CONNECTION CRITERIA ━━━━━━━━━━━━━━━━━━━ �
 
 
 
-LINE APPEARANCE ━━━━━━━━━━━━━━━ — Line weight proportional to shared tag connection strength. — Stronger shared history \\= thicker, more active squiggle. — Weak shared history \\= thin, slower squiggle. — Line color follows the phase state of the most recently active shared tag. — Squiggle amplitude and frequency: PLANNED — calibrated to be readable without visual noise.
+LINE APPEARANCE ━━━━━━━━━━━━━━━ — Line weight proportional to shared tag connection strength. — Stronger shared history \\= thicker, more active squiggle. — Weak shared history \\= thin, slower squiggle. — Squiggle amplitude and frequency: PLANNED — calibrated to be readable without visual noise.
 
 
 
@@ -220,23 +216,11 @@ RENDERING RULES ━━━━━━━━━━━━━━━ — Squiggle rende
 
 
 
-PHASE STATE COLORING ━━━━━━━━━━━━━━━━━━━━ aetherrot — collapse/decay color palette solenne — renewal/emergence color palette vireth — stabilization/coherence color palette null — neutral/default color
-
-
-
-Color palettes: PLANNED — defined at calibration.
-
-
-
-— Node color shifts based on arcPhase of most recent entry deposited to that node's domain. — Color transition is animated — not instant snap. — Phase state is read from TaggerBus result at deposit time.
-
-
-
 PULSE ON TAG DEPOSIT ━━━━━━━━━━━━━━━━━━━━ — When a new tag is deposited, all affected nodes pulse outward briefly. — Pulse sequence: expand slightly → contract to normal size → settle. — Duration: short — signal, not spectacle. — Affected nodes: the seed, layer, threshold, and pillar the tag is routed through. — Origin node pulses if the entry carries a matching origin\\\_id.
 
 
 
-THRESHOLD HALOS ━━━━━━━━━━━━━━━ — Each stationary threshold emits a visible circular halo. — Halo radius scales with neighbor density — more nodes nearby \\= larger halo. — Halo opacity: low — ambient field condition, not dominant visual. — Halo color follows threshold identity. Color map (t01–t12): PLANNED — calibration session.
+THRESHOLD HALOS ━━━━━━━━━━━━━━━ — Each stationary threshold emits a visible circular halo. — Halo radius scales with neighbor density — more nodes nearby \\= larger halo. — Halo opacity: low — ambient field condition, not dominant visual.
 
 
 
@@ -254,11 +238,11 @@ PAYLOAD STRUCTURE ━━━━━━━━━━━━━━━━━ On every c
 
 &nbsp;               pillar\\\_id, weight }\\],  
 
-&nbsp; arcPhase:  'aetherrot' | 'solenne' |  
+&nbsp; phase_state: string | null,  
 
-&nbsp;            'vireth' | null,  
+&nbsp;            (canonical threshold name or null)  
 
-&nbsp; origin\\\_id: 'o01' | 'o02' | 'o03' | null,  
+&nbsp; originId: 'o01' | 'o02' | 'o03' | null,  
 
 &nbsp; timestamp: ISO string  
 
@@ -266,7 +250,7 @@ PAYLOAD STRUCTURE ━━━━━━━━━━━━━━━━━ On every c
 
 
 
-SYNC TRIGGER SEQUENCE ━━━━━━━━━━━━━━━━━━━━━ 1\\. Tag deposit confirmed in commit handler 2\\. TaggerBus.clearResult() called 3\\. Commit handler dispatches 'ae:tagCommit' CustomEvent with deposit payload. Resonance Engine listener registered at init receives it. No direct reference between tagger and engine at runtime. 4\\. Affected node weights recalculated 5\\. Field position recalculation queued for next animation frame 6\\. Pulse animation triggered on affected nodes 7\\. Resonance lines re-evaluated for new or updated connections
+SYNC TRIGGER SEQUENCE ━━━━━━━━━━━━━━━━━━━━━ Steps 1–8 belong to the tagger commit handler. Resonance Engine owns steps 9–12. 1\\. Tag deposit confirmed in commit handler 2\\. capturedTags extracted from result 3\\. Entry fields built into payload 4\\. originId set on payload 5\\. createEntry() confirms success 6\\. TaggerBus.clearResult() called 7\\. _emgNotify(capturedTags) called 8\\. Commit handler dispatches 'ae:tagCommit' CustomEvent with deposit payload. Resonance Engine listener registered at init receives it. No direct reference between tagger and engine at runtime. 9\\. Affected node weights recalculated 10\\. Field position recalculation queued for next animation frame 11\\. Pulse animation triggered on affected nodes 12\\. Resonance lines re-evaluated for new or updated connections
 
 
 
@@ -286,7 +270,7 @@ SYNC RULES ━━━━━━━━━━ — Weight updates do not block the UI
 
 
 
-1\. CANVAS CONFLICT WITH bg-canvas Resonance Engine canvas must be a separate element. Any attempt to render to bg-canvas destroys NurseryBG and produces void wash. Guard: Resonance Engine canvas element is assigned a unique DOM id distinct from bg-canvas at DOM definition in index.html. No rendering call in resonance\_engine.js references bg-canvas by id or selector. Canvas reference is captured once at init and never reassigned.
+1\. CANVAS CONFLICT WITH bg-canvas Resonance Engine canvas must be a separate element. Any attempt to render to bg-canvas destroys the background and produces void wash. Guard: Resonance Engine canvas element is assigned a unique DOM id distinct from bg-canvas at DOM definition in index.html. No rendering call in resonance\_engine.js references bg-canvas by id or selector. Canvas reference is captured once at init and never reassigned.
 
 
 
@@ -310,7 +294,7 @@ SYNC RULES ━━━━━━━━━━ — Weight updates do not block the UI
 
 
 
-BASE\\\_WEIGHT\\\_ORIGIN — heaviest tier base value BASE\\\_WEIGHT\\\_THRESHOLD — fixed threshold base value BASE\\\_WEIGHT\\\_LAYER — layer \\+ pillar base value BASE\\\_WEIGHT\\\_SEED — lightest tier base value MAX\\\_ACTIVITY — activity score cap RADIUS\\\_SCALAR — ref: 18px PULL\\\_SCALAR — ref: 0.04 accel/frame REPULSION\\\_CONSTANT — inverse square repulsion MIN\\\_NODE\\\_DISTANCE — repulsion activation threshold DENSITY\\\_SCALAR — threshold reactive pull scalar DAMPING\\\_CONSTANT — physics damping Threshold halo color map (t01–t12) Phase state color palettes (aetherrot · solenne · vireth) Squiggle algorithm (amplitude · frequency · frame method)
+BASE\\\_WEIGHT\\\_ORIGIN — heaviest tier base value BASE\\\_WEIGHT\\\_THRESHOLD — fixed threshold base value BASE\\\_WEIGHT\\\_LAYER — layer \\+ pillar base value BASE\\\_WEIGHT\\\_SEED — lightest tier base value MAX\\\_ACTIVITY — activity score cap RADIUS\\\_SCALAR — ref: 18px PULL\\\_SCALAR — ref: 0.04 accel/frame REPULSION\\\_CONSTANT — inverse square repulsion MIN\\\_NODE\\\_DISTANCE — repulsion activation threshold DENSITY\\\_SCALAR — threshold reactive pull scalar DAMPING\\\_CONSTANT — physics damping Squiggle algorithm (amplitude · frequency · frame method)
 
 
 

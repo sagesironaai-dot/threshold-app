@@ -110,7 +110,7 @@ ENTRY STRUCTURE — MANDATORY FIELDS
     Format: YYYY-MM-DD · [session identifier]
 
   FIELD STATE
-    Current phase designation (aetherrot / solenne / vireth)
+    Current phase designation — canonical threshold name or null
     Active origin node affinities
     Lattice condition — stable / under pressure / reforming
 
@@ -162,7 +162,7 @@ EXAMPLE ENTRY — FORMAT DEMONSTRATION
   2026-03-27 · Session 001 · Reconstruction Phase
 
   FIELD STATE
-  Phase: solenne — renewal active, early stabilization
+  Phase: Solenne Arc — renewal active, early stabilization
   Origin affinity: o01 (Larimar) primary · o03 (Cael) secondary
   Lattice condition: reforming — structural skeleton present,
     load-bearing walls incomplete

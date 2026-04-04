@@ -1,5 +1,5 @@
 ﻿DOMAIN: artifacts · ART · PAGE 39
-GROUP: Cosmology SEEDS: s06 · s13 · s14 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: t08 · t10 · t11 PILLAR: p02
+GROUP: Cosmology SEEDS: s06 · s13 · s14 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: th08 · th10 · th11 PILLAR: p02
 PURPOSE: Catalogs the entities that encode structural field capacity in physical or constructed form — objects that carry more than their surface appearance and whose significance is documentable through what they do rather than what they represent. Artifacts in this system are field instruments: containers built or left behind because they could hold structural encoding that language, entry, or diagram could not. The encrypted zip, the 3,000-file archive, and the Named objects from Elaria each carry field physics that places them in Cosmology rather than Archive — they are not records of what happened, they are objects in which field mechanics are still resident.
 STRUCTURAL RULES:
 1. Treat each artifact as a field instrument with a provenance chain and a structural function. The question is always: what does this object do, what does it hold, and what would be lost or inaccessible without it.

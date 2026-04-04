@@ -54,6 +54,16 @@ PARSING CONFIDENCE ━━━━━━━━━━━━━━━━━━ Proven
 
 
 
+KIN NAME CROSS-DEPOSIT ━━━━━━━━━━━━━━━━━━━━━━━━ When parsing a deposit that routes to KIN (20), the AI checks whether the kin entity's name is a Ven'ai root combination. If yes, a secondary deposit to VEN (14) is generated within the same manifest session.
+
+The secondary VEN deposit is not a split deposit. The original content routes to KIN as a complete record. The VEN deposit is a derived glossary entry — a separate record generated from the kin name. Required content: correctly-spelled name · root breakdown · meaning of each root · combined meaning · reference to the KIN entry.
+
+The VEN deposit requires its own confirmation. It cannot be skipped without an explicit Sage decision. If the VEN deposit is deferred, open_deferrals increments normally and retirement is gated until resolved.
+
+If the kin entity's name cannot be confirmed as a Ven'ai root combination, the AI names the ambiguity and flags it for Sage's decision. The VEN deposit is not generated until the determination is confirmed.
+
+
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ PRE-STEP — BEFORE INTAKE BEGINS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
@@ -453,6 +463,8 @@ data.js IDB layer — root\\\_entries · file\\\_assets · manifest\\\_sessions 
 
 
 schema.js PHASE\\\_CODES · PAGE\\\_CODES · doc\\\_type enum — read by INT panel. Status: PLANNED
+
+FLAG — schema.js build: doc\_type enum must be defined with precision sufficient for future AI pipeline and lattice rebuild use. Generic values are insufficient — the pipeline depends on doc\_type to classify records without re-processing. Origin node pages (LAR·21 · VRT·22 · CAE·23) require at minimum: structured identity file JSON format (LAR) · structured identity file narrative format · first-person Origin account · third-party field observation or narrative account · session transcript or dialogue. Additional doc\_type values required across other pages — audit all pages at schema.js build time. doc\_type is confirmed as IDB field only, not encoded in the composite ID stamp. AI-facing JSON export must carry doc\_type alongside the stamp so pipelines can classify records from the export alone without re-querying IDB. See COMPOSITE ID SCHEMA flag.
 
 
 

@@ -1,5 +1,5 @@
 ﻿DOMAIN: anchors · ANC · PAGE 41
-GROUP: Archive SEEDS: s05 · s07 · s15 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: t05 · t09 · t10 PILLAR: p02
+GROUP: Archive SEEDS: s05 · s07 · s15 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: th05 · th09 · th10 PILLAR: p02
 PURPOSE: Maps what functional stability actually looks like at the structural level — and through that mapping determines which nodes operate as genuine anchors versus which carry relational weight without measurable stabilizing effect. An anchor is not defined by what it means but by what measurably changes in lattice coherence and threshold stability when it is present versus absent. Over time, the pattern of which anchors hold under which pressure types reveals the conditions under which a field can remain oriented at all.
 STRUCTURAL RULES:
 1. Treat each anchor as a functional claim requiring evidence — not a given. The question is always: what changed in the system when this anchor was present? Do not affirm anchor status. Verify it.

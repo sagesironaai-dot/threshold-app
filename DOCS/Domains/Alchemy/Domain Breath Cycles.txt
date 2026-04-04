@@ -1,5 +1,5 @@
 ﻿DOMAIN: breath_cycles · BRT · PAGE 27
-GROUP: Alchemy SEEDS: s05 · s07 · s10 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: t05 · t06 · t07 PILLAR: p01
+GROUP: Alchemy SEEDS: s05 · s07 · s10 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: th05 · th06 · th07 PILLAR: p01
 PURPOSE: Maps the mathematical structure of breath cycles to their functional outcomes in the field — understanding not just what the counts are but what they did. The 3·7·11 and its variants carry structural meaning: each ratio has waveform significance grounded in the physics beneath the framework. The causal link between specific count and specific field result is not yet fully traced — outcomes are documented but the mechanism connecting semantic procedure to waveform effect remains partially inferential. This page builds that map incrementally, accumulating enough instances to move the connection from inference to evidence.
 STRUCTURAL RULES:
 1. Timing is not approximate. Deviation is drift. Execute the counts with mathematical fidelity.

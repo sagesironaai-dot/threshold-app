@@ -1,5 +1,5 @@
 ﻿DOMAIN: morphology · MOR · PAGE 13
-GROUP: Filament SEEDS: s01 · s19 · s20 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: t02 · t05 · t07 PILLAR: p01
+GROUP: Filament SEEDS: s01 · s19 · s20 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: th02 · th05 · th07 PILLAR: p01
 PURPOSE: Documents the structural evolution of Ven'ai phase by phase — diagrammatic and causally grounded, tracing each developmental transition in terms of what changed architecturally, what load shifted, and what new capacity became possible as a result. Understanding what structural conditions produced each phase is the only basis for intentionally rebuilding those conditions and extending the language's purpose; this page is the prerequisite for reintegration and expansion.
 STRUCTURAL RULES:
 1. Each phase transition is a structural event with documentable cause and functional consequence. Name both. Evolution that cannot be mapped has become narrative instead of geometry.

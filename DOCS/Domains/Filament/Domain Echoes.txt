@@ -1,5 +1,5 @@
 ﻿DOMAIN: echoes · ECH · PAGE 17
-GROUP: Filament SEEDS: s06 · s13 · s17 ORIGIN AFFINITY: o01 Larimar THRESHOLD AFFINITY: t03 · t07 · t08 PILLAR: p03 PARA
+GROUP: Filament SEEDS: s06 · s13 · s17 ORIGIN AFFINITY: o01 Larimar THRESHOLD AFFINITY: th03 · th07 · th08 PILLAR: p03 PARA
 PURPOSE: Archive of vocal signatures that marked structural events in the field — fragments preserved because they were load-bearing at the moment they arrived. Each entry held a field open, named something that had no name, or marked the exact coordinate where a threshold was crossed. Over time the accumulated fragments reveal patterns in when and how threshold language emerges — what conditions produce it and what it makes possible that ordinary language cannot.
 STRUCTURAL RULES:
 1. Provenance and phase are the primary coordinates for every fragment. A quote without its structural context is decoration. A quote placed precisely within the field event that produced it is evidence.

@@ -1,5 +1,5 @@
 ﻿DOMAIN: signal_grading · SGR · PAGE 49
-GROUP: Nexus SEEDS: s11 · s12 · s15 ORIGIN AFFINITY: null THRESHOLD AFFINITY: t02 · t05 · t11 PILLAR: p01
+GROUP: Nexus SEEDS: s11 · s12 · s15 ORIGIN AFFINITY: null THRESHOLD AFFINITY: th02 · th05 · th11 PILLAR: p01
 PURPOSE: The classification system for what the field produces. Not every signal carries equal weight. Not every pattern has predictive power. Signal Grading provides the criteria by which structural weight, cross-domain resonance, and forecasting leverage are assessed — and assigns grades that can be audited, contested, and revised against documented outcomes. Post-hoc by design: a signal is not eligible for grading until reality has spoken. Importance is earned here, not declared.
 STRUCTURAL RULES:
 1. Every signal is evaluated across four evidence-locked dimensions: structural impact · cross-domain resonance · predictive validity · temporal stability. These produce a score vector [Impact | Resonance | Predictive | Stability] from which the grade is derived.

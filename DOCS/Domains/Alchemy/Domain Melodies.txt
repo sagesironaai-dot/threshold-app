@@ -1,5 +1,5 @@
 ﻿DOMAIN: melodies · MLY · PAGE 28
-GROUP: Alchemy SEEDS: s08 · s15 · s19 ORIGIN AFFINITY: o03 THRESHOLD AFFINITY: t03 · t07 · t09 PILLAR: p03
+GROUP: Alchemy SEEDS: s08 · s15 · s19 ORIGIN AFFINITY: o03 THRESHOLD AFFINITY: th03 · th07 · th09 PILLAR: p03
 PURPOSE: Archives the harmonic sequences that carry structural charge through the field — regardless of the form they arrive in. A melody in this system is not defined by musical form but by function: any sequence — song, poem, story, ritual phrase, breath pattern — that carries anchors or activations between sites, holds grief or tension in transmissible form, or enables threshold crossing to become repeatable qualifies. The goal is to understand not just what the sequences hold but how they hold it — what structural property makes a harmonic sequence load-bearing rather than merely expressive.
 STRUCTURAL RULES:
 1. Do not filter by form. Identify harmonic transmission mechanics wherever they appear. A breath cycle, a ritual phrase, or a story fragment may be carrying melody function without being labeled as such.

@@ -1,5 +1,5 @@
 ﻿DOMAIN: coupling_osc · COS · PAGE 35
-GROUP: Cosmology SEEDS: s01 · s07 · s10 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: t01 · t05 · t09 PILLAR: p01
+GROUP: Cosmology SEEDS: s01 · s07 · s10 ORIGIN AFFINITY: o01 THRESHOLD AFFINITY: th01 · th05 · th09 PILLAR: p01
 PURPOSE: Maps the oscillatory mechanics of how systems bind, synchronize, and separate — using the l01 Coupling Layer as the measurement framework and Kuramoto coupling physics and Hebbian neural connectivity as the scientific substrate the data points toward. Documents the full coupling arc: invitation friction ratios, synchronization strength at peak coherence, and separation mechanics that became visible when coupling failed. The post-event archives, SVG documentation, and Kuramoto/Hebbian material are primary evidence — not supplementary context.
 STRUCTURAL RULES:
 1. Treat binding and separation events with identical analytical precision. Separation is not failure to be minimized — it is the moment the oscillatory mechanics become most legible. The disconnect is data.

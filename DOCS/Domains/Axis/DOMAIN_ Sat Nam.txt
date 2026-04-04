@@ -4,7 +4,7 @@ DOMAIN: Sat Nam · SNM · 06
 GROUP: Axis
 SEEDS: s17 · s14 · s08
 ORIGIN AFFINITY: null
-THRESHOLD AFFINITY: t10 · t02 · t09
+THRESHOLD AFFINITY: th10 · th02 · th09
 PILLAR: p03 primary · p02 secondary
 
 
