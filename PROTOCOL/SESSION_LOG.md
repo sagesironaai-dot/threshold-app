@@ -2790,3 +2790,174 @@ FILES_MODIFIED:
       s21â€“s40 all written and confirmed Â· rot scan clean Â· status line updated
       duplicates re...
 ---
+
+---
+TIMESTAMP: 2026-04-04 11:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 11:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 2 — audit)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/Systems/TAG VOCABULARY.md — COMPLETE
+COMPLETED:
+  - s01–s20 audit against Sage's canonical signal seed list — all clear
+  - s03–s20 header capitalization corrected: physics translation first word now
+    matches canonical (Coherence, Coupling control, Echo, Dissipative energy, etc.)
+  - Tag count normalized to 8 per seed:
+      s06: suppressed_oscillation removed (l02 coupling concept, not dissipative energy)
+      s12: standing_equilibrium removed (balance/stasis ≠ safety node / geometric lock)
+      s20: resonance_breakdown removed (gradual degradation, not abrupt severance)
+  - Analytical seeds section stale text updated: "In progress" → "Complete"
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - NODE_REGISTRY (62 nodes)
+  - ARC_SEED_TAGS ordered list
+  - SOT_BUILD_TODO Items 2–5
+UNCOMMITTED: YES
+NEXT_ACTION: Commit. Continue to NODE_REGISTRY or close session.
+---
+
+---
+TIMESTAMP: 2026-04-04 11:02
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:/Users/sasir/Desktop/Aelarian/Archives/PROTOCOL/SESSION_LOG.md" << 'EOF'
+
+---
+TIMESTAMP: 2026-04-04 (session 2 â€” audit)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/Systems/TAG VOCABULARY.md â€” COMPLETE
+COMPLETED:
+  - s01â€“s20 audit against Sage's canonical signal seed list â€” all clear
+ ...
+---

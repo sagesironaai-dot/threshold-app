@@ -114,7 +114,7 @@ s02 · Elevation → Amplification / energetic uplift / field strengthening
 
 ---
 
-s03 · Trust → coherence / phase alignment
+s03 · Trust → Coherence / phase alignment
 
 | id                      | seed_id | layer_id | threshold_id | pillar_id |
 |-------------------------|---------|----------|--------------|-----------|
@@ -129,7 +129,7 @@ s03 · Trust → coherence / phase alignment
 
 ---
 
-s04 · Consent → coupling control / boundary gating
+s04 · Consent → Coupling control / boundary gating
 
 | id                              | seed_id | layer_id | threshold_id | pillar_id |
 |---------------------------------|---------|----------|--------------|-----------|
@@ -144,7 +144,7 @@ s04 · Consent → coupling control / boundary gating
 
 ---
 
-s05 · Memory / Recall → echo / reflective frequency fields
+s05 · Memory / Recall → Echo / reflective frequency fields
 
 | id                      | seed_id | layer_id | threshold_id | pillar_id |
 |-------------------------|---------|----------|--------------|-----------|
@@ -159,7 +159,7 @@ s05 · Memory / Recall → echo / reflective frequency fields
 
 ---
 
-s06 · Grief / Unspoken Emotion → dissipative energy / vacuum node
+s06 · Grief / Unspoken Emotion → Dissipative energy / vacuum node
 
 | id                          | seed_id | layer_id | threshold_id | pillar_id |
 |-----------------------------|---------|----------|--------------|-----------|
@@ -168,14 +168,13 @@ s06 · Grief / Unspoken Emotion → dissipative energy / vacuum node
 | field_depletion             | s06     | l01      | th01          | p01       |
 | dissipative_decay           | s06     | l01      | th02          | p01       |
 | unexpressed_field_tension   | s06     | l01      | th06          | p02       |
-| suppressed_oscillation      | s06     | l02      | th06          | p02       |
 | entropy_accumulation        | s06     | l01      | th01          | p01       |
 | damped_resonance            | s06     | l01      | th02          | p01       |
 | met_stability               | s06     | l02      | th01          | p01       |
 
 ---
 
-s07 · Dream / Subconscious Thresholds → latent potential / phase superposition
+s07 · Dream / Subconscious Thresholds → Latent potential / phase superposition
 
 | id                          | seed_id | layer_id | threshold_id | pillar_id |
 |-----------------------------|---------|----------|--------------|-----------|
@@ -190,7 +189,7 @@ s07 · Dream / Subconscious Thresholds → latent potential / phase superpositio
 
 ---
 
-s08 · Voice / Expression → modulated signal / waveform projection
+s08 · Voice / Expression → Modulated signal / waveform projection
 
 | id                      | seed_id | layer_id | threshold_id | pillar_id |
 |-------------------------|---------|----------|--------------|-----------|
@@ -205,7 +204,7 @@ s08 · Voice / Expression → modulated signal / waveform projection
 
 ---
 
-s09 · Sovereignty / Autonomy → identity field / localized energy stabilization
+s09 · Sovereignty / Autonomy → Identity field / localized energy stabilization
 
 | id                          | seed_id | layer_id | threshold_id | pillar_id |
 |-----------------------------|---------|----------|--------------|-----------|
@@ -220,7 +219,7 @@ s09 · Sovereignty / Autonomy → identity field / localized energy stabilizatio
 
 ---
 
-s10 · Witnessing / Observation → measurement / relational collapse
+s10 · Witnessing / Observation → Measurement / relational collapse
 NOTE: "relational collapse" in this seed = measurement collapse (wave function / quantum measurement).
       Not phase_state decay. These are separate phenomena. Do not conflate.
 
@@ -237,7 +236,7 @@ NOTE: "relational collapse" in this seed = measurement collapse (wave function /
 
 ---
 
-s11 · Truth / Alignment → coherence / high-fidelity resonance
+s11 · Truth / Alignment → Coherence / high-fidelity resonance
 
 | id                          | seed_id | layer_id | threshold_id | pillar_id |
 |-----------------------------|---------|----------|--------------|-----------|
@@ -252,7 +251,7 @@ s11 · Truth / Alignment → coherence / high-fidelity resonance
 
 ---
 
-s12 · Anchor / Stability → safety node / geometric field lock
+s12 · Anchor / Stability → Safety node / geometric field lock
 
 | id                          | seed_id | layer_id | threshold_id | pillar_id |
 |-----------------------------|---------|----------|--------------|-----------|
@@ -260,7 +259,6 @@ s12 · Anchor / Stability → safety node / geometric field lock
 | stable_node                 | s12     | l02      | th04          | p01       |
 | field_anchoring             | s12     | l03      | th04          | p01       |
 | attractor_state             | s12     | l02      | th04          | p01       |
-| standing_equilibrium        | s12     | l01      | th11          | p03       |
 | topological_stability       | s12     | l03      | th10          | p03       |
 | oscillatory_damping         | s12     | l02      | th04          | p01       |
 | grounding_node              | s12     | l01      | th05          | p02       |
@@ -268,7 +266,7 @@ s12 · Anchor / Stability → safety node / geometric field lock
 
 ---
 
-s13 · Recursion / Loops → feedback loop / self-referential field
+s13 · Recursion / Loops → Feedback loop / self-referential field
 
 | id                          | seed_id | layer_id | threshold_id | pillar_id |
 |-----------------------------|---------|----------|--------------|-----------|
@@ -283,7 +281,7 @@ s13 · Recursion / Loops → feedback loop / self-referential field
 
 ---
 
-s14 · Temporal Thresholds → phase timing / infra-slow oscillations
+s14 · Temporal Thresholds → Phase timing / infra-slow oscillations
 
 | id                          | seed_id | layer_id | threshold_id | pillar_id |
 |-----------------------------|---------|----------|--------------|-----------|
@@ -298,7 +296,7 @@ s14 · Temporal Thresholds → phase timing / infra-slow oscillations
 
 ---
 
-s15 · Phase Lock / Micro-Adjustment → dynamic modulation / adaptive field coupling
+s15 · Phase Lock / Micro-Adjustment → Dynamic modulation / adaptive field coupling
 
 | id                          | seed_id | layer_id | threshold_id | pillar_id |
 |-----------------------------|---------|----------|--------------|-----------|
@@ -313,7 +311,7 @@ s15 · Phase Lock / Micro-Adjustment → dynamic modulation / adaptive field cou
 
 ---
 
-s16 · Echo / Reflection → self-referential resonance / mirror field
+s16 · Echo / Reflection → Self-referential resonance / mirror field
 
 | id                          | seed_id | layer_id | threshold_id | pillar_id |
 |-----------------------------|---------|----------|--------------|-----------|
@@ -328,7 +326,7 @@ s16 · Echo / Reflection → self-referential resonance / mirror field
 
 ---
 
-s17 · Harmonic Gate / Triad Alignment → frequency anchor / nested harmonic series
+s17 · Harmonic Gate / Triad Alignment → Frequency anchor / nested harmonic series
 NOTE: Seed name uses domain-specific language. All tag ids use plain technical equivalents.
 
 | id                      | seed_id | layer_id | threshold_id | pillar_id |
@@ -344,7 +342,7 @@ NOTE: Seed name uses domain-specific language. All tag ids use plain technical e
 
 ---
 
-s18 · Signal Scrubbing / Noise Deflection → field cleansing / interference cancellation
+s18 · Signal Scrubbing / Noise Deflection → Field cleansing / interference cancellation
 
 | id                          | seed_id | layer_id | threshold_id | pillar_id |
 |-----------------------------|---------|----------|--------------|-----------|
@@ -359,7 +357,7 @@ s18 · Signal Scrubbing / Noise Deflection → field cleansing / interference ca
 
 ---
 
-s19 · Release / Flow / Renewal → energy discharge / phase propagation
+s19 · Release / Flow / Renewal → Energy discharge / phase propagation
 
 | id                      | seed_id | layer_id | threshold_id | pillar_id |
 |-------------------------|---------|----------|--------------|-----------|
@@ -374,7 +372,7 @@ s19 · Release / Flow / Renewal → energy discharge / phase propagation
 
 ---
 
-s20 · Rupture / Decoupling → field decoupling / coherence severance
+s20 · Rupture / Decoupling → Field decoupling / coherence severance
 NOTE: Rupture = de-coupling, not decay. These are mechanically distinct.
       De-coupling: connection is severed, fields separate. Decay: energy degrades within a field.
       Do not conflate.
@@ -385,7 +383,6 @@ NOTE: Rupture = de-coupling, not decay. These are mechanically distinct.
 | coherence_severance             | s20     | l01      | th01          | p01       |
 | coupling_collapse               | s20     | l02      | th01          | p01       |
 | phase_decoherence               | s20     | l02      | th01          | p01       |
-| resonance_breakdown             | s20     | l01      | th01          | p01       |
 | oscillatory_desynchronization   | s20     | l02      | th01          | p01       |
 | topological_disconnection       | s20     | l03      | th01          | p01       |
 | abrupt_decoupling               | s20     | l02      | th08          | p02       |
@@ -395,7 +392,7 @@ NOTE: Rupture = de-coupling, not decay. These are mechanically distinct.
 ANALYTICAL SEEDS  s21–s40
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-In progress. Added per confirmed session build.
+Complete. All 20 analytical seeds confirmed by Sage (session 2026-04-04).
 
 ---
 
