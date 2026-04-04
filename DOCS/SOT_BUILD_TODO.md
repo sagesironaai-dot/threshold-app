@@ -2,7 +2,7 @@
 # Aelarian Archives — SOT Build Prerequisites Checklist
 # Last updated: 2026-04-03
 
-Status: [ ] open  [x] complete  [!] blocked  [~] in progress
+Status: [ ] open  [x] complete  [!] blocked  [~] in progress  [p] proposed by Claude — NOT Sage-confirmed, cannot be built against
 
 ---
 
@@ -44,14 +44,12 @@ Required for ARC_SEED_TAGS:
   Ordered list of all 40 seeds with id and name.
   Used in the tagger system prompt vocab summary.
 
-Duplicate tag policy — count TBD. 9 confirmed from prior analytical
-vocabulary. Additional cross-layer duplicates expected (Predictive
-Processing · Control Theory · Morphogenesis/Phyllotaxis · others).
-Each duplicate must carry correct routing per seed context.
-  Confirmed 9: semantic_coherence · world_model_grounding_via_action
-  narrative_continuity · social_signal_filtering · confidence_estimation
-  uncertainty_representation · internal_state_influence_on_action
-  phase_locking · met_stability
+Duplicate tag policy — 4 confirmed in new build.
+Prior confirmed-9 list was infected vocabulary. Only 4 carry into the new build.
+Each duplicate carries correct routing per seed context (see duplicates register
+in TAG VOCABULARY.md).
+  Confirmed 4: phase_locking · met_stability · social_signal_filtering
+               · reflective_resonance
 
 - [x] Seed architecture confirmed — 40 seeds (s01–s40)
       s01–s20: field signal seeds · s21–s40: analytical branch seeds
@@ -85,25 +83,27 @@ Each duplicate must carry correct routing per seed context.
       s20 Rupture / Decoupling → field decoupling / coherence severance
 
 - [x] 20 analytical seeds confirmed — s21–s40
+      Confirmed by Sage 2026-04-04 (session 2). s34 and s38 revised at Sage's
+      direction: Shannon's Law → s34, Cosmic Microwave Background → s38.
       s21 Wave Structure Analysis
-      s22 Geometric Pattern Analysis
-      s23 Topological Analysis
-      s24 Orbital & Cyclical Analysis
-      s25 Oscillatory Dynamics
-      s26 Nonlinear & Emergent Dynamics
+      s22 Resonance & Harmonic Analysis
+      s23 Structural Pattern Analysis
+      s24 Spiral & Flow Dynamics
+      s25 Metric & Mirror Field Analysis
+      s26 Coupled Oscillator Analysis
       s27 Phase & Coupling Dynamics
-      s28 Temporal Field Analysis
-      s29 Neural Architecture Analysis
-      s30 Phenomenological Analysis
-      s31 Predictive Processing Analysis
-      s32 Cognitive Modeling
-      s33 Coherence & Stability Analysis
-      s34 Estimation & Uncertainty Analysis
-      s35 Information-Theoretic Analysis
-      s36 Narrative & Continuity Analysis
-      s37 Relational Field Analysis
-      s38 Social Dynamics Analysis
-      s39 Internal State Analysis
+      s28 Nonlinear & Emergent Dynamics
+      s29 Control & Threshold Analysis
+      s30 Predictive Processing Analysis
+      s31 Orbital & Celestial Analysis
+      s32 Geometric & Topological Analysis
+      s33 Neural Architecture Analysis
+      s34 Signal Entropy & Channel Analysis
+      s35 Cognitive & Quantum Modeling
+      s36 Affective & Internal State Analysis
+      s37 Information-Theoretic Analysis
+      s38 Cosmological Structure Analysis
+      s39 Relational Field Analysis
       s40 Morphogenetic Analysis
 
 - [x] 4 layers confirmed — l01–l04
@@ -121,8 +121,6 @@ Each duplicate must carry correct routing per seed context.
            quantum cognition · information theory · semiotics · morphogenesis
       Layer_id = scientific domain classifier on every tag (signal and analytical).
       Science sub-fields within each layer = tag vocabulary for analytical seeds.
-      CONSENT_MIN / TRUTH_SEAL_MIN / RECURSION_RISK / MIRROR_DRIFT_MAX:
-      rot bleed confirmed — no file origin found. Removed. Do not restore.
 
 - [x] 3 pillars confirmed — p01–p03 (derived from Lattice manifests)
       p01 Tria — drift cartography: contact · pressure · drift ·
@@ -146,20 +144,23 @@ Each duplicate must carry correct routing per seed context.
         th11 Hearth Song
         th12 StarWell Bloom
 
-- [~] Full tag vocabulary — all tags under each seed with routing records
+- [x] Full tag vocabulary — all tags under each seed with routing records
       (seed_id · layer_id · threshold_id · pillar_id)
       s01–s20 signal seeds complete — confirmed by Sage (session 2026-04-04)
-      s21–s40 analytical seeds not started — unblocked after arcPhase cleanup (2026-04-04)
+      s21–s40 analytical seeds complete — confirmed by Sage (session 2026-04-04)
+      Rot scan complete — s01–s40 clean (no arcPhase, no myth language, no invalid threshold IDs)
       Written to: DOCS/Systems/TAG VOCABULARY.md
-      Rot scan required on full vocabulary before marking complete.
       Threshold canonical names updated in TAG VOCABULARY.md (2026-04-04).
-- [ ] OPEN QUESTION — entry threshold field name: what to call the field on an entry
-      that records which threshold the entry is at. Must be distinct from threshold_id
-      (tag routing key) to prevent pipeline conflation. Current placeholder: phase_state.
-      Revisit before schema.js build begins. Decide: field name + value format (t-code or
-      canonical name). Update all schemas when resolved.
+      Duplicates register cleaned: prior confirmed-9 list reduced to 4 actual duplicates.
+      5 removed tags were infected vocabulary — confirmed by Sage not part of new build.
+- [x] RESOLVED — entry threshold field name: phase_state
+      Confirmed by Sage 2026-04-04. Field name: phase_state. Value format: full canonical
+      mythic name string or null (e.g. 'Aetherroot Chord' | 'Solenne Arc' | null).
+      Distinct from threshold_id (tag routing key) — no conflation risk.
+      All schemas to use phase_state when this field is referenced.
 
-- [ ] Duplicate tags verified — correct routing per seed context confirmed
+- [x] Duplicate tags verified — 4 confirmed duplicates, all with correct routing per seed context
+      Confirmed by Sage 2026-04-04. Register in TAG VOCABULARY.md DUPLICATES section.
 - [ ] NODE_REGISTRY complete — all 62 nodes with id · name · baseWeight tier
       40 seeds + 4 layers + 12 thresholds + 3 pillars + 3 origins = 62
 - [ ] ARC_SEED_TAGS ordered list confirmed — s01–s40 in order

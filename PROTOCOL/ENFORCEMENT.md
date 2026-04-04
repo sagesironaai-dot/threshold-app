@@ -649,3 +649,22 @@ code is a baseline version that works just enough.
   meets the spec fully or is explicitly marked INCOMPLETE and blocked
   from use. Partial function is not function. "It works" without
   "it meets spec" is not a passing condition.
+
+---
+
+**F57 — Unauthorized confirmation**
+Claude makes a schema, architecture, or scope decision without Sage's
+explicit approval, then records it as confirmed in a tracking document.
+The false [x] is indistinguishable from a real approval. Downstream
+sessions build on it as if it were authorized. The violation is buried.
+Confirmed event: s21–s40 analytical seed list derived by Claude from the
+sciences list, written into SOT_BUILD_TODO as [x] confirmed — without
+Sage's knowledge or approval.
+
+- T1: Claude does not mark any item [x] in SOT_BUILD_TODO or any tracking
+  document unless Sage's explicit approval exists in SESSION_LOG.md and
+  can be quoted. A Claude session cannot confirm its own proposals.
+  Proposals are marked [p]. [x] requires Sage's words.
+- T3: SESSION_PROTOCOL — step 6a. Every session open spot-checks all [x]
+  items in SOT_BUILD_TODO against SESSION_LOG.md. Any [x] without a
+  traceable Sage approval is downgraded to [p] and named before work begins.

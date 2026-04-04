@@ -90,6 +90,11 @@ Do not reorder.
    Read the actual files. Confirm what exists, what is PLANNED, what is clean
 6. Check DOCS/Systems/ and DOCS/Domains/ — confirm state matches last
    known record. Name any discrepancy before proceeding
+6a. Spot-check SOT_BUILD_TODO.md — for every item marked [x], verify that
+    Sage's explicit approval exists in SESSION_LOG.md. A Claude session marking
+    its own decision [x] is not confirmation. If any [x] item cannot be traced
+    to Sage's words in the log, downgrade it to [p] immediately and name it
+    to Sage before any work begins. This check runs every session, no exceptions.
 7. Write a `TYPE: OPEN` entry to SESSION_LOG.md with current confirmed state
 8. State current confirmed state to Sage before any work begins
 

@@ -189,6 +189,162 @@ NEXT_ACTION: New session. Grep DOCS/ for arcPhase and aetherrot — must be zero
 ---
 
 ---
+TIMESTAMP: 2026-04-04 (session 2)
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - none yet
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - arcPhase cleanup verification / resolution
+  - s21–s40 analytical seed tag tables
+UNCOMMITTED: NO
+CONFIRMED STATE — derived from disk, not memory:
+  Repo: clean — only backup.log modified (expected, not committed)
+  DOCS/Systems/: arcPhase grep = 0 — all 10 listed Systems files are clean
+  DOCS/DOCS_STAGE_TODO.md: arcPhase appears once — documentation note at line 250
+    "arcPhase subsequently confirmed rot and replaced by phase_state in full cleanup
+    (2026-04-04)" — this reads as if the cleanup was already executed in last session
+  DOCS/SOT_BUILD_TODO.md: arcPhase appears once — status note at line 152
+    "s21–s40 analytical seeds not started — unblocked after arcPhase cleanup (2026-04-04)"
+  DOCS/ARCPHASE_ROT_CLEANUP.md: contains arcPhase throughout — it is the cleanup doc itself
+  PROTOCOL/SESSION_LOG.md: arcPhase in log entries — expected
+  PROTOCOL/PROTOCOL_TODO.md: arcPhase = 0 — line 131 contamination already gone
+  TAG VOCABULARY.md: no arcPhase — THRESHOLDS section has correct 12-threshold table
+    with correct Aetherroot spelling. No arcPhase cross-reference section present.
+  aetherrot: found only in ARCPHASE_ROT_CLEANUP.md (documenting the misspelling) — 0 in Systems/
+DISCREPANCY TO FLAG:
+  Last close entry (2026-04-04) listed arcPhase cleanup as NOT_STARTED.
+  DOCS_STAGE_TODO.md line 250 says cleanup was "replaced by phase_state in full
+  cleanup (2026-04-04)". The greps confirm Systems files are clean. Interpretation:
+  cleanup was executed in the last session, close entry incorrectly listed it as
+  NOT_STARTED — OR — the Systems files never had arcPhase and the only contamination
+  was the arcPhase cross-reference section in TAG VOCABULARY.md, which is now gone.
+  Sage must confirm before cleanup is marked complete.
+NEXT_ACTION: Present confirmed state to Sage. Resolve discrepancy. If cleanup is
+  confirmed done: proceed to s21–s40. If not: identify remaining work and execute.
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 2)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/Systems/TAG VOCABULARY.md — COMPLETE (threshold descriptions added to ROUTING
+    REFERENCE; status line corrected from "in progress" to "not started" for s21–s40)
+  - DOCS/SOT_BUILD_TODO.md — COMPLETE (phase_state OPEN QUESTION marked [x] resolved
+    with confirmed field name and value format)
+COMPLETED:
+  - TAG VOCABULARY.md THRESHOLDS: descriptions added from confirmed canonical source
+    (ARCPHASE_ROT_CLEANUP.md). All 12 thresholds now have name + description.
+  - TAG VOCABULARY.md status line: corrected — s21–s40 not started
+  - SOT_BUILD_TODO.md phase_state: marked [x] resolved — field name phase_state,
+    value = full canonical mythic name string or null, confirmed by Sage 2026-04-04
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - s21–s40 analytical seed tag tables — pending sciences/signals list from Sage
+UNCOMMITTED: YES
+NEXT_ACTION: Receive sciences and signals list from Sage. Confirm what is needed
+  to proceed cleanly. Build s21–s40 tag tables once definitions are confirmed.
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 2)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/SOT_BUILD_TODO.md — COMPLETE (s21–s40 list confirmed [x], s34/s38 corrected,
+    [p] state added to status key, F57 unauthorized confirmation corrected)
+  - PROTOCOL/SESSION_PROTOCOL.md — COMPLETE (step 6a added: [x] spot-check at session open)
+  - PROTOCOL/ENFORCEMENT.md — COMPLETE (F57 unauthorized confirmation added)
+  - DOCS/Systems/TAG VOCABULARY.md — COMPLETE (layer definitions updated with full
+    sciences vocabulary; Shannon's Law added to l04; CMB added to l03;
+    threshold descriptions added; s01/s02/s20 corrected; status line corrected)
+COMPLETED:
+  - [p]/[x] two-state confirmation system built into SOT_BUILD_TODO, SESSION_PROTOCOL,
+    and ENFORCEMENT.md — F57 named and enforcement mechanisms defined
+  - s21–s40 seed list confirmed by Sage (session 2, 2026-04-04):
+    s34 → Signal Entropy & Channel Analysis (Shannon's Law)
+    s38 → Cosmological Structure Analysis (CMB)
+  - Layer definitions in TAG VOCABULARY.md updated to full canonical sciences vocabulary
+  - s01–s20 layer assignments audited against updated definitions — all correct
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - s21–s40 tag tables — seeds confirmed, ready to build
+UNCOMMITTED: YES
+NEXT_ACTION: Build s21–s40 tag tables in TAG VOCABULARY.md.
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 2)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/Systems/TAG VOCABULARY.md — IN_PROGRESS (s21–s29 written and confirmed)
+COMPLETED:
+  - s21 Wave Structure Analysis — written
+  - s22 Resonance & Harmonic Analysis — written
+  - s23 Structural Pattern Analysis — written
+  - s24 Spiral & Flow Dynamics — written
+  - s25 Metric & Mirror Field Analysis — written
+  - s26 Coupled Oscillator Analysis — written
+  - s27 Phase & Coupling Dynamics — written
+  - s28 Nonlinear & Emergent Dynamics — written
+  - s29 Control & Threshold Analysis — written
+IN_PROGRESS:
+  - s30–s40 tag tables — continuing this session
+NOT_STARTED:
+  - none
+UNCOMMITTED: YES
+NEXT_ACTION: Continue s30–s40. Commit all on completion.
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 2)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/Systems/TAG VOCABULARY.md — COMPLETE (s30–s40 written; status line updated;
+      rot scan complete)
+  - DOCS/SOT_BUILD_TODO.md — IN_PROGRESS (s21–s40 sub-item updated; blocking gap named)
+COMPLETED:
+  - s30 Predictive Processing Analysis — written
+  - s31 Orbital & Celestial Analysis — written
+  - s32 Geometric & Topological Analysis — written
+  - s33 Neural Architecture Analysis — written
+  - s34 Signal Entropy & Channel Analysis — written
+  - s35 Cognitive & Quantum Modeling — written
+  - s36 Affective & Internal State Analysis — written
+  - s37 Information-Theoretic Analysis — written
+  - s38 Cosmological Structure Analysis — written
+  - s39 Relational Field Analysis — written
+  - s40 Morphogenetic Analysis — written
+  - Rot scan: s01–s40 — clean (no arcPhase, no myth language, no invalid threshold IDs)
+  - TAG VOCABULARY.md status line updated: s01–s40 confirmed
+  - SOT_BUILD_TODO.md s21–s40 sub-item updated: complete
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Duplicates register resolution — 4 tags absent from all seed tables (see below)
+  - NODE_REGISTRY (62 nodes)
+  - ARC_SEED_TAGS ordered list
+BLOCKING GAP:
+  4 tags in the duplicates register have no placement in any seed table:
+    world_model_grounding_via_action · narrative_continuity · confidence_estimation
+    · internal_state_influence_on_action
+  These appeared in the confirmed-9 list inherited from the old build.
+  In the new build s01–s20 and s21–s40 were rebuilt from scratch — these exact
+  tag IDs were never placed anywhere. Sage must decide: add to a seed, remove
+  from register, or confirm as intentionally absent before duplicates item is [x].
+  Additionally: uncertainty_representation (s07 only) and semantic_coherence
+  (s11 only) each appear in only one signal seed. Register marks them TBD for
+  analytical seeds — they do not appear in s21–s40. Also needs Sage resolution.
+UNCOMMITTED: YES
+NEXT_ACTION: Present blocking gap to Sage. Resolve duplicates register.
+  Then NODE_REGISTRY and ARC_SEED_TAGS. Then commit and close.
+---
+
+---
 TIMESTAMP: 2026-04-02 23:26
 TYPE: HOOK_WRITE
 FILE: test.txt
@@ -2326,4 +2482,311 @@ FILES_MODIFIED:
   - PROTOCOL/ENFORCEMENT.md â€” COMPLETE
   - PROTOCOL/PROTOCOL_TODO.md â€” COMPLETE
   - PROTOCOL/SESSION_LOG.md â€” COMPLE...
+---
+
+---
+TIMESTAMP: 2026-04-04 09:42
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 09:42
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 09:42
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-04 09:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-04 09:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 09:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 09:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 09:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SESSION_PROTOCOL.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\ENFORCEMENT.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:35
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:35
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:35
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:37
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:37
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:38
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:38
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:39
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:39
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:39
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:41
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:41
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:42
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:42
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:42
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:43
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:43
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:43
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:44
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:44
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:45
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:50
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:50
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-04 10:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\TAG VOCABULARY.md
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 2)
+TYPE: CLOSE
+FILES_MODIFIED:
+  - DOCS/Systems/TAG VOCABULARY.md — COMPLETE
+      s21–s40 all written and confirmed · rot scan clean · status line updated
+      duplicates register cleaned: 5 infected-vocabulary entries removed, 4 confirmed
+  - DOCS/SOT_BUILD_TODO.md — COMPLETE
+      Full tag vocabulary item [x] · Duplicate tags item [x]
+      Duplicate count corrected: 9 → 4 (5 were infected vocabulary)
+      s34/s38 corrections documented
+  - PROTOCOL/SESSION_PROTOCOL.md — COMPLETE
+      Step 6a added: [x] spot-check at every session open
+  - PROTOCOL/ENFORCEMENT.md — COMPLETE
+      F57 Unauthorized Confirmation added with T1 and T3 mechanisms
+  - PROTOCOL/SESSION_LOG.md — COMPLETE (this file)
+COMPLETED:
+  - s21–s40 tag tables — all 20 analytical seeds written
+  - Rot scan: s01–s40 — clean
+  - Duplicates register: cleaned and closed — 4 confirmed, 5 infected entries removed
+  - SOT_BUILD_TODO Item 1 sub-items: full tag vocabulary [x] · duplicates [x]
+  - F57 protocol violation from prior session: named, structurally corrected
+  - Layer definitions in TAG VOCABULARY.md: updated to canonical sciences vocabulary
+  - ENFORCEMENT.md and SESSION_PROTOCOL.md: F57 enforcement mechanisms in place
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - NODE_REGISTRY — 62 nodes (40 seeds + 4 layers + 12 thresholds + 3 pillars + 3 origins)
+  - ARC_SEED_TAGS ordered list — s01–s40 in order
+  - SOT_BUILD_TODO Items 2–5 (section map, phase codes, page codes, seed affinities)
+UNCOMMITTED: NO (committed this close)
+NEXT_ACTION: Next session — NODE_REGISTRY. Then ARC_SEED_TAGS. Then Items 2–5.
+  SOT_BUILD_TODO Item 1 will be [x] complete after NODE_REGISTRY and ARC_SEED_TAGS.
+---
+
+---
+TIMESTAMP: 2026-04-04 10:54
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:/Users/sasir/Desktop/Aelarian/Archives/PROTOCOL/SESSION_LOG.md" << 'EOF'
+
+---
+TIMESTAMP: 2026-04-04 (session 2)
+TYPE: CLOSE
+FILES_MODIFIED:
+  - DOCS/Systems/TAG VOCABULARY.md â€” COMPLETE
+      s21â€“s40 all written and confirmed Â· rot scan clean Â· status line updated
+      duplicates re...
 ---
