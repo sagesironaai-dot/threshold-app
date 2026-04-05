@@ -14,20 +14,20 @@
 * Finding production — extracting, validating, and writing Finding records from the Claude response
 * Content fingerprinting — generating and writing the content_fingerprint on every Finding record
 * Deduplication check on retry — comparing candidate Findings against prior session Findings before writing or routing anything
-* synthesis_sessions IDB store — record creation, status writes, findings_count and findings_dropped
-* findings IDB store — record creation, fingerprint write, lnv_routing_status tracking
+* synthesis_sessions PostgreSQL table — record creation, status writes, findings_count and findings_dropped
+* findings PostgreSQL table — record creation, fingerprint write, lnv_routing_status tracking
 * LNV routing handoff — assembling the result object returned to DNR. MTM's responsibility ends there.
 
 ## WHAT THIS SYSTEM DOES NOT OWN
 
 * Receives no deposits — synthesis only. A deposit routed to MTM is a routing error.
 * Lens page deposit writing — owned by their respective sections (THR · STR · INF · ECR · SNM)
-* IDB reads of lens page entry data — owned by data.js
+* PostgreSQL reads of lens page entry data — owned by FastAPI service layer (backend/services/)
 * LNV deposit writing — owned by LNV
 * Routine orchestration and trigger — owned by DNR. MTM never calls itself. DNR calls MTM.
-* lnv_routing_status and lnv_deposit_id writes after LNV receipt — DNR triggers data.js to write these. MTM does not.
+* lnv_routing_status and lnv_deposit_id writes after LNV receipt — DNR triggers the FastAPI service layer to write these. MTM does not.
 * Witness Scroll — WSC is sovereign. MTM has no relationship to it.
-* Tag pipeline — owned by tagger_bus.js
+* Tag pipeline — owned by tagger Svelte store (frontend/)
 * Routing authority — owned by SOT
 * Findings content after handoff — once the result object is returned to DNR, MTM does not track what LNV does with what it received
 
@@ -45,7 +45,7 @@ MTM reads across five Axis lens pages simultaneously at session close. The five 
 
 **Simultaneously** means one Claude API call with all five datasets present in the payload. Not five calls. One. This constraint is structurally non-negotiable. Sequential reads produce sequential analysis. MTM's function is to surface what becomes visible only when all five are held at once in a single context window. Sequential calls cannot produce that output.
 
-Each dataset is an array of entry objects pulled fresh from IDB at synthesis time. Fields pulled per entry: id · section · body · tags · phase_state · originId · created_at. An empty array for a lens page means no entries exist on that page — it is not a missing lens page, and synthesis proceeds. A lens page is only unavailable if the IDB read fails for that section. That failure triggers pre_synthesis abort.
+Each dataset is an array of entry objects pulled fresh from PostgreSQL at synthesis time. Fields pulled per entry: id · section · body · tags · phase_state · originId · created_at. An empty array for a lens page means no entries exist on that page — it is not a missing lens page, and synthesis proceeds. A lens page is only unavailable if the database read fails for that section. That failure triggers pre_synthesis abort.
 
 ---
 
@@ -61,7 +61,7 @@ Material that would otherwise route to MTM routes instead to the appropriate Axi
 
 MTM fires as Step 1 of the Daily Nexus Routine only.
 
-DNR calls MTM.runSynthesis() and awaits its resolution before proceeding to Step 2. MTM.runSynthesis() is the sole public entry point. Everything inside MTM is internal to that call.
+DNR triggers the MTM synthesis endpoint (POST /mtm/synthesize) and awaits its resolution before proceeding to Step 2. POST /mtm/synthesize is the sole public entry point. Everything inside MTM is internal to that call.
 
 MTM never calls itself. There is no scheduled trigger, no deposit event trigger, no internal retry. All retry logic lives in DNR. MTM receives a call, runs, and returns a result object. That is its complete contract with the outside world.
 
@@ -69,9 +69,9 @@ MTM never calls itself. There is no scheduled trigger, no deposit event trigger,
 
 ## DEDUPLICATION ON RETRY
 
-Deduplication runs on every retry where prior_mtm_session_ids is present in the MTM.runSynthesis() call options. It never runs on a clean first-time synthesis.
+Deduplication runs on every retry where prior_mtm_session_ids is present in the synthesis endpoint call options. It never runs on a clean first-time synthesis.
 
-DNR assembles the full array of all failed mtm_session_ids from the current session window — not just the most recent — and passes it to MTM.runSynthesis() on every retry. MTM loads all findings records from those prior sessions and builds a Set of their content_fingerprints. A candidate Finding whose fingerprint matches any entry in that Set is skipped — not written, not routed.
+DNR assembles the full array of all failed mtm_session_ids from the current session window — not just the most recent — and passes it to the MTM synthesis endpoint on every retry. MTM loads all findings records from those prior sessions and builds a Set of their content_fingerprints. A candidate Finding whose fingerprint matches any entry in that Set is skipped — not written, not routed.
 
 A Finding that cannot have its fingerprint generated is also dropped. A Finding cannot be written without a fingerprint.
 
@@ -96,7 +96,7 @@ The exact shape returned to DNR on every call — success or failure:
 
 MTM's contract with DNR ends when this object resolves. What DNR does with it is DNR's concern.
 
-**failure_type: pre_synthesis** — one or more lens page IDB reads failed before synthesis began. No Findings produced. findings array is empty.
+**failure_type: pre_synthesis** — one or more lens page database reads failed before synthesis began. No Findings produced. findings array is empty.
 
 **failure_type: mid_synthesis** — all five lens pages were read. The Claude API call failed or JSON parsing failed partway through. Findings written before the failure are preserved and included in the findings array.
 
@@ -106,9 +106,9 @@ mtm_session_id is always present — the synthesis_session record is created at 
 
 ## LNV HANDOFF
 
-MTM produces Findings and writes them to the findings IDB store. It then returns the result object to DNR. DNR owns routing to LNV — MTM does not write to LNV directly.
+MTM produces Findings and writes them to the findings PostgreSQL table. It then returns the result object to DNR. DNR owns routing to LNV — MTM does not write to LNV directly.
 
-After LNV confirms receipt of each Finding, DNR triggers data.js to write lnv_routing_status → deposited and lnv_deposit_id on each findings record. MTM does not own or trigger these writes.
+After LNV confirms receipt of each Finding, DNR triggers the FastAPI service layer to write lnv_routing_status → deposited and lnv_deposit_id on each findings record. MTM does not own or trigger these writes.
 
 Pattern Convergence (PCV · 50) reads MTM Findings as pre-processed input. PCV does not receive Findings directly from MTM — it reads from what LNV holds after the DNR handoff completes.
 
@@ -116,7 +116,7 @@ Pattern Convergence (PCV · 50) reads MTM Findings as pre-processed input. PCV d
 
 ## PUBLIC API
 
-**MTM.runSynthesis(options?) → Promise\<ResultObject\>**
+**POST /mtm/synthesize**
 The sole public entry point. Called by DNR only. Never called from any other system.
 
 options — optional object:
@@ -127,15 +127,15 @@ Present on retry runs — DNR passes the full array of all failed mtm_session_id
 
 Always resolves — never throws to the caller. Failures are captured in the result object, not propagated as exceptions.
 
-Everything else in mtm.js is internal. No other function is exposed or called externally.
+Everything else in the MTM synthesis service is internal. No other endpoint is exposed or called externally.
 
 ---
 
 ## KNOWN FAILURE MODES
 
-**1. Lens page IDB read fails before synthesis**
+**1. Lens page database read fails before synthesis**
 One or more lens pages unavailable. Synthesis cannot run. No Findings produced.
-Guard: any IDB read failure at step 2 → status failed, failure_type pre_synthesis. Result object returned. DNR surfaces failure to LNV. Retry available.
+Guard: any database read failure at step 2 → status failed, failure_type pre_synthesis. Result object returned. DNR surfaces failure to LNV. Retry available.
 
 **2. Claude API returns malformed JSON**
 No Findings can be extracted. JSON.parse() throws.
@@ -147,11 +147,11 @@ Guard: DNR always passes prior_mtm_session_ids on retry. If prior session load f
 
 **4. Finding written without content_fingerprint**
 Deduplication has no key for future retries. Duplicates will not be caught.
-Guard: fingerprint generation runs before every IDB write. A Finding that fails fingerprint generation is dropped and logged. Not written. Not routed.
+Guard: fingerprint generation runs before every PostgreSQL write. A Finding that fails fingerprint generation is dropped and logged. Not written. Not routed.
 
-**5. MTM.runSynthesis() called outside DNR**
+**5. MTM synthesis endpoint called outside DNR**
 No routine_session record exists. DNR does not receive the result. Provenance chain broken.
-Guard: runSynthesis() is the only public entry point. All internal functions are unexposed. DNR is the only caller. This constraint is documented at build — do not expose additional entry points.
+Guard: POST /mtm/synthesize is the sole external trigger. All internal functions are unexposed. DNR is the only caller. This constraint is documented at build — do not expose additional entry points.
 
 **6. Empty results — three distinct states**
 These are not the same event:
@@ -165,5 +165,5 @@ These are not the same event:
 
 | File | Role | Status |
 | --- | --- | --- |
-| mtm.js | MTM synthesis engine — lens page data assembly, Claude API call, JSON response handling, Finding validation, content fingerprinting, deduplication, synthesis_session and findings IDB writes, result object assembly | PLANNED |
-| data.js | synthesis_sessions IDB store · findings IDB store — record creation, status writes, fingerprint write, lnv_routing_status tracking | PLANNED |
+| backend/services/mtm.py | MTM synthesis service — lens page data assembly, Claude API call, JSON response handling, Finding validation, content fingerprinting, deduplication, synthesis_sessions and findings PostgreSQL writes, result object assembly | PLANNED |
+| backend/routes/mtm.py | FastAPI MTM endpoint — POST /mtm/synthesize trigger, result object response | PLANNED |

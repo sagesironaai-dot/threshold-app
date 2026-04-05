@@ -4,7 +4,7 @@ OWNERSHIP BOUNDARIES ━━━━━━━━━━━━━━━━━━━�
 
 OWNS
 Drift event classification — all four required dimensions, enforced at record creation
-drift_events IDB store — record creation, state updates, outcome writes, grade latency computation
+drift_events PostgreSQL table — record creation, state updates, outcome writes, grade latency computation
 Trajectory state — live trajectory_state tracking and updates on active events
 outcome_vector — Bayesian update receipt from SGR and write to drift event record
 Grade latency computation — interval between detection_session and validation_session
@@ -14,8 +14,8 @@ DOES NOT OWN
 Pattern detection — owned by PCV (PCV produces the hypothesis_ref DTX classifies against)
 Signal grading — owned by SGR (SGR grades signals; DTX receives and applies Bayesian returns)
 Bayesian inference computation — owned by SGR (SGR computes the update; DTX writes it)
-Findings production — owned by MTM via mtm.js
-IDB reads or writes outside drift_events — owned by data.js
+Findings production — owned by MTM synthesis service (backend/services/mtm.py)
+PostgreSQL reads or writes outside drift_events — owned by FastAPI service layer (backend/services/)
 Routing authority — owned by SOT
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -65,7 +65,7 @@ DRIFT EVENT CREATION — strict order
 4. Initialize outcome_vector: { p_resolve, p_collapse, p_stable } — values floats 0–1, sum must equal 1.0.
 5. Write drift event record: all classification dimensions, trajectory_state, outcome_vector, detection_session, created_at, last_updated.
 Failure at step 2 or 3: record rejected. PCV notified. No write occurs.
-Failure at step 5: IDB write failure. No partial record written. PCV must re-send state vector on recovery.
+Failure at step 5: PostgreSQL write failure. No partial record written. PCV must re-send state vector on recovery.
 
 BAYESIAN UPDATE FROM SGR — strict order
 1. SGR writes bayesian_return_status → sent on its grading record.
@@ -120,5 +120,5 @@ Co-writes outcome_label and outcome_observed_at. Writes validation_session. Comp
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ FILES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-data.js
-drift_events IDB store — record creation, state writes, outcome writes, grade latency computation, Bayesian update application. Status: PLANNED
+backend/services/drift.py
+drift_events PostgreSQL table — record creation, state writes, outcome writes, grade latency computation, Bayesian update application. Status: PLANNED

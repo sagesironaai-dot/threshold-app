@@ -3,7 +3,7 @@
 OWNERSHIP BOUNDARIES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 OWNS
-patterns IDB store — record creation and status transitions
+patterns PostgreSQL table — record creation and status transitions
 hypothesis_id assignment — the structural thread connecting PCV to DTX and SGR
 Cross-domain signal aggregation — observing and logging patterns as structurally testable hypotheses
 MTM Finding integration — receiving MTM Findings as pre-processed input, tracking mtm_provenance on pattern records
@@ -14,7 +14,7 @@ DOES NOT OWN
 Drift event classification — owned by DTX (DTX receives hypothesis_id from PCV and classifies against it)
 Signal grading — owned by SGR
 MTM synthesis — owned by MTM (MTM produces Findings; PCV receives them as pre-processed input)
-IDB reads outside patterns store — owned by data.js
+PostgreSQL reads outside patterns table — owned by FastAPI service layer (backend/services/)
 Routing authority — owned by SOT
 Outcome determination — owned by SGR. PCV does not confirm outcomes.
 Bayesian inference — owned by SGR
@@ -70,7 +70,7 @@ PATTERN RECORD CREATION — strict order
 6. Write pattern record: all fields, status → active, created_at = timestamp.
    hypothesis_id is now available for DTX and SGR.
 Failure at step 2, 3, or 4: record rejected. No write occurs.
-Failure at step 6: IDB write failure. No partial record written. Re-submission required.
+Failure at step 6: PostgreSQL write failure. No partial record written. Re-submission required.
 
 STATUS TRANSITION — active → archived
 1. Receive archive trigger: hypothesis_id + resolution_ref (DTX drift event id or
@@ -131,6 +131,6 @@ Activates the PCV section in the UI.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 FILES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-data.js
-patterns IDB store — record creation, hypothesis_id assignment, status transitions.
+backend/services/convergence.py
+patterns PostgreSQL table — record creation, hypothesis_id assignment, status transitions.
 Status: PLANNED

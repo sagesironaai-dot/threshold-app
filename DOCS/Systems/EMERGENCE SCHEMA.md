@@ -242,7 +242,7 @@ timeline Renders entries bucketed by time period. Shows how pattern activity has
 
 
 
-trace Focused mode opened from a specific finding — either via the trace button on a finding card or via openFromFinding(). Shows the thread of entries and tags implicated in that finding. Hands off to ThreadTraceUI for full thread navigation.
+trace Focused mode opened from a specific finding — either via the trace button on a finding card or via openFromFinding(). Shows the thread of entries and tags implicated in that finding. Hands off to the Thread Trace Svelte component for full thread navigation.
 
 
 

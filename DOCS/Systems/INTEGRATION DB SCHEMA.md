@@ -604,7 +604,7 @@ TABLE: root_entries
   POST-RETIREMENT — executes after step 13 confirms:
 
     a. Write Archives page deposit from provenance_summary.
-       See archive_system.md for deposit format.
+       See SYSTEM_ Archive.md for deposit format.
 
     b. Write archives.page_deposit_id = deposit entry id.
 

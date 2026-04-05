@@ -244,13 +244,12 @@ corruption across core systems. Infrastructure changed from browser app
    schemas verified. Cross-file consistency confirmed. SOT_BUILD_TODO
    Items 0–5 all [x] with valid sources. Stage gate closed.
 
-2. Infrastructure build — IN PROGRESS
+2. Infrastructure build — COMPLETE
    Full-stack architecture: FastAPI backend, Svelte frontend, PostgreSQL
    + pgvector, SQLite operational DB, Ollama + nomic-embed-text embeddings.
-   Seven stages, each: install → verify → update/create DOCS → commit.
+   Seven stages completed, each: install → verify → update/create DOCS → commit.
+   Cleanup pass completed: all old architecture references removed from DOCS.
    Working plan: .claude/plans/infrastructure-build-plan.md
-   DOCS must be updated to reflect the new architecture before SOT.
-   This stage must be fully closed before step 3 begins. No exceptions.
 
 3. SOT written and verified — NOT STARTED. Blocked on step 2.
    Source of truth document. Assembles the verified, infrastructure-updated
@@ -304,19 +303,21 @@ knowledge base, global identity, and origin node context. These will feed
 the research assistant's RAG pipeline via FastAPI. Do not modify without
 explicit direction from Sage.
 
-**PLANNED — do not treat as current:**
+**SKELETON — infrastructure scaffolding in place:**
 ```
-backend/          — FastAPI app (models, routes, services, DB connections)
-frontend/         — Svelte + Vite app (components, routes, stores, API client)
+backend/          — FastAPI app (main.py, config.py, db connections verified)
+frontend/         — SvelteKit scaffold (Svelte 5, TypeScript, Vite 7, dev server verified)
 ```
-These directories do not exist yet. Created during infrastructure stage.
+These directories contain the infrastructure skeleton from stages 5-6.
+Models, routes, services, components, and stores are not yet written —
+those are built from SOT in the core files phase (step 4).
 
 **OLD BUILD — contaminated, read-only reference:**
 ```
 core/             — old JS modules (data.js, schema.js, ids.js, etc.)
-index.html        — old single-page app shell
 ```
 The old build. Reference artifacts only — not the planned rebuild.
+index.html and serve.py were deleted in session 8.
 Do not modify. Do not treat any code, structure, or naming as canonical.
 Will be replaced when the rebuild reaches the core files phase.
 
@@ -360,7 +361,8 @@ src/routes/             — 50 page routes (structure TBD: individual files
 src/routes/+layout.svelte — shared shell wrapping all pages
 ```
 
-None exist yet. Build order follows SOT verification.
+Backend skeleton exists (main.py, config.py, db/). Frontend scaffold exists
+(SvelteKit + TypeScript). Full app code written from SOT in step 4.
 Full planned structure in .claude/plans/infrastructure-build-plan.md.
 
 ---

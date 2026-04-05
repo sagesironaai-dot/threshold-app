@@ -11,22 +11,22 @@
 * Close Session button — wired in the global dropdown, available from every page
 * Sequence orchestration — step order definition and enforcement. Step 2 does not fire until Step 1 resolves.
 * In-progress guard — checks for a running or stale session before allowing a new run to begin
-* routine_sessions IDB store — record creation, status writes, failure typing, read-only enforcement on completed and failed records
-* Handoff timing — awaiting MTM.runSynthesis() completion before LNV notification fires
+* routine_sessions PostgreSQL table — record creation, status writes, failure typing, read-only enforcement on completed and failed records
+* Handoff timing — awaiting MTM synthesis endpoint completion before LNV notification fires
 * Failure detection and typing — pre_synthesis vs mid_synthesis vs interrupted
 * LNV failure notification — assembling and sending the failure payload to LNV on every MTM failure
 * lnv_notified flag — written after LNV notification step confirms, regardless of MTM status
-* lnv_routing_status trigger — after LNV confirms receipt of each Finding, DNR triggers data.js to write lnv_routing_status → deposited and lnv_deposit_id on the findings record. DNR owns the trigger. data.js owns the write.
+* lnv_routing_status trigger — after LNV confirms receipt of each Finding, DNR triggers the FastAPI service layer to write lnv_routing_status → deposited and lnv_deposit_id on the findings record. DNR owns the trigger. The FastAPI service layer owns the write.
 * Retry surface — Retry Session Close in the global dropdown (visible when retry_available is true), inline Retry button in LNV. Both call NexusRoutine.retry().
 * Stale in-progress recovery — NexusRoutine.init() detects and resolves interrupted session records on app load
 
 ## WHAT THIS SYSTEM DOES NOT OWN
 
-* MTM synthesis logic — owned by mtm.js
+* MTM synthesis logic — owned by MTM synthesis service (backend/services/mtm.py)
 * Findings content or structure — owned by MTM schema
 * LNV deposit writing — owned by LNV
 * Witness Scroll (WSC · 46) — WSC is sovereign. It is not triggered, sequenced, owned, or waited on here. WSC follows the Routine's completion as a separate act.
-* IDB reads or writes — owned by data.js
+* PostgreSQL reads or writes — owned by FastAPI service layer (backend/services/)
 * Routing authority — owned by SOT
 
 ---
@@ -48,7 +48,7 @@ Lives in the global dropdown alongside the media intake trigger. Consistent posi
 **On press:**
 1. Checks whether a Routine run is already in_progress. If yes: does not fire. Surfaces a status indicator. No duplicate runs.
 2. Creates a routine_session record. Writes status → in_progress.
-3. Calls MTM.runSynthesis(). Awaits resolution.
+3. Triggers the MTM synthesis endpoint (POST /mtm/synthesize). Awaits resolution.
 4. On MTM resolution: proceeds to LNV notification step.
 5. Writes routine_session to final status.
 
@@ -59,12 +59,12 @@ Lives in the global dropdown alongside the media intake trigger. Consistent posi
 Strict order. Step 2 does not fire until Step 1 resolves — success or failure. Never runs in parallel.
 
 **Step 1 — MTM Synthesis**
-Calls MTM.runSynthesis(options?). On retry: passes prior_mtm_session_ids array. On clean run: passes no options. Awaits completion. MTM runs its full cycle and returns a result object. DNR does not inspect Findings content — it receives the result object and passes it to Step 2.
+Triggers the MTM synthesis endpoint (POST /mtm/synthesize). On retry: passes prior_mtm_session_ids array. On clean run: passes no options. Awaits completion. MTM runs its full cycle and returns a result object. DNR does not inspect Findings content — it receives the result object and passes it to Step 2.
 
 **Step 2 — LNV Notification**
-Fires after MTM.runSynthesis() resolves regardless of MTM status. LNV always receives. Even on failure.
+Fires after the MTM synthesis endpoint resolves regardless of MTM status. LNV always receives. Even on failure.
 
-On MTM status 'complete': DNR sends the success payload. After LNV confirms receipt of each Finding, DNR triggers data.js to write lnv_routing_status → deposited and lnv_deposit_id on each findings record. Then writes lnv_notified → true. Then writes retry_available → false. Then writes status → complete.
+On MTM status 'complete': DNR sends the success payload. After LNV confirms receipt of each Finding, DNR triggers the FastAPI service layer to write lnv_routing_status → deposited and lnv_deposit_id on each findings record. Then writes lnv_notified → true. Then writes retry_available → false. Then writes status → complete.
 
 On MTM status 'failed': DNR sends the failure payload (see LNV FAILURE NOTIFICATION below). After LNV confirms receipt, writes lnv_notified → true. Then writes retry_available → true. Then writes status → failed.
 
@@ -111,7 +111,7 @@ Surfaced in two places after any MTM failure:
 
 Both surfaces call NexusRoutine.retry(). Behavior is identical regardless of where retry is triggered.
 
-**Current session window** — all routine_session records since the most recent record with status: complete. If no complete record exists, the window is all records. DNR assembles the full prior_mtm_session_ids array from all mtm_session_refs in the current window (excluding records where mtm_session_ref is null — those were interrupted before MTM resolved and have no Findings to deduplicate against). This full array is passed to MTM.runSynthesis() on retry so deduplication runs against all prior failed sessions, not just the most recent.
+**Current session window** — all routine_session records since the most recent record with status: complete. If no complete record exists, the window is all records. DNR assembles the full prior_mtm_session_ids array from all mtm_session_refs in the current window (excluding records where mtm_session_ref is null — those were interrupted before MTM resolved and have no Findings to deduplicate against). This full array is passed to the MTM synthesis endpoint on retry so deduplication runs against all prior failed sessions, not just the most recent.
 
 Retry does not bypass the in_progress guard. A new routine_session record is created on every retry. No previous record is modified.
 
@@ -159,7 +159,7 @@ Two concurrent Routine runs. Duplicate session records. MTM fires twice. LNV rec
 Guard: in_progress check runs before any new session record is created. If most recent session status is in_progress, button does not fire. Status indicator surfaced instead.
 
 **2. MTM completes but LNV notification fails**
-Findings exist in IDB. LNV never receives them. Session shows complete for MTM but lnv_notified stays false.
+Findings exist in PostgreSQL. LNV never receives them. Session shows complete for MTM but lnv_notified stays false.
 Guard: lnv_notified is written only after LNV notification step confirms. Session status written only after lnv_notified is true. A session where lnv_notified is false and mtm_session_ref is written is an incomplete run. NexusRoutine.init() checks for this state on app load and surfaces recovery.
 
 **3. Retry fired before failure_type is written**
@@ -180,5 +180,6 @@ Guard: retry always creates a new routine_session record. Failed records are rea
 
 | File | Role | Status |
 | --- | --- | --- |
-| nexus_routine.js | NexusRoutine singleton — Close Session button wiring, two-step sequence execution, in_progress guard, session record management, LNV failure notification, retry surface, stale in_progress recovery on init | PLANNED |
-| data.js | routine_sessions IDB store — record creation, status writes, lnv_notified flag, read-only enforcement on completed and failed records | PLANNED |
+| backend/services/dnr.py | DNR service — two-step sequence execution, in_progress guard, session record management, MTM endpoint trigger, LNV failure notification, retry logic, stale in_progress recovery on init | PLANNED |
+| backend/routes/dnr.py | FastAPI DNR endpoints — session close trigger, retry trigger, session status query | PLANNED |
+| frontend/ (DNR components) | Svelte — Close Session button in global dropdown, Retry Session Close dropdown item, status indicators | PLANNED |

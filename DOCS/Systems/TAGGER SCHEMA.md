@@ -62,11 +62,11 @@ The bridge between the raw API response and the fully routed tag object. Must ex
 
 
 
-WHAT IT DOES ━━━━━━━━━━━━ Takes the raw { id, seed\\\_id } pair from the API response and looks up the matching entry in TAG\\\_VOCAB\\\_BY\\\_SEED in tags-vocab.js. Returns the full routing record: { id, seed\\\_id, layer\\\_id, threshold\\\_id, pillar\\\_id }. Weight is carried from the API response and merged at this step.
+WHAT IT DOES ━━━━━━━━━━━━ Takes the raw { id, seed\\\_id } pair from the API response and looks up the matching entry in TAG\\\_VOCAB\\\_BY\\\_SEED in the backend tag vocabulary module. Returns the full routing record: { id, seed\\\_id, layer\\\_id, threshold\\\_id, pillar\\\_id }. Weight is carried from the API response and merged at this step.
 
 
 
-WHY THIS STEP MATTERS ━━━━━━━━━━━━━━━━━━━━━ layer\\\_id, threshold\\\_id, and pillar\\\_id are not returned by Claude. They are vocabulary facts — fixed properties of each tag as defined in tags-vocab.js. The resolution step is where Claude's semantic judgment (which tag fits this text) meets the structural architecture (where that tag lives in the field). These are separate concerns and must remain separate.
+WHY THIS STEP MATTERS ━━━━━━━━━━━━━━━━━━━━━ layer\\\_id, threshold\\\_id, and pillar\\\_id are not returned by Claude. They are vocabulary facts — fixed properties of each tag as defined in the backend tag vocabulary module. The resolution step is where Claude's semantic judgment (which tag fits this text) meets the structural architecture (where that tag lives in the field). These are separate concerns and must remain separate.
 
 
 

@@ -20,10 +20,10 @@
 
 ## **WHAT THIS SYSTEM DOES NOT OWN**
 
-* IDB store schema — owned by data.js and INTEGRATION IDB SCHEMA (authoritative spec, v1)  
-* ARC id generation and sequence counter — owned by data.js and composite\_id\_system  
-* Archives page deposit content format — defined in archive\_system.md  
-* Tag pipeline — owned by tagger\_bus.js  
+* PostgreSQL table schema — owned by FastAPI service layer (backend/services/) and INTEGRATION DB SCHEMA (authoritative spec, v1)  
+* ARC id generation and sequence counter — owned by FastAPI composite ID service and composite\_id\_system  
+* Archives page deposit content format — defined in SYSTEM\_ Archive.md  
+* Tag pipeline — owned by tagger Svelte store (frontend/)  
 * Routing authority — owned by SOT. INT never guesses routing.  
 * MTM synthesis cycle — MTM reads across Axis lens pages at session close and produces Findings independently. INT does not trigger or feed MTM directly.
 
@@ -287,12 +287,12 @@ After step 13 confirms, two outputs are produced:
 
 **1\. Archives page deposit**
 
-AI writes a structured entry to the Archives page drawn from the provenance\_summary. See archive\_system.md for deposit format. After the deposit is created, its entry id is written back to the IDB archives record as page\_deposit\_id.
+AI writes a structured entry to the Archives page drawn from the provenance\_summary. See archive\_system.md for deposit format. After the deposit is created, its entry id is written back to the PostgreSQL archives record as page\_deposit\_id.
 
 Write sequence:
 
 a. Archives page deposit written from provenance\_summary content  
-b. page\_deposit\_id written to IDB archives record
+b. page\_deposit\_id written to PostgreSQL archives record
 
 **2\. Retirement label surfaced in Integration UI**
 
@@ -326,11 +326,11 @@ No media file bypasses INT. The intake trigger on archive pages is the only uplo
 
 **INT.init() → void**
 Called once at app init. Wires the Integration panel, initializes session state,
-and prepares the intake form. Called after CompositeIdBus.init() and TaggerBus.init().
+and prepares the intake form. Called after CompositeId component initialization and tagger store initialization.
 
 **INT.activateSection(sectionId) → void**
 Called on every section navigation. Updates stored section context for the
-Integration panel. Passes context to CompositeIdBus and TaggerBus.
+Integration panel. Passes context to CompositeId component and tagger store.
 
 **INT.receiveMediaIntake(file, sourcePageCode) → void**
 Called when a media file is submitted via the intake trigger button on any archive
@@ -355,7 +355,7 @@ type. Opens the Integration panel in source mode and begins the intake sequence.
 
 **7\. Retirement label not displayed after step 13** Sage cannot copy the ARC id. Parent page placement and physical file referencing are blocked or done incorrectly. Guard: retirement label display is a required UI element, not optional output. It renders at retirement completion and persists until dismissed.
 
-**8\. page\_deposit\_id not written after Archives page deposit creation** IDB archives record has no pointer to its browsable surface. Three-surface architecture is broken — machine record and page deposit are linked only by ARC id with no explicit join. Guard: page\_deposit\_id is written immediately after the Archives page deposit confirms creation. It is never left null after successful post-retirement output.
+**8\. page\_deposit\_id not written after Archives page deposit creation** PostgreSQL archives record has no pointer to its browsable surface. Three-surface architecture is broken — machine record and page deposit are linked only by ARC id with no explicit join. Guard: page\_deposit\_id is written immediately after the Archives page deposit confirms creation. It is never left null after successful post-retirement output.
 
 ---
 
@@ -363,8 +363,8 @@ type. Opens the Integration panel in source mode and begins the intake sequence.
 
 | File | Role | Status |
 | ----- | ----- | ----- |
-| data.js | IDB layer — root\_entries · file\_assets · manifest\_sessions · archives stores · system\_counters · retirement sequence execution | PLANNED |
-| schema.js | PHASE\_CODES · PAGE\_CODES · doc\_type enum — read by INT panel | PLANNED |
-| composite\_id.js | CompositeIdBus — Integration panel stamp rendering, native/source mode, retirement label display | PLANNED |
-| index.html | INT page UI — intake form, manifest session panel, deposit review, retirement trigger, retirement label display, media intake form | PLANNED |
+| backend/services/entry.py | Service layer — root\_entries · file\_assets · manifest\_sessions · archives tables · system\_counters · retirement sequence execution | PLANNED |
+| backend/models/ | PHASE\_CODES · PAGE\_CODES · doc\_type enum — read by INT components | PLANNED |
+| CompositeId Svelte component (frontend/) | CompositeId component — Integration panel stamp rendering, native/source mode, retirement label display | PLANNED |
+| frontend/ (INT page) | Svelte — INT page UI: intake form, manifest session panel, deposit review, retirement trigger, retirement label display, media intake form | PLANNED |
 

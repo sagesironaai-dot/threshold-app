@@ -86,7 +86,7 @@ The service layer never initiates a write based on its own judgment. Every write
 
 **routine_sessions** — DNR session records. One per Routine run. Tracks the two-step sequence status, MTM session reference, LNV notification state, and retry availability.
 
-**synthesis_sessions** — MTM synthesis cycle records. One per runSynthesis() call. Tracks lens pages read, findings count, failure type, and deduplication skip flag.
+**synthesis_sessions** — MTM synthesis cycle records. One per synthesis endpoint call (POST /mtm/synthesize). Tracks lens pages read, findings count, failure type, and deduplication skip flag.
 
 **findings** — MTM Finding records. Written at synthesis time. Carries content_fingerprint for deduplication, source_pattern_refs for traceability, and lnv_routing_status for handoff tracking.
 

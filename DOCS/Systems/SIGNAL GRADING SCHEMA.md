@@ -3,7 +3,7 @@
 OWNERSHIP BOUNDARIES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 OWNS
-signal_grades IDB store — record creation, score vector writes, tier assignment,
+signal_grades PostgreSQL table — record creation, score vector writes, tier assignment,
   grade state transitions, Bayesian return tracking
 Evidence-locked grading — scoring all four dimensions against documented evidence
 Tier derivation — deriving tier from score_vector per lowest-qualifying-dimension rule
@@ -14,7 +14,7 @@ DOES NOT OWN
 Drift event classification — owned by DTX
 Pattern detection — owned by PCV
 DTX outcome_vector update — owned by DTX (SGR sends the payload; DTX writes the update)
-IDB reads outside signal_grades — owned by data.js
+PostgreSQL reads outside signal_grades — owned by FastAPI service layer (backend/services/)
 Routing authority — owned by SOT
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -75,7 +75,7 @@ GRADE RECORD CREATION — strict order
    (mirrored from DTX), grade_state → Unrated, bayesian_return_status → pending,
    created_at, last_updated. All score_vector fields null. tier null.
 Failure at step 2: record rejected. No write occurs.
-Failure at step 3: IDB write failure. No partial record written. Re-initiation required.
+Failure at step 3: PostgreSQL write failure. No partial record written. Re-initiation required.
 
 GRADING — strict order (fires when outcome data exists for all four dimensions)
 1. Receive evidence: structural_impact, cross_domain_resonance, predictive_validity,
@@ -175,6 +175,6 @@ Activates the SGR section in the UI.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 FILES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-data.js
-signal_grades IDB store — record creation, score vector writes, tier assignment,
+backend/services/grading.py
+signal_grades PostgreSQL table — record creation, score vector writes, tier assignment,
 grade state transitions, Bayesian return tracking. Status: PLANNED

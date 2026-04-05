@@ -1,7 +1,7 @@
 TAG VOCABULARY
 /DOCS/Systems/TAG VOCABULARY.md
 
-Source document for tags-vocab.js · TAG_VOCAB_BY_SEED · NODE_REGISTRY · ARC_SEED_TAGS
+Source document for backend tag vocabulary module (backend/services/tag_resolution.py) · TAG_VOCAB_BY_SEED · NODE_REGISTRY · ARC_SEED_TAGS
 40 seeds (s01–s20 signal · s21–s40 analytical) · 320 tags · 4 duplicates
 Duplicates register at end of file
 
@@ -740,7 +740,7 @@ NODE_REGISTRY
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 62 nodes. Every node in the resonance field with id, name, and baseWeight constant.
-Source: tags-vocab.js NODE_REGISTRY constant.
+Source: backend tag vocabulary module (backend/services/tag_resolution.py) NODE_REGISTRY constant.
 
 ORIGIN NODES — 3
 baseWeight: BASE_WEIGHT_ORIGIN
@@ -839,7 +839,7 @@ ARC_SEED_TAGS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Ordered list of all 40 seeds. Used in the tagger system prompt vocab summary.
-Source: tags-vocab.js ARC_SEED_TAGS constant.
+Source: backend tag vocabulary module (backend/services/tag_resolution.py) ARC_SEED_TAGS constant.
 
 s01  Recognition
 s02  Elevation

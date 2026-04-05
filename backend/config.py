@@ -25,5 +25,5 @@ SQLITE_URL: str = f"sqlite+aiosqlite:///{SQLITE_FULL_PATH}"
 # Ollama
 OLLAMA_BASE_URL: str = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
 
-# Claude API — reads from env, not used until Stage 7
+# Claude API
 ANTHROPIC_API_KEY: str = os.environ.get("ANTHROPIC_API_KEY", "")

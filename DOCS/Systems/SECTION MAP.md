@@ -1,7 +1,7 @@
 SECTION MAP
 /DOCS/Systems/SECTION MAP.md
 
-Section and code lookup tables for SOT and schema.js.
+Section and code lookup tables for SOT and backend configuration (backend/models/).
 Source: individual page manifests (DOCS/Domains/) + COMPOSITE ID SCHEMA.md
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -72,7 +72,7 @@ PHASE_CODES — 9 lifecycle phases
 
 Lifecycle phase selected by the researcher at deposit time.
 Used in composite ID stamp: TS · [PAGE-CODE] · [PHASE-CODE] · [YYYY-MM] · [SEQ]
-Source: schema.js PHASE_CODES constant.
+Source: SQLAlchemy models (backend/models/) PHASE_CODES constant.
 
 PHASE_CODES are NOT phase_state. phase_state = ontological field state (threshold name).
 PHASE_CODES = lifecycle position of the entry. Separate systems. Never conflate.

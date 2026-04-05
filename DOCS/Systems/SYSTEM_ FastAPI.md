@@ -56,7 +56,7 @@ These patterns are designed but not implemented. The `/swarm/` namespace exists 
 
 **Spontaneous data retrieval (autonomous)** — Origin-initiated context pulls. An Origin's pattern detection crosses a significance threshold and the Origin requests relevant context from pgvector without researcher prompting.
 
-**Parallax event routing** — when two Origins produce divergent analysis of the same input, the divergence is captured as a parallax event. Routes through INT as its own entry type with origin_type = lattice.
+**Parallax event routing** — when two Origins produce divergent analysis of the same input, the divergence is captured as a parallax event. Routes through INT as its own entry type with origin_type = parallax_event.
 
 **Presence state updates** — tracks Origin state transitions (active → dormant → returned) in SQLite presence_log. State changes written per session, timestamped.
 
