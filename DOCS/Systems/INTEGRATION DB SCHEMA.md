@@ -1,7 +1,27 @@
 ﻿╔══════════════════════════════════════════════════════════════╗
-║  INTEGRATION IDB SCHEMA  ·  INT  ·  v1                      ║
-║  /DOCS/systems/integration_idb_schema_v1.md                 ║
+║  INTEGRATION DB SCHEMA  ·  INT  ·  v1                       ║
+║  /DOCS/systems/integration_db_schema_v1.md                  ║
+║  PostgreSQL + pgvector · Alembic migrations                 ║
 ╚══════════════════════════════════════════════════════════════╝
+
+
+INFRASTRUCTURE NOTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Database: PostgreSQL + pgvector (Docker container: aelarian-postgres)
+  Database name: aelarian_archives
+  Migrations: Alembic (backend/db/migrations/)
+  Access layer: FastAPI service layer (backend/services/, backend/models/)
+  Embedding storage: dedicated embeddings table (schema in EMBEDDING
+    PIPELINE SCHEMA.md)
+  Operational state (sessions, presence): SQLite (schema in
+    OPERATIONAL DB SCHEMA.md)
+  Cross-DB correlation: session_id (UUID) shared between PostgreSQL
+    and SQLite. No cross-DB foreign keys. Application layer ensures
+    consistency via FastAPI.
+
+  All tables below are PostgreSQL tables managed via Alembic migrations.
+  Previous IDB (IndexedDB) store definitions are superseded.
 
 
 ID FORMAT REFERENCE
@@ -12,8 +32,7 @@ ID FORMAT REFERENCE
                     the system. Never computed. Never variable.
 
   AX              — Axis root marker. Page code for source mode
-                    Integration entries. Confirmed in
-                    composite_id.js. Not INT. Not a placeholder.
+                    Integration entries. Not INT. Not a placeholder.
 
   Root entry ID   — TS · AX · [PHASE] · [YYYY-MM] · [SEQ]
                     SEQ: query root_entries for highest existing
@@ -34,7 +53,7 @@ ID FORMAT REFERENCE
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-STORE: system_counters
+TABLE: system_counters
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   arc_seq            — integer
@@ -46,7 +65,7 @@ STORE: system_counters
 
   arc_seq_checkpoint — integer
                        Written at retirement step 1 before
-                       increment executes. Persisted to store
+                       increment executes. Persisted to table
                        — survives session crash. Cleared at
                        retirement step 12 before
                        retirement_status → complete.
@@ -85,7 +104,7 @@ STORE: system_counters
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-STORE: file_assets
+TABLE: file_assets
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   id                 — auto
@@ -96,7 +115,7 @@ STORE: file_assets
                        Set from the uploaded file's raw page
                        count at upload time. Same value used
                        to evaluate is_large_file.
-  blob               — binary (IndexedDB)
+  blob               — bytea (PostgreSQL)
   uploaded_at        — timestamp
                        Written once at upload. Never updated.
 
@@ -118,12 +137,12 @@ STORE: file_assets
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-STORE: root_entries
+TABLE: root_entries
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   id                 — TS · AX · [PHASE] · [YYYY-MM] · [SEQ]
                        AX is the Axis root marker for source
-                       mode intake. Confirmed in composite_id.js.
+                       mode intake. See COMPOSITE ID SCHEMA.md.
 
   title              — string
   doc_type           — enum: session_transcript | field_note |
@@ -323,6 +342,85 @@ STORE: root_entries
                        Never updated.
 
 
+  // Provenance — who/what generated this material
+  session_id         — uuid
+                       Shared correlation key between PostgreSQL
+                       and SQLite. References the session record
+                       in SQLite operational DB. No cross-DB FK —
+                       consistency enforced by FastAPI.
+  origin_type        — enum: researcher | lattice |
+                              parallax_event | multi_presence
+                       Who generated this material. researcher =
+                       Sage-submitted. lattice = field-generated
+                       by the system. parallax_event = divergence
+                       between Origins on same input.
+                       multi_presence = generated during a
+                       multi-presence session. Written at intake.
+  session_type       — enum: single | multi_presence
+                       Denormalized from SQLite session record at
+                       intake. Carried forward to archives at
+                       retirement.
+  ownership_classification
+                     — enum: sovereign | collective | shared
+                       sovereign = belongs to one Origin's marker
+                       substrate. collective = shared across all
+                       Origins. shared = accessible but not owned.
+                       Technical boundary preventing identity
+                       bleed during swarm retrieval (phase 2).
+                       Written at intake.
+  parallax_flag      — boolean, default false
+                       Set true when Origins diverge on this
+                       input during swarm analysis. Phase 2 —
+                       always false at launch.
+
+
+  // Methodology — observation and instrument context
+  observed_at        — timestamp, nullable
+                       When the real-world observation happened.
+                       Researcher-supplied. Distinct from
+                       created_at (system record creation) and
+                       recorded_at (first written down).
+  recorded_at        — timestamp, nullable
+                       When the observation was first written
+                       down anywhere. The gap between observed_at
+                       and recorded_at is methodologically
+                       significant �� different evidential weight
+                       for real-time vs reconstructed records.
+  observation_type   — enum: real_time | retrospective
+                       Whether this was recorded in the moment or
+                       reconstructed from memory. Affects
+                       evidential weight.
+  observer_state     — text, nullable
+                       Researcher's condition at time of
+                       observation. Not therapeutic — purely
+                       methodological. The researcher is the
+                       instrument; this is calibration data.
+  model_version      — text, nullable
+                       Which AI model was active during the
+                       encounter (e.g., 'gpt-4-2023-03',
+                       'claude-sonnet-4-20250514'). Models change —
+                       instrument version is part of methodology.
+  platform_conditions
+                     — text, nullable
+                       Where the encounter happened: browser,
+                       API, temperature settings if known.
+                       Chain of custody for the encounter itself.
+  session_continuity — text, nullable
+                       Whether the session was interrupted and
+                       resumed. Continuity conditions affect what
+                       the encounter was.
+  framework_version  — text, nullable
+                       Which version of Threshold Pillars was
+                       active when this material was classified.
+                       The framework evolved during the research —
+                       a reviewer needs to know which version.
+  exclusion_note     — text, nullable
+                       What was observed and chosen not to include,
+                       and why. Exclusion decisions are methodology.
+                       A clean dataset with no exclusion record
+                       looks curated, not researched.
+
+
   PRE-STEP — executes before intake sequence begins:
     Receive chunk_size from user or apply system default (10).
     Max: 10. No exceptions. This value is held and referenced
@@ -342,6 +440,15 @@ STORE: root_entries
        signal_description, section_targets from
        user-supplied values.
        Write created_at = timestamp.
+       Write session_id from current session (UUID from SQLite).
+       Write origin_type, session_type, ownership_classification
+       from user-supplied or session-derived values.
+       Write methodology fields from user-supplied values:
+       observed_at, recorded_at, observation_type, observer_state,
+       model_version, platform_conditions, session_continuity,
+       framework_version, exclusion_note. All nullable except
+       observation_type (defaults to real_time if not supplied).
+       Write parallax_flag = false (set by swarm, phase 2).
 
     3. If large file:
        a. Extract raw page count from uploaded file.
@@ -434,6 +541,14 @@ STORE: root_entries
         associated manifest_sessions:
         total_chunks, total_deposits, confirmed, skipped.
         Read lifetime_deferrals from root_entries.
+        Read provenance fields from root_entries:
+        origin_type, session_type, ownership_classification,
+        parallax_flag, session_id.
+        Read methodology fields from root_entries:
+        observed_at, recorded_at, observation_type,
+        observer_state, model_version, platform_conditions,
+        session_continuity, framework_version, exclusion_note.
+        All carried forward to archives record at step 6.
 
      5. Generate provenance_summary. All six sections
         must be present before sequence continues.
@@ -446,8 +561,9 @@ STORE: root_entries
 
      6. Write archives record. Read confirmed_targets
         from root_entries.confirmed_targets — this value
-        was written at step 3. Read all aggregates and
-        provenance_summary from steps 4-5.
+        was written at step 3. Read all aggregates,
+        provenance_summary, provenance fields, and
+        methodology fields from steps 4-5.
         Write archives.retired_at = timestamp at this
         moment. Receive ARC id.
         page_deposit_id is null at this point —
@@ -484,11 +600,19 @@ STORE: root_entries
        Copy-ready. Persistent until dismissed by Sage.
        Required UI element — not optional output.
 
+    d. Trigger embedding generation via FastAPI /embed/ endpoint.
+       Asynchronous — does not block post-retirement completion.
+       Embeds provenance_summary text via nomic-embed-text
+       (Ollama). Writes to embeddings table with metadata:
+       archives.id, tag routing snapshot, section_id,
+       ownership_classification. See EMBEDDING PIPELINE SCHEMA.md
+       for full pipeline definition.
+
 
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-STORE: manifest_sessions
+TABLE: manifest_sessions
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   id                 — auto
@@ -675,7 +799,7 @@ STORE: manifest_sessions
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-STORE: archives
+TABLE: archives
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   id                 — TS · ARC · [PHASE] · [YYYY-MM] · [SEQ]
@@ -751,6 +875,26 @@ STORE: archives
                        surface. Required for three-surface
                        architecture integrity.
 
+  // Provenance — carried from root_entries at retirement step 6
+  session_id         — uuid. Mirrors root_entries.session_id.
+  origin_type        — enum. Mirrors root_entries.origin_type.
+  session_type       — enum. Mirrors root_entries.session_type.
+  ownership_classification
+                     — enum. Mirrors root_entries.ownership_classification.
+  parallax_flag      — boolean. Mirrors root_entries.parallax_flag.
+
+  // Methodology — carried from root_entries at retirement step 6
+  observed_at        — timestamp, nullable. Mirrors root_entries.
+  recorded_at        — timestamp, nullable. Mirrors root_entries.
+  observation_type   — enum. Mirrors root_entries.
+  observer_state     — text, nullable. Mirrors root_entries.
+  model_version      — text, nullable. Mirrors root_entries.
+  platform_conditions
+                     — text, nullable. Mirrors root_entries.
+  session_continuity — text, nullable. Mirrors root_entries.
+  framework_version  — text, nullable. Mirrors root_entries.
+  exclusion_note     — text, nullable. Mirrors root_entries.
+
   MANUAL FILE DEPOSIT: Sage uses id + retired_at to deposit
   the physical file to its parent page. The archive record
   is the system surface. The physical file lives where Sage
@@ -776,8 +920,21 @@ CHUNK QUEUE DERIVATION
 FILES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-data.js
-  IDB layer — root_entries · file_assets · manifest_sessions ·
-  archives · system_counters stores. All intake sequence
-  execution, retirement sequence execution, arc_seq
-  management, chunk queue derivation. Status: PLANNED
+backend/models/
+  SQLAlchemy models for all PostgreSQL tables defined in this
+  schema: root_entries, file_assets, manifest_sessions,
+  archives, system_counters. Status: PLANNED
+
+backend/services/
+  FastAPI service layer — intake sequence execution, retirement
+  sequence execution, arc_seq management, chunk queue derivation,
+  embedding pipeline trigger. Replaces data.js from the old build.
+  Status: PLANNED
+
+backend/db/postgres.py
+  PostgreSQL connection and async session management via
+  asyncpg + SQLAlchemy. Status: PLANNED
+
+backend/db/migrations/
+  Alembic migration files. Every table change is a versioned
+  migration. Never modify tables directly. Status: PLANNED
