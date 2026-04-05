@@ -309,7 +309,7 @@ Failure at step 5 (cooldown not enforced): nudge fires repeatedly in one session
 
 **4\. Findings not deduped across nudge calls** Same finding surfaces as a nudge multiple times in one session. User sees repeated notifications for the same pattern. Guard: seen keys tracked by type::title within the session. Nudge only fires for findings with keys not yet seen.
 
-**5\. Graph export before graph page exists** Graph page route is a stub. Routing there before the page is built produces dead navigation. Guard: graph export remains disabled until the graph route is live. Update graph route reference in both emergence and thread trace components together — never one without the other.
+**5\. Graph export before graph page exists** Graph page route is a stub. Routing there before the page is built produces dead navigation. Guard: graph export remains disabled until the graph route is live. Graph export button state follows Thread Trace's coordination — Emergence does not independently enable graph export. GRAPH_PAGE_PATH imported from frontend/src/lib/config.ts.
 
 **6\. Claude API failure during narrative request** Claude API is unreachable or rate-limited when a finding narrative is requested. Guard: endpoint returns appropriate HTTP error. Finding data is still available — only the narrative translation is missing. Frontend displays the finding without narrative and allows retry.
 

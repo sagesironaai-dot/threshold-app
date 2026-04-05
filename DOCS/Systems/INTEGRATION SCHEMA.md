@@ -10,7 +10,7 @@ OWNS INT page (01) — single entry point for all source material into the archi
 
 
 
-DOES NOT OWN Database schema definitions — owned by SQLAlchemy models (backend/models/) and INTEGRATION DB SCHEMA.md (authoritative spec) ARC id generation and sequence counter — owned by composite ID service (backend/services/) Archives page deposit content format — defined in ARCHIVE SCHEMA.md Tag pipeline — owned by tagger service (backend/services/) Routing authority — owned by SOT. INT never guesses routing. MTM synthesis cycle — MTM reads across Axis lens pages at session close and produces Findings independently. INT does not trigger or feed MTM directly.
+DOES NOT OWN Database schema definitions — owned by SQLAlchemy models (backend/models/) and INTEGRATION DB SCHEMA.md (authoritative spec) ARC id generation and sequence counter — owned by composite ID service (backend/services/) Archives page deposit content format — defined in ARCHIVE SCHEMA.md Tag resolution logic — owned by tagger backend service (backend/services/). Tag UI state — owned by tagger Svelte store (frontend/). Routing authority — owned by SOT. INT never guesses routing. MTM synthesis cycle — MTM reads across Axis lens pages at session close and produces Findings independently. INT does not trigger or feed MTM directly.
 
 
 
@@ -446,7 +446,7 @@ No media file bypasses INT. The intake trigger on archive pages is the only uplo
 
 
 
-All intake and retirement operations route through FastAPI endpoints. The frontend calls these endpoints via the API client (src/lib/api.js). Representative endpoints — full contracts defined at build time against SOT.
+All intake and retirement operations route through FastAPI endpoints. The frontend calls these endpoints via the API client (src/lib/api.ts). Representative endpoints — full contracts defined at build time against SOT.
 
 POST /entries/ — create root entry (intake sequence start)
 Receives: title, doc\_type, origin\_date, phase, signal\_description, section\_targets, chunk\_size.

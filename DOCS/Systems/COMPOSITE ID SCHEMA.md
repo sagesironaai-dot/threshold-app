@@ -556,7 +556,7 @@ FILES
       Child stamp assembly for parsed source documents.
       Status: PLANNED
 
-    backend/models/sequence.py
+    backend/db/migrations/
       PostgreSQL SEQUENCE definition (ts_sequence) managed
-      via Alembic migration.
+      via Alembic migration. Not a discrete model file.
       Status: PLANNED

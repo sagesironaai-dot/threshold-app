@@ -19,7 +19,7 @@
 ## **WHAT THIS SYSTEM DOES NOT OWN**
 
 * Retirement sequence — owned by integration\_system  
-* PostgreSQL archives table schema — owned by FastAPI service layer (backend/services/) and INT schema  
+* PostgreSQL archives table schema — defined by SQLAlchemy models (backend/models/), writes executed by FastAPI service layer (backend/services/). Authoritative spec: INTEGRATION DB SCHEMA.md  
 * Provenance summary generation — owned by integration\_system (AI generates at retirement step 5; content surfaces here but originates there)  
 * ARC id generation or stamp assembly — owned by composite\_id\_system and FastAPI composite ID service  
 * Media intake processing — owned by integration\_system  

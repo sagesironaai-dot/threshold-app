@@ -20,10 +20,10 @@
 
 ## **WHAT THIS SYSTEM DOES NOT OWN**
 
-* PostgreSQL table schema — owned by FastAPI service layer (backend/services/) and INTEGRATION DB SCHEMA (authoritative spec, v1)  
+* PostgreSQL table schema — defined by SQLAlchemy models (backend/models/), writes executed by FastAPI service layer (backend/services/). Authoritative spec: INTEGRATION DB SCHEMA.md  
 * ARC id generation and sequence counter — owned by FastAPI composite ID service and composite\_id\_system  
 * Archives page deposit content format — defined in SYSTEM\_ Archive.md  
-* Tag pipeline — owned by tagger Svelte store (frontend/)  
+* Tag resolution logic — owned by tagger backend service (backend/services/). Tag UI state — owned by tagger Svelte store (frontend/). Pipeline spans both; neither owns it exclusively.  
 * Routing authority — owned by SOT. INT never guesses routing.  
 * MTM synthesis cycle — MTM reads across Axis lens pages at session close and produces Findings independently. INT does not trigger or feed MTM directly.
 
@@ -363,6 +363,7 @@ type. Opens the Integration panel in source mode and begins the intake sequence.
 
 | File | Role | Status |
 | ----- | ----- | ----- |
+| backend/routes/entries.py | FastAPI route handlers — intake, manifest sessions, deposits, retirement, media intake | PLANNED |
 | backend/services/entry.py | Service layer — root\_entries · file\_assets · manifest\_sessions · archives tables · system\_counters · retirement sequence execution | PLANNED |
 | backend/models/ | PHASE\_CODES · PAGE\_CODES · doc\_type enum — read by INT components | PLANNED |
 | CompositeId Svelte component (frontend/) | CompositeId component — Integration panel stamp rendering, native/source mode, retirement label display | PLANNED |

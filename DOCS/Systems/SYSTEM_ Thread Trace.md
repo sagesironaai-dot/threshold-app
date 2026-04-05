@@ -130,7 +130,7 @@ Ordered card list. Each card represents one entry in the thread. Navigation is l
 
 Structural map of thread entries as nodes with edges. Edge labels show the relationship between connected entries — shared tag, explicit link, phase transition, or temporal interval. Graph export assembles a `ThreadGraphPayload` and routes to the graph page.
 
-**PLANNED:** graph page path — `GRAPH_PAGE_PATH = '/graph'`. Update when the graph page is built. Graph export is a stub until then. Update both emergence component and ThreadTrace component when the graph page is built.
+**PLANNED:** graph page path — `GRAPH_PAGE_PATH = '/graph'`, defined in frontend/src/lib/config.ts. Graph export is a stub until then. Thread Trace owns graph export readiness coordination — verify both ThreadTrace and Emergence components are updated together.
 
 ---
 
@@ -387,7 +387,7 @@ Renders overlay shell, sequence view, graph view, filter bar, annotation layer. 
 
 **3. Thread opened from panel with active section scoping** Entry fetch scoped to active section via API query parameter. Thread that should span multiple sections returns a subset. Guard: display active scope in filter bar header. Make section filter visible and clearable.
 
-**4. Graph export before graph page exists** `GRAPH_PAGE_PATH = '/graph'` is a stub. Guard: graph export button disabled until path is a live route. Update both emergence component and ThreadTrace component together.
+**4. Graph export before graph page exists** `GRAPH_PAGE_PATH = '/graph'` (defined in frontend/src/lib/config.ts) is a stub. Guard: graph export button disabled until path is a live route. Thread Trace owns coordination — verify both components updated together.
 
 **5. API unavailable during thread build** FastAPI `/entries/` endpoint unreachable. Guard: error surfaced in UI. Overlay does not open.
 

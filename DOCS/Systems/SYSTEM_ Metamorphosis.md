@@ -9,7 +9,7 @@
 ## WHAT THIS SYSTEM OWNS
 
 * Synthesis cycle — the full MTM operation from lens page read through Finding production
-* Claude API call — system prompt assembly, five-dataset payload construction, response handling
+* Claude API call — system prompt received from DNR as parameter, synthesis directive appended by MTM, five-dataset payload construction, response handling
 * Lens page data assembly — pulling and structuring all five lens page datasets before the API call
 * Finding production — extracting, validating, and writing Finding records from the Claude response
 * Content fingerprinting — generating and writing the content_fingerprint on every Finding record

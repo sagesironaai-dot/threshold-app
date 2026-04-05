@@ -387,7 +387,7 @@ Findings land on LNV with provenance intact: finding id, type, severity, involve
 
 4\. FINDINGS NOT DEDUPED ACROSS NUDGE CALLS Same finding surfaces as a nudge multiple times in one session. User sees repeated notifications for the same pattern. Guard: seen keys tracked by type::title within the session. Nudge only fires for findings with keys not yet seen.
 
-5\. GRAPH EXPORT BEFORE GRAPH PAGE EXISTS Graph page route is a stub. Routing there before the page is built produces dead navigation. Guard: graph export remains disabled until the graph route is live. Update graph route reference in both emergence and thread trace components together — never one without the other.
+5\. GRAPH EXPORT BEFORE GRAPH PAGE EXISTS Graph page route is a stub. Routing there before the page is built produces dead navigation. Guard: graph export remains disabled until the graph route is live. Graph export button state follows Thread Trace's coordination — Emergence does not independently enable graph export. GRAPH_PAGE_PATH imported from frontend/src/lib/config.ts.
 
 6\. CLAUDE API FAILURE DURING NARRATIVE REQUEST Claude API is unreachable or rate-limited when a finding narrative is requested. Guard: endpoint returns appropriate HTTP error. Finding data is still available — only the narrative translation is missing. Frontend displays the finding without narrative and allows retry.
 

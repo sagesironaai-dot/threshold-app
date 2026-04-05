@@ -232,12 +232,13 @@ TWO VIEWS
   Graph export assembles a ThreadGraphPayload and routes to
   the graph page.
 
-  PLANNED: graph page path — GRAPH_PAGE_PATH = '/graph'.
-  Update when the graph page is built. Graph export is a stub
-  until then. Graph export button remains disabled until
-  GRAPH_PAGE_PATH is a live route. Update both emergence
-  component and ThreadTrace component together when the graph
-  page is built.
+  PLANNED: graph page path — GRAPH_PAGE_PATH = '/graph',
+  defined in frontend/src/lib/config.ts. Graph export is a
+  stub until then. Graph export button remains disabled until
+  GRAPH_PAGE_PATH is a live route. Thread Trace owns graph
+  export readiness coordination. Before enabling graph export,
+  verify both ThreadTrace and Emergence components import from
+  the same config constant and route to the same path.
 
 
 FILTER BAR
@@ -682,9 +683,10 @@ KNOWN FAILURE MODES
      GRAPH_PAGE_PATH = '/graph' is a stub. Routing there
      before the page is built produces dead navigation.
      Guard: graph export button remains disabled until
-     GRAPH_PAGE_PATH is a live route. Update both emergence
-     component and ThreadTrace component when the graph page
-     is built.
+     GRAPH_PAGE_PATH is a live route. Thread Trace owns
+     coordination — verify both ThreadTrace and Emergence
+     components are updated together. GRAPH_PAGE_PATH defined
+     in frontend/src/lib/config.ts.
 
   5. API UNAVAILABLE DURING THREAD BUILD
      FastAPI /entries/ endpoint unreachable. Thread cannot

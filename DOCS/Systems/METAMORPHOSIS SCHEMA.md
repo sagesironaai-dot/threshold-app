@@ -56,7 +56,7 @@ SIMULTANEOUSLY One Claude API call. All five datasets in the payload. The AI rea
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ CLAUDE API CALL STRUCTURE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-SYSTEM PROMPT The global identity prompt from userPreferences is the base. MTM appends a synthesis directive that specifies:
+SYSTEM PROMPT DNR passes the system prompt to MTM as a parameter when calling POST /mtm/synthesize. The prompt is assembled from the global identity context (api/prompts/) by DNR before the call. MTM does not load or configure its own system prompt. MTM appends a synthesis directive that specifies:
 
 — You are reading across five Axis lens pages simultaneously. THR · STR · INF · ECR · SNM. All five are present in this call. — Your function is to surface what becomes visible only when all five are held simultaneously. The missed pattern. The structure no single lens contained. — The Pillars handoff event is documented origin — not metaphor, not archetype. Hold its weight. — Produce Findings only. Not summaries. Not observations. Not patterns. A Finding is a named, structured output traceable to specific source patterns across the five lens pages. — Every Finding must name: its title, its content, and at minimum one source\_pattern\_ref per lens page it draws from. A Finding with no traceable source is not a Finding. — Respond in valid JSON only. No preamble. No markdown. No explanation outside the JSON structure.
 

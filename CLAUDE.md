@@ -355,7 +355,7 @@ db/migrations/          — Alembic migrations
 src/lib/components/     — shared components (Shell, CompositeId, TaggerPanel,
                           DepositPanel, ThreadTrace, ResonanceCanvas)
 src/lib/stores/         — Svelte stores (session state, entry data cache)
-src/lib/api.js          — fetch wrapper for FastAPI calls
+src/lib/api.ts          — fetch wrapper for FastAPI calls
 src/routes/             — 50 page routes (structure TBD: individual files
                           vs dynamic [section] route)
 src/routes/+layout.svelte — shared shell wrapping all pages

@@ -4452,3 +4452,121 @@ NEXT_ACTION: Next session begins systems verification run — cross-check all
   SCHEMA/SYSTEM_ pairs for consistency, verify OWNS/DOES NOT OWN boundaries,
   confirm FILES tables match planned architecture. Then V1 scan, then SOT.
 ---
+
+---
+TIMESTAMP: 2026-04-05 (session 13)
+TYPE: OPEN
+FILES_MODIFIED:
+  - none
+COMPLETED:
+  - Session open protocol: CLAUDE.md, ENFORCEMENT.md, SESSION_PROTOCOL.md,
+    GITHUB_PROTOCOL.md all read. SOT_BUILD_TODO spot-check passed — all [x]
+    items have valid SOURCE: lines tracing to DOCS files + Sage confirmations.
+    Disk state verified against session 12 CLOSE record — no discrepancies.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Systems verification run (cross-check SCHEMA/SYSTEM_ pairs, OWNS/DOES NOT OWN, FILES tables)
+  - V1 scan (all files checked for version contamination)
+  - SOT document
+UNCOMMITTED: NO
+NEXT_ACTION: Begin systems verification run
+---
+
+---
+TIMESTAMP: 2026-04-05 (session 13)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - SYSTEM_ Archive.md — COMPLETE (B1: schema ownership language fixed)
+  - SYSTEM_ Integration.md — COMPLETE (B1: schema ownership, B2: tagger split, B3: routes file added)
+  - INTEGRATION SCHEMA.md — COMPLETE (B2: tagger split, api.js→api.ts)
+  - COMPOSITE ID SCHEMA.md — COMPLETE (B4: sequence.py→migrations/)
+  - SYSTEM_ Composite ID.md — COMPLETE (B4 cascade: sequence.py→migrations/)
+  - METAMORPHOSIS SCHEMA.md — COMPLETE (B5: system prompt source — DNR passes to MTM)
+  - SYSTEM_ Metamorphosis.md — COMPLETE (B5: system prompt source — DNR passes to MTM)
+  - THREAD TRACE SCHEMA.md — COMPLETE (B6+B7: Thread Trace owns graph export coordination, config.ts)
+  - SYSTEM_ Thread Trace.md — COMPLETE (B6+B7: Thread Trace owns graph export coordination, config.ts)
+  - EMERGENCE SCHEMA.md — COMPLETE (B6+B7: follows Thread Trace coordination, config.ts)
+  - SYSTEM_ Emergence.md — COMPLETE (B6+B7: follows Thread Trace coordination, config.ts)
+  - CLAUDE.md — COMPLETE (api.js→api.ts)
+COMPLETED:
+  - Systems verification run: 30 DOCS/Systems files cross-checked via 5 parallel agents
+  - 7 blocking issues identified, all resolved in 5 edit passes + 1 audit sweep pass
+  - B1: Schema ownership language (Archive, Integration) — SQLAlchemy defines, service executes
+  - B2: Tagger ownership split (Integration) — backend owns resolution, frontend owns UI state
+  - B3: Missing routes file (Integration) — backend/routes/entries.py added to SYSTEM_ FILES
+  - B4: Composite ID sequence (both docs) — backend/models/sequence.py→backend/db/migrations/
+  - B5: MTM system prompt (Metamorphosis) — DNR passes prompt as parameter, MTM receives
+  - B6: Graph export coordinator (Emergence, Thread Trace) — Thread Trace owns coordination
+  - B7: GRAPH_PAGE_PATH constant (Emergence, Thread Trace) — frontend/src/lib/config.ts
+  - Audit sweep caught 2 cascades: SYSTEM_ Composite ID sequence ref, INTEGRATION SCHEMA api.js
+  - CLAUDE.md api.js→api.ts fixed alongside
+  - 8 non-blocking observations logged (not acted on — documented in session)
+  - All ghost fix verifications passed
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - V1 scan
+  - SOT document
+UNCOMMITTED: YES
+NEXT_ACTION: Begin V1 scan — check all files for version numbers other than V1
+---
+
+---
+TIMESTAMP: 2026-04-05 (session 13)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - none (scan only, no edits needed)
+COMPLETED:
+  - V1 scan: all project files checked for version contamination (non-V1 version numbers)
+  - Scanned: DOCS/Systems/ (30 files), DOCS/Domains/ (100 files), CLAUDE.md, PROTOCOL/,
+    backend/ (.py files), api/
+  - Result: PASS — zero version contamination found
+  - All hits were clean: git tag conventions (v2026-...), external software versions
+    (Docker v29.3.1), historical fix records (DOCS_STAGE_TODO v13 — already corrected),
+    source document data (Ven'ai Manual v3.0 — domain research, not project versioning)
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - SOT document
+UNCOMMITTED: YES
+NEXT_ACTION: SOT prerequisites complete (DOCS verified, infrastructure complete, cleanup
+  pass complete, systems verification complete, V1 scan passed). Ready to begin SOT.
+---
+
+---
+TIMESTAMP: 2026-04-05 (session 13 — close)
+TYPE: CLOSE
+FILES_MODIFIED:
+  - CLAUDE.md — COMPLETE (api.js→api.ts)
+  - COMPOSITE ID SCHEMA.md — COMPLETE (sequence.py→migrations/)
+  - EMERGENCE SCHEMA.md — COMPLETE (graph export follows Thread Trace coordination)
+  - INTEGRATION SCHEMA.md — COMPLETE (tagger split, api.js→api.ts)
+  - METAMORPHOSIS SCHEMA.md — COMPLETE (system prompt source: DNR passes to MTM)
+  - SYSTEM_ Archive.md — COMPLETE (schema ownership language)
+  - SYSTEM_ Composite ID.md — COMPLETE (sequence.py→migrations/)
+  - SYSTEM_ Emergence.md — COMPLETE (graph export follows Thread Trace coordination)
+  - SYSTEM_ Integration.md — COMPLETE (schema ownership, tagger split, routes file added)
+  - SYSTEM_ Metamorphosis.md — COMPLETE (system prompt source: DNR passes to MTM)
+  - SYSTEM_ Thread Trace.md — COMPLETE (graph export coordination owner, config.ts)
+  - THREAD TRACE SCHEMA.md — COMPLETE (graph export coordination owner, config.ts)
+  - PROTOCOL/SESSION_LOG.md — COMPLETE
+COMPLETED THIS SESSION:
+  - Full systems verification run: 30 DOCS/Systems files cross-checked via 5 parallel agents
+  - 7 blocking issues identified (B1–B7), all resolved in 5 edit passes
+  - Audit sweep caught 2 cascades, both fixed
+  - V1 scan: PASS — zero version contamination across all project files
+  - Design finish line agenda captured (19 topics) for pre-SOT design session(s)
+  - Sage decisions confirmed: tagger ownership split, MTM prompt via DNR (Option A),
+    Thread Trace owns graph coordination, GRAPH_PAGE_PATH in config.ts (Option A)
+  - 1 commit pushed (this one)
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Design finish line session (19 topics — see memory/project_design_session_agenda.md)
+  - Stress test session
+  - SOT document
+UNCOMMITTED: YES (this CLOSE entry — included in commit below)
+NEXT_ACTION: Next session: design finish line — work through 19 pre-SOT topics
+  (systems/engines, data wiring, housekeeping). Then stress test. Then SOT.
+---
