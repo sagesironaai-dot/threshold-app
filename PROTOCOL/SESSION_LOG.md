@@ -3955,3 +3955,98 @@ TIMESTAMP: 2026-04-05 01:37
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\.claude\projects\C--Users-sasir-Desktop-Aelarian-Archives\memory\MEMORY.md
 ---
+
+---
+TIMESTAMP: 2026-04-05 (session 9)
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - Session open protocol: CLAUDE.md, ENFORCEMENT.md, SESSION_PROTOCOL.md,
+    GITHUB_PROTOCOL.md read completely
+  - Infrastructure verified: Docker running, aelarian-postgres started and
+    connection confirmed, Ollama running with nomic-embed-text, Python 3.14.2,
+    SQLite 3.50.4
+  - SOT_BUILD_TODO spot-check: Items 0–5 all [x] with valid SOURCE lines
+  - DOCS/Systems/ verified: 27 files, renames complete (IDB→DB), new files
+    present (EMBEDDING PIPELINE SCHEMA, OPERATIONAL DB SCHEMA)
+  - backend/ and frontend/ confirmed not yet created
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Infrastructure stage 5: FastAPI (venv, dependencies, skeleton app,
+    SYSTEM_ FastAPI.md, update INTEGRATION SCHEMA + TAGGER SCHEMA +
+    EMERGENCE SCHEMA)
+UNCOMMITTED: NO
+NEXT_ACTION: Begin infrastructure stage 5 — create Python venv, install
+  dependencies, build backend/ directory structure, write skeleton main.py
+---
+
+---
+TIMESTAMP: 2026-04-05 (session 9)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - backend/.venv/ — COMPLETE (Python 3.14.2 virtual environment)
+  - backend/requirements.txt — COMPLETE (30 pinned dependencies)
+  - backend/config.py — COMPLETE (env loading, DB URLs, API keys)
+  - backend/db/postgres.py — COMPLETE (async engine, session factory, connect/disconnect)
+  - backend/db/sqlite.py — COMPLETE (async engine, WAL mode, connect/disconnect)
+  - backend/main.py — COMPLETE (FastAPI app, lifespan, /health endpoint)
+  - backend/.env — COMPLETE (DATABASE_URL, SQLITE_PATH, OLLAMA_BASE_URL — gitignored)
+  - backend/db/operational.db — COMPLETE (SQLite file created at first startup)
+  - backend/__init__.py — COMPLETE (package marker)
+  - backend/db/__init__.py — COMPLETE (package marker)
+  - backend/models/__init__.py — COMPLETE (package marker)
+  - backend/routes/__init__.py — COMPLETE (package marker)
+  - backend/routes/swarm/__init__.py — COMPLETE (package marker)
+  - backend/services/__init__.py — COMPLETE (package marker)
+  - DOCS/Systems/SYSTEM_ FastAPI.md — COMPLETE (ownership boundaries, route namespace,
+    swarm reserved patterns, embedding orchestration, failure modes, files table)
+COMPLETED:
+  - Infrastructure stage 5 Layer 1: venv created, 9 packages installed (30 total
+    with dependencies), directory structure built, config.py + db/postgres.py +
+    db/sqlite.py + main.py written, server verified (uvicorn started,
+    GET /health returned {"status":"ok","postgres":true,"sqlite":true})
+  - Infrastructure stage 5 Layer 2: SYSTEM_ FastAPI.md written with full ownership
+    boundaries, route namespace (8 planned + 1 live + 1 reserved), reserved swarm
+    patterns, embedding orchestration flow, 6 known failure modes, files table
+IN_PROGRESS:
+  - Infrastructure stage 5 Layer 3: 3 schema updates remaining
+    (INTEGRATION SCHEMA, TAGGER SCHEMA, EMERGENCE SCHEMA)
+NOT_STARTED:
+  - none within stage 5
+UNCOMMITTED: YES
+NEXT_ACTION: Update INTEGRATION SCHEMA.md — pipeline routes through FastAPI,
+  async retirement, embedding handoff to /embed/ endpoint
+---
+
+---
+TIMESTAMP: 2026-04-05 (session 9)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/Systems/INTEGRATION SCHEMA.md — COMPLETE (DOES NOT OWN updated: data.js→services,
+    tagger_bus.js→tagger service. POST-RETIREMENT: embedding handoff added as 3rd output.
+    PUBLIC API: JS methods→FastAPI endpoints. FILES: JS files→backend files. IDB references
+    removed: 4 occurrences cleaned including known failure mode #8)
+  - DOCS/Systems/TAGGER SCHEMA.md — COMPLETE (OWNS: TaggerBus→FastAPI tagger endpoint +
+    claude service. DOES NOT OWN: all JS refs→backend/frontend refs. TAGGERBUS section→
+    TAGGER SERVICE ARCHITECTURE: FastAPI endpoint + Svelte store. SYNC SEQUENCE: IDB→
+    PostgreSQL, CustomEvent→store reactivity. PUBLIC API: TaggerBus methods→endpoint +
+    store interface. FILES: JS files→backend/frontend files. All TaggerBus refs cleaned)
+  - DOCS/Systems/EMERGENCE SCHEMA.md — COMPLETE (OWNS: detectors→FastAPI service layer +
+    pgvector. DOES NOT OWN: all JS refs→backend/frontend refs. PERSISTENCE: memory→
+    PostgreSQL findings table. PUBLIC API: JS methods→FastAPI endpoints + Svelte interface.
+    COMMIT HOOK: TaggerBus pattern→tagger store + API pattern. THREAD TRACE BRIDGE:
+    window global→Svelte import. KNOWN FAILURE MODES: 6 modes rewritten for FastAPI arch.
+    FILES: emergence.js→backend + frontend files. All old refs cleaned)
+COMPLETED:
+  - Infrastructure stage 5 Layer 3: all 3 schema updates written and verified
+  - Zero IDB/TaggerBus/old-JS references remaining in any updated file
+  - Infrastructure stage 5 COMPLETE — all 3 layers done
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - none
+UNCOMMITTED: YES
+NEXT_ACTION: Commit all stage 5 changes and push to GitHub
+---

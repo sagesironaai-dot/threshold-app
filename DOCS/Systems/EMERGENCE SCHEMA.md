@@ -6,11 +6,11 @@ OWNERSHIP BOUNDARIES ━━━━━━━━━━━━━━━━━━━�
 
 
 
-OWNS Seven-detector pattern analysis engine — runs across the full entry corpus Three-mode overlay — translation · timeline · trace On-demand finding narratives via Claude API Proactive nudge — scheduled pattern scan with cooldown Thread Trace bridge — hands off findings to ThreadTraceUI for thread navigation Graph export — assembles ThreadGraphPayload for the graph page
+OWNS Seven-detector pattern analysis engine — runs as FastAPI service-layer analysis (backend/services/emergence.py), using pgvector similarity queries for cross-entry pattern detection Three-mode overlay — translation · timeline · trace (Svelte components) On-demand finding narratives via Claude API (routed through backend/services/claude.py) Proactive nudge — scheduled pattern scan with cooldown, triggered by FastAPI Thread Trace bridge — hands off findings to Thread Trace Svelte component for thread navigation Graph export — assembles ThreadGraphPayload for the graph page Findings persistence — findings write through FastAPI to PostgreSQL (findings table)
 
 
 
-DOES NOT OWN Tag session logic or pipeline — owned by TaggerBus Thread navigation or overlay — owned by ThreadTraceUI IDB reads or writes — data fetcher is injected; this system never opens IDB directly Writes to entries — read-only analysis layer. Never modifies what it reads. Entry schema — owned by schema.js
+DOES NOT OWN Tag session logic or pipeline — owned by tagger service (backend/services/claude.py, backend/routes/tagger.py) Thread navigation or overlay — owned by Thread Trace Svelte component and thread trace service Database schema definitions — owned by SQLAlchemy models (backend/models/) and INTEGRATION DB SCHEMA.md Writes to entries — read-only analysis layer. Never modifies what it reads. Entry schema — owned by SQLAlchemy models (backend/models/)
 
 
 
@@ -206,19 +206,15 @@ involvedEntries object\\\[\\]  Entries implicated in the
 
 
 
-canTrace        boolean   True if ThreadTraceUI can  
+canTrace        boolean   True if Thread Trace  
 
-&nbsp;                         open a thread from this  
+&nbsp;                         component can open a thread  
 
-&nbsp;                         finding. Gates the "Trace  
+&nbsp;                         from this finding. Gates the  
 
-&nbsp;                         this pattern" button in the  
+&nbsp;                         "Trace this pattern" button  
 
-&nbsp;                         overlay. Gated on  
-
-&nbsp;                         window.ThreadTraceUI being  
-
-&nbsp;                         available at render time.
+&nbsp;                         in the overlay.
 
 
 
@@ -226,7 +222,7 @@ canTrace        boolean   True if ThreadTraceUI can
 
 
 
-PERSISTENCE RULE ━━━━━━━━━━━━━━━━ Findings are not persisted to IDB by this system. They are produced fresh on each detection pass and held in memory. Persistence happens when Thread Trace saves a thread built from a finding — the finding is serialized into the saved thread record at that point.
+PERSISTENCE RULE ━━━━━━━━━━━━━━━━ Findings write through FastAPI to the PostgreSQL findings table (see INTEGRATION DB SCHEMA.md). Each detection pass writes its findings to the database with full provenance: finding id, type, severity, metrics, involved tags, involved entries. Thread Trace reads findings from PostgreSQL when building threads. Findings are queryable across sessions — they are not ephemeral.
 
 
 
@@ -290,43 +286,29 @@ DEDUPLICATION RULE ━━━━━━━━━━━━━━━━━━ Findin
 
 
 
-EmergenceEngine.setEntriesFetcher(fn) → void MUST be called before init(). Non-negotiable. Injects the entry fetch function from index.html: () \\=\\> getEntries() Missing this \\= engine runs on empty corpus silently. No error thrown. Silent failure throughout. Call: EmergenceEngine.setEntriesFetcher( () \\=\\> getEntries())
+BACKEND ENDPOINTS ━━━━━━━━━━━━━━━━━━
 
+All emergence operations route through FastAPI. The service reads entries and tags directly from PostgreSQL — no injected fetcher pattern. Representative endpoints — full contracts defined at build time against SOT.
 
+POST /entries/{id}/detect — run detection pass
+Triggered after tag commit. Runs all seven detectors against the current entry corpus using pgvector similarity queries. Writes findings to PostgreSQL. Returns findings array.
 
-EmergenceEngine.init() → void Called once at app init after setEntriesFetcher() and after initDB(). Builds overlay shell. Schedules first proactive scan after NUDGE\\\_INIT\\\_DELAY\\\_MS. Call order: setEntriesFetcher() FIRST, then init(). This order is non-negotiable.
+GET /entries/findings — query findings
+Returns findings filtered by type, severity, section, or time range. Supports pagination. Findings are persistent and queryable across sessions.
 
+POST /entries/findings/{id}/narrative — request finding narrative
+Triggers Claude API call via backend/services/claude.py. Returns narrative text — a translation of what the detector measured, not interpretation beyond the finding's metrics.
 
+GET /entries/findings/nudge — proactive nudge check
+Returns the highest-significance unseen finding if cooldown has elapsed. Does not repeat findings already surfaced in the current session.
 
-EmergenceEngine.activateSection(sectionId) → void Called from selectSection() on every section navigation. Scopes proactive scanning to the active section.
+FRONTEND INTERFACE ━━━━━━━━━━━━━━━━━━━━
 
+Svelte Emergence component — three overlay modes (translation, timeline, trace), finding cards, trace button, nudge notification. Calls FastAPI endpoints via API client. Representative interface — full implementation defined at frontend build time.
 
-
-EmergenceEngine.onTagSessionComplete(tags, entries) → Promise<void> Called after every tag session commit. See COMMIT HOOK section below. Runs full detector pass and triggers proactive nudge if warranted. Refreshes overlay content if overlay is currently open.
-
-
-
-EmergenceEngine.open(mode) → void Opens overlay in given mode: 'translation' | 'timeline' | 'trace' If no findings exist, runs a fresh detection pass before opening. Defaults to 'translation' if no mode specified.
-
-
-
-EmergenceEngine.close() → void Closes overlay. Session state is preserved.
-
-
-
-EmergenceEngine.openFromFinding(finding) → void Opens overlay in 'trace' mode focused on the given finding. Called from external finding cards outside the overlay.
-
-
-
-EmergenceEngine.requestNarrative(finding) → Promise<string> Triggers Claude API call for on-demand finding narrative. Returns narrative text for rendering in the overlay.
-
-
-
-EmergenceEngine.runDetectors(tags, entries) → Finding[] Exposed for inspection and testing. Runs all seven detectors and returns the full findings array.
-
-
-
-EmergenceEngine.buildTimelineBuckets(entries) → object[] Exposed for inspection. Returns entries bucketed by time for timeline mode rendering.
+open(mode) — opens overlay in 'translation' | 'timeline' | 'trace' mode
+openFromFinding(finding) — opens overlay in 'trace' mode focused on a specific finding
+requestNarrative(finding) — calls POST /entries/findings/{id}/narrative, displays result
 
 
 
@@ -334,27 +316,24 @@ EmergenceEngine.buildTimelineBuckets(entries) → object[] Exposed for inspectio
 
 
 
-onTagSessionComplete() is called at the end of every panel save handler, after TaggerBus.clearResult() has fired. This is the \\\_emgNotify() pattern in index.html — every panel commit ends with this call. It receives tags as a pre-captured value passed by the caller. The caller (index.html) captures tags from TaggerBus before clearResult() fires and passes the captured value to \\\_emgNotify(capturedTags). onTagSessionComplete() does not read from TaggerBus.
+After every panel save, the frontend triggers a detection pass. The pattern:
 
+1. Frontend reads current suggestion from tagger store. Tags captured before clear.
+2. Entry saved via POST /entries/ to FastAPI — written to PostgreSQL.
+3. Tagger store clears suggestion result.
+4. Frontend calls POST /entries/{id}/detect with the entry id.
+5. Emergence service runs all seven detectors against the current corpus.
+6. Findings written to PostgreSQL. Response returned to frontend.
+7. If overlay is open, frontend refreshes with new findings.
+8. Proactive nudge evaluated — if warranted, nudge notification surfaces.
 
+The detection pass does not read from the tagger store. Tags are already persisted on the entry in PostgreSQL at step 2. The service reads the full corpus from PostgreSQL directly.
 
-\\\_emgNotify() is a no-op if EmergenceEngine is not loaded.
-
-
-
-COMMIT HOOK PATTERN — every panel save handler: ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ const capturedTags \\= TaggerBus.getResult()?.tags ?? \\\[\\]; await createEntry(payload); TaggerBus.clearResult(); await \\\_emgNotify(capturedTags); → EmergenceEngine.onTagSessionComplete( capturedTags, freshEntries)
-
-
-
-CORPUS FRESHNESS RULE ━━━━━━━━━━━━━━━━━━━━━ onTagSessionComplete() always fetches entries fresh before running detectors. It does not rely on the cached corpus.
-
-
+CORPUS FRESHNESS RULE ━━━━━━━━━━━━━━━━━━━━━ The detection pass always queries entries fresh from PostgreSQL. It does not rely on cached data.
 
 The entry that just triggered the commit is the reason the analysis is running — running detectors on a corpus that does not yet include that entry is structurally incorrect. The finding produced would miss the most relevant connection.
 
-
-
-The performance cost is one IDB read per commit. This is acceptable. The freshness rule is non-negotiable.
+The performance cost is one database query per commit. This is acceptable. The freshness rule is non-negotiable.
 
 
 
@@ -362,19 +341,9 @@ The performance cost is one IDB read per commit. This is acceptable. The freshne
 
 
 
-openFromFinding() hands off to: window.ThreadTraceUI.openFromFinding(finding)
+openFromFinding() hands off to the Thread Trace Svelte component, passing the finding data. The Svelte component import handles the dependency — no circular dependency concern (Svelte resolves component imports at build time, not at runtime).
 
-
-
-The bridge uses window.ThreadTraceUI — not an ES module import — to avoid a circular dependency between emergence.js and thread\\\_trace\\\_ui.js.
-
-
-
-LOAD ORDER REQUIREMENT ━━━━━━━━━━━━━━━━━━━━━━ ThreadTraceUI must be loaded and assigned to window.ThreadTraceUI before EmergenceEngine initializes. This is a hard load order constraint.
-
-
-
-canTrace GATE ━━━━━━━━━━━━━ If ThreadTraceUI is not present at the time a finding's trace button is rendered, the button does not render. canTrace is gated on window.ThreadTraceUI being available at render time. It is not a static boolean — it is evaluated at render time.
+canTrace GATE ━━━━━━━━━━━━━ canTrace on a finding gates the "Trace this pattern" button in the overlay. The button renders when the Thread Trace component is available. In the Svelte architecture, components are always available once mounted — the gate is effectively always true when the app is running.
 
 
 
@@ -410,27 +379,17 @@ Findings land on LNV with provenance intact: finding id, type, severity, involve
 
 
 
-1\. setEntriesFetcher() NOT CALLED BEFORE init() Engine initializes on an empty corpus. All detector passes return empty findings. Proactive nudge never fires. No error thrown — silent failure throughout. Guard: setEntriesFetcher() is always the first Emergence call in init(), before EmergenceEngine.init(). Call order is non-negotiable.
+1\. EMERGENCE SERVICE UNREACHABLE FastAPI emergence endpoints are down. Detection passes do not run. Findings are not generated. Proactive nudge never fires. Guard: frontend displays error state when detection endpoint returns HTTP error. Entry save is not blocked — entries save without triggering detection. Missing findings are visible as gaps in the findings timeline.
 
+2\. DETECTION PASS ON STALE CORPUS If the detection service queries entries before the just-committed entry is visible in PostgreSQL, the detector pass misses the most relevant connection. Finding produced is structurally incomplete. Guard: detection runs after the entry write transaction commits. The service queries entries fresh from PostgreSQL at the start of every detection pass. Never use cached data at commit time.
 
+3\. PGVECTOR QUERY TIMEOUT Similarity queries across a large corpus exceed the query timeout. Detection pass returns partial or no results. Guard: pgvector queries use appropriate index (IVFFlat or HNSW) for performance. Query timeout returns error, not partial results. Frontend surfaces the timeout. Retry is safe — detection is idempotent.
 
-2\. onTagSessionComplete() CALLED WITH STALE CORPUS If entries are passed from a cached fetch rather than a fresh IDB read, the just-committed entry is not in the corpus. Detector pass misses the most relevant connection. Finding produced is structurally incomplete. Guard: onTagSessionComplete() always fetches entries fresh via \\\_fetchEntries() at the start of every call. Never use the cached corpus at commit time.
+4\. FINDINGS NOT DEDUPED ACROSS NUDGE CALLS Same finding surfaces as a nudge multiple times in one session. User sees repeated notifications for the same pattern. Guard: seen keys tracked by type::title within the session. Nudge only fires for findings with keys not yet seen.
 
+5\. GRAPH EXPORT BEFORE GRAPH PAGE EXISTS Graph page route is a stub. Routing there before the page is built produces dead navigation. Guard: graph export remains disabled until the graph route is live. Update graph route reference in both emergence and thread trace components together — never one without the other.
 
-
-3\. ThreadTraceUI NOT LOADED BEFORE EmergenceEngine window.ThreadTraceUI is undefined when a finding's trace button is clicked. Button does not render for canTrace findings. Thread Trace bridge is unavailable. Guard: ThreadTraceUI loads before EmergenceEngine in the script load order. canTrace is gated on window.ThreadTraceUI presence at render time.
-
-
-
-4\. FINDINGS NOT DEDUPED ACROSS NUDGE CALLS Same finding surfaces as a nudge multiple times in one session. User sees repeated notifications for the same pattern. Guard: \\\_seenKeys tracks findings by type::title key within the session. Nudge only fires for findings with keys not yet in \\\_seenKeys.
-
-
-
-5\. GRAPH EXPORT BEFORE GRAPH PAGE EXISTS GRAPH\\\_PAGE\\\_PATH \\= '/graph' is a stub. Routing there before the page is built produces dead navigation. Guard: graph export remains disabled until GRAPH\\\_PAGE\\\_PATH is a live route. Update GRAPH\\\_PAGE\\\_PATH in both emergence.js and thread\\\_trace\\\_ui.js together — never one without the other.
-
-
-
-6\. OVERLAY PALETTE USING CSS VARIABLES The Emergence overlay is built dynamically outside the normal CSS cascade. CSS custom properties defined on :root are not accessible from dynamically injected inline styles in this context. Guard: PAL object uses hardcoded rgba values only. Never substitute CSS variables in the PAL object or in overlay inline styles.
+6\. CLAUDE API FAILURE DURING NARRATIVE REQUEST Claude API is unreachable or rate-limited when a finding narrative is requested. Guard: endpoint returns appropriate HTTP error. Finding data is still available — only the narrative translation is missing. Frontend displays the finding without narrative and allows retry.
 
 
 
@@ -450,5 +409,9 @@ All starting reference values documented in detector sections above. All subject
 
 
 
-emergence.js Pattern analysis engine — seven detectors, three overlay modes, Claude API integration, Thread Trace bridge, proactive nudge, graph export stub. Status: PLANNED
+| File | Role | Status |
+| --- | --- | --- |
+| backend/services/emergence.py | Seven detectors, pgvector similarity queries, finding persistence, proactive nudge scheduling | PLANNED |
+| backend/routes/emergence.py | FastAPI endpoints — detect, query findings, narrative request, nudge check | PLANNED |
+| frontend emergence components | Svelte — three overlay modes (translation, timeline, trace), finding cards, trace button, nudge notification | PLANNED |
 

@@ -12,9 +12,19 @@ backup.log
 Thumbs.db
 desktop.ini
 
+# Python
+__pycache__/
+*.pyc
+.venv/
+
 # Node
 node_modules/
 npm-debug.log*
+
+# SQLite databases
+*.db
+*.db-shm
+*.db-wal
 
 # Build artifacts
 dist/

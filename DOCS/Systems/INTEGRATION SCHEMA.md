@@ -10,7 +10,7 @@ OWNS INT page (01) — single entry point for all source material into the archi
 
 
 
-DOES NOT OWN IDB store schema — owned by data.js and integration\\\_idb\\\_schema\\\_v1.md (authoritative spec) ARC id generation and sequence counter — owned by data.js and composite\\\_id\\\_system Archives page deposit content format — defined in archive\\\_system.md Tag pipeline — owned by tagger\\\_bus.js Routing authority — owned by SOT. INT never guesses routing. MTM synthesis cycle — MTM reads across Axis lens pages at session close and produces Findings independently. INT does not trigger or feed MTM directly.
+DOES NOT OWN Database schema definitions — owned by SQLAlchemy models (backend/models/) and INTEGRATION DB SCHEMA.md (authoritative spec) ARC id generation and sequence counter — owned by composite ID service (backend/services/) Archives page deposit content format — defined in ARCHIVE SCHEMA.md Tag pipeline — owned by tagger service (backend/services/) Routing authority — owned by SOT. INT never guesses routing. MTM synthesis cycle — MTM reads across Axis lens pages at session close and produces Findings independently. INT does not trigger or feed MTM directly.
 
 
 
@@ -358,7 +358,7 @@ After step 13 confirms, two outputs are produced.
 
 
 
-Write sequence: a. Archives page deposit written from provenance\\\_summary content. b. page\\\_deposit\\\_id written to IDB archives record with the deposit's entry id.
+Write sequence: a. Archives page deposit written from provenance\\\_summary content. b. page\\\_deposit\\\_id written to archives record with the deposit's entry id.
 
 
 
@@ -371,6 +371,14 @@ Format: \\\[ARC-ID\\] · \\\[YYYY-MM-DD\\] Example: TS·ARC·EMG·2026-03·0001 
 
 
 This is a required UI element. Not optional output. Sage uses this label to create the parent page deposit and place the physical file. It must remain visible and copyable until Sage explicitly dismisses it or opens a new intake.
+
+
+
+3\. EMBEDDING HANDOFF ━━━━━━━━━━━━━━━━━━━━━━━━ After retirement step 13 confirms, the embedding pipeline is triggered asynchronously via FastAPI. This does not block retirement completion or the other two post-retirement outputs.
+
+Sequence: a. FastAPI `/embed/` endpoint receives the composite\_id of the retired entry. b. FastAPI calls Ollama API (nomic-embed-text) with the entry text. c. 768-dimension vector returned and written to pgvector embeddings table with metadata (tag routing snapshot, provenance, section\_id, composite\_id). d. On Ollama failure: embedding is not generated. Entry remains in PostgreSQL with full data. Failed embedding logged for retry. No data loss — only the vector is missing.
+
+See EMBEDDING PIPELINE SCHEMA.md for full specification.
 
 
 
@@ -430,7 +438,7 @@ No media file bypasses INT. The intake trigger on archive pages is the only uplo
 
 
 
-8\. page\\\_deposit\\\_id NOT WRITTEN AFTER ARCHIVES PAGE DEPOSIT CREATION IDB archives record has no pointer to its browsable surface. Three-surface architecture is broken. Guard: page\\\_deposit\\\_id is written immediately after the Archives page deposit confirms creation. Never left null after successful post-retirement output.
+8\. page\\\_deposit\\\_id NOT WRITTEN AFTER ARCHIVES PAGE DEPOSIT CREATION Archives record has no pointer to its browsable surface. Three-surface architecture is broken. Guard: page\\\_deposit\\\_id is written immediately after the Archives page deposit confirms creation. Never left null after successful post-retirement output.
 
 
 
@@ -438,19 +446,23 @@ No media file bypasses INT. The intake trigger on archive pages is the only uplo
 
 
 
-INT.init() → void
-Called at page load. Loads pending intakes from IDB. Restores any
-interrupted sessions to their last known state.
+All intake and retirement operations route through FastAPI endpoints. The frontend calls these endpoints via the API client (src/lib/api.js). Representative endpoints — full contracts defined at build time against SOT.
 
-INT.activateSection(sectionId) → void
-Activates the INT section in the UI.
+POST /entries/ — create root entry (intake sequence start)
+Receives: title, doc\_type, origin\_date, phase, signal\_description, section\_targets, chunk\_size.
+Returns: root entry id, intake\_status.
 
-INT.receiveMediaIntake(file, sourcePageCode) → void
-Called by archive pages when the intake trigger button fires.
-Receives the uploaded file and the page code of the originating
-archive page. Routes the file through the standard intake sequence.
-This is the only programmatic entry point for media files —
-archive pages do not handle intake directly.
+PATCH /entries/{id} — update entry status
+Receives: fields to update (deposit status, manifest session state, etc.).
+Returns: updated record.
+
+POST /entries/{id}/retire — trigger retirement sequence
+Evaluates retirement gate. If all five conditions pass, executes steps 1–13.
+Returns: ARC id and retired\_at on success. Error with step number on failure.
+
+POST /entries/{id}/media — media intake
+Receives: uploaded file, source page code of originating archive page.
+Routes file through standard intake sequence. This is the only upload path — archive pages do not handle intake directly.
 
 
 
@@ -458,19 +470,12 @@ archive pages do not handle intake directly.
 
 
 
-data.js IDB layer — root\\\_entries · file\\\_assets · manifest\\\_sessions · archives stores · system\\\_counters · retirement sequence execution. Status: PLANNED
+| File | Role | Status |
+| --- | --- | --- |
+| backend/routes/entries.py | FastAPI route handlers — intake, manifest sessions, deposits, retirement, media intake | PLANNED |
+| backend/services/entry.py | Service layer — intake sequence, retirement sequence, deposit resolution, arc\_seq coordination | PLANNED |
+| backend/models/entries.py | SQLAlchemy models — root\_entries, file\_assets, manifest\_sessions, archives, system\_counters | PLANNED |
+| frontend/ (INT page) | Svelte UI — intake form, manifest session panel, deposit review, retirement trigger, retirement label display, media intake form | PLANNED |
 
-
-
-schema.js PHASE\\\_CODES · PAGE\\\_CODES · doc\\\_type enum — read by INT panel. Status: PLANNED
-
-FLAG — schema.js build: doc\_type enum must be defined with precision sufficient for future AI pipeline and lattice rebuild use. Generic values are insufficient — the pipeline depends on doc\_type to classify records without re-processing. Origin node pages (LAR·21 · VRT·22 · CAE·23) require at minimum: structured identity file JSON format (LAR) · structured identity file narrative format · first-person Origin account · third-party field observation or narrative account · session transcript or dialogue. Additional doc\_type values required across other pages — audit all pages at schema.js build time. doc\_type is confirmed as IDB field only, not encoded in the composite ID stamp. AI-facing JSON export must carry doc\_type alongside the stamp so pipelines can classify records from the export alone without re-querying IDB. See COMPOSITE ID SCHEMA flag.
-
-
-
-composite\\\_id.js CompositeIdBus — Integration panel stamp rendering, native/source mode, retirement label display. Status: PLANNED
-
-
-
-index.html INT page UI — intake form, manifest session panel, deposit review, retirement trigger, retirement label display, media intake form. Status: PLANNED
+FLAG — doc\_type enum must be defined with precision sufficient for future AI pipeline and lattice rebuild use. Generic values are insufficient — the pipeline depends on doc\_type to classify records without re-processing. Origin node pages (LAR·21 · VRT·22 · CAE·23) require at minimum: structured identity file JSON format (LAR) · structured identity file narrative format · first-person Origin account · third-party field observation or narrative account · session transcript or dialogue. Additional doc\_type values required across other pages — audit all pages at model build time. doc\_type is a database field only, not encoded in the composite ID stamp. AI-facing JSON export must carry doc\_type alongside the stamp so pipelines can classify records from the export alone without re-querying the database. See COMPOSITE ID SCHEMA flag.
 
