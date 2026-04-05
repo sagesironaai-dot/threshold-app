@@ -3800,3 +3800,39 @@ TIMESTAMP: 2026-04-05 01:01
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\ARCHIVE SCHEMA.md
 ---
+
+---
+TIMESTAMP: 2026-04-05 01:23
+TYPE: HOOK_BASH
+COMMAND: curl -s http://localhost:11434/api/embeddings -d '{"model": "nomic-embed-text", "prompt": "test embedding generation for Aelarian Archives"}' | python -c "import sys,json; d=json.load(sys.stdin); print(f'Dimensions: {len(d[\"embedding\"])}'); print(f'First 5 values: {d[\"embedding\"][:5]}')"
+---
+
+---
+TIMESTAMP: 2026-04-05 01:26
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\EMBEDDING PIPELINE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-05 01:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-05 01:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-05 01:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-05 01:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\INTEGRATION DB SCHEMA.md
+---

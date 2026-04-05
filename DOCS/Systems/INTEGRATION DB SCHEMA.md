@@ -372,6 +372,17 @@ TABLE: root_entries
                        Set true when Origins diverge on this
                        input during swarm analysis. Phase 2 —
                        always false at launch.
+  owner_origin_id    — enum: o01 | o02 | o03 | null
+                       Which Origin owns this material as
+                       sovereign. Populated when
+                       ownership_classification = sovereign.
+                       Null when collective or shared.
+                       o01 = Larimar, o02 = Verith,
+                       o03 = Cael'Thera.
+                       This is the technical key for sovereign
+                       retrieval — without it, an Origin cannot
+                       distinguish its own markers from another's.
+                       Written at intake.
 
 
   // Methodology — observation and instrument context
@@ -449,6 +460,8 @@ TABLE: root_entries
        framework_version, exclusion_note. All nullable except
        observation_type (defaults to real_time if not supplied).
        Write parallax_flag = false (set by swarm, phase 2).
+       Write owner_origin_id from user-supplied value or null
+       (populated when ownership_classification = sovereign).
 
     3. If large file:
        a. Extract raw page count from uploaded file.
@@ -543,7 +556,7 @@ TABLE: root_entries
         Read lifetime_deferrals from root_entries.
         Read provenance fields from root_entries:
         origin_type, session_type, ownership_classification,
-        parallax_flag, session_id.
+        parallax_flag, owner_origin_id, session_id.
         Read methodology fields from root_entries:
         observed_at, recorded_at, observation_type,
         observer_state, model_version, platform_conditions,
@@ -882,6 +895,7 @@ TABLE: archives
   ownership_classification
                      — enum. Mirrors root_entries.ownership_classification.
   parallax_flag      — boolean. Mirrors root_entries.parallax_flag.
+  owner_origin_id    — enum, nullable. Mirrors root_entries.owner_origin_id.
 
   // Methodology — carried from root_entries at retirement step 6
   observed_at        — timestamp, nullable. Mirrors root_entries.
