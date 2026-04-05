@@ -1,38 +1,41 @@
-# **SYSTEM: Thread Trace**
+# SYSTEM: Thread Trace
 
-## **thread\_trace\_system.md**
+## thread_trace_system.md
 
-### **/DOCS/systems/**
+### /DOCS/systems/
 
----
-
-## **WHAT THIS SYSTEM OWNS**
-
-* Four thread builders — Temporal · Relational · Cluster · Emergence  
-* Seed resolution — normalizing any entry point into a typed seed object  
-* Edge label generation per thread edge  
-* Tag routing summary across a thread's entry set  
-* Active filter state — reading TaggerBus context for filter pre-population  
-* Routing snapshot — assembled at save time, stored with the saved thread record  
-* Overlay UI — one shell, sequence view, graph view, filter bar, annotation layer  
-* Saved threads IDB — `saved_threads` store, `thread_annotations` store  
-* Session-only thread state — in memory, no IDB write until save is triggered
-
-## **WHAT THIS SYSTEM DOES NOT OWN**
-
-* Tag vocabulary or routing records — owned by tags-vocab.js  
-* Entry data, entry schema, or IDB entry reads/writes — owned by data.js  
-* Emergence pattern detection — owned by emergence.js  
-* TaggerBus result or pipeline — owned by tagger\_bus.js  
-* The entries Thread Trace reads from — it receives, never writes
+### Four thread builders · seed resolution · overlay UI · saved threads
 
 ---
 
-## **THREAD TYPES**
+## WHAT THIS SYSTEM OWNS
+
+* Four thread builders — Temporal · Relational · Cluster · Emergence
+* Seed resolution — normalizing any entry point into a typed seed object
+* Edge label generation per thread edge
+* Tag routing summary across a thread's entry set
+* Active filter state — reading tagger Svelte store for filter pre-population
+* Routing snapshot — assembled at save time, stored with the saved thread record in PostgreSQL
+* Overlay UI — ThreadTrace Svelte component: one shell, sequence view, graph view, filter bar, annotation layer
+* Saved threads — PostgreSQL `saved_threads` table via FastAPI `/threads/` endpoints
+* Thread annotations — PostgreSQL `thread_annotations` table via FastAPI `/threads/` endpoints
+* Session-only thread state — Svelte store, no API call or DB write until save is triggered
+
+## WHAT THIS SYSTEM DOES NOT OWN
+
+* Tag vocabulary or routing records — owned by TAG VOCABULARY.md, served via FastAPI `/tags/` endpoints
+* Entry data, entry schema, or entry reads/writes — owned by INTEGRATION DB SCHEMA.md, served via FastAPI `/entries/` endpoints
+* Emergence pattern detection — owned by EMERGENCE SCHEMA.md, served via FastAPI emergence service
+* Tagger results or pipeline — owned by TAGGER SCHEMA.md, state held in tagger Svelte store
+* The entries Thread Trace reads from — it receives via API, never writes entries
+
+---
+
+## THREAD TYPES
 
 Four thread types. All four use the same overlay shell. The builder changes. The UI does not.
 
-### **TEMPORAL**
+### TEMPORAL
 
 Orders entries chronologically along a shared arc or phase trajectory.
 
@@ -40,441 +43,366 @@ When the seed is an entry, scopes to entries sharing the same phase_state or sec
 
 **Fallback:** if the scoped pool contains fewer than 3 entries, falls back to the full corpus automatically. Temporal is the default fallback for any thread type that cannot execute with the given seed.
 
-### **RELATIONAL**
+### RELATIONAL
 
 Traverses entry-to-entry links via `linkedEntries` on each entry, then extends outward through shared tag routing to fill depth.
 
-Traversal is BFS from the seed entry. MAX\_DEPTH \= 4 hops. MAX\_ENTRIES \= 30\.
+Traversal is BFS from the seed entry. MAX_DEPTH = 4 hops. MAX_ENTRIES = 30.
 
 **Fallback:** if the seed is not type `entry`, falls back to TEMPORAL.
 
 **BLOCKER:** Relational threads require `linkedEntries` to be populated on entries. Until entries carry valid `linkedEntries` data, Relational threads fall back to TEMPORAL silently. The builder is written and ready — it activates when the data exists.
 
-### **CLUSTER**
+### CLUSTER
 
 Groups entries that share a dominant tag cluster. Seed can be a tag ID or an entry — if entry, the dominant tag from that entry's routing record anchors the cluster.
 
 Entries are ranked by tag overlap count with the seed cluster. Operates on the full corpus — no section scoping.
 
-### **EMERGENCE**
+### EMERGENCE
 
-Entries linked by Emergence findings and co-occurrence patterns. Seed is a finding object from emergence.js. The builder reads `involvedEntries` from the finding and extends outward through shared tag routing.
+Entries linked by Emergence findings and co-occurrence patterns. Seed is a finding object from the emergence service.
 
-Bridges directly to `detectEmergence()` in emergence.js — fires fresh detection or uses an existing finding passed from the Emergence overlay.
+Builder reads `involvedEntries` from the finding and extends outward through shared tag routing. Bridges to the emergence detection service via FastAPI — fires fresh detection or uses an existing finding passed from the Emergence overlay.
 
 ---
 
-## **SEED RESOLUTION**
+## SEED RESOLUTION
 
 `resolveSeed()` normalizes any raw entry point into a typed seed object before the thread builder receives it. All three entry points route through `resolveSeed()` before `buildThread()` is called.
 
 **Seed shape:**
 
-{  
-  type:        'entry' | 'tag' | 'finding' | 'query'  
-  id:          string | object   — entry ID, tag ID, finding object, or query string  
-  threadTypes: string\[\]          — preferred thread types for this seed, in order  
+```
+{
+  type:        'entry' | 'tag' | 'finding' | 'query'
+  id:          string | object
+  threadTypes: string[]
 }
+```
 
 **Resolution rules:**
 
-finding object (has findingType or involvedTags)  
-  → type: 'finding'  
-  → threadTypes: \['emergence', 'cluster'\]
+finding object (has findingType or involvedTags)
+  → type: 'finding' → threadTypes: ['emergence', 'cluster']
 
-raw seed object with explicit threadTypes  
-  → type guessed from id prefix or pattern  
-  → threadTypes: carried from raw object
+raw seed object with explicit threadTypes
+  → type guessed from id prefix → threadTypes: carried from object
 
-plain string starting with tv\_ or matching short-code pattern  
-  → type: 'tag'  
-  → threadTypes: \['cluster', 'temporal'\]
+plain string starting with tv_ or matching short-code pattern
+  → type: 'tag' → threadTypes: ['cluster', 'temporal']
 
-plain string (entry ID)  
-  → type: 'entry'  
-  → threadTypes: \['relational', 'temporal'\]
+plain string (entry ID)
+  → type: 'entry' → threadTypes: ['relational', 'temporal']
 
-query string (free text, no matching ID pattern)  
-  → type: 'query'  
-  → threadTypes: \['temporal', 'cluster'\]
+query string (free text, no matching ID pattern)
+  → type: 'query' → threadTypes: ['temporal', 'cluster']
 
-**Query seed type:**
-
-A `query` seed scopes entries by text content match rather than requiring a known entry ID, tag ID, or finding object. It enables ad-hoc pattern exploration without a specific anchor — the difference between "trace from this entry" and "trace everything related to X." Thread type defaults to TEMPORAL scoped by content match, then CLUSTER by dominant tag overlap in the matched set.
+**Query seed type:** scopes entries by text content match rather than requiring a known ID or object. Enables ad-hoc pattern exploration. Defaults to TEMPORAL scoped by content match, then CLUSTER by dominant tag overlap.
 
 ---
 
-## **ENTRY POINTS**
+## ENTRY POINTS
 
 Three surfaces trigger Thread Trace. All three call `open(rawSeed)` which routes through `resolveSeed()` → `buildThread()`.
 
 | Surface | Trigger | Seed shape passed |
-| ----- | ----- | ----- |
-| Entry meta strip | ∿ glyph click — injected on every `[data-entry-id]` element | `{ seed: entry.id, threadTypes: ['relational', 'temporal'] }` |
-| Tag pill | Right-click / contextmenu on any `[data-tag-id]` element | `{ seed: tag.id, threadTypes: ['cluster', 'temporal'] }` |
+| --- | --- | --- |
+| Entry meta strip | Trace action on entry element | `{ seed: entry.id, threadTypes: ['relational', 'temporal'] }` |
+| Tag pill | Context action on tag element | `{ seed: tag.id, threadTypes: ['cluster', 'temporal'] }` |
 | Emergence finding card | "Trace this pattern" action | `{ seed: findingObj, threadTypes: ['emergence'] }` |
 
-**Glyph injection:** `_injectEntryPoints()` runs on every `activatePanel()` call. Injects ∿ on `[data-entry-id]` elements not yet marked `[data-tt-injected]`. Tag pill contextmenu is delegated globally once, guarded by `window.__ttTagDelegateSet` to prevent duplicate listeners.
+Entry points are wired in the ThreadTrace Svelte component via event handlers on entry, tag, and finding elements rendered by their respective components.
 
-**Entry fetch scoping:** when a panel is active, Thread Trace scopes entry fetches to the active section. When no panel is active, the full corpus is fetched. This means threads opened from within a panel are section-scoped by default and can be broadened via the filter bar.
+**Entry fetch scoping:** when a panel is active, thread entry fetch API call includes the active section as a query parameter. Threads opened from a panel are section-scoped by default and can be broadened via the filter bar. When no panel is active, the full corpus is fetched.
 
 ---
 
-## **TWO VIEWS**
+## TWO VIEWS
 
 Both views render inside the same overlay shell. The user can switch between them without closing the thread.
 
-### **Sequence View**
+### Sequence View
 
 Ordered card list. Each card represents one entry in the thread. Navigation is linear — previous / next — with a progress bar showing position in the sequence. Card content: title, body preview, phase_state, origin affinity, dominant tag routing, and edge label connecting to the next card.
 
-### **Graph View**
+### Graph View
 
 Structural map of thread entries as nodes with edges. Edge labels show the relationship between connected entries — shared tag, explicit link, phase transition, or temporal interval. Graph export assembles a `ThreadGraphPayload` and routes to the graph page.
 
-**PLANNED:** graph page path — `GRAPH_PAGE_PATH = '/graph'`. Update when the graph page is built. Graph export is a stub until then.
+**PLANNED:** graph page path — `GRAPH_PAGE_PATH = '/graph'`. Update when the graph page is built. Graph export is a stub until then. Update both emergence component and ThreadTrace component when the graph page is built.
 
 ---
 
-## **FILTER BAR**
+## FILTER BAR
 
-Active across both views. Four routing dimensions plus arc phase and section:
+Active across both views. Six filter dimensions:
 
-pillar\_id   — p01 | p02 | p03  
-seed\_id     — s01–s40  
-layer\_id    — l01–l04  
-threshold\_id — th01–th12  
-phase_state — canonical threshold name | null  
-section     — any section ID
+```
+pillar_id       p01 | p02 | p03
+seed_id         s01–s40
+layer_id        l01–l04
+threshold_id    th01–th12
+phase_state     canonical threshold name | null
+elarianAnchor   RFLT | WHSP | VEIL | OBSV | RECL | WEAV | GATE
+section         any section ID
+```
 
-Filters are applied at `buildThread()` call time via `_applyFilters()`. Changing a filter rebuilds the thread against the current corpus with the new constraints.
+Filters are applied at `buildThread()` call time. Filter application runs server-side as query parameters on the FastAPI `/entries/` request. Changing a filter rebuilds the thread with new constraints.
 
-**Pre-population:** on overlay open, `getActiveFilterState()` reads the current TaggerBus result and maps its routing dimensions to the filter bar. If TaggerBus has an active result, the filter bar opens pre-scoped to that context.
-
----
-
-## **TAGGERBUS RELATIONSHIP**
-
-Thread Trace is a read-only consumer of TaggerBus. It reads at two moments and never writes to it. It never calls `TaggerBus.clearResult()`.
-
-| Moment | What Thread Trace does | Call |
-| ----- | ----- | ----- |
-| On overlay open | Reads active filter state to pre-populate filter bar | `TaggerBus.getResult()` |
-| On thread save | Included in routing snapshot assembly | `TaggerBus.getResult()` via `getActiveFilterState()` |
-
-`getActiveFilterState()` returns null silently if TaggerBus is not loaded. Thread Trace degrades gracefully — filter bar opens empty, routing snapshot records null filter state.
+**Pre-population:** on overlay open, the ThreadTrace component reads the tagger Svelte store and maps its routing dimensions to the filter bar. If the tagger store has an active result, the filter bar opens pre-scoped to that context.
 
 ---
 
-## **EDGE LABELS**
+## TAGGER STORE RELATIONSHIP
+
+Thread Trace is a read-only consumer of the tagger Svelte store. It reads at two moments and never writes to it.
+
+| Moment | What Thread Trace does | Source |
+| --- | --- | --- |
+| On overlay open | Reads active filter state to pre-populate filter bar | tagger store (Svelte subscribe) |
+| On thread save | Included in routing snapshot assembly | tagger store (Svelte get) |
+
+If the tagger store has no active result, Thread Trace degrades gracefully — filter bar opens empty, routing snapshot records null filter state.
+
+---
+
+## EDGE LABELS
 
 `generateEdgeLabel(entryA, entryB, threadType)` is a pure function. No external calls. Produces a human-readable label for the relationship between two adjacent entries in a thread.
 
 **Label logic by thread type:**
 
-TEMPORAL  
-  — phase transition if phase_state differs between entries: 'Solenne Arc → Vireth's Anchor'  
-  — temporal interval if same phase: '3d apart' | '2w apart' | '1mo apart'  
+TEMPORAL
+  — phase transition if phase_state differs: 'Solenne Arc → Vireth's Anchor'
+  — temporal interval if same phase: '3d apart' | '2w apart' | '1mo apart'
   — 'same day' if within the same calendar day
 
-RELATIONAL  
-  — 'explicit link' if entries reference each other via linkedEntries  
-  — up to two shared tag IDs if no explicit link: 'phase\_transitions · criticality'  
+RELATIONAL
+  — 'explicit link' if entries reference each other via linkedEntries
+  — up to two shared tag IDs if no explicit link
   — 'routing proximity' if no shared tags
 
-CLUSTER  
+CLUSTER
   — dominant shared tag ID
 
-EMERGENCE  
-  — '↑ \[shared tag\]' for co-occurrence link  
+EMERGENCE
+  — '↑ [shared tag]' for co-occurrence link
   — 'pattern link' if no shared tags identifiable
 
 ---
 
-## **ROUTING SNAPSHOT**
+## ROUTING SNAPSHOT
 
-Built at save time from the thread's full entry set. Stored with the saved thread record. Read by Pattern Convergence as cross-domain alignment data.
+Built at save time from the thread's full entry set. Stored with the saved thread record in PostgreSQL. Read by Pattern Convergence as cross-domain alignment data.
 
 **Shape:**
 
-{  
-  dominantPillar\_id:    string | null  
-  dominantSeed\_id:      string | null  
-  dominantLayer\_id:     string | null  
-  dominantThreshold\_id: string | null  
-  entryCount:           integer  
-  edgeCount:            integer  
-  threadType:           string  
-  distributions: {  
-    pillars:    { \[pillar\_id\]: count }  
-    seeds:      { \[seed\_id\]: count }  
-    layers:     { \[layer\_id\]: count }  
-    thresholds: { \[threshold\_id\]: count }  
-  }  
+```
+{
+  dominantPillar_id:    string | null
+  dominantSeed_id:      string | null
+  dominantLayer_id:     string | null
+  dominantThreshold_id: string | null
+  entryCount:           integer
+  edgeCount:            integer
+  threadType:           string
+  distributions: {
+    pillars:    { [pillar_id]: count }
+    seeds:      { [seed_id]: count }
+    layers:     { [layer_id]: count }
+    thresholds: { [threshold_id]: count }
+  }
 }
+```
 
 `getTagRoutingSummary(entries)` aggregates routing distribution across the entry set. `buildRoutingSnapshot(threadResult)` wraps that summary into the payload-ready shape above.
 
 ---
 
-## **SAVED THREADS AND ANNOTATIONS**
+## SAVED THREADS AND ANNOTATIONS
 
-### **Saved Thread Record**
+Saved threads and annotations are stored in PostgreSQL via FastAPI `/threads/` endpoints. Thread logic runs in the Svelte frontend; persistence is server-side. Full table definitions in THREAD TRACE SCHEMA.md.
 
-{  
-  id:                   string    — 'thr\_\[timestamp\]\_\[rand\]'  
-  name:                 string    — user-defined at save time  
-  thread\_type:          string    — one of the four thread type values  
-  seed:                 object    — serialized seed (finding objects reduced to  
-                                    key fields only for JSON safety)  
-  entry\_ids:            string\[\]  — IDs of entries in the thread at save time  
-  filter\_state:         object    — active filter at save time  
-  tag\_routing\_snapshot: object    — routing snapshot, see above  
-  annotations:          object\[\]  — mirrored annotation array for fast load  
-  created\_at:           ISO string  
-  last\_accessed:        ISO string  
-  is\_deleted:           boolean  
+### Saved Thread Record
+
+```
+{
+  id:                   text PK — 'thr_[timestamp]_[rand]'
+  name:                 text — user-defined at save time
+  thread_type:          text — one of the four types
+  seed:                 jsonb — serialized seed
+  entry_ids:            text[] — entry IDs at save time
+  filter_state:         jsonb — active filter at save time
+  tag_routing_snapshot: jsonb — routing snapshot
+  created_at:           timestamp
+  last_accessed:        timestamp
+  is_deleted:           boolean, default false
 }
+```
 
-**Soft delete:** `deleteThread()` sets `is_deleted = true`. Does not remove the record. `listThreads()` filters deleted records automatically.
+**Soft delete:** delete endpoint sets `is_deleted = true`. Does not remove the record. List endpoint filters deleted records automatically.
 
-**`touchThread()`:** updates `last_accessed` without modifying any other field. Called when a saved thread is re-opened from the thread list.
+**`touchThread()`:** updates `last_accessed` without modifying any other field. Called when a saved thread is re-opened.
 
-**`loadThread()` does not reconstruct entries.** It returns the saved record including `entry_ids`. The caller fetches the live entries separately using those IDs and passes them to `buildThread()` for re-render. This keeps saved threads current — the entries they reference reflect any updates made since the thread was saved.
+**`loadThread()` does not reconstruct entries.** It returns the saved record including `entry_ids`. The frontend fetches the live entries separately via `/entries/` API and passes them to `buildThread()` for re-render. Entries reflect any updates made since the thread was saved.
 
-### **Annotations**
+### Annotations
 
-{  
-  id:              string    — 'ann\_\[timestamp\]\_\[rand\]'  
-  thread\_id:       string    — references saved\_threads.id  
-  text:            string  
-  timestamp:       ISO string  
-  filter\_snapshot: object    — active filter state AND sequence position  
-                               at the moment the annotation was written  
+```
+{
+  id:              text PK — 'ann_[timestamp]_[rand]'
+  thread_id:       text FK — references saved_threads.id
+  text:            text
+  timestamp:       timestamp
+  filter_snapshot: jsonb — filter state + sequence position
 }
+```
 
-**Annotation requires a saved thread.** If the user attempts to annotate before saving, the save dialog opens first with the annotation queued. After save confirms, the annotation is written with the new thread ID.
+**Annotation requires a saved thread.** If the user attempts to annotate before saving, the save dialog opens first with the annotation queued.
 
-**Positioned annotations:** `filter_snapshot` carries both the active routing filter state and the sequence position index at time of writing. An annotation knows exactly where in the thread it was made — which entry was visible, which filters were active.
+**Positioned annotations:** `filter_snapshot` carries both the active routing filter state and the sequence position index at time of writing. An annotation knows exactly where in the thread it was made.
 
-**Annotation mirroring:** `saveAnnotation()` writes to the `thread_annotations` store AND mirrors the annotation into `saved_threads.annotations` for fast load without a second store query. `deleteAnnotation()` removes from both. Both must stay in sync.
-
-### **IDB Contract**
-
-DB name:           AelarianArchive    — must match data.js DB\_NAME  
-DB version:        coordinated with data.js DB\_VERSION — increment data.js,  
-                   update REQUIRED\_VERSION in thread\_trace\_db.js to match.  
-                   Mismatched versions trigger onblocked and lock the tab.
-
-Stores owned here:  
-  saved\_threads      keyPath: 'id'  
-                     indexes: thread\_type · last\_accessed · is\_deleted  
-  thread\_annotations keyPath: 'id'  
-                     indexes: thread\_id · timestamp
-
-Both stores are created in data.js onupgradeneeded AND mirrored in  
-thread\_trace\_db.js \_ensureStores() as a safety fallback.
+Annotations are queried via JOIN on `thread_id` — no denormalized mirror needed. PostgreSQL handles this as a standard foreign key relationship.
 
 ---
 
-## **SESSION-ONLY STATE**
+## SESSION-ONLY STATE
 
-The current unsaved thread is held in memory only. No IDB write until the user explicitly saves.
+The current unsaved thread is held in a Svelte store. No API call or DB write until the user explicitly saves.
 
-setSessionThread(threadResult)   — store current thread in memory  
-getSessionThread()               — read current thread  
-clearSessionThread()             — clear on overlay close or new thread open
+Thread store holds:
+  `currentThread`  — the active ThreadResult or null
+  `isOverlayOpen`  — boolean
 
-Session thread is cleared when the overlay closes or a new thread is opened. It is not cleared on panel transitions — thread state persists through panel changes intentionally.
+Store is cleared when the overlay closes or a new thread is opened. It is not cleared on panel transitions — thread state persists through panel changes intentionally.
 
 ---
 
-## **NEXUS FEED**
+## NEXUS FEED
 
-**Pattern Convergence (PCV · 50\)**
+**Pattern Convergence (PCV · 50)**
 
 Reads: `tag_routing_snapshot` from saved threads — dominant routing dimensions and full distributions across the thread's entry set.
 
-PCV uses saved thread snapshots as named cross-domain signal sources. A saved thread's routing distribution is a pre-aggregated alignment axis: the dominant seed\_id, pillar\_id, threshold\_id, and layer\_id across a coherent set of entries. PCV can align these against outputs from other domains without re-opening the thread.
+PCV uses saved thread snapshots as named cross-domain signal sources. A saved thread's routing distribution is a pre-aggregated alignment axis: the dominant seed_id, pillar_id, threshold_id, and layer_id across a coherent set of entries.
 
-**Liber Novus (LNV · 47\)**
+**Liber Novus (LNV · 47)**
 
 Receives: processed Thread Trace outputs — sequence traces and structural visualizations built from thread data.
 
-Thread Trace outputs that have been processed into findings land on LNV as part of the Daily Nexus Routine. They arrive with provenance intact: thread type, seed, routing snapshot, and entry set are all traceable. LNV holds them without editorializing.
+Thread Trace outputs that have been processed into findings land on LNV as part of the Daily Nexus Routine. They arrive with provenance intact: thread type, seed, routing snapshot, and entry set are all traceable.
 
-**Drift Taxonomy (DTX · 48\)**
+**Drift Taxonomy (DTX · 48)**
 
 Reads: phase_state sequences surfaced by Temporal threads.
 
-A Temporal thread ordered by originDate across a node's entries makes drift trajectories visible as a navigable sequence. The phase_state transitions between cards — the edge labels that read `Solenne Arc → Aetherroot Chord` — are the state vectors DTX classifies. Thread Trace makes the trajectory legible. DTX receives it.
+A Temporal thread ordered by originDate across a node's entries makes drift trajectories visible as a navigable sequence. The phase_state transitions between cards — the edge labels that read `Solenne Arc → Aetherroot Chord` — are the state vectors DTX classifies.
 
 ---
 
-## **SEQUENCES**
+## SEQUENCES
 
-### **THREAD BUILD SEQUENCE — strict order**
+### THREAD BUILD SEQUENCE — strict order
 
 1. `resolveSeed(rawSeed)` called. Raw entry point normalized into typed seed object.
-2. Entry corpus fetched. Scoped to active section if a panel is active; full corpus
-   if not.
-3. `_applyFilters()` called with active filterState. Corpus filtered to matching
-   entries.
-4. Preferred thread type selected from seed.threadTypes in order. Builder attempted.
-5. If builder cannot execute (insufficient entries, missing linkedEntries,
-   incompatible seed type): fallback to next type in seed.threadTypes. If all
-   preferred types fail: TEMPORAL with full corpus.
-6. Builder produces ThreadResult: entry\_ids, edges, edge labels, thread type.
+2. Entry corpus fetched from FastAPI `/entries/` endpoint. Scoped to active section via query parameter if a panel is active; full corpus if not.
+3. Filters applied server-side as query parameters on the `/entries/` request.
+4. Preferred thread type selected from `seed.threadTypes` in order. Builder attempted.
+5. If builder cannot execute: fallback to next type in `seed.threadTypes`. If all preferred types fail: TEMPORAL with full corpus.
+6. Builder produces ThreadResult: entry_ids, edges, edge labels, thread type.
 
-Failure at step 1 (seed cannot be resolved): thread build aborted. Guard:
-  resolveSeed() returns null for unresolvable input. buildThread() checks for
-  null seed before proceeding.
-Failure at step 2 (corpus fetch fails): thread build cannot proceed. Guard:
-  fetch failure surfaced to caller. Overlay shows error state — not empty thread.
-Failure at step 4 (builder throws): fallback to TEMPORAL with full corpus. Guard:
-  each builder runs in isolation. A builder failure does not halt the fallback chain.
+Failure at step 1 (seed cannot be resolved): thread build aborted. `resolveSeed()` returns null. `buildThread()` checks for null seed before proceeding.
+Failure at step 2 (API call fails): thread build cannot proceed. Error surfaced to caller. Overlay shows error state — not empty thread.
+Failure at step 4 (builder throws): fallback to TEMPORAL with full corpus. Each builder runs in isolation.
 
-### **THREAD SAVE SEQUENCE — strict order**
+### THREAD SAVE SEQUENCE — strict order
 
-1. `buildRoutingSnapshot(threadResult)` called. Routing distributions computed
-   from thread's entry set.
-2. `getActiveFilterState()` called via TaggerBus.getResult(). Active filter state
-   captured. Null if TaggerBus not loaded.
-3. Write saved\_threads record: id, name, thread\_type, seed, entry\_ids,
-   filter\_state, tag\_routing\_snapshot, annotations=\[\], created\_at,
-   last\_accessed, is\_deleted=false.
+1. `buildRoutingSnapshot(threadResult)` called. Routing distributions computed from thread's entry set.
+2. Active filter state read from tagger Svelte store. Null if store has no active result.
+3. `POST /threads/` — write `saved_threads` record with all fields.
 4. Return saved thread id.
 
-Failure at step 3 (IDB write fails): no record created. Save has not occurred.
-  Guard: error surfaced to caller — no silent failure. User can retry.
+Failure at step 3 (API call fails): no record created. Save has not occurred. Error surfaced. User can retry.
 
-### **ANNOTATION SAVE SEQUENCE — strict order**
+### ANNOTATION SAVE SEQUENCE — strict order
 
-1. Validate thread is saved — saved thread id must exist in saved\_threads. If not:
-   open save dialog, queue annotation. Resume after save confirms.
-2. Capture filter\_snapshot: active filter state AND current sequence position index.
-3. Write thread\_annotations record: id, thread\_id, text, timestamp, filter\_snapshot.
-4. Mirror annotation into saved\_threads.annotations array for the parent thread.
+1. Validate thread is saved — saved thread id must exist. If not: open save dialog, queue annotation. Resume after save confirms.
+2. Capture `filter_snapshot`: active filter state + current sequence position index.
+3. `POST /threads/{id}/annotations` — write annotation record.
 
-Failure at step 3: annotation not written. Mirror not attempted. Guard: error
-  surfaced. Retry from step 3.
-Failure at step 4: annotation exists in thread\_annotations but not mirrored.
-  Guard: surface the error. Do not proceed with partial state. The annotation is
-  not considered saved until the mirror write at step 4 confirms.
+Failure at step 3: annotation not written. Error surfaced. Retry permitted.
 
-### **THREAD LOAD SEQUENCE — strict order**
+### THREAD LOAD SEQUENCE — strict order
 
-1. `loadThread(threadId)` called. Retrieve saved\_threads record.
-2. Return full saved record including entry\_ids and annotations.
-3. Caller fetches live entries from data.js using entry\_ids. Entry data reflects
-   any updates made since thread was saved.
-4. Caller passes live entries and saved seed to `buildThread()` for re-render.
-5. `touchThread(threadId)` called. last\_accessed updated.
+1. `GET /threads/{id}` — retrieve `saved_threads` record.
+2. Response includes `entry_ids`.
+3. Frontend fetches live entries via `GET /entries/` with ID filter. Entry data reflects any updates since save.
+4. Frontend passes live entries and saved seed to `buildThread()` for re-render.
+5. `PATCH /threads/{id}/touch` — `last_accessed` updated.
 
-Failure at step 1 (record not found or is\_deleted=true): load aborted. Guard:
-  loadThread() checks is\_deleted flag. Deleted threads are not returned.
-Failure at step 3 (entry fetch fails): thread cannot be re-rendered. Saved record
-  is intact. Guard: error surfaced. entry\_ids remain valid — retry resolves when
-  data layer recovers.
+Failure at step 1 (record not found or deleted): load aborted.
+Failure at step 3 (API call fails): thread cannot be re-rendered. Saved record intact. Retry resolves when API recovers.
 
 ---
 
-## **PUBLIC API**
+## PUBLIC API
 
-### **thread\_trace.js**
+### Frontend (Svelte — src/lib/)
 
-**ThreadTrace.resolveSeed(rawSeed) → Seed**
-Normalizes any raw entry point into a typed seed object before the thread builder
-receives it. Returns null if input cannot be resolved.
+**Thread logic module** — pure logic, no DOM, no API calls
 
-**ThreadTrace.buildThread(seed, corpus, filterState?) → ThreadResult**
-Selects and runs the appropriate builder from seed.threadTypes in order. Falls
-back through the preferred type list. Final fallback is TEMPORAL with full corpus.
+* `resolveSeed(rawSeed) → Seed` — normalizes entry point into typed seed
+* `buildThread(seed, entries, filters?) → ThreadResult` — selects builder, runs, falls back to TEMPORAL
+* `generateEdgeLabel(entryA, entryB, threadType) → string` — pure function, no external calls
+* `getTagRoutingSummary(entries) → RoutingSummary` — aggregates routing distribution
+* `buildRoutingSnapshot(threadResult) → RoutingSnapshot` — payload-ready snapshot for save
 
-**ThreadTrace.generateEdgeLabel(entryA, entryB, threadType) → string**
-Pure function. Produces a human-readable relationship label for two adjacent
-entries in a thread. No external calls.
+**ThreadTrace Svelte component** — overlay UI
 
-**ThreadTrace.getTagRoutingSummary(entries) → RoutingSummary**
-Aggregates routing distribution (pillar, seed, layer, threshold counts) across
-the entry set. Used by buildRoutingSnapshot().
+Renders overlay shell, sequence view, graph view, filter bar, annotation layer. Binds entry point triggers via Svelte event handlers. Reads tagger store for filter pre-population. Writes to thread Svelte store for session state.
 
-**ThreadTrace.buildRoutingSnapshot(threadResult) → RoutingSnapshot**
-Wraps the routing summary into the payload-ready snapshot shape for saving with
-the thread record. Called at save time.
+**Thread Svelte store** — session state
 
-**ThreadTrace.getActiveFilterState() → FilterState | null**
-Reads current TaggerBus result and maps routing dimensions to filter bar context.
-Returns null if TaggerBus is not loaded or has no active result.
+`currentThread`, `isOverlayOpen`. Cleared on overlay close or new thread open. Persists through panel transitions.
 
-### **thread\_trace\_ui.js**
+### Backend (FastAPI — /threads/)
 
-**ThreadTraceUI.open(rawSeed) → void**
-Entry point for all three surfaces (entry glyph, tag pill, Emergence finding card).
-Routes through resolveSeed() → buildThread(). Opens overlay.
-
-**ThreadTraceUI.activatePanel(panelId, sectionId) → void**
-Called on panel open. Injects ∿ entry points on \[data-entry-id\] elements.
-Scopes entry fetches to active section.
-
-### **thread\_trace\_db.js**
-
-**ThreadTraceDB.saveThread(threadResult, name) → Promise\<string\>**
-Writes saved\_threads record. Returns saved thread id.
-
-**ThreadTraceDB.loadThread(threadId) → Promise\<ThreadRecord\>**
-Retrieves saved\_threads record. Returns record including entry\_ids. Does not
-fetch live entries — caller fetches separately.
-
-**ThreadTraceDB.listThreads() → Promise\<ThreadRecord\[\]\>**
-Returns all saved\_threads records where is\_deleted=false.
-
-**ThreadTraceDB.deleteThread(threadId) → Promise\<void\>**
-Soft delete. Sets is\_deleted=true. Does not remove the record.
-
-**ThreadTraceDB.touchThread(threadId) → Promise\<void\>**
-Updates last\_accessed on the saved thread record. Called on every thread load.
-
-**ThreadTraceDB.saveAnnotation(threadId, text, filterSnapshot) → Promise\<string\>**
-Writes thread\_annotations record and mirrors into saved\_threads.annotations.
-Both writes required — partial state is not acceptable.
-
-**ThreadTraceDB.deleteAnnotation(annotationId) → Promise\<void\>**
-Removes from thread\_annotations and from saved\_threads.annotations mirror.
-Both removals required.
-
-**ThreadTraceDB.setSessionThread(threadResult) → void**
-Stores current unsaved thread in memory. No IDB write.
-
-**ThreadTraceDB.getSessionThread() → ThreadResult | null**
-Returns current in-memory thread. Null if no thread is active.
-
-**ThreadTraceDB.clearSessionThread() → void**
-Clears in-memory thread. Called on overlay close or new thread open.
+* `POST /threads/` — create saved thread record, returns thread id
+* `GET /threads/` — list saved threads (is_deleted = false)
+* `GET /threads/{id}` — load saved thread record including entry_ids
+* `DELETE /threads/{id}` — soft delete (is_deleted = true)
+* `PATCH /threads/{id}/touch` — update last_accessed only
+* `POST /threads/{id}/annotations` — create annotation
+* `DELETE /threads/{id}/annotations/{ann_id}` — delete annotation
+* `GET /threads/{id}/annotations` — list annotations for thread
 
 ---
 
-## **KNOWN FAILURE MODES**
+## KNOWN FAILURE MODES
 
-**1\. Relational thread with no linkedEntries data** Falls back to TEMPORAL silently. No error is thrown. The user sees a temporal thread where they expected a relational one, with no indication of why. Guard: name the fallback in the UI when it occurs — "Relational thread unavailable: no entry links found. Showing temporal view."
+**1. Relational thread with no linkedEntries data** Falls back to TEMPORAL silently. User sees a temporal thread where they expected a relational one. Guard: name the fallback in the UI — "Relational thread unavailable: no entry links found. Showing temporal view."
 
-**2\. DB version mismatch between data.js and thread\_trace\_db.js** `onblocked` fires and the tab locks. Any open tab on the old version prevents the upgrade. Guard: REQUIRED\_VERSION in thread\_trace\_db.js must always match DB\_VERSION in data.js. Update both in the same change. Never increment one without the other.
+**2. Annotation written before thread is saved** Annotation has no thread ID to reference. Guard: save dialog opens before annotation is written. Annotation queued and written only after save confirms.
 
-**3\. Annotation written before thread is saved** Annotation has no thread ID to reference. Silent failure or orphaned record. Guard: save dialog opens before annotation is written. Annotation is queued and written only after save confirms with a valid thread ID.
+**3. Thread opened from panel with active section scoping** Entry fetch scoped to active section via API query parameter. Thread that should span multiple sections returns a subset. Guard: display active scope in filter bar header. Make section filter visible and clearable.
 
-**4\. Annotation mirror out of sync** saveAnnotation() or deleteAnnotation() writes to one store but fails before writing to the other. The fast-load mirror diverges from the annotations store. Guard: treat both writes as a unit. If the second write fails, the operation has not completed. Surface the error rather than proceeding with partial state.
+**4. Graph export before graph page exists** `GRAPH_PAGE_PATH = '/graph'` is a stub. Guard: graph export button disabled until path is a live route. Update both emergence component and ThreadTrace component together.
 
-**5\. Thread opened from a panel with active section scoping** Entry fetch is scoped to the active section. A thread that should span multiple sections returns a subset. User may not realize the thread is section-scoped. Guard: display active scope in the filter bar header. If section filter is active from panel context, make it visible and clearable.
+**5. API unavailable during thread build** FastAPI `/entries/` endpoint unreachable. Guard: error surfaced in UI. Overlay does not open.
 
-**6\. Graph export before graph page exists** `GRAPH_PAGE_PATH = '/graph'` is a stub. Routing there before the page is built produces a dead navigation. Guard: graph export button remains disabled until GRAPH\_PAGE\_PATH is a live route. Update both emergence.js and thread\_trace\_ui.js when the graph page is built.
+**6. API unavailable during thread save** FastAPI `/threads/` endpoint unreachable. Guard: save failure surfaced. Thread remains in Svelte store for retry.
+
+**7. Stale entry IDs on thread load** Saved thread references entry_ids that no longer exist. Guard: frontend fetches live entries by ID. Missing IDs return empty. Thread renders with available entries and surfaces notice.
 
 ---
 
-## **FILES**
+## FILES
 
 | File | Role | Status |
-| ----- | ----- | ----- |
-| `thread_trace.js` | Pure logic engine — four thread builders, seed resolution, edge label generation, routing summary, filter state, routing snapshot assembly. No DOM. No IDB. No Claude API. | PLANNED |
-| `thread_trace_ui.js` | ThreadTraceUI singleton — overlay shell, sequence view, graph view, filter bar, annotation layer, glyph injection, entry point wiring, save dialog | PLANNED |
-| `thread_trace_db.js` | IDB layer — saved\_threads store, thread\_annotations store, annotation mirroring, session-only state | PLANNED |
-
+| --- | --- | --- |
+| `src/lib/components/ThreadTrace.svelte` | Overlay shell, sequence view, graph view, filter bar, annotation layer, entry point trigger bindings | PLANNED |
+| `src/lib/thread-trace.ts` | Pure logic — four thread builders, seed resolution, edge labels, routing summary, routing snapshot. No DOM. No API. | PLANNED |
+| `src/lib/stores/thread.ts` | Svelte store for session-only thread state. currentThread, isOverlayOpen. | PLANNED |
+| `backend/routes/threads.py` | FastAPI routes for `/threads/` — CRUD saved threads, annotations, touch | PLANNED |
+| `backend/models/thread.py` | SQLAlchemy models for saved_threads and thread_annotations tables | PLANNED |

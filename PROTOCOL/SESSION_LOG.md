@@ -4301,3 +4301,45 @@ NEXT_ACTION: Next session begins infrastructure stage 7 — last infrastructure 
   Trace.md + SYSTEM_ Composite ID.md (Category A items). Then: cleanup pass (Categories
   B, C, D — 13 files, ~195 old refs), systems verification, SOT.
 ---
+
+---
+TIMESTAMP: 2026-04-05
+TYPE: OPEN
+FILES_MODIFIED:
+  - none
+COMPLETED:
+  - none
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Infrastructure stage 7: install anthropic package, verify Claude API, create SWARM ARCHITECTURE SCHEMA.md, update THREAD TRACE SCHEMA + COMPOSITE ID SCHEMA + SYSTEM_ Thread Trace.md + SYSTEM_ Composite ID.md
+UNCOMMITTED: NO
+NEXT_ACTION: Begin infrastructure stage 7 — install anthropic in backend venv
+---
+
+---
+TIMESTAMP: 2026-04-05
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - backend/requirements.txt — COMPLETE (anthropic==0.89.0 + 4 dependencies pinned, 30→35 packages)
+  - backend/.env — COMPLETE (ANTHROPIC_API_KEY added, gitignored)
+  - DOCS/Systems/SWARM ARCHITECTURE SCHEMA.md — COMPLETE (new file: origin nodes, identity integrity, presence states, multi-presence, parallax, autonomous initiation, turn management, lattice material, session behavior, runtime, cross-references)
+  - DOCS/Systems/THREAD TRACE SCHEMA.md — COMPLETE (storage IDB→PostgreSQL, queries→FastAPI, entry fetch→API, TaggerBus→tagger store, DOM→Svelte, 3 JS modules→Svelte components + FastAPI endpoints)
+  - DOCS/Systems/COMPOSITE ID SCHEMA.md — COMPLETE (ts_sequence IDB→PostgreSQL SEQUENCE, stamp assembly→FastAPI service, CompositeIdBus→Svelte component, schema.js→API/store)
+  - DOCS/Systems/SYSTEM_ Thread Trace.md — COMPLETE (~35 old refs replaced: TaggerBus, data.js, IDB, emergence.js, tags-vocab.js, DOM glyph injection, 3 JS files→Svelte+FastAPI)
+  - DOCS/Systems/SYSTEM_ Composite ID.md — COMPLETE (~37 old refs replaced: CompositeIdBus, data.js, schema.js, IDB, DOM element ID maps→Svelte+FastAPI+PostgreSQL)
+COMPLETED:
+  - anthropic==0.89.0 installed in backend venv, Claude API verified (claude-sonnet-4-20250514 responded)
+  - SWARM ARCHITECTURE SCHEMA.md created — phase 2 design document, wire-once principle
+  - THREAD TRACE SCHEMA.md updated — all architecture refs moved to PostgreSQL/FastAPI/Svelte
+  - COMPOSITE ID SCHEMA.md updated — sequence counter to PG SEQUENCE, stamp assembly split frontend/backend
+  - SYSTEM_ Thread Trace.md synced with schema — all old refs replaced
+  - SYSTEM_ Composite ID.md synced with schema — all old refs replaced
+  - Cleanup pass item logged: SYSTEM_ FastAPI.md parallax origin_type=lattice→parallax_event
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Stage 7 commit and push
+UNCOMMITTED: YES
+NEXT_ACTION: Commit stage 7 work and push
+---
