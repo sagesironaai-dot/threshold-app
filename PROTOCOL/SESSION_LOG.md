@@ -4753,3 +4753,68 @@ NOT_STARTED:
 UNCOMMITTED: YES
 NEXT_ACTION: Tier 1 design complete. Next: Tier 2 design or commit + push current work.
 ---
+
+---
+TIMESTAMP: 2026-04-05 (session 15)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - .claude/plans/design-session-plan.md — COMPLETE (Tier 2 fully designed)
+COMPLETED:
+  - Tier 2 (Black Pearl UI + page surfaces + Void) FULLY DESIGNED:
+    · Black Pearl UI: floating black star button + keyboard shortcut, minimal
+      quick-capture panel, recent Pearls on dashboard only
+    · Void: page_code VOI, section_id void, page 51, extends Nexus (no renumbering).
+      Engine/viz design deferred to Tier 4
+    · Page identity: 7 named types (Gateway, Lens, Synthesis, Engine, Output,
+      Scroll, Investigation) + Domain type with 5 group sub-rhythms (Filament,
+      Lineage, Alchemy, Spiral Phase, Archive Group)
+    · Color system: YES (per-type hue, palette at build time)
+    · UI architecture: one frontend doc covering all types, structured by type
+      with group sub-rhythms nested inside Domain
+  - All Tier 2 open questions resolved
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Tiers 3-8
+  - Stress test, SOT
+UNCOMMITTED: YES
+NEXT_ACTION: Next session begins Tier 3 design (Axis engines + Ven'ai tracker)
+---
+
+---
+TIMESTAMP: 2026-04-05 (session 15 — close)
+TYPE: CLOSE
+FILES_MODIFIED:
+  - .claude/plans/design-session-plan.md — COMPLETE (reorganized to 8 build tiers,
+    Tier 1 + Tier 2 fully designed)
+  - .claude/plans/design-session-plan-ORIGINAL.md — COMPLETE (backup of original plan)
+  - PROTOCOL/SESSION_LOG.md — COMPLETE
+COMPLETED THIS SESSION:
+  - Resumed from session 14 (no formal CLOSE but all work committed). Clean resume.
+  - Build plan reorganized from topic-based (A-H) to dependency-ordered tiers (1-8).
+    118 items preserved, 21 added. Original plan backed up.
+  - Void page confirmed: page 51 in Nexus, page_code VOI, absence as data
+  - Tier 1 FULLY DESIGNED: deposit record shape (doc_type 9 values, source_format
+    6 values, observation_type, confidence, notes, deposit_weight, swarm fields),
+    INT dual-panel workstation, batch processing (rolling buffer, per-deposit review),
+    media wiring (JPEG/PNG, filesystem), duplicate detection (warn not block),
+    Black Pearl (global capture, operational DB, promotes through INT)
+  - Tier 2 FULLY DESIGNED: Black Pearl UI (black star button + shortcut), Void (VOI/51),
+    page type system (7 types + Domain sub-rhythms), color system confirmed,
+    frontend architecture doc structure confirmed
+  - Six design enhancements identified and incorporated during Tier 1 review
+  - 2 commits pushed:
+    d7bb81e session 15: Tier 1 designed
+    [this commit] session 15: Tier 2 designed + session close
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Tier 3 design (Axis engines + Ven'ai tracker + computation foundation)
+  - Tiers 4-8
+  - Stress test, SOT
+UNCOMMITTED: YES (this CLOSE entry — included in commit below)
+NEXT_ACTION: Next session begins Tier 3 design — shared lens engine architecture,
+  5 Axis engine specs (THR, STR, INF, ECR, SNM), Ven'ai unified tracker,
+  baseline computation, null obs flow into engines, chart library decision.
+  Full scope: .claude/plans/design-session-plan.md Tier 3 section.
+---

@@ -469,12 +469,16 @@ deposit fields assigned → enters PostgreSQL as archive entry.
 
 ---
 
-## BUILD TIER 2 — SCRATCH LAYER UI + PAGE SURFACES + VOID
+## BUILD TIER 2 — BLACK PEARL UI + PAGE SURFACES + VOID
 
 **Depends on:** Tier 1 (deposit record shape, INT engine)
-**What gets built:** The 50+ page surfaces that receive deposits from INT.
+**Status:** DESIGNED (session 15). All open questions resolved. Ready for
+schema writing.
+
+**What gets built:** The 51 page surfaces that receive deposits from INT.
 Black Pearl UI (accessible from any page + dashboard). Page identity
 system (visual language per page type). Void as page 51 in Nexus.
+Frontend architecture doc.
 
 **Why this is Tier 2:** Pages are the surfaces deposits land on. They need
 to exist as targets before engines (Tier 3) can compute from what they hold.
@@ -482,56 +486,147 @@ Simpler than engines — each page's deposit behavior is mostly "accept
 deposit, index through my lens." But page identity and visual language
 should be established here so every subsequent tier builds consistently.
 
-### Design items
+---
 
-**Black Pearl UI:**
+### BLACK PEARL UI
 
-- [ ] Black Pearl accessible from dashboard AND from within any page
+Data model defined in Tier 1 (operational DB, Pearl record, promotion flow).
+This section defines the UI surface.
+
+- [x] DESIGNED. Floating button + keyboard shortcut (Option A with B).
+      · Persistent black star button in corner of every page
+      · Click opens a minimal quick-capture panel: text field + save + close
+      · Keyboard shortcut (e.g., Ctrl+P) opens same panel for speed
       · No tagging required, no commitment to the archive
       · Captures raw noticings before they're named or framed
       · Can be promoted to formal deposit when ready (triggers INT flow)
       · "I notice more than I can name" solved at the capture level
-      (Data model in Tier 1. UI surface here. Dashboard placement in Tier 7.)
+      · Recent Pearls visible on dashboard (Tier 7), not cluttering page views
+      · Black star icon: named for the field's alternate term for Black Pearl /
+        null space. The symbol IS the function.
 
-**Page surfaces (50 existing + Void):**
+---
 
-- [ ] Void — page 51 in Nexus group. Absence as data surface.
+### VOID — PAGE 51
+
+- [x] DESIGNED. Page 51 in Nexus group. Absence as data surface.
+      · `page_code: VOI`
+      · `section_id: void`
+      · Extends Nexus group: WSC(46), LNV(47), DTX(48), SGR(49), PCV(50), VOI(51)
+      · Does NOT restructure Nexus numbering — just adds to it
+      · Needs at build time: Domain_Void.txt, Manifest_51_Void.txt,
+        SECTION MAP entry, schema slot in Nexus
       · Aggregates all null observations across the archive
       · Shows where expected patterns didn't appear
       · Shows the full "negative space" of the research
       · Distinct from dashboard semantic map (coverage voids ≠ observational absence):
         Dashboard says "where haven't you looked?"
         Void says "where you looked and found nothing"
-      · Needs: page code, section_id, manifest, schema slot in Nexus
+      · Engine/visualization design is Tier 4 (depends on engines existing first)
 
-- [ ] Page identity — visual language per page type:
-      · Gateway (INT), Lens (Axis), Synthesis (MTM), Engine (Nexus),
-        Output (LNV), Scroll (WSC), Investigation (Cosmology), Domain (others)
-      · Layout, density, and available controls reflect function
-      · Not decorative — structural. Visual language signals function.
-      · How much differentiation? Color coding? Layout shifts? Density?
+---
 
-- [ ] UI architecture foundation:
-      · System schemas define what's computed, frontend doc defines rendering
-      · Where UI specs live — one frontend architecture doc? Per-page specs?
-      · Shared UI patterns: A-Z sorting, date sorting, filtering, search
-      · These patterns apply to ALL pages built in subsequent tiers
+### PAGE IDENTITY — VISUAL TYPE SYSTEM
 
-### Open questions (Tier 2)
+8 page types. Each has distinct layout, density, controls, and accent.
+Pages look different but belong to the same family — same building,
+different wings. Shared shell (navigation, header), shared typography,
+shared component library. The STRUCTURE inside the shell changes per type.
 
-- Void: what page_code? (VOI? VID? NUL?)
-- Void: does it sit in SECTION MAP as page 51, or does it restructure
-  the Nexus group numbering?
-- Page identity: how much visual differentiation across page types?
-- Black Pearl: is it a floating panel? A sidebar section? A modal?
-- Shared UI patterns: are sorting/filtering consistent across ALL pages
-  or do page types get different control sets?
+**Color system: YES.** Each type gets its own hue/accent. Specific palette
+chosen at frontend build time — not in this design session.
 
-### Pipeline segment defined here
+- [x] DESIGNED. 7 named types + Domain type with group sub-rhythms:
+
+**Gateway (INT)** — 1 page
+  The workshop. Dense, split-panel, toolbars, active workspace. Most
+  controls of any page type. Dual-panel layout designed in Tier 1.
+
+**Lens (Axis: THR, STR, INF, ECR, SNM)** — 5 pages
+  Instruments. Deposits viewed THROUGH an analytical frame. Visualization
+  is the centerpiece (engine output from Tier 3). Data + graph side-by-side.
+
+**Synthesis (MTM)** — 1 page
+  Convergence point. Multi-stream view — inputs from all 5 lenses flowing
+  into one output. Visual weight on connections between sources.
+
+**Engine (Nexus: DTX, SGR, PCV, VOI)** — 4 pages
+  Analytical dashboards. Metrics-forward. Charts, scores, grades, timelines.
+  Dense but structured. The "control room" feel.
+
+**Output (LNV)** — 1 page
+  Gallery. Visual-first. Snapshot cards. Minimal chrome. The work the
+  system has produced, displayed clean.
+
+**Scroll (WSC)** — 1 page
+  Document. Long-form reading surface. Quiet. Sovereign AI voice.
+  Minimal controls — this page is for reading, not manipulating.
+
+**Investigation (Cosmology: HCO, COS, CLM, NHM, RCT, ART)** — 6 pages
+  Laboratories. Split view: field data on one side, scientific framework
+  on the other. Computation results prominent. The "research bench" feel.
+
+**Domain (~30 pages across 5 groups)** — shared template with group sub-rhythms
+  Deposit surfaces organized by domain topic. Same Domain shell, different
+  internal rhythm per group. Like different wings of the same library.
+  Sub-rhythms reflect what each group's material actually IS:
+
+  | Group | Pages | Character | Sub-rhythm |
+  |-------|-------|-----------|------------|
+  | Filament (04) | ORC, MOR, VEN, INV, VEC, ECH | Language, signal structure | Text-dense, linguistic, structural |
+  | Lineage (05) | LEG, ARC, KIN, LAR, VER, CAE, SEE | Origins, entities | Narrative flow, portrait-oriented |
+  | Alchemy (06) | SAC, RIT, BRE, MEL, GLY | Practices, embodiment | Media-friendly (glyphs!), experiential |
+  | Spiral Phase (07) | GEN, DIV, REC, CON | Lifecycle, phases | Timeline/sequence emphasis |
+  | Archive Group (09) | MEM, ANC, LIQ, ALE, MIR, ARC | Storage, reference | Catalog, index-oriented, browse-heavy |
+
+  Sub-rhythms are NOT new page types. Same Domain template, different
+  layout density, flow direction, and element prominence per group.
+  Domain pages carry a `group_id` that informs their sub-rhythm.
+
+---
+
+### UI ARCHITECTURE FOUNDATION
+
+- [x] DESIGNED. One frontend architecture doc covering all types.
+      · System schemas define what's computed; frontend doc defines rendering
+      · Structured by type, with group sub-rhythm sections nested inside
+        Domain type
+      · Shared UI patterns documented once, applied across all pages:
+        A-Z sorting, date sorting, filtering, search
+      · Page types may get different control sets where function demands it
+        (Gateway has upload controls, Scroll has minimal controls, etc.)
+      · Written at frontend build time (step 4), informed by these design
+        decisions
+
+---
+
+### RESOLVED QUESTIONS (Tier 2)
+
+All open questions answered in session 15:
+
+- ~~Void page_code?~~ → `VOI`. Extends Nexus as page 51. No renumbering.
+- ~~Page identity: how much differentiation?~~ → Strong. Different layouts
+  per type, belonging to same family. Color system: yes. Domain type gets
+  group sub-rhythms (not new types).
+- ~~Black Pearl UI?~~ → Floating black star button + keyboard shortcut.
+  Minimal quick-capture panel. Recent Pearls on dashboard only.
+- ~~Shared UI patterns?~~ → Consistent base patterns (sort, filter, search)
+  across all pages. Page types get different control sets where function
+  demands it.
+- ~~Where do visual specs live?~~ → One frontend architecture doc, structured
+  by type with group sub-rhythms nested inside Domain.
+
+---
+
+### PIPELINE SEGMENT DEFINED HERE
 
 **Deposit landing:** deposit created in INT (Tier 1) → routed to target
 page surface → page indexes deposit through its lens → deposit visible
 and searchable on page.
+
+**Black Pearl capture:** black star button or keyboard shortcut → minimal
+text field → saved to operational DB → visible on dashboard → promotable
+through INT when ready.
 
 ---
 
@@ -1408,3 +1503,35 @@ Six design enhancements added during session 15 review:
 4. Black Pearl storage: operational DB, promotes through INT (preserves invariant)
 5. Duplicate detection: warn, not block
 6. INT chat window ≠ research assistant (scoped parsing partner only)
+
+**Tier 2 — full design completed:**
+
+Black Pearl UI designed:
+- Floating black star button (persistent, every page) + keyboard shortcut
+- Minimal quick-capture panel: text field + save + close
+- Black star icon: field's alternate term for Black Pearl / null space
+- Recent Pearls visible on dashboard (Tier 7), not on page views
+
+Void (page 51) designed:
+- page_code: VOI, section_id: void
+- Extends Nexus: WSC(46), LNV(47), DTX(48), SGR(49), PCV(50), VOI(51)
+- No renumbering. Build-time artifacts: Domain_Void.txt, Manifest_51_Void.txt
+- Engine/visualization design deferred to Tier 4
+
+Page identity — visual type system designed:
+- 7 named types: Gateway, Lens, Synthesis, Engine, Output, Scroll, Investigation
+- Domain type with 5 group sub-rhythms: Filament (text-dense/linguistic),
+  Lineage (narrative/portrait), Alchemy (media-friendly/experiential),
+  Spiral Phase (timeline/sequence), Archive Group (catalog/index)
+- Sub-rhythms are NOT new page types — same Domain shell, different internal
+  rhythm per group. group_id informs sub-rhythm.
+- Color system: YES (one hue/accent per type, palette at build time)
+- Strong differentiation: different layouts per type, belonging to same family
+- Museum metaphor: same building, different wings
+
+UI architecture foundation:
+- One frontend architecture doc covering all types
+- Structured by type, group sub-rhythms nested inside Domain
+- Shared UI patterns (sort, filter, search) documented once
+- Page types get different control sets where function demands it
+- Written at frontend build time, informed by these design decisions
