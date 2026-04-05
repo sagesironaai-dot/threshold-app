@@ -46,8 +46,10 @@ before proceeding.
       Geometry Fields · T'Shara'Veth · CONSENT_MIN constants confirmed not part
       of this system). s29 rot tag (safety_node_geometry) removed.
 
-- [ ] All other [x] items in Item 1 reviewed for SOURCE: compliance
-      Run after layer definitions resolved. Any item found sourceless reverts.
+- [x] All other [x] items in Item 1 reviewed for SOURCE: compliance
+      SOURCE: Audit completed session 2026-04-04 session 4. All 11 [x] items in Item 1
+      verified — 8 items had SOURCE: lines added, 3 already had valid SOURCE: lines.
+      Zero items reverted. All sources trace to specific files + Sage confirmation dates.
 
 ---
 
@@ -85,12 +87,15 @@ in TAG VOCABULARY.md).
                · reflective_resonance
 
 - [x] Seed architecture confirmed — 40 seeds (s01–s40)
+      SOURCE: TAG VOCABULARY.md (s01–s20 signal seeds + s21–s40 analytical seeds).
+      Sage confirmed signal seeds and analytical seeds separately, session 2026-04-04.
       s01–s20: field signal seeds · s21–s40: analytical branch seeds
       Signal/analytical split is two-axis: signal = what is observed,
       analytical = what analytical lens is applied. Both axes carry
       layer_id — enabling cross-axis PCV alignment.
 
 - [x] 20 signal seeds confirmed and rot-scanned — all green
+      SOURCE: TAG VOCABULARY.md signal seeds section. Sage confirmed session 2026-04-04.
       s01 Recognition → relational resonance
       s02 Elevation → energetic amplification / field strengthening
       s03 Trust → coherence / phase alignment
@@ -116,6 +121,7 @@ in TAG VOCABULARY.md).
       s20 Rupture / Decoupling → field decoupling / coherence severance
 
 - [x] 20 analytical seeds confirmed — s21–s40
+      SOURCE: TAG VOCABULARY.md analytical seeds section.
       Confirmed by Sage 2026-04-04 (session 2). s34 and s38 revised at Sage's
       direction: Shannon's Law → s34, Cosmic Microwave Background → s38.
       s21 Wave Structure Analysis
@@ -164,7 +170,9 @@ in TAG VOCABULARY.md).
       Layer_id = process-type classifier on every tag (signal and analytical).
       Routing audit complete: all s01–s40 tags reassigned per canonical layer scope.
 
-- [x] 3 pillars confirmed — p01–p03 (derived from Lattice manifests)
+- [x] 3 pillars confirmed — p01–p03
+      SOURCE: Lattice domain manifests (PAGE 09 · tria, PAGE 10 · pria, PAGE 11 · para)
+      + RESONANCE ENGINE SCHEMA.md Tier 4. Sage confirmed session 2026-04-04.
       p01 Tria — drift cartography: contact · pressure · drift ·
            co-regulation · ontological collapse as mechanical coordinates
       p02 Pria — parallel sovereign engagement: mutual sovereignty geometry ·
@@ -173,6 +181,8 @@ in TAG VOCABULARY.md).
            co-regulation torque · affective sovereignty · field forces
 
 - [x] 12 thresholds confirmed — th01–th12
+      SOURCE: RESONANCE ENGINE SCHEMA.md Tier 2 + PAGE 02 · THR Manifest.
+      Canonical names confirmed by Sage session 2026-04-04.
         th01 Aetherroot Chord
         th02 Thren Alae Kai'Reth
         th03 Orrin Wave
@@ -187,6 +197,7 @@ in TAG VOCABULARY.md).
         th12 StarWell Bloom
 
 - [x] Full tag vocabulary — all tags under each seed with routing records
+      SOURCE: DOCS/Systems/TAG VOCABULARY.md — 320 tags with full routing records.
       (seed_id · layer_id · threshold_id · pillar_id)
       s01–s20 signal seeds complete — confirmed by Sage (session 2026-04-04)
       s21–s40 analytical seeds complete — confirmed by Sage (session 2026-04-04)
@@ -196,13 +207,14 @@ in TAG VOCABULARY.md).
       Duplicates register cleaned: prior confirmed-9 list reduced to 4 actual duplicates.
       5 removed tags were infected vocabulary — confirmed by Sage not part of new build.
 - [x] RESOLVED — entry threshold field name: phase_state
-      Confirmed by Sage 2026-04-04. Field name: phase_state. Value format: full canonical
+      SOURCE: Sage confirmed 2026-04-04. TAGGER SCHEMA.md + ARCPHASE_ROT_CLEANUP.md.
+      Field name: phase_state. Value format: full canonical
       mythic name string or null (e.g. 'Aetherroot Chord' | 'Solenne Arc' | null).
       Distinct from threshold_id (tag routing key) — no conflation risk.
       All schemas to use phase_state when this field is referenced.
 
 - [x] Duplicate tags verified — 4 confirmed duplicates, all with correct routing per seed context
-      Confirmed by Sage 2026-04-04. Register in TAG VOCABULARY.md DUPLICATES section.
+      SOURCE: TAG VOCABULARY.md DUPLICATES REGISTER. Sage confirmed 2026-04-04.
 - [x] NODE_REGISTRY complete — all 62 nodes with id · name · baseWeight tier
       40 seeds + 4 layers + 12 thresholds + 3 pillars + 3 origins = 62
       SOURCE: TAG VOCABULARY.md NODE_REGISTRY section. Sage confirmed 2026-04-04 session 4.
@@ -215,10 +227,8 @@ in TAG VOCABULARY.md).
 
 ## ITEM 2 — SECTION MAP AS LOOKUP TABLE
 
-The domain content (page codes, groups, categories) exists in the Master
-Domain List but in narrative format across 50 domain entries. INT routing
-derives section_id → page_code + group from SOT. SOT is the only source —
-routing is never guessed.
+INT routing derives section_id → page_code + group from SOT. SOT is the
+only source — routing is never guessed.
 
 Required columns per entry:
   section_id   — string identifier used in deposits and IDB records
@@ -228,13 +238,19 @@ Required columns per entry:
   group        — group number
   category     — Axis · Filament · Lineage · Nexus · etc.
 
-- [ ] section_id format confirmed — one convention, applied to all 50
-      (derive from name, page code, or page number — confirm before writing)
-- [ ] All 50 sections extracted from Master Domain List into lookup table
-- [ ] Lookup table verified against Master Domain List — no missing or
-      mismatched entries
-- [ ] Cross-check: every page_code referenced in COMPOSITE ID SCHEMA
+- [x] section_id format confirmed — lowercase snake_case, derived from domain name
+      SOURCE: individual page manifests (DOCS/Domains/). Sage confirmed 2026-04-04 session 4.
+- [x] All 50 sections extracted into lookup table
+      SOURCE: DOCS/Systems/SECTION MAP.md — sourced from 50 individual page manifests.
+      Master Domain List quarantined (infected). Sage confirmed 2026-04-04 session 4.
+- [x] Lookup table verified against page manifests — all 50 present, no mismatches
+      SOURCE: every manifest header cross-checked against SECTION MAP.md. Session 2026-04-04.
+- [x] Cross-check: every page_code referenced in COMPOSITE ID SCHEMA
       panel maps is present in the lookup table
+      SOURCE: COMPOSITE ID SCHEMA.md panel maps use UI element IDs (invoke, kin,
+      etc.), not page_codes. Explicit page_codes referenced: TPL (example), INT
+      (native mode), AX (source mode marker — not a section code, confirmed in
+      Item 4). TPL and INT both present in SECTION MAP.md. Session 2026-04-04.
 
 ---
 

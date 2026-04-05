@@ -3253,3 +3253,31 @@ NOT_STARTED:
 UNCOMMITTED: YES
 NEXT_ACTION: Commit and push.
 ---
+
+---
+TIMESTAMP: 2026-04-04 (session 4 — items 0+2)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/SOT_BUILD_TODO.md — COMPLETE
+      ITEM 0: SOURCE compliance review complete — 8 items had SOURCE: lines added,
+      3 already had valid lines. 11/11 [x] items verified. ITEM 0 fully [x].
+      ITEM 2: all 4 sub-items [x] with SOURCE lines.
+  - DOCS/Systems/SECTION MAP.md — NEW FILE
+      50-section lookup table: section_id · page_code · page_number · name · group · category
+      Sourced from 50 individual page manifests (not Master Domain List)
+  - DOCS/Domains/Master Domain List.txt — DELETED (quarantined by Sage)
+      Reason: infected. Individual page manifests are the source of truth.
+      MDL will be rebuilt clean from manifests in a future session.
+  - PROTOCOL/SESSION_LOG.md — COMPLETE (this entry)
+COMPLETED:
+  - ITEM 0 SOURCE compliance: all 11 [x] items in Item 1 verified with SOURCE: lines
+  - ITEM 2 SECTION MAP: 50 sections extracted, section_id format confirmed (snake_case),
+    cross-check against COMPOSITE ID SCHEMA complete
+  - Master Domain List quarantined — Sage confirmed
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - SOT_BUILD_TODO Items 3–5
+UNCOMMITTED: YES
+NEXT_ACTION: Commit. Then Item 3 (PHASE_CODES) and Item 4 (PAGE_CODES).
+---
