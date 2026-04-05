@@ -4050,3 +4050,152 @@ NOT_STARTED:
 UNCOMMITTED: YES
 NEXT_ACTION: Commit all stage 5 changes and push to GitHub
 ---
+
+---
+TIMESTAMP: 2026-04-05 (session 9)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/Systems/Tagger System.md — COMPLETE (synced with TAGGER SCHEMA.md:
+    TaggerBus→FastAPI endpoint + Svelte store, IDB→PostgreSQL, JS methods→
+    FastAPI endpoints + store interface, all 30 old refs cleaned)
+  - DOCS/Systems/SYSTEM_ Emergence.md — COMPLETE (synced with EMERGENCE SCHEMA.md:
+    EmergenceEngine JS→FastAPI endpoints, IDB→PostgreSQL, window.ThreadTraceUI→
+    Svelte import, findings→PostgreSQL persistence, all 14 old refs cleaned)
+COMPLETED:
+  - Blocking gap fix: both SYSTEM_ files now consistent with their SCHEMA counterparts
+  - Integrity scan across all 27 DOCS/Systems files
+  - Committed and pushed: stage 5 commit + blocking gap fix commit
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - none
+UNCOMMITTED: NO
+NEXT_ACTION: Write session close with cleanup pass findings
+---
+
+---
+TIMESTAMP: 2026-04-05 (session 9 — close)
+TYPE: CLOSE
+FILES_MODIFIED:
+  - backend/.venv/ — COMPLETE (Python 3.14.2 virtual environment)
+  - backend/requirements.txt — COMPLETE (30 pinned dependencies)
+  - backend/config.py — COMPLETE (env loading, DB URLs, API keys)
+  - backend/db/postgres.py — COMPLETE (async engine, session factory, connect/disconnect)
+  - backend/db/sqlite.py — COMPLETE (async engine, WAL mode, connect/disconnect)
+  - backend/main.py — COMPLETE (FastAPI app, lifespan, /health endpoint)
+  - backend/.env — COMPLETE (gitignored)
+  - backend/db/operational.db — COMPLETE (SQLite file, gitignored)
+  - backend/__init__.py + 5 package markers — COMPLETE
+  - DOCS/Systems/SYSTEM_ FastAPI.md — COMPLETE (new file)
+  - DOCS/Systems/INTEGRATION SCHEMA.md — COMPLETE (FastAPI pipeline, embedding handoff)
+  - DOCS/Systems/TAGGER SCHEMA.md — COMPLETE (FastAPI endpoint + Svelte store)
+  - DOCS/Systems/EMERGENCE SCHEMA.md — COMPLETE (FastAPI service layer + pgvector)
+  - DOCS/Systems/Tagger System.md — COMPLETE (synced with TAGGER SCHEMA)
+  - DOCS/Systems/SYSTEM_ Emergence.md — COMPLETE (synced with EMERGENCE SCHEMA)
+  - .gitignore — COMPLETE (added __pycache__, *.pyc, .venv/, *.db)
+  - PROTOCOL/SESSION_LOG.md — COMPLETE
+COMPLETED THIS SESSION:
+  - Infrastructure stage 5 COMPLETE — all 3 layers:
+    Layer 1: venv, 9 packages (30 total), directory structure, config.py,
+      db/postgres.py, db/sqlite.py, main.py. Server verified: uvicorn started,
+      GET /health returned {"status":"ok","postgres":true,"sqlite":true}
+    Layer 2: SYSTEM_ FastAPI.md — ownership, routes, swarm patterns, embedding
+      orchestration, 6 failure modes, files table
+    Layer 3: 3 schema updates (INTEGRATION SCHEMA, TAGGER SCHEMA, EMERGENCE SCHEMA)
+  - Integrity scan: all 27 DOCS/Systems files scanned for old architecture references
+  - Blocking gap fix: Tagger System.md + SYSTEM_ Emergence.md synced with updated schemas
+  - 2 commits pushed:
+    6ab7587 stage 5: FastAPI skeleton verified, SYSTEM_ FastAPI + 3 schema updates
+    e6acf25 fix: sync Tagger System.md and SYSTEM_ Emergence.md
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Infrastructure stage 6: Svelte + Vite
+  - Infrastructure stage 7: Claude API + SWARM ARCHITECTURE SCHEMA
+
+CLEANUP PASS — DETAILED FINDINGS
+=================================
+Integrity scan found 195 old-architecture references across 18 files NOT yet
+updated. These fall into three categories:
+
+CATEGORY A — Add to Stage 6/7 update map (SYSTEM_ files for scheduled schemas):
+  These SYSTEM_ files must update alongside their SCHEMA counterparts to prevent
+  the same SCHEMA/SYSTEM_ inconsistency we just fixed.
+
+  1. resonance_engine_system.md — 7 old refs (CustomEvent, index.html, canvas refs)
+     → Add to Stage 6 alongside RESONANCE ENGINE SCHEMA.md update
+
+  2. SYSTEM_ Thread Trace.md — 29 old refs (TaggerBus throughout, data.js, IDB)
+     → Add to Stage 7 alongside THREAD TRACE SCHEMA.md update
+
+  3. SYSTEM_ Composite ID.md — 18 old refs (IDB, data.js, schema.js, ts_sequence)
+     → Add to Stage 7 alongside COMPOSITE ID SCHEMA.md update
+
+CATEGORY B — 5 SCHEMA files not on any stage's update map:
+  These schemas describe their data stores as IDB/data.js when they are now
+  PostgreSQL tables accessed via FastAPI service layer.
+
+  4. DRIFT TAXONOMY SCHEMA.md — 5 old refs
+     Stale: "drift_events IDB store", "IDB reads outside drift_events — owned
+     by data.js", "IDB write failure"
+     Fix: IDB store→PostgreSQL table, data.js→FastAPI service layer
+
+  5. METAMORPHOSIS SCHEMA.md — 14 old refs
+     Stale: "IDB via data.js", "IDB read fails", all data.js store references
+     Fix: IDB→PostgreSQL, data.js→FastAPI service layer, synthesis reads via API
+
+  6. DAILY NEXUS ROUTINE SCHEMA.md — 6 old refs
+     Stale: "IDB reads", "data.js", "mtm.js"
+     Fix: IDB→PostgreSQL, data.js/mtm.js→FastAPI services
+
+  7. SIGNAL GRADING SCHEMA.md — 5 old refs
+     Stale: "signal_grades IDB store", "IDB reads outside signal_grades — owned
+     by data.js", "IDB write failure"
+     Fix: IDB store→PostgreSQL table, data.js→FastAPI service layer
+
+  8. PATTERN CONVERGENCE SCHEMA.md — 5 old refs
+     Stale: "patterns IDB store", "IDB reads outside patterns store — owned by
+     data.js", "IDB write failure"
+     Fix: IDB store→PostgreSQL table, data.js→FastAPI service layer
+
+CATEGORY C — 4 SYSTEM_ files not on any stage's update map:
+  These are ownership overview files for systems whose SCHEMA files are also
+  not on the update map (Category B) or reference old UI/JS architecture.
+
+  9. SYSTEM_ Archive.md — 23 old refs
+     Stale: index.html, data.js throughout
+     Fix: index.html→Svelte components, data.js→FastAPI service layer
+
+  10. SYSTEM_ Integration.md — 10 old refs
+      Stale: TaggerBus.init(), CompositeIdBus.init(), index.html
+      Fix: TaggerBus→tagger store, CompositeIdBus→composite ID service,
+      index.html→Svelte INT page component
+
+  11. SYSTEM_ Daily Nexus Routine.md — 6 old refs
+      Stale: data.js, IDB, mtm.js
+      Fix: same as DAILY NEXUS ROUTINE SCHEMA (#6 above)
+
+  12. SYSTEM_ Metamorphosis.md — 14 old refs
+      Stale: data.js, IDB throughout
+      Fix: same as METAMORPHOSIS SCHEMA (#5 above)
+
+CATEGORY D — Minor:
+
+  13. SECTION MAP.md — 2 old refs
+      Stale: "schema.js PHASE_CODES constant"
+      Fix: schema.js→SQLAlchemy models (backend/models/)
+
+RECOMMENDED APPROACH:
+  - Category A: fold into their respective stages (6 and 7) in the
+    infrastructure plan before those stages execute
+  - Categories B, C, D: single cleanup sweep after Stage 7 closes and
+    before the post-infrastructure systems verification run
+  - Total: 13 files, ~195 old references
+
+NEXT_ACTION: Next session begins infrastructure stage 6 — Svelte + Vite.
+  Before starting stage 6: update infrastructure plan to add Category A
+  items (resonance_engine_system.md to Stage 6, SYSTEM_ Thread Trace.md
+  and SYSTEM_ Composite ID.md to Stage 7). Then scaffold Svelte project,
+  create SYSTEM_ Frontend.md, update RESONANCE ENGINE SCHEMA + resonance_
+  engine_system.md.
+---
