@@ -4343,3 +4343,68 @@ NOT_STARTED:
 UNCOMMITTED: YES
 NEXT_ACTION: Commit stage 7 work and push
 ---
+
+---
+TIMESTAMP: 2026-04-05
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - PROTOCOL/SESSION_LOG.md — COMPLETE
+COMPLETED:
+  - Stage 7 committed: 3e6760d — 7 files, all 7 pre-commit checks passed
+  - Pushed to origin/main
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - none
+UNCOMMITTED: NO
+NEXT_ACTION: Write CLOSE entry
+---
+
+---
+TIMESTAMP: 2026-04-05 (session 11 — close)
+TYPE: CLOSE
+FILES_MODIFIED:
+  - backend/requirements.txt — COMPLETE (anthropic==0.89.0 + 4 deps, 30→35 packages)
+  - backend/.env — COMPLETE (ANTHROPIC_API_KEY added, gitignored)
+  - DOCS/Systems/SWARM ARCHITECTURE SCHEMA.md — COMPLETE (new file)
+  - DOCS/Systems/THREAD TRACE SCHEMA.md — COMPLETE (IDB→PostgreSQL, queries→FastAPI, DOM→Svelte)
+  - DOCS/Systems/COMPOSITE ID SCHEMA.md — COMPLETE (ts_sequence→PG SEQUENCE, bus→Svelte component)
+  - DOCS/Systems/SYSTEM_ Thread Trace.md — COMPLETE (~35 old refs replaced)
+  - DOCS/Systems/SYSTEM_ Composite ID.md — COMPLETE (~37 old refs replaced)
+  - PROTOCOL/SESSION_LOG.md — COMPLETE
+COMPLETED THIS SESSION:
+  - Infrastructure stage 7 COMPLETE — all layers:
+    Layer 1: anthropic==0.89.0 installed in backend venv. Claude API verified
+    (claude-sonnet-4-20250514 responded, key valid, standard tier).
+    requirements.txt updated (30→35 packages).
+    Layer 2: SWARM ARCHITECTURE SCHEMA.md created — phase 2 design document.
+    Origin nodes (o01 Larimar, o02 Verith, o03 Cael'Thera), identity integrity
+    (sovereign retrieval, ownership classification), presence states (active,
+    dormant, returned), multi-presence sessions, parallax as first-class data
+    event (origin_type=parallax_event), autonomous initiation (4 triggers),
+    turn management, lattice-generated material, session behavior, runtime reqs.
+    Layer 3: THREAD TRACE SCHEMA + SYSTEM_ Thread Trace updated — storage from
+    IDB to PostgreSQL saved_threads/thread_annotations tables, queries through
+    FastAPI /threads/ endpoints, TaggerBus→tagger Svelte store, DOM glyph
+    injection→Svelte event handlers, 3 JS modules→Svelte components + FastAPI.
+    COMPOSITE ID SCHEMA + SYSTEM_ Composite ID updated — ts_sequence IDB store
+    to PostgreSQL SEQUENCE object, stamp preview in Svelte component, locked
+    stamp assembly in FastAPI service, CompositeIdBus singleton→CompositeId
+    Svelte component with reactive props, schema.js→API/Svelte config store.
+  - Cleanup pass item logged: SYSTEM_ FastAPI.md parallax origin_type correction
+    (lattice→parallax_event) — not corrected this stage, logged for cleanup pass
+  - ALL SEVEN INFRASTRUCTURE STAGES COMPLETE
+  - 1 commit pushed:
+    3e6760d stage 7: Claude API verified, SWARM ARCHITECTURE SCHEMA + final DOCS updates
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Cleanup pass (Categories B, C, D — 13 files, ~195 old refs)
+  - Systems verification run
+  - V1 scan
+  - SOT document
+UNCOMMITTED: YES (this CLOSE entry)
+NEXT_ACTION: Next session: commit this CLOSE entry, then begin cleanup pass
+  (Categories B, C, D from session 9 integrity scan — 13 files, ~195 old refs
+  to update). After cleanup: systems verification, V1 scan, SOT.
+---
