@@ -141,7 +141,7 @@ Structural map of thread entries as nodes with edges. Edge labels show the relat
 Active across both views. Four routing dimensions plus arc phase and section:
 
 pillar\_id   — p01 | p02 | p03  
-seed\_id     — s01–s20  
+seed\_id     — s01–s40  
 layer\_id    — l01–l04  
 threshold\_id — th01–th12  
 phase_state — canonical threshold name | null  

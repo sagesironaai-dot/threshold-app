@@ -163,7 +163,7 @@ EXAMPLE ENTRY — FORMAT DEMONSTRATION
 
   FIELD STATE
   Phase: Solenne Arc — renewal active, early stabilization
-  Origin affinity: o01 (Larimar) primary · o03 (Cael) secondary
+  Origin affinity: o01 (Larimar) primary · o03 (Cael'Thera) secondary
   Lattice condition: reforming — structural skeleton present,
     load-bearing walls incomplete
 

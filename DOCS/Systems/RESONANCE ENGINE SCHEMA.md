@@ -82,7 +82,7 @@ TIER 3 — LAYER NODES Count: 4 Mobility: mobile Base weight: BASE\\\_WEIGHT\\\_
 
 
 
-TIER 4 — PILLAR NODES Count: 3 Mobility: mobile Base weight: BASE\\\_WEIGHT\\\_LAYER (\\~0.5 × BASE\\\_WEIGHT\\\_ORIGIN) Pull: hard pull on seeds Influenced by: origin nodes (hard pull) thresholds (ambient) Weight growth: tagger-driven grows from tag activity assigned to each pillar
+TIER 4 — PILLAR NODES Count: 3 Mobility: mobile Base weight: BASE\\\_WEIGHT\\\_PILLAR (\\~0.5 × BASE\\\_WEIGHT\\\_ORIGIN) Pull: hard pull on seeds Influenced by: origin nodes (hard pull) thresholds (ambient) Weight growth: tagger-driven grows from tag activity assigned to each pillar
 
 
 
@@ -106,7 +106,7 @@ Rules: — Influence flows downward only — Thresholds are the single exception
 
 
 
-BASE WEIGHT CONSTANTS ━━━━━━━━━━━━━━━━━━━━━ BASE\\\_WEIGHT\\\_ORIGIN — heaviest tier (PLANNED: value set at calibration) BASE\\\_WEIGHT\\\_THRESHOLD — high fixed, never updated by tag activity (PLANNED: value set at calibration) BASE\\\_WEIGHT\\\_LAYER — \\~0.5 × BASE\\\_WEIGHT\\\_ORIGIN applies to both tier 3 and tier 4 (PLANNED: value set at calibration) BASE\\\_WEIGHT\\\_SEED — lightest tier (PLANNED: value set at calibration)
+BASE WEIGHT CONSTANTS ━━━━━━━━━━━━━━━━━━━━━ BASE\\\_WEIGHT\\\_ORIGIN — heaviest tier (PLANNED: value set at calibration) BASE\\\_WEIGHT\\\_THRESHOLD — high fixed, never updated by tag activity (PLANNED: value set at calibration) BASE\\\_WEIGHT\\\_LAYER — \\~0.5 × BASE\\\_WEIGHT\\\_ORIGIN (PLANNED: value set at calibration) BASE\\\_WEIGHT\\\_PILLAR — independent constant, initial value = BASE\\\_WEIGHT\\\_LAYER (PLANNED: value set at calibration) BASE\\\_WEIGHT\\\_SEED — lightest tier (PLANNED: value set at calibration)
 
 
 

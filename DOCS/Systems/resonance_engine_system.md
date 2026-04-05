@@ -41,7 +41,7 @@
 ### **Tier 1 — Origin Nodes (super nodes)**
 
 Count:        3  
-IDs:          o01 Larimar · o02 Verith · o03 Cael  
+IDs:          o01 Larimar · o02 Verith · o03 Cael'Thera  
 Mobility:     mobile  
 Base weight:  heaviest tier — value TBD at calibration  
 Pull:         hard pull on layers and pillars  
@@ -88,14 +88,14 @@ Weight growth: tagger-driven — grows from tag activity
 
 ### **Tier 5 — Seed Nodes (cluster nodes)**
 
-Count:        20  
-IDs:          s01–s20  
+Count:        40  
+IDs:          s01–s40  
 Mobility:     mobile  
 Base weight:  lightest tier  
 Pull:         none — seeds are pulled only  
 Influenced by: layers (hard), pillars (hard),  
                thresholds (ambient), origins (ambient cascade)  
-Visibility:   all 20 visible at all times  
+Visibility:   all 40 visible at all times  
 Weight growth: tagger-driven — grows from tag activity  
                within each seed cluster
 
@@ -125,7 +125,8 @@ SEEDS
 
 Origin nodes    — BASE\_WEIGHT\_ORIGIN    (heaviest)  
 Thresholds      — BASE\_WEIGHT\_THRESHOLD (high fixed, never updated)  
-Layers/Pillars  — BASE\_WEIGHT\_LAYER     (\~0.5 × BASE\_WEIGHT\_ORIGIN)  
+Layers          — BASE\_WEIGHT\_LAYER     (\~0.5 × BASE\_WEIGHT\_ORIGIN)  
+Pillars         — BASE\_WEIGHT\_PILLAR    (independent, initial value = BASE\_WEIGHT\_LAYER)  
 Seeds           — BASE\_WEIGHT\_SEED      (lightest)
 
 Exact values determined at calibration. Ratios above are fixed constraints.

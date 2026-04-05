@@ -38,21 +38,16 @@ Claude assigns meaning. The vocabulary assigns position. resolveTagIds() is wher
 
 FAILURE BEHAVIOR ━━━━━━━━━━━━━━━━ If resolution fails for a tag — the id is not found in the vocabulary under the returned seed\_id — that tag is dropped. A tag that cannot be resolved has no routing record and cannot enter the archive.
 
-SEED CONTEXT REQUIREMENT ━━━━━━━━━━━━━━━━━━━━━━━━ Because 9 tags appear in more than one seed, resolution requires both id and seed\_id together. id alone is ambiguous. The seed\_id returned by Claude at tagging time is the authoritative context and is used as the lookup key.
+SEED CONTEXT REQUIREMENT ━━━━━━━━━━━━━━━━━━━━━━━━ Because 4 tags appear in more than one seed, resolution requires both id and seed\_id together. id alone is ambiguous. The seed\_id returned by Claude at tagging time is the authoritative context and is used as the lookup key.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ DUPLICATE TAG POLICY ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-The following 9 tags appear in more than one seed, each with distinct routing:
+4 confirmed duplicate tags — each appears in more than one seed with distinct routing:
 
-semantic\_coherence  
-world\_model\_grounding\_via\_action  
-narrative\_continuity  
-social\_signal\_filtering  
-confidence\_estimation  
-uncertainty\_representation  
-internal\_state\_influence\_on\_action  
 phase\_locking  
-met\_stability
+met\_stability  
+social\_signal\_filtering  
+reflective\_resonance
 
 When a duplicate tag is applied to an entry, it activates only the seed it was tagged under — not all seeds where the tag appears. The seed\_id is set by Claude at tagging time and is the authoritative routing key.
 
@@ -94,7 +89,7 @@ DOWNSTREAM USE ━━━━━━━━━━━━━━ phase_state sequences 
 
 originId identifies which Origin Node the entry has affinity with, if any. Assigned by Claude from entry text at tagging time. Stored on the entry record. Included in the TaggerBus handoff payload.
 
-VALUES ━━━━━━ o01 Larimar o02 Verith o03 Cael null no origin affinity detected
+VALUES ━━━━━━ o01 Larimar o02 Verith o03 Cael'Thera null no origin affinity detected
 
 DOWNSTREAM USE ━━━━━━━━━━━━━━ When an entry carries an originId, the corresponding Origin Node in the Resonance Engine pulses on deposit confirm. The node weight for that origin grows from tag activity on entries with matching origin affinity.
 

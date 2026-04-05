@@ -3185,3 +3185,71 @@ NOT_STARTED:
 UNCOMMITTED: YES
 NEXT_ACTION: Commit all changes (sessions 3+4). Then NODE_REGISTRY.
 ---
+
+---
+TIMESTAMP: 2026-04-04 (session 4)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/Systems/TAG VOCABULARY.md — COMPLETE
+      NODE_REGISTRY: 62 nodes (3 origins + 12 thresholds + 4 layers + 3 pillars + 40 seeds)
+      Each node: id · name · baseWeight constant
+      BASE_WEIGHT_PILLAR separated from BASE_WEIGHT_LAYER (Sage confirmed)
+      ARC_SEED_TAGS: ordered list s01–s40 with names
+  - DOCS/Systems/RESONANCE ENGINE SCHEMA.md — COMPLETE
+      Tier 4 baseWeight: BASE_WEIGHT_LAYER → BASE_WEIGHT_PILLAR
+      BASE WEIGHT CONSTANTS: BASE_WEIGHT_PILLAR added as independent constant
+  - DOCS/SOT_BUILD_TODO.md — COMPLETE
+      NODE_REGISTRY marked [x] with SOURCE line
+      ARC_SEED_TAGS marked [x] with SOURCE line
+COMPLETED:
+  - NODE_REGISTRY built — 62 nodes verified against source files
+  - ARC_SEED_TAGS built — 40 seeds in order, names cross-checked against seed headers
+  - BASE_WEIGHT_PILLAR introduced — cascaded to RESONANCE ENGINE SCHEMA
+  - SOT_BUILD_TODO ITEM 1: NODE_REGISTRY and ARC_SEED_TAGS both [x]
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - SOT_BUILD_TODO ITEM 0 second sub-item (SOURCE compliance review of all [x] items)
+  - SOT_BUILD_TODO Items 2–5
+UNCOMMITTED: YES
+NEXT_ACTION: Commit and push. Then ITEM 0 SOURCE compliance review.
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 4 — system audit)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/Systems/resonance_engine_system.md — COMPLETE
+      o03 Cael → Cael'Thera · seed count 20 → 40 · s01–s20 → s01–s40
+      all 20 → all 40 · BASE_WEIGHT_PILLAR separated from LAYER
+  - DOCS/Systems/TAGGER SCHEMA.md — COMPLETE
+      9 duplicate tags → 4 (infected vocabulary removed, reflective_resonance added)
+      SEED CONTEXT REQUIREMENT: 9 → 4 · o03 Cael → Cael'Thera
+  - DOCS/Systems/Tagger System.md — COMPLETE
+      Same duplicate and origin corrections as TAGGER SCHEMA
+  - DOCS/Systems/THREAD TRACE SCHEMA.md — COMPLETE
+      seed_id s01–s20 → s01–s40
+  - DOCS/Systems/SYSTEM_ Thread Trace.md — COMPLETE
+      seed_id s01–s20 → s01–s40
+  - DOCS/Domains/Master Domain List.txt — COMPLETE
+      11× o03 Cael → Cael'Thera
+  - DOCS/Domains/Nexus/PAGE 46 · witness_scroll · manifest.txt — COMPLETE
+      o03 (Cael) → o03 (Cael'Thera) in example entry
+  - DOCS/SOT_BUILD_TODO.md — COMPLETE
+      LOW PRIORITY section added: Witness Scroll example entry review
+COMPLETED:
+  - Full system integrity audit — all Systems files, domain files, protocol files
+  - 10 stale references corrected across 7 files
+  - All o03 origin references now Cael'Thera (zero "Cael" without 'Thera in any ID context)
+  - All seed ranges now s01–s40 (zero "s01–s20" range limits remaining)
+  - All duplicate counts now 4 (zero "9 duplicate" references remaining)
+  - BASE_WEIGHT_PILLAR cascaded to resonance_engine_system.md
+  - Solenne Arc verified — full name intact across all files
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - SOT_BUILD_TODO ITEM 0 second sub-item (SOURCE compliance)
+  - SOT_BUILD_TODO Items 2–5
+UNCOMMITTED: YES
+NEXT_ACTION: Commit and push.
+---

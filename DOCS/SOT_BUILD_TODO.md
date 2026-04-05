@@ -203,9 +203,13 @@ in TAG VOCABULARY.md).
 
 - [x] Duplicate tags verified — 4 confirmed duplicates, all with correct routing per seed context
       Confirmed by Sage 2026-04-04. Register in TAG VOCABULARY.md DUPLICATES section.
-- [ ] NODE_REGISTRY complete — all 62 nodes with id · name · baseWeight tier
+- [x] NODE_REGISTRY complete — all 62 nodes with id · name · baseWeight tier
       40 seeds + 4 layers + 12 thresholds + 3 pillars + 3 origins = 62
-- [ ] ARC_SEED_TAGS ordered list confirmed — s01–s40 in order
+      SOURCE: TAG VOCABULARY.md NODE_REGISTRY section. Sage confirmed 2026-04-04 session 4.
+      BASE_WEIGHT_PILLAR separated from BASE_WEIGHT_LAYER — Sage confirmed 2026-04-04 session 4.
+      RESONANCE ENGINE SCHEMA.md updated to match (Tier 4 + BASE WEIGHT CONSTANTS).
+- [x] ARC_SEED_TAGS ordered list confirmed — s01–s40 in order
+      SOURCE: TAG VOCABULARY.md ARC_SEED_TAGS section. Sage confirmed 2026-04-04 session 4.
 
 ---
 
@@ -292,6 +296,17 @@ the first seed carries the most weight when the tagger resolves ambiguous tags.
       not left undefined. Empty is a valid and intentional state.
 - [ ] Cross-check: every seed_id used as an affinity exists in
       the tags vocabulary (Item 1 must be complete first)
+
+---
+
+## LOW PRIORITY — REVIEW LATER
+
+- [ ] Witness Scroll manifest (PAGE 46) EXAMPLE ENTRY contains specific field state
+      values (Solenne Arc, o01 Larimar primary, o03 Cael'Thera secondary) that are
+      explicitly disclaimed as "not field data" and "no transmission weight" — but a
+      future session could mistake them for canonical state if it reads the manifest
+      without parsing the disclaimer. Review whether the example needs stronger
+      isolation or generic placeholder values.
 
 ---
 

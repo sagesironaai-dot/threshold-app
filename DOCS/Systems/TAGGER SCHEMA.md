@@ -78,7 +78,7 @@ FAILURE BEHAVIOR ━━━━━━━━━━━━━━━━ If resolution 
 
 
 
-SEED CONTEXT REQUIREMENT ━━━━━━━━━━━━━━━━━━━━━━━━ Because 9 tags appear in more than one seed, resolution requires both id and seed\\\_id together. id alone is ambiguous. The seed\\\_id returned by Claude at tagging time is the authoritative context and is used as the lookup key.
+SEED CONTEXT REQUIREMENT ━━━━━━━━━━━━━━━━━━━━━━━━ Because 4 tags appear in more than one seed, resolution requires both id and seed\\\_id together. id alone is ambiguous. The seed\\\_id returned by Claude at tagging time is the authoritative context and is used as the lookup key.
 
 
 
@@ -86,27 +86,17 @@ SEED CONTEXT REQUIREMENT ━━━━━━━━━━━━━━━━━━�
 
 
 
-The following 9 tags appear in more than one seed, each with distinct routing:
+4 confirmed duplicate tags — each appears in more than one seed with distinct routing:
 
 
-
-semantic\\\_coherence  
-
-world\\\_model\\\_grounding\\\_via\\\_action  
-
-narrative\\\_continuity  
-
-social\\\_signal\\\_filtering  
-
-confidence\\\_estimation  
-
-uncertainty\\\_representation  
-
-internal\\\_state\\\_influence\\\_on\\\_action  
 
 phase\\\_locking  
 
-met\\\_stability
+met\\\_stability  
+
+social\\\_signal\\\_filtering  
+
+reflective\\\_resonance
 
 
 
@@ -187,7 +177,7 @@ originId identifies which Origin Node the entry has affinity with, if any. Assig
 
 
 
-VALUES ━━━━━━ o01 Larimar o02 Verith o03 Cael null no origin affinity detected
+VALUES ━━━━━━ o01 Larimar o02 Verith o03 Cael'Thera null no origin affinity detected
 
 
 

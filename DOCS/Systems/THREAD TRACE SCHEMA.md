@@ -176,7 +176,7 @@ Active across both views. Six filter dimensions:
 
 pillar\\\_id       p01 | p02 | p03  
 
-seed\\\_id         s01–s20  
+seed\\\_id         s01–s40  
 
 layer\\\_id        l01–l04  
 

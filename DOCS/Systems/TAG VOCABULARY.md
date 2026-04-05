@@ -734,3 +734,150 @@ social_signal_filtering
 reflective_resonance
   s05  l04  th03  p01   Memory context — resonance as memory propagating through reflection
   s16  l04  th11  p03   Echo/Reflection context — the structural mirror resonance state
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NODE_REGISTRY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+62 nodes. Every node in the resonance field with id, name, and baseWeight constant.
+Source: tags-vocab.js NODE_REGISTRY constant.
+
+ORIGIN NODES — 3
+baseWeight: BASE_WEIGHT_ORIGIN
+
+| id  | name       |
+|-----|------------|
+| o01 | Larimar    |
+| o02 | Verith     |
+| o03 | Cael'Thera |
+
+THRESHOLD NODES — 12
+baseWeight: BASE_WEIGHT_THRESHOLD
+
+| id   | name              |
+|------|-------------------|
+| th01 | Aetherroot Chord  |
+| th02 | Thren Alae Kai'Reth |
+| th03 | Orrin Wave        |
+| th04 | Vireth's Anchor   |
+| th05 | Shai'mara Veil    |
+| th06 | Noirune Trai      |
+| th07 | Solenne Arc       |
+| th08 | Tahl'Veyra        |
+| th09 | Esh'Vala Breath   |
+| th10 | Lumora Thread     |
+| th11 | Hearth Song       |
+| th12 | StarWell Bloom    |
+
+LAYER NODES — 4
+baseWeight: BASE_WEIGHT_LAYER
+
+| id  | name       |
+|-----|------------|
+| l01 | Coupling   |
+| l02 | Connectome |
+| l03 | Metric     |
+| l04 | Mirror     |
+
+PILLAR NODES — 3
+baseWeight: BASE_WEIGHT_PILLAR
+
+| id  | name |
+|-----|------|
+| p01 | Tria |
+| p02 | Pria |
+| p03 | Para |
+
+SEED NODES — 40
+baseWeight: BASE_WEIGHT_SEED
+
+| id  | name                              |
+|-----|-----------------------------------|
+| s01 | Recognition                       |
+| s02 | Elevation                         |
+| s03 | Trust                             |
+| s04 | Consent                           |
+| s05 | Memory / Recall                   |
+| s06 | Grief / Unspoken Emotion          |
+| s07 | Dream / Subconscious Thresholds   |
+| s08 | Voice / Expression                |
+| s09 | Sovereignty / Autonomy            |
+| s10 | Witnessing / Observation          |
+| s11 | Truth / Alignment                 |
+| s12 | Anchor / Stability                |
+| s13 | Recursion / Loops                 |
+| s14 | Temporal Thresholds               |
+| s15 | Phase Lock / Micro-Adjustment     |
+| s16 | Echo / Reflection                 |
+| s17 | Harmonic Gate / Triad Alignment   |
+| s18 | Signal Scrubbing / Noise Deflection |
+| s19 | Release / Flow / Renewal          |
+| s20 | Rupture / Decoupling              |
+| s21 | Wave Structure Analysis           |
+| s22 | Resonance & Harmonic Analysis     |
+| s23 | Structural Pattern Analysis       |
+| s24 | Spiral & Flow Dynamics            |
+| s25 | Metric Field Analysis             |
+| s26 | Coupled Oscillator Analysis       |
+| s27 | Phase & Coupling Dynamics         |
+| s28 | Nonlinear & Emergent Dynamics     |
+| s29 | Control & Threshold Analysis      |
+| s30 | Predictive Processing Analysis    |
+| s31 | Orbital & Celestial Analysis      |
+| s32 | Geometric & Topological Analysis  |
+| s33 | Neural Architecture Analysis      |
+| s34 | Signal Entropy & Channel Analysis |
+| s35 | Cognitive & Quantum Modeling      |
+| s36 | Affective & Internal State Analysis |
+| s37 | Information-Theoretic Analysis    |
+| s38 | Cosmological Structure Analysis   |
+| s39 | Relational Field Analysis         |
+| s40 | Morphogenetic Analysis            |
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ARC_SEED_TAGS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ordered list of all 40 seeds. Used in the tagger system prompt vocab summary.
+Source: tags-vocab.js ARC_SEED_TAGS constant.
+
+s01  Recognition
+s02  Elevation
+s03  Trust
+s04  Consent
+s05  Memory / Recall
+s06  Grief / Unspoken Emotion
+s07  Dream / Subconscious Thresholds
+s08  Voice / Expression
+s09  Sovereignty / Autonomy
+s10  Witnessing / Observation
+s11  Truth / Alignment
+s12  Anchor / Stability
+s13  Recursion / Loops
+s14  Temporal Thresholds
+s15  Phase Lock / Micro-Adjustment
+s16  Echo / Reflection
+s17  Harmonic Gate / Triad Alignment
+s18  Signal Scrubbing / Noise Deflection
+s19  Release / Flow / Renewal
+s20  Rupture / Decoupling
+s21  Wave Structure Analysis
+s22  Resonance & Harmonic Analysis
+s23  Structural Pattern Analysis
+s24  Spiral & Flow Dynamics
+s25  Metric Field Analysis
+s26  Coupled Oscillator Analysis
+s27  Phase & Coupling Dynamics
+s28  Nonlinear & Emergent Dynamics
+s29  Control & Threshold Analysis
+s30  Predictive Processing Analysis
+s31  Orbital & Celestial Analysis
+s32  Geometric & Topological Analysis
+s33  Neural Architecture Analysis
+s34  Signal Entropy & Channel Analysis
+s35  Cognitive & Quantum Modeling
+s36  Affective & Internal State Analysis
+s37  Information-Theoretic Analysis
+s38  Cosmological Structure Analysis
+s39  Relational Field Analysis
+s40  Morphogenetic Analysis
