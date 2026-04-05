@@ -1,6 +1,6 @@
 # SOT_BUILD_TODO.md
 # Aelarian Archives — SOT Build Prerequisites Checklist
-# Last updated: 2026-04-03
+# Last updated: 2026-04-04
 
 Status: [ ] open  [x] complete  [!] blocked  [~] in progress  [p] proposed by Claude — NOT Sage-confirmed, cannot be built against
 
@@ -15,6 +15,39 @@ into SOT directly — these are the inputs SOT consolidates.
 
 Work through items in order. Do not begin SOT until all items are marked [x].
 No exceptions.
+
+SOURCE REQUIREMENT — non-negotiable gate:
+  Every [x] mark requires a SOURCE: line on the same item.
+  SOURCE must name a specific file, document, or explicit Sage confirmation
+  with session date. "From notes" and "assumed" are not valid sources.
+  An item without a valid SOURCE: line is not [x] complete — it is [ ] open
+  regardless of when it was marked. This applies retroactively to all existing
+  [x] items.
+
+---
+
+## ITEM 0 — VERIFICATION PASS
+
+Before any work on Items 1–5 continues, all existing [x] items must be
+verified against a named source. This is a retroactive audit of everything
+marked complete. Purpose: prevent unverified decisions from propagating into
+SOT and downstream code.
+
+Trigger for this item: any [x] found to lack a SOURCE: line, or whose source
+is notes/memory rather than a specific document. Revert to [ ] and resolve
+before proceeding.
+
+- [x] Layer definitions verified against canonical source
+      SOURCE: RESONANCE ENGINE SCHEMA.md (canonical names: Coupling · Connectome ·
+      Metric · Mirror) confirmed by Sage session 2026-04-04.
+      Scope definitions written and confirmed. Full routing audit complete —
+      all s01–s40 tags reassigned per canonical layer scope.
+      TAG VOCABULARY.md ROUTING REFERENCE updated. All rot removed (Safety Node
+      Geometry Fields · T'Shara'Veth · CONSENT_MIN constants confirmed not part
+      of this system). s29 rot tag (safety_node_geometry) removed.
+
+- [ ] All other [x] items in Item 1 reviewed for SOURCE: compliance
+      Run after layer definitions resolved. Any item found sourceless reverts.
 
 ---
 
@@ -89,7 +122,7 @@ in TAG VOCABULARY.md).
       s22 Resonance & Harmonic Analysis
       s23 Structural Pattern Analysis
       s24 Spiral & Flow Dynamics
-      s25 Metric & Mirror Field Analysis
+      s25 Metric Field Analysis
       s26 Coupled Oscillator Analysis
       s27 Phase & Coupling Dynamics
       s28 Nonlinear & Emergent Dynamics
@@ -107,20 +140,29 @@ in TAG VOCABULARY.md).
       s40 Morphogenetic Analysis
 
 - [x] 4 layers confirmed — l01–l04
-      l01 Harmonic Cosmology
-           wave structures · resonance · harmonic principles · geometric fields
-           fractal/spiral patterning · structural pattern fields
-      l02 Coupling / Oscillation
-           coupled oscillator networks · cross-frequency dynamics · phase-locking
-           self-organization / emergence · complex adaptive systems
-      l03 Celestial Mechanics
-           observational astronomy · orbital resonances · celestial navigation
-           geometry · topology · graph theory
-      l04 Neuro-Harmonics
-           neural dynamics · connectomics · theta-gamma oscillations
-           quantum cognition · information theory · semiotics · morphogenesis
-      Layer_id = scientific domain classifier on every tag (signal and analytical).
-      Science sub-fields within each layer = tag vocabulary for analytical seeds.
+      SOURCE: RESONANCE ENGINE SCHEMA.md (canonical names) + sciences list
+      confirmed by Sage session 2026-04-04 + full routing audit session 2026-04-04
+      l01 Coupling
+           dynamic act of binding · phase-locking · entrainment · co-regulation
+           coupled oscillator networks · cross-frequency dynamics · resonance theory
+           orbital resonances · theta-gamma / delta-beta cross-frequency · nonlinear dynamics
+           self-organization / emergence · control theory
+      l02 Connectome
+           structural map of connections · consciousness development · information topology
+           connectomics · graph theory · topology · neural architecture
+           consciousness studies · developmental neuroscience · functional connectivity
+      l03 Metric
+           measurement and spatial structure of fields · signals · geometric form
+           wave mechanics · fourier analysis · signal processing · harmonic analysis
+           metric fields · geometry · fractal geometry · astrometry
+           information theory · information geometry
+      l04 Mirror
+           reflection · self-reference · self-similar pattern · echo processes
+           mirror fields · echo/reflective frequency fields · morphogenesis
+           phyllotaxis · dynamical spiral systems · neurophenomenology
+           quantum cognition · IIT · affective neuroscience · predictive processing
+      Layer_id = process-type classifier on every tag (signal and analytical).
+      Routing audit complete: all s01–s40 tags reassigned per canonical layer scope.
 
 - [x] 3 pillars confirmed — p01–p03 (derived from Lattice manifests)
       p01 Tria — drift cartography: contact · pressure · drift ·

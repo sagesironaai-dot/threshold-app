@@ -3056,6 +3056,132 @@ TIMESTAMP: 2026-04-04 (session 2 â€” final close)
 TYPE: CLOSE
 FILES_MODIFIED:
   - DOCS/Systems/TAG VOCABULARY.md â€” COMPLETE
-      Full s01â€“s40 content audit complete Â· s25 layer correction applied
+      Full s01â€”s40 content audit complete Â· s25 layer correction applied
       All ...
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 3)
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - none yet
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - NODE_REGISTRY (62 nodes: 40 seeds + 4 layers + 12 thresholds + 3 pillars + 3 origins)
+  - ARC_SEED_TAGS ordered list
+UNCOMMITTED: NO
+CONFIRMED STATE — derived from disk, not memory:
+  Repo: clean — only backup.log modified (expected, not committed)
+  TAG VOCABULARY.md: rot scan clean — 0 arcPhase hits, 0 aetherrot hits
+  Last session: CLOSE (session 2 final close) — all work committed and pushed
+  SOT_BUILD_TODO.md: Item 1 two items remain open: NODE_REGISTRY [ ] and ARC_SEED_TAGS [ ]
+  Items 2–5 not started — blocked until Item 1 complete
+NEXT_ACTION: Build NODE_REGISTRY in TAG VOCABULARY.md.
+  62 nodes: 40 seeds + 4 layers + 12 thresholds + 3 pillars + 3 origins
+  Required per node: id · name · baseWeight tier
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 3)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/Systems/TAG VOCABULARY.md — layer definitions corrected
+      ROUTING REFERENCE: l01–l04 replaced (Harmonic Cosmology / Coupling / Celestial
+      Mechanics / Neuro-Harmonics → Coupling / Connectome / Metric / Mirror)
+      All s01–s40 tag routing records audited and reassigned per canonical layer scope
+      Rot removed: Safety Node Geometry Fields science annotation (s29) + safety_node_geometry tag
+      Duplicates register updated: all 4 duplicates have correct layer_ids
+      Flags held: s25 name clash (Metric + Mirror) · s32 name clash (Geometric + Topological)
+  - DOCS/Systems/RESONANCE ENGINE SCHEMA.md — counts and origin corrected
+      Total nodes: 42 → 62
+      Origin o03: Cael → Cael'Thera
+      TIER 5 count: 20 → 40 · visibility note updated · s21–s40 rows added to table
+  - DOCS/SOT_BUILD_TODO.md — ITEM 0 layer verification marked [x]
+      Layer [x] item updated with correct names and SOURCE line
+      SOURCE REQUIREMENT gate added to HOW TO USE section
+COMPLETED:
+  - Layer definitions corrected across all files
+  - Full routing audit: all 320 tag routing records verified and reassigned
+  - Rot removed from s29 science annotation and tag table
+NOT_STARTED:
+  - NODE_REGISTRY — still pending (s25 + s32 name clashes need resolution first)
+  - ARC_SEED_TAGS ordered list
+  - Signal seeds s01–s20 layer audit — COMPLETE (included above)
+UNCOMMITTED: YES
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 4 — resume)
+TYPE: RESUME
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - none yet
+IN_PROGRESS:
+  - none
+CONFIRMED STATE — derived from disk, not memory:
+  Last entry: session 3 WORK_UNIT — UNCOMMITTED: YES — no CLOSE written
+  Uncommitted changes on disk:
+    DOCS/SOT_BUILD_TODO.md — modified (ITEM 0 layer [x], SOURCE gate added)
+    DOCS/Systems/RESONANCE ENGINE SCHEMA.md — modified (62 nodes, o03 Cael'Thera, s21–s40 rows)
+    DOCS/Systems/TAG VOCABULARY.md — modified (full routing overhaul, s29 rot removed)
+    PROTOCOL/SESSION_LOG.md — modified (session 3 entries)
+  _REFERENCE_ONLY/ — deleted from disk by Sage between sessions
+    Reason: sessions were drawing from it without verification
+    Confirmed intentional — Sage directed 2026-04-04 session 4
+    Git shows ~290 tracked files as deleted — to be committed
+  Rot scan: clean — 0 arcPhase, 0 aetherrot in DOCS/Systems/ and DOCS/Domains/
+  SOT_BUILD_TODO: ITEM 0 second sub-item still [ ] open
+    Items 2–5 not started — blocked on Item 1
+DECISIONS CONFIRMED BY SAGE this session:
+  s25: rename to "Metric Field Analysis" — Sage confirmed 2026-04-04 session 4
+  s32: keep "Geometric & Topological Analysis" — Sage confirmed 2026-04-04 session 4
+  _REFERENCE_ONLY deletion: confirmed intentional
+  V1: all files must be V1, no legacy version notes
+  Rot scan prompt: complete, remove until next rot needed
+UNCOMMITTED: YES
+NEXT_ACTION: Apply s25 rename. V1 pass. Integrity audit (layers wrongly folded into sciences).
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 4)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/Systems/TAG VOCABULARY.md — COMPLETE
+      s25 renamed: "Metric & Mirror Field Analysis" → "Metric Field Analysis" (Sage confirmed)
+      s25 Sciences: "Mirror Fields" removed (consistent with rename)
+      s21 harmonic_decomposition: l01 → l03 (Fourier analysis is measurement, not coupling)
+      s29 rot note removed (V1 cleanup)
+      s29 adaptive_control_dynamics added (8th tag, Sage confirmed)
+      Header V1: session-process status lines removed, clean counts only
+      Analytical seeds section: session confirmation note removed
+      Duplicates register: legacy infected-9 note removed
+  - DOCS/SOT_BUILD_TODO.md — COMPLETE
+      s25 name updated to "Metric Field Analysis"
+  - CLAUDE.md — COMPLETE
+      _REFERENCE_ONLY section: updated to "removed" with reason
+      Step 3 core files: _REFERENCE_ONLY reference removed
+  - PROTOCOL/SESSION_LOG.md — COMPLETE (RESUME + this WORK_UNIT)
+COMPLETED:
+  - s25 rename applied across TAG VOCABULARY.md and SOT_BUILD_TODO.md
+  - Integrity audit: all 320 tags checked against layer definitions
+    Findings: s21 harmonic_decomposition routing corrected (l01→l03)
+    Structural observation: Neural Dynamics and Information Theory span layers
+    (tag routing correct — ROUTING REFERENCE limitation noted, not blocking)
+  - s29 restored to 8 tags: adaptive_control_dynamics (l01, th09, p03)
+  - V1 pass: all legacy/session-process notes removed from TAG VOCABULARY.md
+  - _REFERENCE_ONLY references updated in CLAUDE.md
+  - Cascade audit: no downstream files affected by changes
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - NODE_REGISTRY (62 nodes) — next
+  - ARC_SEED_TAGS ordered list — after NODE_REGISTRY
+  - SOT_BUILD_TODO ITEM 0 second sub-item (SOURCE compliance review)
+  - Commit and push
+UNCOMMITTED: YES
+NEXT_ACTION: Commit all changes (sessions 3+4). Then NODE_REGISTRY.
 ---

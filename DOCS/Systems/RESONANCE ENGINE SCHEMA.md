@@ -42,11 +42,11 @@ Canvas element ID and z-order: PLANNED — defined in index.html DOM at Phase 11
 
 
 
-Total nodes: 42 (fixed — count never changes)
+Total nodes: 62 (fixed — count never changes)
 
 
 
-┌─────────────────────────────────────────────────────────┐ │ TIER 1 — ORIGIN NODES (super nodes) count: 3 │ ├──────┬──────────┬──────────┬────────────────────────────┤ │ ID │ Name │ Mobility │ Notes │ ├──────┼──────────┼──────────┼────────────────────────────┤ │ o01 │ Larimar │ mobile │ │ │ o02 │ Verith │ mobile │ │ │ o03 │ Cael │ mobile │ │ └──────┴──────────┴──────────┴────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐ │ TIER 1 — ORIGIN NODES (super nodes) count: 3 │ ├──────┬──────────┬──────────┬────────────────────────────┤ │ ID │ Name │ Mobility │ Notes │ ├──────┼──────────┼──────────┼────────────────────────────┤ │ o01 │ Larimar │ mobile │ │ │ o02 │ Verith │ mobile │ │ │ o03 │ Cael'Thera │ mobile │ │ └──────┴──────────┴──────────┴────────────────────────────┘
 
 
 
@@ -62,7 +62,7 @@ Total nodes: 42 (fixed — count never changes)
 
 
 
-┌─────────────────────────────────────────────────────────┐ │ TIER 5 — SEED NODES (cluster nodes) count: 20 │ ├──────┬──────────┬──────────┬────────────────────────────┤ │ ID │ Name │ Mobility │ Notes │ ├──────┼──────────┼──────────┼────────────────────────────┤ │ s01 │ — │ mobile │ all 20 visible at all times│ │ s02 │ — │ mobile │ │ │ s03 │ — │ mobile │ │ │ s04 │ — │ mobile │ │ │ s05 │ — │ mobile │ │ │ s06 │ — │ mobile │ │ │ s07 │ — │ mobile │ │ │ s08 │ — │ mobile │ │ │ s09 │ — │ mobile │ │ │ s10 │ — │ mobile │ │ │ s11 │ — │ mobile │ │ │ s12 │ — │ mobile │ │ │ s13 │ — │ mobile │ │ │ s14 │ — │ mobile │ │ │ s15 │ — │ mobile │ │ │ s16 │ — │ mobile │ │ │ s17 │ — │ mobile │ │ │ s18 │ — │ mobile │ │ │ s19 │ — │ mobile │ │ │ s20 │ — │ mobile │ │ └──────┴──────────┴──────────┴────────────────────────────┘ Seed names defined in tags-vocab.js.
+┌─────────────────────────────────────────────────────────┐ │ TIER 5 — SEED NODES (cluster nodes) count: 40 │ ├──────┬──────────┬──────────┬────────────────────────────┤ │ ID │ Name │ Mobility │ Notes │ ├──────┼──────────┼──────────┼────────────────────────────┤ │ s01 │ — │ mobile │ all 40 visible at all times│ │ s02 │ — │ mobile │ │ │ s03 │ — │ mobile │ │ │ s04 │ — │ mobile │ │ │ s05 │ — │ mobile │ │ │ s06 │ — │ mobile │ │ │ s07 │ — │ mobile │ │ │ s08 │ — │ mobile │ │ │ s09 │ — │ mobile │ │ │ s10 │ — │ mobile │ │ │ s11 │ — │ mobile │ │ │ s12 │ — │ mobile │ │ │ s13 │ — │ mobile │ │ │ s14 │ — │ mobile │ │ │ s15 │ — │ mobile │ │ │ s16 │ — │ mobile │ │ │ s17 │ — │ mobile │ │ │ s18 │ — │ mobile │ │ │ s19 │ — │ mobile │ │ │ s20 │ — │ mobile │ │ │ s21 │ — │ mobile │ │ │ s22 │ — │ mobile │ │ │ s23 │ — │ mobile │ │ │ s24 │ — │ mobile │ │ │ s25 │ — │ mobile │ │ │ s26 │ — │ mobile │ │ │ s27 │ — │ mobile │ │ │ s28 │ — │ mobile │ │ │ s29 │ — │ mobile │ │ │ s30 │ — │ mobile │ │ │ s31 │ — │ mobile │ │ │ s32 │ — │ mobile │ │ │ s33 │ — │ mobile │ │ │ s34 │ — │ mobile │ │ │ s35 │ — │ mobile │ │ │ s36 │ — │ mobile │ │ │ s37 │ — │ mobile │ │ │ s38 │ — │ mobile │ │ │ s39 │ — │ mobile │ │ │ s40 │ — │ mobile │ │ └──────┴──────────┴──────────┴────────────────────────────┘ Seed names defined in tags-vocab.js.
 
 
 
@@ -86,7 +86,7 @@ TIER 4 — PILLAR NODES Count: 3 Mobility: mobile Base weight: BASE\\\_WEIGHT\\\
 
 
 
-TIER 5 — SEED NODES Count: 20 Mobility: mobile Base weight: BASE\\\_WEIGHT\\\_SEED — lightest tier Pull: none — seeds are pulled only Influenced by: layers (hard pull) pillars (hard pull) thresholds (ambient) origins (ambient cascade) Visibility: all 20 visible at all times Weight growth: tagger-driven grows from tag activity within each seed cluster Pull response: seeds respond to the combined pull of their layer affinity and pillar affinity simultaneously
+TIER 5 — SEED NODES Count: 40 Mobility: mobile Base weight: BASE\\\_WEIGHT\\\_SEED — lightest tier Pull: none — seeds are pulled only Influenced by: layers (hard pull) pillars (hard pull) thresholds (ambient) origins (ambient cascade) Visibility: all 40 visible at all times Weight growth: tagger-driven grows from tag activity within each seed cluster Pull response: seeds respond to the combined pull of their layer affinity and pillar affinity simultaneously
 
 
 

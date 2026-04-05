@@ -211,8 +211,7 @@ contamination, file corruption across core systems.
    schema.js · data.js · composite_id.js · tagger.js · tagger_bus.js
    tags-vocab.js · emergence.js · thread_trace.js · thread_trace_ui.js
    thread_trace_db.js · resonance_engine.js · mtm.js · nexus_routine.js
-   These are written new from SOT. The contaminated versions in _REFERENCE_ONLY
-   are never consulted. Every file is V1 from first line written.
+   Written new from SOT. Every file is V1 from first line written.
 
 4. App shell built and running — NOT STARTED. Blocked on step 3.
    index.html. All systems integrated. App verified live.
@@ -259,16 +258,14 @@ index.html        — the rebuilt app shell (not yet written)
 These files are PLANNED. Do not reference their content as canonical.
 
 **index.html — contaminated, at root:**
-The old build. Kept at root because the app cannot launch from _REFERENCE_ONLY.
-It is a reference artifact — not the planned rebuild. Do not modify it.
+The old build. A reference artifact — not the planned rebuild. Do not modify it.
 Do not treat any of its code, structure, or naming as canonical.
 It will be replaced when the rebuild reaches the app shell phase.
-Until then: read-only reference only, same rules as _REFERENCE_ONLY.
+Until then: read-only reference only.
 
-**_REFERENCE_ONLY — contaminated snapshot:**
-Contains all files from before the rebuild. Located at Archives\_REFERENCE_ONLY\.
-Never canonical under any circumstances. Consult only when explicitly directed
-by Sage. When in doubt — it is contaminated.
+**_REFERENCE_ONLY — removed:**
+Deleted by Sage. Sessions were drawing from it without verification.
+No longer accessible. Do not reference, recreate, or attempt to restore.
 
 ---
 
