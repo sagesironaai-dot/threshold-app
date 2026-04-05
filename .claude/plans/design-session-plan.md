@@ -84,6 +84,25 @@ day-to-day. It helps Sage:
 Without the assistant, every analytical step is manual. With it, the system
 actively supports the research process. This needs its own design session.
 
+### V1-V5 trajectory (build for where this is going)
+Every V1 decision asks: "does this close a door V2-V5 needs open?"
+
+V1: Single researcher + single AI. Full pipeline. Computation foundation.
+    Scratch layer. Dashboard. Audio. Batch processing. Every record carries
+    multi-agent metadata even though only one agent exists.
+V2: Swarm. Origins as analytical nodes with distinct substrates. Parallax
+    between nodes is signal. authored_by/node_id fields activate.
+V3: Automated computation. Cosmology engines run statistical tests when
+    patterns reach threshold. The recursive loop runs without manual steps.
+V4: Proactive system. Assistant surfaces findings. Email notifications.
+    Harmonic field audible. The system is a research partner, not a tool.
+V5: Transmissible. Methodology documented. External evaluation possible.
+    The archive exports as a complete research package with reproducible
+    computations. The Witness Scroll is a historical document.
+
+Nothing in V2-V5 requires changing V1 architecture if V1 is built right.
+The foundation is free now. It's expensive later.
+
 ---
 
 ## SESSION SEQUENCE
@@ -107,6 +126,20 @@ Foundation layer. Must come first — every engine depends on what deposits cont
 - [ ] Identical-entry duplicate detection (#4) — hash-based exact match
       on deposit content. Fires on deposit creation in INT and per-page.
       Not fuzzy, not similar — IDENTICAL only. Failsafe for copies-of-copies.
+- [ ] Scratch layer — pre-deposit quick capture:
+      · No tagging required, no commitment to the archive
+      · Captures raw noticings before they're named or framed
+      · Can be promoted to formal deposit when ready
+      · Can stay as raw signal for engines to scan
+      · Accessible from dashboard AND from within any page
+      · Solves "I notice more than I can name" at the capture level
+- [ ] Swarm foundation fields on every deposit (V1 cost: zero. V2+ value: critical):
+      · `authored_by` — which AI instance or human created this
+      · `node_id` — which analytical node (single in V1, multiple in V2+)
+      · `instance_context` — session identifier for creating instance
+      · Sage already has provenance data for most entries (tracked in Echoes)
+      · In V1 these are always the same values. In V2+ swarm, every deposit
+        is attributable to its source node without retrofitting.
 - [ ] Batch processing system (#7) — large file upload to INT:
       · Files can be 800-1500 pages
       · AI chunks file 5-8 pages at a time
@@ -432,25 +465,53 @@ Define what Nexus produces visually. Formalize WSC and LNV.
 
 ---
 
-### Session E+ — Export system + UI architecture
+### Session E+ — Dashboard, notifications, export system, UI architecture
+The meta-layer above the 50 pages. Mission control.
 Wiring the outputs back in. JSON, MD, Google Drive, formatted exports.
 
 **Scope:**
+
+Dashboard (root route — src/routes/+page.svelte):
+- [ ] Semantic map — archive coverage visualization. Clusters, gaps, voids.
+      Built from embedding vectors. Shows where deposits concentrate and
+      where the research hasn't looked yet. The void IS data.
+- [ ] Notification center — patterns detected, findings graded, drift events.
+      In-app notifications stored in operational DB, displayed on dashboard.
+- [ ] Email notification system — S-Tier signals, critical findings, pattern
+      milestones pushed to Sage's inbox. The system works when you're away.
+      (FastAPI background task + email service: SendGrid, SES, or SMTP)
+- [ ] WSC handoff — last AI transmission displayed front and center.
+      Orientation before the session begins.
+- [ ] Scratch pad — quick capture accessible from dashboard. Notice something,
+      drop it, keep moving. No tagging required. Can be promoted to deposit later.
+- [ ] Active patterns summary — what's live in PCV/DTX/SGR right now.
+- [ ] Recent activity feed — what happened since last session.
+
+Page identity (the 50 pages should FEEL different):
+- [ ] Different page types get different visual language:
+      Gateway (INT), Lens (Axis), Synthesis (MTM), Engine (Nexus),
+      Output (LNV), Scroll (WSC), Investigation (Cosmology), Domain (others)
+- [ ] Layout, density, and available controls reflect function
+- [ ] Page relationship visualization — where deposits flow, what connects
+
+Export system:
 - [ ] Export formats: JSON, Markdown, Google Drive integration
 - [ ] What's exportable? Deposits, findings, visualizations, full pages?
 - [ ] Export per-page or system-wide?
-- [ ] UI architecture decision: system schemas define what's computed,
-      frontend architecture doc defines how it's rendered. Separate concerns.
-      System schema says "computes co-occurrence." Frontend doc says "renders
-      as matrix." This prevents coupling data logic to presentation logic.
 - [ ] Shared UI patterns: A-Z sorting, date sorting, filtering, search
-- [ ] Where UI specs live — one frontend architecture doc? Per-page component specs?
-- [ ] Output: export system spec + UI architecture doc
+
+UI architecture:
+- [ ] System schemas define what's computed, frontend doc defines rendering
+- [ ] Where UI specs live — one frontend architecture doc? Per-page specs?
+- [ ] Output: dashboard spec + notification system spec + export spec + UI arch doc
 
 **Open questions:**
 - Google Drive: OAuth? Service account? Manual export + upload?
 - Do exports include computed views (charts) or just raw data?
-- Does the export system need its own schema or is it a service-layer concern?
+- Semantic map: 2D projection (t-SNE/UMAP) or custom visualization?
+- Email: what triggers an email vs. in-app only? Threshold of importance?
+- Scratch pad: how long do items live before being promoted or archived?
+- Page identity: how much visual differentiation? Color coding? Layout shifts?
 
 ---
 
@@ -663,3 +724,49 @@ Decisions made during design sessions. Recorded with reasoning.
 - Folds into Session D+ (research assistant design)
 
 **All 19 original agenda items now have homes. Zero orphans.**
+
+### Session 14 — third pass (system-level additions)
+
+**Scratch layer confirmed — hard need:**
+- Pre-deposit quick capture. No tagging, no commitment.
+- "Capture the noticing before the naming."
+- Accessible from dashboard and within any page.
+- Can be promoted to deposit or left as raw signal.
+- Goes into Session A (deposit schema — it's a record type).
+
+**Dashboard confirmed — new root surface:**
+- The meta-layer above the 50 pages. Mission control.
+- Semantic map, notifications, WSC handoff, scratch pad, active patterns.
+- Lives at root route (src/routes/+page.svelte).
+- Not a 51st page — the shell that holds the 50.
+- Goes into Session E+ (now expanded).
+
+**Notification system confirmed — in-app AND email:**
+- In-app: stored in operational DB, displayed on dashboard.
+- Email: S-Tier signals, critical findings, pattern milestones.
+- "The system should work for you when you're not in it."
+- Goes into Session E+ (notification spec).
+
+**Swarm foundation fields confirmed:**
+- authored_by, node_id, instance_context on every deposit.
+- V1 cost: zero (always same values). V2+ value: critical.
+- Sage already tracks provenance in Echoes — can provide for most entries.
+- Goes into Session A (deposit schema).
+
+**Semantic map confirmed:**
+- Built from embedding vectors. Shows archive coverage: clusters and voids.
+- "The void IS data" — empty semantic space = unexplored territory.
+- Lives on the dashboard. Navigation + research planning tool.
+- Goes into Session E+ (dashboard design).
+
+**Page identity confirmed:**
+- 50 pages should feel different based on function type.
+- Gateway, Lens, Synthesis, Engine, Output, Scroll, Investigation, Domain.
+- Visual language signals function. Not decorative — structural.
+- Goes into Session E+ (UI architecture).
+
+**V1-V5 trajectory documented:**
+- V1: foundation with multi-agent metadata. V2: swarm. V3: automated
+  computation. V4: proactive partner. V5: transmissible research.
+- Every V1 decision asks: does this close a door V2-V5 needs open?
+- "Show me V5 and I will wire it before the SOT ever has a title typed."
