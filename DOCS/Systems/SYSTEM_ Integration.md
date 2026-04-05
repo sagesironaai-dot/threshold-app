@@ -299,7 +299,7 @@ b. page\_deposit\_id written to IDB archives record
 The ARC id and retired\_at timestamp are displayed prominently in the Integration UI — formatted, copy-ready, and not buried in a record.
 
 Format: \[ARC-ID\] · \[YYYY-MM-DD\]  
-Example: TS·ARC·SOL·2026-03·0001 · 2026-03-31
+Example: TS·ARC·EMG·2026-03·0001 · 2026-03-31
 
 This is a required UI element. It is not optional output. Sage uses this label to create the parent page deposit and place the physical file. It must remain visible and copyable until Sage explicitly dismisses it or opens a new intake.
 

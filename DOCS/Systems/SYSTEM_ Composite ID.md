@@ -37,7 +37,7 @@ Produced when a source document enters Integration in source mode. The root stam
 
 Format:   TS · AX · \[PHASE\] · \[YYYY-MM\] · \[SEQ\]  
 Preview:  TS · AX · \[PHASE\] · \[YYYY-MM\] · ——  
-Example:  TS · AX · SOL · 2026-03 · 0001
+Example:  TS · AX · EMG · 2026-03 · 0001
 
 `AX` is the Axis root marker. It is hardcoded — not derived from a section. It signals that this ID is a parent record from source mode intake.
 
@@ -49,7 +49,7 @@ Produced for every entry that originates on a content page rather than from a so
 
 Format:   TS · \[PAGE-CODE\] · \[PHASE-CODE\] · \[YYYY-MM\] · \[SEQ\]  
 Preview:  TS · \[PAGE-CODE\] · \[PHASE-CODE\] · \[YYYY-MM\] · ——  
-Example:  TS · TPL · SOL · 2026-03 · 0042
+Example:  TS · TPL · EMG · 2026-03 · 0042
 
 `[PAGE-CODE]` is the two-to-three character code for the section the entry belongs to. Sourced from `PAGE_CODES` in schema.js.
 
@@ -60,7 +60,7 @@ Example:  TS · TPL · SOL · 2026-03 · 0042
 Produced for every deposit entry that originates from a parsed source document. Assembled in data.js at write time. Not previewed in the UI — the preview surface shows the root stamp during parsing. The child stamp is locked at the moment of deposit commit.
 
 Format:   TS · \[PAGE\] · \[PHASE\] · \[YYYY-MM\] · \[SEQ\] · root:\[PARENT-ID\]  
-Example:  TS · REC · SOL · 2026-03 · 0017 · root:TS·AX·SOL·2026-03·0001
+Example:  TS · REC · EMG · 2026-03 · 0017 · root:TS·AX·EMG·2026-03·0001
 
 `root:[PARENT-ID]` is embedded in the stamp string AND stored as `root_ref` on the entry record. The stamp is human-readable provenance. The field is machine-readable join key.
 
@@ -222,7 +222,7 @@ When a source document completes retirement, the system produces a retirement la
 **Format:**
 
 \[ARC-ID\] · \[YYYY-MM-DD\]  
-Example: TS·ARC·SOL·2026-03·0001 · 2026-03-31
+Example: TS·ARC·EMG·2026-03·0001 · 2026-03-31
 
 **What it connects:**
 

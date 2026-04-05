@@ -257,18 +257,22 @@ Required columns per entry:
 ## ITEM 3 — PHASE_CODES COMPLETE LIST
 
 PHASE_CODES are the lifecycle phase codes used in the composite ID stamp.
-Referenced in COMPOSITE ID SCHEMA and across all panel maps. Not defined
-as a complete canonical list in any single DOCS file.
+Referenced in COMPOSITE ID SCHEMA and across all panel maps.
 
 Required per code:
-  code         — the stamp value (e.g. SOL, COM, THR)
+  code         — the stamp value (e.g. EMG, COM, THR)
   label        — human-readable display label
   description  — what lifecycle phase this code represents
 
-- [ ] All valid PHASE_CODES defined with code · label · description
-- [ ] NUL behavior confirmed — what it means when no phase applies
-- [ ] Cross-check: every PHASE_CODE used in existing stamp examples
-      is present in the list
+- [x] All valid PHASE_CODES defined with code · label · description
+      SOURCE: SECTION MAP.md PHASE_CODES section. 9 codes confirmed.
+      Sage confirmed 2026-04-04 session 4.
+- [x] NUL behavior confirmed — no lifecycle phase applies, used when panel has no phase picker
+      SOURCE: COMPOSITE ID SCHEMA.md phase select population section + SECTION MAP.md.
+- [x] Cross-check: every PHASE_CODE used in existing stamp examples is present in the list
+      SOURCE: SOL (rot — Solenne threshold name leaked into phase code) found in 14 stamp
+      examples across 8 files. Replaced with EMG. All stamp examples now use valid codes.
+      Sage confirmed 2026-04-04 session 4.
 
 ---
 
@@ -284,12 +288,17 @@ Required per code:
   section_id   — the section this code belongs to
   description  — what section this code identifies
 
-Note: PAGE_CODES and the section map lookup table (Item 3) must be
+Note: PAGE_CODES and the section map lookup table (Item 2) must be
 consistent. Both must reference the same codes. Verify together.
 
-- [ ] All PAGE_CODES defined with code · section_id · description
-- [ ] AX confirmed as Axis root marker for source mode — not a section code
-- [ ] Cross-check: PAGE_CODES list matches section map lookup table
+- [x] All PAGE_CODES defined with code · section_id · description
+      SOURCE: SECTION MAP.md PAGE_CODES section — 50 codes, each with page_code,
+      section_id, name, group, category. Sage confirmed 2026-04-04 session 4.
+- [x] AX confirmed as Axis root marker for source mode — not a section code
+      SOURCE: COMPOSITE ID SCHEMA.md source mode section + SECTION MAP.md AX note.
+- [x] Cross-check: PAGE_CODES list matches section map lookup table
+      SOURCE: PAGE_CODES and section map are the same table in SECTION MAP.md.
+      1:1 by construction. Verified session 2026-04-04.
 
 ---
 

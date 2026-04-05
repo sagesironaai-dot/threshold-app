@@ -1,7 +1,13 @@
 SECTION MAP
 /DOCS/Systems/SECTION MAP.md
 
-Section lookup table for SOT and schema.js PAGE_CODES.
+Section and code lookup tables for SOT and schema.js.
+Source: individual page manifests (DOCS/Domains/) + COMPOSITE ID SCHEMA.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PAGE_CODES — 50 sections
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 50 sections · 9 groups · 1 standalone
 Source: individual page manifests (DOCS/Domains/)
 
@@ -57,3 +63,28 @@ Source: individual page manifests (DOCS/Domains/)
 | 48   | drift_taxonomy      | DTX       | Drift Taxonomy       | 9     | Nexus        |
 | 49   | signal_grading      | SGR       | Signal Grading       | 9     | Nexus        |
 | 50   | pattern_convergence | PCV       | Pattern Convergence  | 9     | Nexus        |
+
+AX is the Axis root marker used in source mode stamps. It is not a section code.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PHASE_CODES — 9 lifecycle phases
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Lifecycle phase selected by the researcher at deposit time.
+Used in composite ID stamp: TS · [PAGE-CODE] · [PHASE-CODE] · [YYYY-MM] · [SEQ]
+Source: schema.js PHASE_CODES constant.
+
+PHASE_CODES are NOT phase_state. phase_state = ontological field state (threshold name).
+PHASE_CODES = lifecycle position of the entry. Separate systems. Never conflate.
+
+| code | label           | description                                         |
+|------|-----------------|-----------------------------------------------------|
+| COM  | Compression     | Consolidation, densification of material            |
+| THR  | Threshold       | At a crossing point, about to transition            |
+| STB  | Stabilization   | Settling after change, finding equilibrium           |
+| EMG  | Emergence       | New pattern surfacing, something forming            |
+| COL  | Collapse        | Structural failure, breakdown                       |
+| DRT  | Drift           | Movement without clear direction, gradual shift     |
+| ROR  | Reorganization  | Restructuring after disruption                      |
+| LMH  | Liminal Hold    | In-between state, neither here nor there            |
+| NUL  | No Phase        | No lifecycle phase applies                          |

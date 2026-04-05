@@ -101,7 +101,7 @@ WHAT IT IS A deterministic string derived from the Finding's source\_pattern\_re
 
 HOW IT IS GENERATED Collect all source\_pattern\_refs for the Finding. Sort by page\_code ascending, then deposit\_id ascending. Concatenate: page\_code \+ ':' \+ deposit\_id for each ref. Join with '|'. The resulting string is the content\_fingerprint.
 
-Example: refs: \[ { page\_code: 'ECR', deposit\_id: 'TS·ECR·SOL·2026-03·0004' }, { page\_code: 'THR', deposit\_id: 'TS·THR·SOL·2026-03·0011' } \] sorted: ECR first, THR second fingerprint: 'ECR:TS·ECR·SOL·2026-03·0004|THR:TS·THR·SOL·2026-03·0011'
+Example: refs: \[ { page\_code: 'ECR', deposit\_id: 'TS·ECR·EMG·2026-03·0004' }, { page\_code: 'THR', deposit\_id: 'TS·THR·EMG·2026-03·0011' } \] sorted: ECR first, THR second fingerprint: 'ECR:TS·ECR·EMG·2026-03·0004|THR:TS·THR·EMG·2026-03·0011'
 
 FINGERPRINT COLLISION Two genuinely distinct Findings may theoretically produce the same fingerprint if they draw from exactly the same source deposits but surface different patterns from them. This is a known risk. Handling: — The fingerprint match triggers a skip on retry. — If Sage identifies a legitimate Finding was skipped due to collision, the Finding can be manually deposited to LNV as a native entry with MTM provenance noted. — Collision frequency should be logged. If collisions are frequent, the fingerprint algorithm is revisited. This is a calibration concern, not an architectural one.
 

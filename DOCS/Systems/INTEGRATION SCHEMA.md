@@ -366,7 +366,7 @@ Write sequence: a. Archives page deposit written from provenance\\\_summary cont
 
 
 
-Format: \\\[ARC-ID\\] · \\\[YYYY-MM-DD\\] Example: TS·ARC·SOL·2026-03·0001 · 2026-03-31
+Format: \\\[ARC-ID\\] · \\\[YYYY-MM-DD\\] Example: TS·ARC·EMG·2026-03·0001 · 2026-03-31
 
 
 

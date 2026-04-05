@@ -3281,3 +3281,49 @@ NOT_STARTED:
 UNCOMMITTED: YES
 NEXT_ACTION: Commit. Then Item 3 (PHASE_CODES) and Item 4 (PAGE_CODES).
 ---
+
+---
+TIMESTAMP: 2026-04-04 (session 4 — close)
+TYPE: CLOSE
+FILES_MODIFIED:
+  - DOCS/Systems/SECTION MAP.md — COMPLETE
+      PHASE_CODES section added: 9 lifecycle codes with labels and descriptions
+      PAGE_CODES section header added, AX note added
+  - DOCS/Systems/COMPOSITE ID SCHEMA.md — COMPLETE (SOL → EMG, 6 occurrences)
+  - DOCS/Systems/SYSTEM_ Composite ID.md — COMPLETE (SOL → EMG, 4 occurrences)
+  - DOCS/Systems/ARCHIVE SCHEMA.md — COMPLETE (SOL → EMG, 1 occurrence)
+  - DOCS/Systems/SYSTEM_ Archive.md — COMPLETE (SOL → EMG, 1 occurrence)
+  - DOCS/Systems/INTEGRATION SCHEMA.md — COMPLETE (SOL → EMG, 1 occurrence)
+  - DOCS/Systems/SYSTEM_ Integration.md — COMPLETE (SOL → EMG, 1 occurrence)
+  - DOCS/Systems/METAMORPHOSIS SCHEMA.md — COMPLETE (SOL → EMG, 1 occurrence — content_fingerprint example)
+  - DOCS/SOT_BUILD_TODO.md — COMPLETE (Items 3+4 all [x] with SOURCE lines)
+  - PROTOCOL/SESSION_LOG.md — COMPLETE (this CLOSE entry)
+COMPLETED THIS SESSION (all work units combined):
+  Session 4 total:
+  - RESUME from interrupted session 3
+  - s25 renamed to "Metric Field Analysis" (Sage confirmed)
+  - s32 kept "Geometric & Topological Analysis" (Sage confirmed)
+  - Integrity audit: s21 harmonic_decomposition l01→l03, s29 8th tag added, V1 pass
+  - Full system integrity audit: 10 stale references fixed across 7 files
+    (o03 Cael→Cael'Thera everywhere, s01–s20→s01–s40, 9→4 duplicates)
+  - NODE_REGISTRY built (62 nodes), ARC_SEED_TAGS built (40 seeds)
+  - BASE_WEIGHT_PILLAR separated from BASE_WEIGHT_LAYER
+  - ITEM 0 SOURCE compliance: all 11 [x] items verified
+  - ITEM 2 SECTION MAP: 50 sections, new file SECTION MAP.md
+  - Master Domain List quarantined (infected)
+  - ITEM 3 PHASE_CODES: 9 codes written, SOL rot cleaned (14 hits across 8 files)
+  - ITEM 4 PAGE_CODES: complete (same table as section map)
+  - CLAUDE.md updated: _REFERENCE_ONLY removed
+  - Solenne Arc verified intact across all files
+  - Witness Scroll example entry flagged for low-priority review
+  SOT_BUILD_TODO status: Items 0–4 complete. Item 5 (Domain Seed Affinities) not started.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - SOT_BUILD_TODO Item 5 — Domain Seed Affinities (50 sections × up to 3 seeds each)
+    Source: individual page manifests. MDL quarantined.
+  - Master Domain List rebuild from clean manifests
+UNCOMMITTED: NO (committed this close)
+NEXT_ACTION: Item 5 — extract seed affinities from 50 manifests. Then SOT_BUILD_TODO
+  is complete and SOT document can be written.
+---

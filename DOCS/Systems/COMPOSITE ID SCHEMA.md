@@ -26,7 +26,7 @@ Format:   TS · AX · \\\[PHASE\\] · \\\[YYYY-MM\\] · \\\[SEQ\\]
 
 Preview:  TS · AX · \\\[PHASE\\] · \\\[YYYY-MM\\] · ——  
 
-Example:  TS · AX · SOL · 2026-03 · 0001
+Example:  TS · AX · EMG · 2026-03 · 0001
 
 
 
@@ -46,7 +46,7 @@ Format:   TS · \\\[PAGE-CODE\\] · \\\[PHASE-CODE\\] · \\\[YYYY-MM\\] · \\\[S
 
 Preview:  TS · \\\[PAGE-CODE\\] · \\\[PHASE-CODE\\] · \\\[YYYY-MM\\] · ——  
 
-Example:  TS · TPL · SOL · 2026-03 · 0042
+Example:  TS · TPL · EMG · 2026-03 · 0042
 
 
 
@@ -66,9 +66,9 @@ Format:  TS · \\\[PAGE\\] · \\\[PHASE\\] · \\\[YYYY-MM\\] · \\\[SEQ\\]
 
 &nbsp;        · root:\\\[PARENT-ID\\]  
 
-Example: TS · REC · SOL · 2026-03 · 0017  
+Example: TS · REC · EMG · 2026-03 · 0017  
 
-&nbsp;        · root:TS·AX·SOL·2026-03·0001
+&nbsp;        · root:TS·AX·EMG·2026-03·0001
 
 
 
@@ -309,7 +309,7 @@ When a source document completes retirement, the system produces a retirement la
 
 
 
-Format: \\\[ARC-ID\\] · \\\[YYYY-MM-DD\\] Example: TS·ARC·SOL·2026-03·0001 · 2026-03-31
+Format: \\\[ARC-ID\\] · \\\[YYYY-MM-DD\\] Example: TS·ARC·EMG·2026-03·0001 · 2026-03-31
 
 
 

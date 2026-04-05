@@ -21,7 +21,7 @@ Carries the ARC id and retired\_at as metadata fields — the same values on the
 SURFACE 3 — PARENT PAGE PLACEMENT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Not automated. Sage manually creates a deposit entry in the section where the physical file belongs and references the ARC id. The retirement label — displayed copy-ready at retirement completion — carries exactly what is needed:
 
 Format:  \[ARC-ID\] · \[YYYY-MM-DD\]  
-Example: TS·ARC·SOL·2026-03·0001 · 2026-03-31
+Example: TS·ARC·EMG·2026-03·0001 · 2026-03-31
 
 NOTE — Surface 3 is outside the automated system boundary. It requires no system logic — the retirement label supplies everything Sage needs to complete it. The TWO-SURFACE label used in earlier references to this architecture is retired.
 

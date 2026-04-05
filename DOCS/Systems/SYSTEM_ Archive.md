@@ -69,7 +69,7 @@ The page deposit carries the ARC id and `retired_at` as metadata fields — the 
 Not an automated output. Sage manually creates a deposit entry in the section where the physical file belongs (e.g. Recursion for a document parsed across Recursion entries) and references the ARC id. The retirement label — displayed copy-ready at retirement completion — carries exactly what is needed:
 
 \[ARC-ID\] · \[YYYY-MM-DD\]  
-Example: TS·ARC·SOL·2026-03·0001 · 2026-03-31
+Example: TS·ARC·EMG·2026-03·0001 · 2026-03-31
 
 All three surfaces share the ARC id. No surface is authoritative over the others — each serves a distinct function. The IDB record is the system source. The page deposit is the browsable index. The parent page placement is the contextual home of the physical file.
 
