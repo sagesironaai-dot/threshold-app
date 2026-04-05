@@ -3861,3 +3861,97 @@ TIMESTAMP: 2026-04-05 01:32
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\OPERATIONAL DB SCHEMA.md
 ---
+
+---
+TIMESTAMP: 2026-04-05 (session 8 — close)
+TYPE: CLOSE
+FILES_MODIFIED:
+  - .claude/plans/infrastructure-build-plan.md — COMPLETE (reconstructed from Sage's notes)
+  - CLAUDE.md — COMPLETE (plan references updated x2)
+  - PROTOCOL/SESSION_LOG.md — COMPLETE (resume + open + close entries)
+  - DOCS/Systems/INTEGRATION IDB SCHEMA.md — RENAMED to INTEGRATION DB SCHEMA.md
+  - DOCS/Systems/SYSTEM_ Integration IDB.md — RENAMED to SYSTEM_ Integration DB.md
+  - DOCS/Systems/INTEGRATION DB SCHEMA.md — COMPLETE (IDB→PostgreSQL, provenance fields,
+    methodology fields, owner_origin_id, embedding trigger, session_id, FastAPI references)
+  - DOCS/Systems/SYSTEM_ Integration DB.md — COMPLETE (ownership→PostgreSQL, Alembic,
+    service API, failure modes, embeddings table inventory)
+  - DOCS/Systems/ARCHIVE SCHEMA.md — COMPLETE (IDB→PostgreSQL, data.js→FastAPI,
+    index.html→Svelte, provenance/methodology note)
+  - DOCS/Systems/EMBEDDING PIPELINE SCHEMA.md — COMPLETE (new file, full pipeline schema)
+  - DOCS/Systems/OPERATIONAL DB SCHEMA.md — COMPLETE (new file, 3 tables, state machine)
+  - index.html — DELETED (old build artifact)
+  - serve.py — DELETED (old build artifact)
+  - backup.log — UNTRACKED (removed from git tracking, gitignored)
+COMPLETED THIS SESSION:
+  - Interrupted session 7 resumed — no work had been done, clean resume
+  - Infrastructure plan reconstructed from Sage's saved architecture notes
+    (original plan file lost — never committed in session 6)
+  - CLAUDE.md plan references updated (velvety-tumbling-acorn → infrastructure-build-plan)
+  - Old build artifacts cleaned: index.html, serve.py deleted; backup.log untracked
+  - Stage 1: Docker Desktop verified (v29.3.1, daemon running, clean state)
+  - Stage 2: PostgreSQL + pgvector installed and verified
+    - Docker container aelarian-postgres running (pgvector/pgvector:pg17)
+    - Database aelarian_archives, user aelarian, pgvector extension enabled
+    - Vector ops verified: 768-dim insert + cosine similarity query
+    - Data persists via aelarian_pgdata Docker volume
+    - 2 renames + 3 DOCS updates (INTEGRATION DB SCHEMA, SYSTEM_ Integration DB, ARCHIVE SCHEMA)
+    - Provenance fields added: origin_type, session_type, ownership_classification,
+      parallax_flag, session_id (cross-DB UUID correlation)
+    - Methodology fields added: observed_at, recorded_at, observation_type, observer_state,
+      model_version, platform_conditions, session_continuity, framework_version, exclusion_note
+  - Stage 3: Ollama + nomic-embed-text installed and verified
+    - Ollama at C:\Users\sasir\AppData\Local\Programs\Ollama\ (not in PATH)
+    - Service at localhost:11434
+    - nomic-embed-text pulled (274MB), 768 dimensions confirmed
+    - EMBEDDING PIPELINE SCHEMA.md created (trigger, table, retrieval, async, failure handling)
+    - Audit catch: owner_origin_id missing from provenance fields — backfilled to
+      INTEGRATION DB SCHEMA (root_entries + archives). Without it sovereign retrieval
+      cannot distinguish between Origins' markers
+  - Stage 4: SQLite verified (Python 3.14.2 + SQLite 3.50.4, WAL mode available)
+    - OPERATIONAL DB SCHEMA.md created (sessions, presence_log, operational_state)
+    - Presence state machine defined (active/dormant/returned with valid transitions)
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Infrastructure stage 5: FastAPI (venv, dependencies, skeleton app, SYSTEM_ FastAPI.md,
+    update INTEGRATION SCHEMA + TAGGER SCHEMA + EMERGENCE SCHEMA)
+  - Infrastructure stage 6: Svelte + Vite (scaffold, SYSTEM_ Frontend.md,
+    update RESONANCE ENGINE SCHEMA)
+  - Infrastructure stage 7: Claude API (anthropic package, SWARM ARCHITECTURE SCHEMA.md,
+    update THREAD TRACE SCHEMA + COMPOSITE ID SCHEMA)
+  - Systems verification run
+  - V1 scan
+  - SOT document
+UNCOMMITTED: NO
+NEXT_ACTION: Next session begins infrastructure stage 5 — FastAPI. Create Python venv,
+  install dependencies (fastapi, uvicorn, sqlalchemy, asyncpg, aiosqlite, python-dotenv,
+  httpx, alembic, psycopg2-binary), create backend/ directory structure, write skeleton
+  main.py with health endpoint connecting to both PostgreSQL and SQLite. Then create
+  SYSTEM_ FastAPI.md and update INTEGRATION SCHEMA, TAGGER SCHEMA, EMERGENCE SCHEMA.
+  Note: Docker container aelarian-postgres must be running (docker start aelarian-postgres
+  if stopped after reboot). Ollama service must be running (starts automatically on Windows).
+---
+
+---
+TIMESTAMP: 2026-04-05 01:37
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\projects\C--Users-sasir-Desktop-Aelarian-Archives\memory\user_sage.md
+---
+
+---
+TIMESTAMP: 2026-04-05 01:37
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\projects\C--Users-sasir-Desktop-Aelarian-Archives\memory\project_infra_state.md
+---
+
+---
+TIMESTAMP: 2026-04-05 01:37
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\projects\C--Users-sasir-Desktop-Aelarian-Archives\memory\feedback_audit_approach.md
+---
+
+---
+TIMESTAMP: 2026-04-05 01:37
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\projects\C--Users-sasir-Desktop-Aelarian-Archives\memory\MEMORY.md
+---
