@@ -3836,3 +3836,28 @@ TIMESTAMP: 2026-04-05 01:27
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\INTEGRATION DB SCHEMA.md
 ---
+
+---
+TIMESTAMP: 2026-04-05 01:30
+TYPE: HOOK_BASH
+COMMAND: python --version 2>/dev/null && python -c "import sqlite3; print(f'SQLite version: {sqlite3.sqlite_version}')" 2>/dev/null || echo "Python or sqlite3 not available"
+---
+
+---
+TIMESTAMP: 2026-04-05 01:31
+TYPE: HOOK_BASH
+COMMAND: python -c "
+import sqlite3
+conn = sqlite3.connect(':memory:')
+conn.execute('PRAGMA journal_mode=WAL')
+conn.execute('CREATE TABLE test (id INTEGER PRIMARY KEY, val TEXT)')
+conn.execute('INSERT INTO test VALUES (1, \"ok\")')
+result = conn.execute('SELECT * FROM test').fetchone()
+print(f'Read/write tes...
+---
+
+---
+TIMESTAMP: 2026-04-05 01:32
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DOCS\Systems\OPERATIONAL DB SCHEMA.md
+---
