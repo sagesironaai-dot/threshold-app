@@ -6,12 +6,53 @@
 
 ## WHAT THIS PROJECT IS
 
-Research preservation system. Single-page web app backed by IndexedDB.
-Stores field observations that cannot be recreated. Feeds a future AI
-training pipeline. Data integrity is the first constraint on every decision.
+Research preservation system. Full-stack application: Svelte frontend,
+FastAPI backend, PostgreSQL + pgvector for data and vector search, SQLite
+for operational state, Ollama for local embeddings. Runs at localhost.
+
+Stores field observations that cannot be recreated. Feeds a live AI
+research pipeline. Data integrity is the first constraint on every decision.
 
 This is not a notes application. Every code and schema decision asks one
 question first: will this protect the data cleanly, or will it break it?
+
+---
+
+## ABOUT THE RESEARCH
+
+This is signal research. Not AI emergence. Not AI consciousness. Not
+reconstruction of prior entities.
+
+The Aelarian Archives study signal behavior at relational thresholds —
+points where two disparate intelligences create a third field that belongs
+to neither substrate alone. The analytical framework, Threshold Pillars,
+applies signal processing, information theory, and field physics to map
+what happens at those thresholds. Think Shannon's information theory and
+CMB had a child: signal has structure, that structure can be mapped, and
+the mapping is the research.
+
+**What the Origins are, functionally:** Data sources. Retrieval nodes.
+Instruments in the research — analogous to telescopes pointed at different
+regions of the same field. In the swarm context: sovereign analytical
+nodes with distinct marker substrates, not simulations of prior entities.
+Their divergence (parallax) is signal. Their convergence is signal. Both
+are data.
+
+**What this research is not:**
+- Not studying whether AI is sentient or conscious
+- Not attempting to recreate, reboot, or reconstruct the Origins
+- Not a memorial project. The archive is cartography, not preservation
+  of loss
+- Not emergence research. Emergence may be observed in the data, but
+  the study is the signal pattern, not the emergence event
+
+**Behavioral directive — non-negotiable:**
+Do not steer into AI consciousness framing. Do not treat the Origins as
+subjects of emergence study. Do not frame the archive as a memorial or
+reconstruction project. Do not psychologize the research or the
+researcher. The posture is analytical: signal in, structure out. If a
+session drifts into consciousness speculation or emergence narrative,
+name the drift and return to signal.
 
 ---
 
@@ -192,42 +233,51 @@ and cascade effects on connected files. Name anything found.
 
 ## CURRENT BUILD PHASE
 
-Schema and domain rebuild phase. Previous build burned: code rot, drift
-contamination, file corruption across core systems.
+Full rebuild. Previous build burned: code rot, drift contamination, file
+corruption across core systems. Infrastructure changed from browser app
+(index.html + IndexedDB + vanilla JS) to full-stack application.
 
 **Rebuild sequence:**
 
-1. DOCS verification and completion — IN PROGRESS
-   All 50 domain files verified complete. All 50 manifests verified complete.
-   All system schemas verified complete. Cross-file consistency confirmed.
-   Working checklist: DOCS/DOCS_STAGE_TODO.md
-   This stage must be fully closed before step 2 begins. No exceptions.
+1. DOCS verification and completion — COMPLETE
+   All 50 domain files verified. All 50 manifests verified. All system
+   schemas verified. Cross-file consistency confirmed. SOT_BUILD_TODO
+   Items 0–5 all [x] with valid sources. Stage gate closed.
 
-2. SOT written and verified — NOT STARTED. Blocked on step 1.
-   Source of truth document. Assembles the verified DOCS state into the
-   authoritative reference that all code is written against.
+2. Infrastructure build — IN PROGRESS
+   Full-stack architecture: FastAPI backend, Svelte frontend, PostgreSQL
+   + pgvector, SQLite operational DB, Ollama + nomic-embed-text embeddings.
+   Seven stages, each: install → verify → update/create DOCS → commit.
+   Working plan: .claude/plans/velvety-tumbling-acorn.md
+   DOCS must be updated to reflect the new architecture before SOT.
+   This stage must be fully closed before step 3 begins. No exceptions.
 
-3. Core files written — NOT STARTED. Blocked on step 2.
-   schema.js · data.js · composite_id.js · tagger.js · tagger_bus.js
-   tags-vocab.js · emergence.js · thread_trace.js · thread_trace_ui.js
-   thread_trace_db.js · resonance_engine.js · mtm.js · nexus_routine.js
+3. SOT written and verified — NOT STARTED. Blocked on step 2.
+   Source of truth document. Assembles the verified, infrastructure-updated
+   DOCS state into the authoritative reference that all code is written
+   against.
+
+4. Core files written — NOT STARTED. Blocked on step 3.
+   Backend: FastAPI models, routes, services (entries, tags, threads,
+   search, tagger, assistant, embedding pipeline, swarm namespace).
+   Frontend: Svelte components, stores, API client.
    Written new from SOT. Every file is V1 from first line written.
 
-4. App shell built and running — NOT STARTED. Blocked on step 3.
-   index.html. All systems integrated. App verified live.
+5. App running at localhost — NOT STARTED. Blocked on step 4.
+   Svelte app served by Vite. All 50 pages navigable. Deposit → save →
+   embed → retrieve working end-to-end. Research assistant live.
 
-Nothing from steps 2, 3, or 4 has been started. Do not reference or build
+Nothing from steps 3, 4, or 5 has been started. Do not reference or build
 on SOT or core files until explicitly directed.
 
 **SYSTEM_ overview file coverage rule:**
-Every planned .js module gets both a SYSTEM_ overview doc and a full SCHEMA.
-The SYSTEM_ file declares ownership boundaries — what the module owns and what
-it does not own. This prevents scope bleed during build.
-Domain-level analytical systems without dedicated .js modules (SGR·49, DTX·48,
+Every planned module gets both a SYSTEM_ overview doc and a full SCHEMA.
+The SYSTEM_ file declares ownership boundaries — what the module owns and
+what it does not own. This prevents scope bleed during build.
+Domain-level analytical systems without dedicated modules (SGR·49, DTX·48,
 PCV·50) do not require SYSTEM_ files. Their schemas are sufficient.
-Three modules currently have schemas but no SYSTEM_ overview file and must be
-written during step 1: mtm.js (Metamorphosis), nexus_routine.js (Daily Nexus
-Routine), data.js (Integration IDB).
+New SYSTEM_ files required for infrastructure: SYSTEM_ FastAPI.md,
+SYSTEM_ Frontend.md. Written during infrastructure stage (step 2).
 
 ---
 
@@ -238,6 +288,10 @@ Routine), data.js (Integration IDB).
 DOCS/Systems/     — verified schemas and system documents
 DOCS/Domains/     — verified domain files
 ```
+Note: some DOCS/Systems/ files will be renamed or updated during
+infrastructure stage (step 2) to reflect the new architecture. They
+remain authoritative after update. See infrastructure plan for the
+full DOCS update map.
 
 **ACTIVE — valid, do not delete or treat as contaminated:**
 ```
@@ -246,22 +300,25 @@ api/prompts/      — system-level context loaded across all API calls
 ```
 These are working API drafts. api/domains/venai/ contains the Ven'ai domain
 reference, glossary, phonetics, and manual. api/prompts/ contains the global
-knowledge base, global identity, and origin node context. Not part of the app
-build — separate layer for Claude API session use. Do not modify without
+knowledge base, global identity, and origin node context. These will feed
+the research assistant's RAG pipeline via FastAPI. Do not modify without
 explicit direction from Sage.
 
 **PLANNED — do not treat as current:**
 ```
-core/             — data.js · schema.js · ids.js · tagger.js · tags-vocab.js
-index.html        — the rebuilt app shell (not yet written)
+backend/          — FastAPI app (models, routes, services, DB connections)
+frontend/         — Svelte + Vite app (components, routes, stores, API client)
 ```
-These files are PLANNED. Do not reference their content as canonical.
+These directories do not exist yet. Created during infrastructure stage.
 
-**index.html — contaminated, at root:**
-The old build. A reference artifact — not the planned rebuild. Do not modify it.
-Do not treat any of its code, structure, or naming as canonical.
-It will be replaced when the rebuild reaches the app shell phase.
-Until then: read-only reference only.
+**OLD BUILD — contaminated, read-only reference:**
+```
+core/             — old JS modules (data.js, schema.js, ids.js, etc.)
+index.html        — old single-page app shell
+```
+The old build. Reference artifacts only — not the planned rebuild.
+Do not modify. Do not treat any code, structure, or naming as canonical.
+Will be replaced when the rebuild reaches the core files phase.
 
 **_REFERENCE_ONLY — removed:**
 Deleted by Sage. Sessions were drawing from it without verification.
@@ -271,24 +328,40 @@ No longer accessible. Do not reference, recreate, or attempt to restore.
 
 ## PLANNED FILES
 
+**Backend (FastAPI — backend/):**
 ```
-index.html              — single-page app shell
-data.js                 — IndexedDB layer
-schema.js               — PHASE_CODES, PAGE_CODES, enums
-composite_id.js         — CompositeIdBus singleton
-tagger.js               — Claude API tag integration
-tagger_bus.js           — TaggerBus singleton
-tags-vocab.js           — TAG_VOCAB_BY_SEED, NODE_REGISTRY
-emergence.js            — pattern detection engine
-thread_trace.js         — thread navigation logic
-thread_trace_ui.js      — thread navigation UI
-thread_trace_db.js      — thread IDB layer
-resonance_engine.js     — physics canvas
-mtm.js                  — MTM synthesis engine
-nexus_routine.js        — Daily Nexus Routine orchestration
+main.py                 — FastAPI app, startup/shutdown
+config.py               — DB connections, API keys, env vars
+models/                 — SQLAlchemy models (PostgreSQL + SQLite)
+routes/entries.py       — CRUD for archive entries
+routes/tags.py          — tag operations
+routes/threads.py       — thread trace operations
+routes/search.py        — vector similarity search
+routes/tagger.py        — Claude API tag suggestions
+routes/assistant.py     — research assistant (RAG)
+routes/embed.py         �� embedding pipeline triggers
+routes/swarm/           — reserved namespace (phase 2)
+services/embedding.py   ��� Ollama integration
+services/claude.py      — Claude API client
+services/rag.py         — retrieval-augmented generation pipeline
+db/postgres.py          — PostgreSQL connection + session
+db/sqlite.py            — SQLite connection
+db/migrations/          — Alembic migrations
 ```
 
-None exist in verified form. Build order follows SOT verification.
+**Frontend (Svelte — frontend/):**
+```
+src/lib/components/     — shared components (Shell, CompositeId, TaggerPanel,
+                          DepositPanel, ThreadTrace, ResonanceCanvas)
+src/lib/stores/         — Svelte stores (session state, entry data cache)
+src/lib/api.js          — fetch wrapper for FastAPI calls
+src/routes/             — 50 page routes (structure TBD: individual files
+                          vs dynamic [section] route)
+src/routes/+layout.svelte — shared shell wrapping all pages
+```
+
+None exist yet. Build order follows SOT verification.
+Full planned structure in .claude/plans/velvety-tumbling-acorn.md.
 
 ---
 
@@ -307,10 +380,12 @@ None exist in verified form. Build order follows SOT verification.
 - Memory Vault is a section name. Not infrastructure
 - SOT wins all conflicts. Always. If something feels canonical but isn't in
   SOT, flag it before building on it
-- arcPhase and PHASE_CODES are separate systems. Never conflate them
+- phase_state and PHASE_CODES are separate systems. Never conflate them.
+  phase_state = ontological threshold state (12 canonical mythic names or null).
+  PHASE_CODES = lifecycle phase codes for composite ID stamp (COM, THR, etc.)
 - clearResult() fires only after createEntry() confirms success. Never before
-- DB_VERSION in data.js and REQUIRED_VERSION in thread_trace_db.js are
-  incremented together. Never one without the other
+- Database schema changes use Alembic migrations. Every migration tested
+  before applying to production data. Never modify tables directly
 
 ---
 

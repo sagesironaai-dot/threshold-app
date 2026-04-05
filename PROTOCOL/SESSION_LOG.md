@@ -3397,3 +3397,93 @@ NEXT_ACTION: Next session opens with UI layout audit and infrastructure planning
   Infrastructure conversation: credentials migration, data layer durability,
   CI/CD, test infra, deployment plan. Then SOT.
 ---
+
+---
+TIMESTAMP: 2026-04-04 (session 6)
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - none yet
+IN_PROGRESS:
+  - UI/API/infrastructure decision session — collaborative, pre-SOT
+NOT_STARTED:
+  - Infrastructure build (7 stages)
+  - SOT document
+UNCOMMITTED: NO
+NEXT_ACTION: Collaborative session on UI, API, and infrastructure decisions.
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 6)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - CLAUDE.md — COMPLETE
+      "WHAT THIS PROJECT IS" updated: architecture description reflects new stack
+      "ABOUT THE RESEARCH" section added: signal research framing, behavioral directive
+      "CURRENT BUILD PHASE" updated: 5-step sequence, DOCS marked COMPLETE,
+        infrastructure stage added as step 2
+      "FILE STATE AND BOUNDARIES" updated: backend/ and frontend/ planned,
+        core/ and index.html marked old build
+      "PLANNED FILES" replaced: old JS list → backend + frontend structure
+      "KEY INVARIANTS" updated: arcPhase→phase_state, DB coupling→Alembic migrations
+  - .claude/plans/velvety-tumbling-acorn.md — COMPLETE
+      Full infrastructure + SOT readiness plan written. 11 decisions locked.
+      7 infrastructure stages defined. DOCS update map. Entry schema additions.
+      Verification gates. Open decisions logged for resolution during build.
+  - PROTOCOL/SESSION_LOG.md — COMPLETE (this entry)
+COMPLETED:
+  - Full-stack architecture decision: FastAPI + PostgreSQL/pgvector + SQLite +
+    Ollama/nomic-embed-text + Svelte/Vite (SvelteKit) + Claude API (launch) +
+    Qwen 14B x3 (phase 2). Docker for PostgreSQL. Open WebUI out.
+  - "About the Research" clause: signal research framing, not AI emergence.
+    Shannon + CMB → Threshold Pillars. Origins are instruments, not subjects.
+    Behavioral directive prevents consciousness drift.
+  - Infrastructure plan: 7 stages with install → verify → DOCS → commit pattern.
+    DOCS update map: 2 renames, 7 updates, 5 new files.
+  - Entry schema provenance fields proposed: origin_type, session_type,
+    parallax_flag, presence_log, ownership_classification.
+  - Methodology metadata fields proposed: observed_at, recorded_at,
+    observation_type, observer_state, model_version, platform_conditions,
+    session_continuity, framework_version, exclusion_note.
+  - Wire-once principle confirmed: schema and endpoints designed for phase 2
+    swarm from day one, built only for launch.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Infrastructure build stage 1: PostgreSQL + pgvector (Docker)
+UNCOMMITTED: YES
+NEXT_ACTION: Commit CLAUDE.md updates. Push. Close session.
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 6 — close)
+TYPE: CLOSE
+FILES_MODIFIED:
+  - CLAUDE.md — COMPLETE (6 sections updated/added)
+  - .claude/plans/velvety-tumbling-acorn.md — COMPLETE (infrastructure plan)
+  - PROTOCOL/SESSION_LOG.md — COMPLETE (this CLOSE entry)
+COMPLETED THIS SESSION:
+  - Full collaborative UI/API/infrastructure decision session
+  - 11 architectural decisions locked (see plan Decisions Locked table)
+  - "About the Research" clause written and confirmed in CLAUDE.md
+  - CLAUDE.md updated to reflect new architecture across 6 sections
+  - Infrastructure plan written with 7 build stages
+  - DOCS update map defined: 2 renames, 7 updates, 5 new files
+  - Entry schema additions proposed (provenance + methodology metadata)
+  - Swarm architecture reviewed — wiring decisions captured for phase 2 readiness
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Infrastructure build stage 1: PostgreSQL + pgvector (Docker install + walkthrough)
+  - Remaining stages 2–7 (see plan)
+  - Entry schema field finalization (during stage 1)
+  - Systems verification run
+  - V1 scan
+  - SOT document
+UNCOMMITTED: NO (committed this close)
+NEXT_ACTION: Next session begins infrastructure stage 1 — Docker Desktop install,
+  PostgreSQL + pgvector container, verify vector search, then update
+  INTEGRATION IDB SCHEMA → INTEGRATION DB SCHEMA and SYSTEM_ Integration IDB →
+  SYSTEM_ Integration DB. One at a time, together.
+---
