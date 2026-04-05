@@ -306,7 +306,7 @@ consistent. Both must reference the same codes. Verify together.
 
 The tagger passes pageContext to Claude on every suggestion call, including
 seedAffinities for the active section. This tells Claude which seeds to weight
-when confidence is equal. Not defined anywhere in DOCS.
+when confidence is equal. Now defined in DOCS/Systems/SECTION MAP.md.
 
 Required per section:
   section_id    — the section
@@ -316,11 +316,23 @@ Required per section:
 Three seeds per section, listed in priority order. The ordering is meaningful —
 the first seed carries the most weight when the tagger resolves ambiguous tags.
 
-- [ ] Up to 3 seed affinities defined per section, in priority order, for all 50 sections
-- [ ] Sections with no seed affinity explicitly recorded as empty array —
+- [x] Up to 3 seed affinities defined per section, in priority order, for all 50 sections
+      SOURCE: DOCS/Systems/SECTION MAP.md SEED AFFINITIES section. 50 entries written.
+      ECR (05) and MTM (07) sourced from explicit seed references in manifest OBJECTIVE text.
+      48 sections derived from manifest OBJECTIVE content (DOCS/Domains/).
+      2 sections recorded as empty array: INT (01) gateway, LNV (47) terminal surface.
+      3 corrections applied after objective-level audit: ORC s19→s08, ECH s16→s14, WSC reordered.
+      Sage confirmed 2026-04-04 session 5.
+- [x] Sections with no seed affinity explicitly recorded as empty array —
       not left undefined. Empty is a valid and intentional state.
-- [ ] Cross-check: every seed_id used as an affinity exists in
+      SOURCE: SECTION MAP.md SEED AFFINITIES table. INT (01) and LNV (47) recorded
+      with — markers and source notes (empty: gateway, empty: terminal).
+      Sage confirmed 2026-04-04 session 5.
+- [x] Cross-check: every seed_id used as an affinity exists in
       the tags vocabulary (Item 1 must be complete first)
+      SOURCE: 19 of 20 signal seeds used (s01–s06, s08–s20). All present in
+      TAG VOCABULARY.md signal seeds section. s07 (Dream / Subconscious Thresholds)
+      not assigned — no section has it as primary affinity. Verified session 2026-04-04.
 
 ---
 

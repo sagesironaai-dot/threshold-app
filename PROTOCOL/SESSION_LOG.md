@@ -3327,3 +3327,43 @@ UNCOMMITTED: NO (committed this close)
 NEXT_ACTION: Item 5 — extract seed affinities from 50 manifests. Then SOT_BUILD_TODO
   is complete and SOT document can be written.
 ---
+
+---
+TIMESTAMP: 2026-04-04 (session 5)
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - none yet
+IN_PROGRESS:
+  - Session open — reading all protocol files and 50 manifests for Item 5 preparation
+NOT_STARTED:
+  - SOT_BUILD_TODO Item 5 — Domain Seed Affinities (50 sections × up to 3 seeds)
+  - SOT document (blocked on Item 5)
+UNCOMMITTED: NO
+NEXT_ACTION: Read all 50 manifests, then present seed affinity approach to Sage for confirmation.
+---
+
+---
+TIMESTAMP: 2026-04-04 (session 5)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DOCS/Systems/SECTION MAP.md — COMPLETE
+      SEED AFFINITIES section added: 50 entries, up to 3 signal seeds per section.
+      2 manifest-explicit (ECR, MTM). 46 derived from manifest OBJECTIVEs. 2 empty arrays (INT, LNV).
+      3 corrections applied after objective-level audit: ORC s19→s08, ECH s16→s14, WSC reordered s09 primary.
+  - DOCS/SOT_BUILD_TODO.md — COMPLETE
+      Item 5 all 3 sub-items marked [x] with SOURCE lines.
+      "Not defined anywhere in DOCS" updated to reference SECTION MAP.md.
+  - PROTOCOL/SESSION_LOG.md — COMPLETE (this entry)
+COMPLETED:
+  - SOT_BUILD_TODO Item 5 — Domain Seed Affinities: all 50 sections defined, empty arrays explicit,
+    cross-check passed (19 of 20 signal seeds used, all verified in TAG VOCABULARY.md)
+  - SOT_BUILD_TODO is now fully complete — all Items 0–5 [x]
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - SOT document — no longer blocked. All 5 prerequisite items complete.
+UNCOMMITTED: YES
+NEXT_ACTION: SOT_BUILD_TODO complete. SOT document can now be written.
+---

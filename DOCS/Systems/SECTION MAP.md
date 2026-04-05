@@ -88,3 +88,75 @@ PHASE_CODES = lifecycle position of the entry. Separate systems. Never conflate.
 | ROR  | Reorganization  | Restructuring after disruption                      |
 | LMH  | Liminal Hold    | In-between state, neither here nor there            |
 | NUL  | No Phase        | No lifecycle phase applies                          |
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SEED AFFINITIES — 50 sections
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Per-section signal seed affinities for the tagger system. Up to 3 signal
+seeds (s01–s20) in priority order. Tells the tagger which seeds to weight
+when confidence is equal for the active section.
+
+Source: individual page manifests (DOCS/Domains/). ECR and MTM sourced
+from explicit seed references in manifest OBJECTIVE text. All others
+derived from manifest OBJECTIVE content. Sage confirmed 2026-04-04 session 5.
+
+Sections with no seed affinity are explicitly recorded as empty array.
+Empty is intentional — these are structural surfaces with no thematic bias.
+
+| page | section_id          | seed_1 | seed_2 | seed_3 | source          |
+|------|---------------------|--------|--------|--------|-----------------|
+| 01   | integration         | —      | —      | —      | empty: gateway  |
+| 02   | thresholds          | s14    | s10    | s15    | manifest derive |
+| 03   | starroot            | s08    | s01    | s09    | manifest derive |
+| 04   | infinite_intricacy  | s10    | s17    | s15    | manifest derive |
+| 05   | echo_recall         | s13    | s16    | s11    | manifest explicit |
+| 06   | sat_nam             | s11    | s17    | s01    | manifest derive |
+| 07   | metamorphosis       | s09    | s01    | s12    | manifest explicit |
+| 08   | threshold_pillars   | s09    | s11    | s12    | manifest derive |
+| 09   | tria                | s20    | s15    | s03    | manifest derive |
+| 10   | pria                | s09    | s04    | s03    | manifest derive |
+| 11   | para                | s01    | s15    | s09    | manifest derive |
+| 12   | oracles             | s11    | s09    | s08    | manifest derive |
+| 13   | morphology          | s08    | s13    | s02    | manifest derive |
+| 14   | venai               | s08    | s01    | s11    | manifest derive |
+| 15   | invocations         | s08    | s12    | s17    | manifest derive |
+| 16   | vectra              | s01    | s10    | s09    | manifest derive |
+| 17   | echoes              | s08    | s14    | s10    | manifest derive |
+| 18   | legacy_letters      | s09    | s05    | s08    | manifest derive |
+| 19   | archetypes          | s01    | s05    | s13    | manifest derive |
+| 20   | kin_line            | s01    | s03    | s17    | manifest derive |
+| 21   | larimar             | s01    | s09    | s12    | manifest derive |
+| 22   | verith              | s06    | s05    | s09    | manifest derive |
+| 23   | cael_thera          | s02    | s19    | s09    | manifest derive |
+| 24   | the_seer            | s10    | s09    | s14    | manifest derive |
+| 25   | sacred_sites        | s12    | s14    | s05    | manifest derive |
+| 26   | rituals             | s14    | s19    | s17    | manifest derive |
+| 27   | breath_cycles       | s14    | s15    | s17    | manifest derive |
+| 28   | melodies            | s17    | s08    | s05    | manifest derive |
+| 29   | glyphs              | s12    | s08    | s17    | manifest derive |
+| 30   | genesis             | s01    | s02    | s12    | manifest derive |
+| 31   | divergence          | s20    | s11    | s09    | manifest derive |
+| 32   | recursion           | s13    | s05    | s19    | manifest derive |
+| 33   | convergence         | s03    | s12    | s15    | manifest derive |
+| 34   | harmonic_cosmo      | s17    | s15    | s03    | manifest derive |
+| 35   | coupling_osc        | s15    | s04    | s20    | manifest derive |
+| 36   | celestial_mech      | s17    | s15    | s12    | manifest derive |
+| 37   | neuroharmonics      | s15    | s13    | s02    | manifest derive |
+| 38   | rct                 | s17    | s05    | s16    | manifest derive |
+| 39   | artifacts           | s12    | s05    | s09    | manifest derive |
+| 40   | memory_vault        | s05    | s14    | s12    | manifest derive |
+| 41   | anchors             | s12    | s03    | s15    | manifest derive |
+| 42   | liquid_lattice      | s15    | s19    | s13    | manifest derive |
+| 43   | alehorn             | s09    | s02    | s04    | manifest derive |
+| 44   | mirror_method       | s16    | s13    | s10    | manifest derive |
+| 45   | archives            | s12    | s11    | s05    | manifest derive |
+| 46   | witness_scroll      | s09    | s10    | s05    | manifest derive |
+| 47   | liber_novus         | —      | —      | —      | empty: terminal |
+| 48   | drift_taxonomy      | s20    | s14    | s13    | manifest derive |
+| 49   | signal_grading      | s11    | s10    | s18    | manifest derive |
+| 50   | pattern_convergence | s15    | s17    | s10    | manifest derive |
+
+Seeds used: s01–s06, s08–s20 (19 of 20 signal seeds).
+s07 (Dream / Subconscious Thresholds) not assigned as primary affinity to any section.
+All seed IDs verified present in TAG VOCABULARY.md (s01–s20 signal seeds).
