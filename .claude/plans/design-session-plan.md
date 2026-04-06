@@ -1398,11 +1398,215 @@ the detection layer to exist before they can receive and store outputs.
 
 **MTM synthesis wiring:**
 
-- [ ] How MTM receives new engine outputs from all 5 Axis lenses
-      (MTM already has a schema — METAMORPHOSIS SCHEMA.md — but it was
-      designed before engines existed. Wiring needs updating.)
-- [ ] MTM synthesis at session close via DNR — how engine-computed patterns
-      feed into the synthesis alongside raw deposits
+- [x] DESIGNED (session 17). Two-pass synthesis architecture.
+
+      **Architecture:** MTM no longer synthesizes from raw deposits directly.
+      Two-pass structure: Pass 1 synthesizes across engine outputs (high-altitude
+      hypothesis), Pass 2 verifies against targeted raw deposits (ground truth).
+
+      **Pass 1 — Engine Layer:**
+      · MTM reads all 5 engine outputs via Feed step (pull, not push)
+      · Synthesis threshold filter applied before payload: patterns must exceed
+        1.2x baseline ratio. Named constant: MTM_SYNTHESIS_THRESHOLD = 1.2
+        Separate from visualization display thresholds.
+      · Expected post-filter volume: 40-80 patterns total across 5 engines
+      · Payload structure: engine frame (one-sentence summary per engine from
+        state snapshot — context layer, not data layer) + filtered pattern-level
+        results (full detail: observed rate, expected rate, ratio, weight
+        breakdown, null contribution, contributing deposit_ids)
+      · Claude API call with hypothesis-only prompt constraint:
+        "This is Pass 1. You are producing a Synthesis Brief — a hypothesis,
+        not a finding. Map what converges across engines. Name what is absent.
+        Declare your sources by pattern key. Do not interpret. Do not conclude.
+        Pass 2 will verify against the raw deposits these patterns drew from."
+      · Output: Synthesis Brief (intermediate type, not a Finding):
+        {
+          synthesis_brief: {
+            convergences: [
+              {
+                description:  string — what converges across engines
+                engines:      string[] — which engines flagged this
+                load_bearing_patterns: [
+                  { engine: THR|STR|INF|ECR|SNM,
+                    pattern_key: string,
+                    why: string — why load-bearing }
+                ]
+              }
+            ],
+            declared_gaps: [
+              {
+                description:  string — what's absent or divergent
+                expected_in:  string[] — which engines should have flagged
+                gap_type:     absence | divergence | asymmetry
+                reference_anchor: string — time window or cluster neighborhood
+              }
+            ]
+          }
+        }
+
+      **Selection Function (between passes):**
+      Two-mode deposit resolution from Synthesis Brief.
+
+      · Mode 1 — convergence resolution:
+        Input: load_bearing_patterns from Brief
+        Operation: direct deposit_id resolution from engine pattern
+          weight_breakdown
+        Output: deposit_ids that drove the patterns
+
+      · Mode 2 — gap resolution:
+        Input: declared_gaps from Brief
+        Each gap declares expected_engine + reference_anchor
+        Operation: pull deposits from expected_engine's indexed set within
+          reference_anchor that did NOT contribute to any flagged pattern
+          above synthesis threshold. Exclusion step required: filter out
+          deposit_ids already present in any pattern above threshold.
+        Output: deposits the engine held but didn't elevate
+
+      Selection writes: convergence_deposits_pulled, gap_deposits_pulled
+      (separate counts — performance signal + analytical signal)
+
+      **Pass 2 — Verification Layer:**
+      · Receives: Synthesis Brief + targeted deposits only
+        (NOT engine frame or filtered patterns — Brief is the hypothesis,
+        deposits are the evidence. No anchoring to Pass 1 data.)
+      · Claude API call with anti-confirmation bias constraint:
+        "This is Pass 2. You are verifying a synthesis hypothesis against raw
+        deposit evidence. Overturning a hypothesis is not failure — it is the
+        highest-value output. 'Complicated' and 'overturned' verdicts deserve
+        more attention than confirmations, not less. Where deposit evidence is
+        insufficient to resolve a question, name it as an open question — do
+        not force a verdict."
+      · Output: verdicts + open questions
+        {
+          verdicts: [
+            {
+              source:       convergence | gap
+              source_index: integer
+              verdict:      confirmed | complicated | overturned
+              evidence: {
+                supporting_deposits:    [{ deposit_id, contribution }],
+                contradicting_deposits: [{ deposit_id, contribution }]
+              },
+              reasoning: string
+            }
+          ],
+          open_questions: [
+            {
+              question:       string
+              origin:         string — which convergence/gap
+              why_unresolved: string — what evidence would be needed
+            }
+          ]
+        }
+      · Gap verdicts are first-class — same status as convergence verdicts.
+        Gaps overturned ("this absence is an indexing artifact") are as
+        analytically significant as confirmed convergences.
+
+      **Finding Production:**
+      Each verdict becomes a Finding. Each open_question becomes a Finding.
+      Four finding_type values:
+        confirmed      — verdict supported by deposit evidence
+        complicated    — verdict holds conditionally, with named constraints
+        overturned     — hypothesis contradicted by deposit evidence
+        open_question  — Pass 2 couldn't resolve from available evidence
+
+      Finding record shape:
+        id:                      auto
+        synthesis_session_ref:   references synthesis_sessions.id
+        finding_type:            confirmed | complicated | overturned | open_question
+        title:                   string
+        content:                 string
+        provenance:
+          pass_1_brief_id:       string — links to Brief stored on session record
+          source_type:           convergence | gap
+          source_description:    string
+          load_bearing_patterns: [{ engine, pattern_key, why }]
+          deposit_evidence:      [{ deposit_id, role: supporting|contradicting,
+                                    contribution }]
+          prompt_versions:
+            pass_1:              string
+            pass_2:              string
+        attached_open_question:  finding_id | null
+          — links confirmed/complicated findings to unresolved questions
+          — the open_question also exists as its own Finding record
+          — relationship is structural, not narrative
+        content_fingerprint:     string
+        lnv_routing_status:      pending | deposited | failed
+        lnv_deposit_id:          references LNV deposit | null
+        created_at:              timestamp
+
+      **Content Fingerprinting (two-pass):**
+      Hash input encodes three dimensions:
+        1. finding_type (epistemic status)
+        2. load_bearing_patterns sorted by engine + pattern_key
+        3. deposit_evidence deposit_ids sorted
+      Construction:
+        finding_type
+        + "|" + sorted(load_bearing_patterns).map(engine:pattern_key).join("|")
+        + "|" + sorted(deposit_ids).join("|")
+      Open_question findings have no deposit_evidence — hash is
+        finding_type + "|" + sorted patterns only. No collision with other
+        types because finding_type is in the input.
+      Same deposits + same patterns + different verdict = different fingerprint.
+
+      **synthesis_sessions table (expanded for two-pass):**
+        id:                          auto
+        session_date:                timestamp
+        status:                      in_progress | complete | failed
+        failure_type:                null | pre_synthesis | pass_1_failed
+                                     | mid_synthesis | pass_2_failed
+        # Per-phase timestamps
+        engine_read_started_at:      timestamp | null
+        engine_read_completed_at:    timestamp | null
+        pass_1_started_at:           timestamp | null
+        pass_1_completed_at:         timestamp | null
+        selection_started_at:        timestamp | null
+        selection_completed_at:      timestamp | null
+        pass_2_started_at:           timestamp | null
+        pass_2_completed_at:         timestamp | null
+        # Pass 1 output
+        pass_1_brief:                jsonb — full Synthesis Brief
+        engines_read:                string[]
+        patterns_filtered_count:     integer
+        deposits_pulled_count:       integer
+        convergence_deposits_pulled: integer
+        gap_deposits_pulled:         integer
+        # Typed finding counts
+        findings_confirmed:          integer | null
+        findings_complicated:        integer | null
+        findings_overturned:         integer | null
+        findings_open_question:      integer | null
+        findings_dropped:            integer
+        # Deduplication
+        dedup_skipped:               boolean
+        # Prompt versioning
+        pass_1_prompt_version:       string
+        pass_2_prompt_version:       string
+        created_at:                  timestamp
+
+      **Updated synthesis sequence (8 steps):**
+      1. Create synthesis_session record. status → in_progress.
+      2. Read engine outputs from all 5 Axis engines. Write engine_read
+         timestamps. Apply synthesis threshold filter. Write engines_read,
+         patterns_filtered_count. Build engine frame. If any engine read
+         fails: status → failed, failure_type → pre_synthesis. Halt.
+      3. If prior_mtm_session_ids present: load prior findings, build
+         prior_fingerprints Set. Write dedup_skipped. (Unchanged from V1.)
+      4. Pass 1 — Claude API call. Write pass_1 timestamps. Payload:
+         engine frame + filtered patterns. Parse Synthesis Brief. Store
+         as pass_1_brief. If fails: failure_type → pass_1_failed. Halt.
+      5. Selection function. Write selection timestamps. Mode 1: resolve
+         convergence deposit_ids from load_bearing_patterns. Mode 2:
+         resolve gap deposits (deposits in anchor window, exclude flagged).
+         Write deposits_pulled_count, convergence/gap counts. If deposit
+         pull fails: failure_type → mid_synthesis. Halt.
+      6. Pass 2 — Claude API call. Write pass_2 timestamps. Payload:
+         Brief + targeted deposits. Parse verdicts + open_questions.
+         If fails: failure_type → pass_2_failed. Halt.
+      7. Finding production. Create Finding per verdict + per open_question.
+         Link attached_open_questions. Generate fingerprints. Run dedup.
+         Write valid Findings. Write typed counts + findings_dropped.
+      8. Write status → complete. Return result object to DNR.
 
 **Nexus engine visualizations:**
 

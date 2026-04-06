@@ -4818,3 +4818,30 @@ NEXT_ACTION: Next session begins Tier 3 design — shared lens engine architectu
   baseline computation, null obs flow into engines, chart library decision.
   Full scope: .claude/plans/design-session-plan.md Tier 3 section.
 ---
+
+---
+TIMESTAMP: 2026-04-05 (session 17)
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - none yet
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Tier 4 design (MTM wiring + Nexus engines + WSC/LNV + Void engine)
+UNCOMMITTED: NO
+CONFIRMED STATE — derived from disk, not memory:
+  Repo: clean — up to date with origin/main. Only untracked: .claude/settings.local.json
+  DESIGN/Systems/: 19 subdirectories + 2 standalone files, intact
+  DESIGN/Domains/: 10 group folders (01–10), intact
+  SOT_BUILD_TODO [x] spot-check: sampled items have valid SOURCE: lines. Passes.
+  Design plan: Tier 1 DESIGNED, Tier 2 DESIGNED, Tier 3 DESIGNED, Tier 4 NOT STARTED
+KNOWN DISCREPANCY:
+  Session 16 (Tier 3 design) has two commits (e6485b2, e4f5952) but no
+  SESSION_LOG entries — no OPEN, no WORK_UNIT, no CLOSE. Work is committed
+  and reflected in design-session-plan.md. Log gap acknowledged, not backfilled.
+NEXT_ACTION: Begin Tier 4 design — MTM synthesis wiring, Nexus engine
+  visualizations (PCV, DTX, SGR), Void engine, WSC schema, LNV schema.
+  Full scope: .claude/plans/design-session-plan.md Tier 4 section.
+---
