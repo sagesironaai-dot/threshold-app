@@ -10,8 +10,8 @@ Research preservation system. Full-stack application: SvelteKit frontend,
 FastAPI backend, PostgreSQL + pgvector for data and vector search, SQLite
 for operational state, Redis for session persistence and inter-agent
 message passing, Ollama for local embeddings, Claude API for tagger and
-research assistant, Docker Compose for service orchestration. Runs at
-localhost.
+research assistant, Docker Compose for service orchestration, Agent
+Identity Registry for AI provenance tracking. Runs at localhost.
 
 Stores field observations that cannot be recreated. Feeds a live AI
 research pipeline. Data integrity is the first constraint on every decision.
@@ -252,8 +252,8 @@ corruption across core systems. Infrastructure changed from browser app
    + pgvector, SQLite operational DB, Redis for session persistence and
    inter-agent message passing, Ollama + nomic-embed-text embeddings,
    Claude API for tagger and research assistant, Docker Compose for service
-   orchestration.
-   Eight stages completed, each: install → verify → update/create DOCS → commit.
+   orchestration, Agent Identity Registry for AI provenance tracking.
+   Ten stages completed, each: install → verify → update/create DOCS → commit.
    Cleanup pass completed: all old architecture references removed from DOCS.
    Working plan: .claude/plans/infrastructure-build-plan.md
 
