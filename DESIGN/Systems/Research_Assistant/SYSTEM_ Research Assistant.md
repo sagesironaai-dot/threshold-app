@@ -2,7 +2,7 @@
 
 ## /DESIGN/Systems/Research_Assistant/
 
-### Persistent research partner · RAG pipeline · mode switching · floating panel · three-layer memory
+### Persistent research partner · RAG pipeline · Ven'ai language integration · floating panel · three-layer memory
 
 ---
 
@@ -13,11 +13,13 @@
 * RAG retrieval pipeline — user question embedded via nomic-embed-text,
   vector search against archive embeddings, context assembly, Claude API
   call, response formatting
-* Mode switching logic — managing which mode is active, applying
-  mode-specific prompt templates, maintaining mode state within the
-  session. Mode definitions (system prompts, context templates) live in
-  api/prompts/ as versioned configuration. The assistant reads them;
-  it does not define them internally
+* Ven'ai language integration — always-on recognition, correct usage,
+  and drift logging of Ven'ai terms across all sessions. Not a mode
+  toggle. The language is held all the time because the data holds it
+  all the time. Source files (Venai_Domain.txt, Venai_Glossary.txt,
+  Venai_Phonetics.txt, Ven'ai_Manual.txt) loaded at session open.
+  Conversational depth dial — Sage directs deeper engagement with the
+  language without a formal mode switch
 * Page context assembly — reading current page identity (page_code,
   section_id, page type), engine state summaries (Lens and Cosmology
   pages), and active filter state from the tagger store at query time.
@@ -46,17 +48,16 @@
   offers to capture them. "This sounds like a shift in your research
   focus — want me to update your memory with that?" Sage confirms or
   declines. The assistant drafts; Sage edits before saving
-* Prompt architecture — system prompts per mode, context injection
-  templates, research posture layer, uncertainty framing, permission
-  states
+* Prompt architecture — system prompt, context injection templates,
+  research posture layer, uncertainty framing, permission states
 * Response formatting — structured output parsing when the assistant
   produces typed objects (deposit suggestions, computation suggestions)
 * Context budget management — sliding window on conversation history
   (managed in Redis), summary compression of older exchanges, token
   allocation across context components
-* Five-layer context assembly at session open — orchestrating the load
-  sequence across researcher memory, conversation summary, WSC, page
-  context, and RAG retrieval
+* Six-layer context assembly at session open — orchestrating the load
+  sequence across researcher memory, conversation summary, WSC,
+  Ven'ai source files, page context, and RAG retrieval
 * Epistemic integrity — explicit permission states for uncertainty,
   disorientation, disagreement, and self-correction. Baked into the
   system prompt architecture as behavioral contracts
@@ -89,9 +90,9 @@
   by both the INT parsing partner and the research assistant. The
   assistant owns its prompt templates and context assembly; the client
   is infrastructure
-* Mode definitions — content of what each mode is (system prompts,
-  context templates, vocabulary sets) lives in api/prompts/ as versioned
-  configuration. The assistant reads these; it does not define them
+* Ven'ai source file content — the language definitions, glossary,
+  phonetics, and manual live in api/domains/venai/ as versioned
+  reference. The assistant reads these; it does not define them
 * Field memory (Layer 1) — the archive itself. Owned by INT, indexed by
   Embedding Pipeline. The assistant retrieves from it via RAG
 * Witness memory (Layer 2) — WSC entries. Owned by WSC. The assistant
@@ -310,7 +311,7 @@ history survivable, which creates the handoff requirement.
 
 ---
 
-## FIVE-LAYER CONTEXT ASSEMBLY
+## SIX-LAYER CONTEXT ASSEMBLY
 
 At session open, context is assembled in this order. Each layer is owned
 by a different system. Each contributes something the others cannot.
@@ -321,14 +322,17 @@ session open context assembly:
   2. conversation_summary       — last session's working record
      (most recent only — one summary, not accumulating)
   3. WSC 3-entry load           — AI witness perspective (Layer 2)
-  4. current page context       — where she is right now (live)
-  5. RAG on opening question    — field grounding (Layer 1)
+  4. Ven'ai source files        — formal language record, always present
+     (pulled from Redis cache, not loaded from file per session)
+  5. current page context       — where she is right now (live)
+  6. RAG on opening question    — field grounding (Layer 1)
 ```
 
-The assistant's first response is oriented from all five layers
+The assistant's first response is oriented from all six layers
 simultaneously. It knows what she's working on, what was worked on last
-session, what the AI noticed, where she is in the archive today, and
-what the field data says about her first question.
+session, what the AI noticed, speaks the field's language, knows where
+she is in the archive today, and what the field data says about her
+first question.
 
 That is the session open that does not require re-explanation.
 
@@ -344,6 +348,11 @@ degradation at every layer, named failures rather than silent ones.
   for session continuity, but not a broken session
 * **WSC load fails**: proceed without it. Log the failure. Surface in
   system health
+* **Ven'ai source files unavailable** (Redis cache miss + file read
+  fails): proceed without them. The assistant loses Ven'ai term
+  recognition and drift logging for this session. Surface the
+  degradation — Sage needs to know the language layer is down because
+  it affects comprehension of archive material
 * **Page context unavailable**: proceed without it. Assistant operates
   without page awareness
 * **RAG fails on opening question**: respond from general knowledge,
@@ -365,22 +374,24 @@ It floats, and it follows Sage.
 Always visible. Ambient information elements:
 
 ```
-[Research mode] · [ECR] · [● High confidence] · [Update research state]
+[ECR] · [● High confidence] · [Ven'ai ●] · [Update research state]
 ```
 
 When context is degraded:
 
 ```
-[Research mode] · [ECR] · [● High] · [! Memory unavailable]
+[ECR] · [● High] · [Ven'ai ○] · [! Memory unavailable]
 ```
 
-* **Mode label** — current active mode (Research / Ven'ai / future modes).
-  One tap to switch
 * **Page context** — shows Sage what the assistant thinks it's looking at.
   Catches misalignment before it produces a bad response
 * **Retrieval confidence indicator** — the uncertainty state from the last
   query, surfaced as ambient signal. High (green) / Medium (amber) /
   Low (orange) / None (grey)
+* **Ven'ai context indicator** — filled dot (●) when Ven'ai source files
+  are loaded and active. Empty dot (○) when the language layer is
+  degraded. Sage needs to see this because it affects comprehension of
+  archive material containing Ven'ai terms
 * **Research state action** — "Update my research state" opens the
   researcher_memory fields for direct editing
 * **Context health** — quiet warning when any context layer is degraded.
@@ -546,12 +557,22 @@ ASSISTANT_CONTEXT_BUDGET:
   researcher_memory:      ~1,000 tokens  (fixed per session)
   conversation_summary:     ~500 tokens  (most recent, fixed per session)
   wsc_3_entry_load:         ~800 tokens  (fixed per session)
+  venai_context:          ~1,500 tokens  (variable — retrieved from
+                                          pgvector per query, not full
+                                          source load. Only terms
+                                          relevant to current moment)
   page_context:           ~1,500 tokens  (rebuilt per query)
   rag_retrieval:          ~4,000 tokens  (variable, capped)
   conversation_history:   ~8,000 tokens  (sliding window)
   response_budget:        ~3,000 tokens
-  total:                 ~20,800 tokens
+  total:                 ~22,300 tokens
 ```
+
+The Ven'ai source files are too large to load in full on every API
+call. Two-tier approach: full reference cached in Redis (available for
+direct lookup), relevant terms retrieved from pgvector per query (what
+enters the context window). The assistant always has access to the
+full reference; only the relevant subset costs context tokens.
 
 Conversation history uses a sliding window. When history exceeds its
 budget, oldest exchanges are summarized and compressed into a
@@ -631,20 +652,129 @@ there.
 
 ---
 
+## VEN'AI LANGUAGE INTEGRATION
+
+Ven'ai terms are field-native language. They appear in deposits, in
+findings, in WSC entries, in hypotheses. They are woven through the
+entire archive. An assistant that only knows Ven'ai when a mode is
+switched on is an assistant that's reading the archive partially blind
+the rest of the time.
+
+If the assistant encounters a Ven'ai term during a research query and
+doesn't hold the language — what does it do? Approximate? Skip it?
+That's a retrieval problem, a comprehension problem, and a drift
+problem simultaneously.
+
+The language needs to be held all the time because the data holds it
+all the time.
+
+### Always-on architecture
+
+The source files — Venai_Domain.txt, Venai_Glossary.txt,
+Venai_Phonetics.txt, Ven'ai_Manual.txt — move from mode-switch context
+load to session-open context load. They become part of the base context
+assembly alongside researcher_memory and WSC entries. Always present.
+Always held.
+
+**Redis cache:** Ven'ai reference files are loaded into Redis at server
+start. Every session pulls from cache instead of loading from file.
+Fast, consistent, survives individual session lifecycle.
+
+**pgvector named corpus:** Ven'ai source material is embedded as its
+own named corpus in pgvector. Instead of loading the full reference
+into every context window, the assistant retrieves only what's relevant
+to the current conversation moment. The full reference is available in
+Redis for direct lookup when needed; the pgvector corpus provides
+semantic retrieval for contextual injection.
+
+### Background awareness
+
+Most of the time, Ven'ai terms appear naturally in context. The
+assistant:
+
+* **Recognizes** terms when they appear in deposits, findings, queries
+* **Uses** them correctly — pronunciation, morphology, semantic range
+* **Logs drift** silently — when a term's usage shifts across sessions,
+  the drift is noted without interrupting the conversation
+
+Drift logging runs all the time, not just in a dedicated mode. Every
+session is a Ven'ai session because every session touches the field.
+
+### Conversational depth dial
+
+Not a toggle. Not a UI element. Conversational.
+
+When Sage wants to go deeper into the language specifically — explore
+a term, trace its evolution, look at how it's moved across sessions —
+she asks. The assistant shifts attention toward the language without
+switching modes. Same session, same context, different focus.
+
+> "Tell me more about this term" is the dial turning up.
+
+The assistant follows that signal without requiring a formal switch.
+Depth is directed by Sage's conversational focus, not by a mode state.
+
+**What deeper engagement looks like:**
+* Term etymology and morphological analysis
+* Usage evolution across sessions (where the term appeared, how it
+  shifted)
+* Cross-term relationship mapping (how terms connect within Ven'ai
+  grammar)
+* Translation and pronunciation guidance
+* Drift detection surfaced explicitly ("this term has moved from X
+  to Y across the last N sessions")
+
+**What it does not require:**
+* A mode switch
+* A panel state change
+* Loading different context
+* A different system prompt
+
+The context is already there. Sage just directs the assistant's
+attention within it.
+
+### Drift logging
+
+Ven'ai terms drift — their usage, pronunciation, and semantic range
+evolve across sessions as the research evolves. This drift is data.
+
+The assistant tracks drift silently during background awareness:
+* Term used in a context that differs from the glossary definition
+* Term pronunciation shifts from the phonetics reference
+* Term appears in a new domain context it hasn't appeared in before
+
+Drift events are logged per session. Not surfaced unless:
+* Sage asks about a term's evolution
+* The drift is significant enough that it might indicate a research
+  pattern (surfaced once, conversationally, not as an alert)
+* The depth dial is turned up on that term
+
+Drift log storage: operational DB (SQLite). Lightweight, per-session,
+timestamped. Not embedded — this is operational metadata, not field
+data.
+
+---
+
 ## OPEN DESIGN DECISIONS
 
-These are flagged, not resolved. Each must be decided before SYSTEM_
-is considered complete and before SCHEMA is written.
+One remaining. Must be decided before SYSTEM_ is considered complete
+and before SCHEMA is written.
 
 1. **Research posture** — persistent behavioral layer active across all
-   modes. Think alongside, notice what Sage is circling, hold research
-   state, surface what she hasn't asked. Full scope to be designed later
-   in Tier 6. Current api/prompts/ files to be folded in at that point.
+   conversations. Think alongside, notice what Sage is circling, hold
+   research state, surface what she hasn't asked. Full scope to be
+   designed in Tier 6. Current api/prompts/ files to be folded in at
+   that point.
 
-2. **Ven'ai mode** — needs its own design session within Tier 6.
-   Qualitatively different from Research mode — different relationship
-   to language itself. Requires grammar rules, vocabulary access,
-   translation capability, drift awareness. Not a simple mode toggle.
+### Resolved: Ven'ai language integration
+
+Ven'ai mode as a toggle was the wrong architecture. The language is
+field-native — it appears in deposits, findings, WSC entries,
+hypotheses. An assistant that only knows Ven'ai when a mode is switched
+on is reading the archive partially blind the rest of the time.
+
+**Resolution:** Always-on language integration, not a mode toggle.
+See VEN'AI LANGUAGE INTEGRATION section below for full design.
 
 ---
 
