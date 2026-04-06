@@ -1,6 +1,12 @@
 
 
-╔══════════════════════════════════════════════════════════════╗ ║ METAMORPHOSIS SCHEMA · MTM · v1 ║ ║ /DESIGN/systems/metamorphosis_schema_v1.md ║ ╚══════════════════════════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════════════╗
+║  METAMORPHOSIS SCHEMA  ·  MTM  ·  V1                        ║
+║  /DESIGN/Systems/Metamorphosis/METAMORPHOSIS SCHEMA.md       ║
+║  Mechanical spec — synthesis sequence, fingerprinting,       ║
+║  deduplication, stores, validation, failure modes.           ║
+║  Architectural description in SYSTEM_ Metamorphosis.md.      ║
+╚══════════════════════════════════════════════════════════════╝
 
 OWNERSHIP BOUNDARIES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -52,7 +58,13 @@ STRUCTURE BEFORE THE API CALL Entries are grouped by section into five named dat
 
 All five datasets are present in a single API call payload. If any dataset is missing because the section has no entries: the dataset is an empty array. An empty array is not a missing lens page. Synthesis proceeds. A lens page is only unavailable if database read fails for that section. That failure triggers pre\_synthesis abort.
 
-SIMULTANEOUSLY One Claude API call. All five datasets in the payload. The AI reads the full field in a single context window — not five separate reads accumulated across calls. This is structurally non-negotiable. Sequential reads produce sequential analysis. MTM's function is to surface what becomes visible only when all five are held at once. Sequential calls cannot produce that output.
+EMPTY LENS PAGE HANDLING When a lens page returns an empty array because the database read succeeded but the section has zero entries, the payload explicitly includes the key with an empty array and a note:
+
+  "THR": { "entries": [], "note": "no entries" }
+
+All five keys are always present in the payload. Absence of data is structurally different from absence of the key. Claude receives five datasets every time — populated or empty. Without explicit empty markers, Claude may treat missing data as a parsing error rather than a valid corpus state. On a small corpus where three of five lens pages have no entries yet, Claude still sees all five keys and knows the empty arrays are intentional.
+
+SIMULTANEOUSLY One Claude API call. All five datasets in the payload. The AI reads the full field in a single context window — not five separate reads accumulated across calls. This is structurally non-negotiable.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ CLAUDE API CALL STRUCTURE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -89,7 +101,7 @@ RESPONSE FORMAT — REQUIRED JSON SHAPE Claude returns a JSON object. MTM parses
 
 An empty findings array is a valid response. It means the field held simultaneously produced no pattern that wasn't visible in a single lens. That is data. It is not a failure.
 
-RESPONSE HANDLING Parse JSON response. Validate each Finding — title present, content present, source\_pattern\_refs present with at minimum one entry. Invalid Findings are dropped and logged. Not written. Not routed. A Finding that cannot be validated has no structural integrity and does not enter the archive.
+RESPONSE HANDLING Parse JSON response. Validate each Finding against the explicit validation criteria (see FINDING VALIDATION CRITERIA below). Invalid Findings are dropped and counted in findings_dropped with the specific failure reason logged. Not written. Not routed. A Finding that cannot be validated has no structural integrity and does not enter the archive.
 
 If JSON parsing fails entirely: status → failed, failure\_type → mid\_synthesis. Whatever valid Findings were written before the parse failure are preserved.
 
@@ -103,9 +115,42 @@ HOW IT IS GENERATED Collect all source\_pattern\_refs for the Finding. Sort by p
 
 Example: refs: \[ { page\_code: 'ECR', deposit\_id: 'TS·ECR·EMG·2026-03·0004' }, { page\_code: 'THR', deposit\_id: 'TS·THR·EMG·2026-03·0011' } \] sorted: ECR first, THR second fingerprint: 'ECR:TS·ECR·EMG·2026-03·0004|THR:TS·THR·EMG·2026-03·0011'
 
+SEMANTIC DUPLICATE LIMITATION The content fingerprint guarantees structural deduplication — the same sources producing the same finding won't write twice. It does not guarantee semantic deduplication — if Claude selects different deposits to support the same insight on retry, the fingerprint diverges and both findings write. This is a deliberate tradeoff. Semantic deduplication would require comparing finding content, which introduces interpretation into what should be a mechanical process. LNV surfaces both findings. Sage resolves semantic overlap through the research record, not the pipeline.
+
 FINGERPRINT COLLISION Two genuinely distinct Findings may theoretically produce the same fingerprint if they draw from exactly the same source deposits but surface different patterns from them. This is a known risk. Handling: — The fingerprint match triggers a skip on retry. — If Sage identifies a legitimate Finding was skipped due to collision, the Finding can be manually deposited to LNV as a native entry with MTM provenance noted. — Collision frequency should be logged. If collisions are frequent, the fingerprint algorithm is revisited. This is a calibration concern, not an architectural one.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ DEDUPLICATION CHECK ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FINDING VALIDATION CRITERIA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+A Finding is valid if and only if all five conditions pass. A Finding
+that fails any condition is dropped and counted in findings_dropped
+with the specific failure reason logged.
+
+  1. finding_type present — string, non-null, non-empty.
+  2. title present — string, non-null, non-empty.
+  3. content present — string, non-null, non-empty.
+  4. source_pattern_refs present and non-empty — array with at
+     minimum one entry. Each entry must have page_code, deposit_id,
+     and note. A Finding with no traceable source is not a Finding.
+  5. content_fingerprint generation succeeds — fingerprint computed
+     from source_pattern_refs before write. If generation fails,
+     the Finding is dropped. A Finding cannot be written without
+     a fingerprint.
+
+A Finding that passes all five is written. One that fails any is
+dropped. These are the drop conditions — not implementation detail,
+schema definition. Without this enumeration, "validate each Finding"
+is a variable behavior at build time.
+
+Drop reasons logged per Finding:
+  missing_finding_type | missing_title | missing_content |
+  empty_source_refs | invalid_source_ref | fingerprint_failed
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DEDUPLICATION CHECK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Runs on every retry where prior\_mtm\_session\_id is present in the synthesis endpoint call options. Never runs on a clean first-time synthesis — prior\_mtm\_session\_id is null on clean runs and the check is skipped entirely.
 
@@ -159,6 +204,18 @@ mtm\_session\_id:  the synthesis\_sessions record id
                  the record is created at cycle  
                  start before any failure can occur.
 
+synthesis\_duration\_ms: integer — wall-clock time from  
+                 session record creation to status  
+                 write (complete or failed). Computed  
+                 at result assembly. Surfaces in LNV  
+                 alongside findings\_count and  
+                 findings\_dropped. Makes synthesis  
+                 performance visible without requiring  
+                 a database join on the session record.  
+                 If synthesis starts taking 4 minutes  
+                 on a large corpus, this field is the  
+                 signal — not buried in raw timestamps.
+
 }
 
 MTM's contract with DNR ends when this object resolves. What DNR does with it is DNR's concern.
@@ -180,6 +237,8 @@ findings\_dropped — integer Count of candidate Findings that were extracted fr
 failure\_type — enum: null | pre\_synthesis | mid\_synthesis null on complete runs. Written on failed runs.
 
 dedup\_skipped — boolean false on clean first-time runs and on retries where prior session load succeeded. true when prior\_mtm\_session\_id was passed but the prior session findings could not be loaded — deduplication did not run on this cycle. Written at step 3 of synthesis sequence. Null until step 3 executes. A true value here means LNV should treat all Findings from this cycle as potentially containing duplicates from a prior failed run.
+
+synthesis\_duration\_ms — integer Wall-clock time in milliseconds from session record creation to status write (complete or failed). Computed at result assembly time. Written alongside status. Surfaces in LNV for performance visibility.
 
 created\_at — timestamp Written once at record creation. Never updated.
 
