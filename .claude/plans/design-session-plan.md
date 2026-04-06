@@ -268,6 +268,115 @@ The Integration page is a collaborative workstation with two panels.
 
 ---
 
+### INT PARSING PARTNER — API CONTRACT
+
+- [x] DESIGNED. The INT right panel AI is a parsing partner scoped to
+      batch processing collaboration. NOT the research assistant (Tier 6).
+      Its output is a typed record, not free text — same principle as
+      SNM's Claude snapshot (Tier 3).
+
+      **Parse object (returned per chunk):**
+
+        chunk_parse:
+          chunk_id: string
+          parse_version: string         — prompt version that produced this
+          suggested_deposits: [
+            {
+              provisional_id: string
+              content: string           — extracted deposit text
+              suggested_tags: string[]
+              suggested_type: observation | pattern | question | note
+              suggested_pages: string[] — routing candidates
+              confidence: high | medium | low
+              flag: null | ambiguous | needs_context | cross_page
+            }
+          ]
+          parse_flags: [
+            {
+              flag_type: chunk_unclear | boundary_ambiguous | context_missing
+              description: string
+              chunk_position: string    — where in the chunk the issue occurs
+            }
+          ]
+          chunk_summary: string         — one sentence: what this chunk contained
+          correction_hooks: string[]    — field IDs Sage corrected in prior chunks,
+                                          carried forward so AI adjusts approach
+
+      **Simplified type enum — why and how it maps:**
+
+      At parse time the AI works from raw chunk text with no surrounding
+      archive context. Asking it to distinguish analysis from hypothesis
+      from observation at this stage is asking for precision it can't
+      reliably produce. The simplified classification is the AI's best
+      initial read. Sage has the context to map it accurately during review.
+
+      Mapping is a default suggestion, not a hard rule. Review card shows
+      AI's suggested_type, then the mapped doc_type field as an editable
+      dropdown pre-populated with the most likely candidate:
+
+      | suggested_type | → doc_type default | Sage picks from |
+      |----------------|-------------------|-----------------|
+      | observation | observation | observation (direct, usually holds) |
+      | pattern | analysis | analysis (pattern that explains) or hypothesis (pattern that predicts) |
+      | question | discussion | discussion (open question) or hypothesis (testable question) |
+      | note | entry | entry, reference, glyph, media, transcript (full enum) |
+
+      **Calibration feedback:** the final doc_type selected during review
+      feeds back into a calibration view. If `pattern` is consistently
+      mapped to `hypothesis` rather than `analysis`, that's signal the
+      mapping default can be tightened over time. The mapping evolves
+      with usage, not by guessing upfront.
+
+      **Correction propagation — running context object:**
+
+      Corrections don't travel as raw conversation history (context window
+      blows up). They travel as a distilled ruleset that grows as Sage
+      corrects. Each correction becomes a rule; the ruleset enters every
+      subsequent chunk prompt.
+
+        correction_context:
+          session_id: string
+          corrections: [
+            {
+              chunk_id: string          — which chunk triggered correction
+              field: string             — what was wrong (tag | type | routing
+                                          | boundary)
+              original: string          — what AI produced
+              corrected: string         — what Sage set it to
+              instruction: string       — extracted rule: "when X, do Y instead"
+            }
+          ]
+          active_rules: string[]        — distilled from corrections, these
+                                          travel in the prompt on every
+                                          subsequent chunk
+
+      Every subsequent chunk prompt opens with: "Apply these corrections
+      from this session: [active_rules]."
+
+      Session ends → ruleset stored on session record. Optionally surfaces
+      in next session as starting correction context if Sage wants
+      continuity.
+
+      **Prompt versioning:** parallel to SNM (Tier 3). Parsing partner
+      prompt carries a version string. Every parse object records which
+      prompt version produced it. Corrections that inspired a prompt
+      revision are the changelog.
+
+      **Sage-facing surfaces:**
+      · suggested_deposits → entire review card built from this
+      · parse_flags → surface on review card ABOVE the deposit so Sage
+        knows the AI flagged something before reading the content
+      · chunk_summary → header in review queue so Sage knows what the
+        chunk contained before reviewing individual deposits
+      · confidence → visible on review card badge
+      · active_rules → visible as live correction log panel during
+        batch session (Sage can see what rules are accumulating —
+        corrections are not a black box)
+      · correction_hooks, provisional_id, parse_version → internal only,
+        never displayed
+
+---
+
 ### BATCH PROCESSING SYSTEM
 
 How large source documents enter the archive. This is how most data
@@ -331,6 +440,134 @@ Everything persists in operational DB. Session dies? Next session:
 **Parent tag:** One root stamp per DOCUMENT (not per batch/chunk).
 Every child deposit carries root:[PARENT-ID] linking back. Already
 designed in Composite ID schema.
+
+---
+
+### BATCH PROCESSING STATE MACHINE
+
+- [x] DESIGNED. Explicit valid transitions only. No implicit state changes.
+
+      **Chunk status transitions (valid only — no others permitted):**
+
+      pending → parsing            — AI begins processing chunk
+      parsing → parsed             — successful parse, awaiting review
+      parsing → parse_failed       — AI returned error or malformed output
+      parse_failed → parsing       — Sage triggers retry (manual or auto)
+      parsed → review              — chunk enters review queue
+      review → complete            — Sage approves all deposits from chunk
+      review → partial             — some approved, some declined/skipped
+      review → parse_failed        — Sage rejects entire parse, triggers re-parse
+      partial → complete           — remaining skipped deposits resolved
+
+      parsed → parsing is NOT valid. Re-parse only enters from parse_failed.
+
+      **Failure states:**
+
+        parse_failed:
+          failure_type: ai_error | malformed_output | timeout
+                        | context_overflow
+          retry_count: integer
+          retry_limit: 3          — after 3 failures, enters manual_required
+
+        manual_required:          — human must handle, AI cannot parse this
+          reason: string
+          escalated_at: timestamp
+
+      context_overflow: specific failure for when chunk exceeds AI context
+      window. Triggers automatic chunk splitting before retry, not a raw
+      retry of the same chunk.
+
+      **Transition triggers:**
+
+      | Transition | Trigger |
+      |------------|---------|
+      | pending → parsing | Sage initiates batch or auto-queue fires |
+      | parsing → parsed | AI returns valid parse object |
+      | parsing → parse_failed | AI error, timeout, or malformed output |
+      | parse_failed → parsing | Retry triggered (auto up to limit, then manual) |
+      | parsed → review | Deposit creation flow completes for chunk |
+      | review → complete | All deposits in chunk resolved |
+      | review → partial | Session ends with skips outstanding |
+
+      **Sage-facing surfaces:**
+      · Chunk status → visible in batch progress view with plain language
+        labels: parse_failed → "Parse failed", manual_required → "Needs
+        your attention", partial → "Some deposits skipped"
+      · failure_type → Sage needs to know why something failed to decide
+        retry vs manual handle. Plain language translations required.
+      · retry_count → visible so Sage knows how many attempts were made
+
+---
+
+### REVIEW QUEUE INTERACTION SPEC
+
+- [x] DESIGNED. Per-deposit review during batch processing. Cards built
+      from parsing partner's suggested_deposits output.
+
+      **Review card layout:**
+
+      ┌─────────────────────────────────────────────────┐
+      │ [SUGGESTED TYPE]  [CONFIDENCE]  [FLAGS]          │
+      │                                                  │
+      │ Content (full text of suggested deposit)         │
+      │                                                  │
+      │ doc_type: [dropdown — pre-populated via mapping] │
+      │ Suggested tags: [tag] [tag] [tag]  (editable)    │
+      │ Suggested routing: [Page A] [Page B]  (editable) │
+      │ Chunk: #N of M  |  Session: [date]               │
+      │                                                  │
+      │ [APPROVE] [EDIT] [SKIP] [DECLINE]                │
+      └─────────────────────────────────────────────────┘
+
+      parse_flags from the chunk surface ABOVE the first deposit card in
+      a chunk group — Sage sees the AI's concerns before reviewing content.
+      chunk_summary displays as the group header.
+
+      **doc_type mapping on card:** AI's suggested_type badge shows at top.
+      Below it, the doc_type dropdown is pre-populated from the mapping
+      table (see INT Parsing Partner section). Sage confirms or changes
+      before approving. Full doc_type enum always available in dropdown —
+      the mapping pre-selects, it doesn't constrain.
+
+      **Editable fields during review:** content, tags, doc_type, routing.
+      All four editable before approve. Edit is inline — no modal, no
+      separate form. Any edit fires a correction event that enters
+      correction_context for the session.
+
+      **Skip state flow:**
+
+        skipped:
+          skipped_at: timestamp
+          skip_reason: string | null  — optional, Sage can note why
+          re_queue_eligible: true     — always re-queueable
+          expiry: null                — skipped deposits don't expire
+
+      Skipped deposits surface in a persistent skip queue accessible from
+      INT. Sage can re-queue individually or batch re-queue all skipped
+      from a session. Re-queuing returns to review state — does not
+      re-parse.
+
+      **Decline behavior:**
+
+      Decline does NOT delete. It archives with status declined.
+
+        declined:
+          declined_at: timestamp
+          decline_reason: string | null — free text, not coded values
+          recoverable: true             — can be reinstated within 30 days
+          archived_after: 30 days       — moves to cold archive
+
+      The distinction: declined means "this shouldn't be a deposit." It's
+      a curatorial judgment, not a deletion. The content still exists in
+      the chunk's parse record — the chunk is the source, the deposit is
+      the derived artifact. Declining the deposit doesn't touch the source
+      chunk.
+
+      **Flag display values (plain language, not raw tokens):**
+      · ambiguous → "Ambiguous boundary"
+      · needs_context → "Needs more context"
+      · cross_page → "Routes to multiple pages"
+      · skip_reason and decline_reason → free text fields
 
 ---
 
@@ -414,6 +651,204 @@ become deposits. `archived` status for Pearls Sage explicitly dismisses.
 
 ---
 
+### INT GATEWAY — DEPOSIT CREATION CONTRACT
+
+- [x] DESIGNED. The API contract for creating deposits through INT.
+      Complete field set — every deposit record field represented.
+
+      **Request:**
+
+      POST /api/deposits/create
+
+        {
+          // Session context
+          session_id: string              — current session
+          chunk_id: string | null         — null for manual deposits
+          parse_version: string | null    — null for manual deposits
+
+          // Core content
+          content: string                 — REQUIRED
+          doc_type: string                — REQUIRED, deposit record enum:
+                                            entry | observation | analysis |
+                                            hypothesis | discussion |
+                                            transcript | glyph | media |
+                                            reference
+          source_format: string           — REQUIRED, deposit record enum:
+                                            digital | handwritten | scan |
+                                            image | audio | file
+          tags: string[]                  — REQUIRED (may be empty array)
+          pages: string[]                 — REQUIRED, routing targets (1+)
+
+          // Conditional fields (doc_type dependent)
+          // REQUIRED for: observation, analysis, hypothesis
+          // NULL for all other doc_types
+          observation_type: positive | null
+          confidence: clear | emerging | raw | null
+
+          // Universal metadata
+          deposit_weight: high | standard | low  — REQUIRED, AI-suggested
+          notes: string | null                   — optional freeform
+          source_type: field | generated         — REQUIRED, non-nullable
+
+          // Swarm foundation (always known at creation in V1)
+          authored_by: string             — REQUIRED. V1: "sage" or "claude"
+          node_id: string                 — REQUIRED. V1: single value
+          instance_context: string        — REQUIRED. V1: session identifier
+
+          // Provenance
+          provenance: {
+            source: manual | ai_parsed | ai_suggested_sage_confirmed
+            correction_applied: boolean
+            original_suggestion: object | null  — AI's original if corrected
+          }
+        }
+
+      **Response — success:**
+
+        {
+          deposit_id: string
+          stamp: string                 — assigned composite ID stamp
+          status: created
+          routing_confirmed: string[]   — pages successfully notified
+          embedding_status: queued | skipped
+          created_at: timestamp
+        }
+
+      **Response — failure:**
+
+        {
+          error_code: duplicate | validation_failed | routing_failed
+                      | embedding_queued_failed
+          failed_at_step: string        — which pipeline step failed
+          deposit_id: string | null     — null if failed before record creation
+          partial_state: object | null  — what succeeded before failure
+          retry_safe: boolean           — can this be retried without side
+                                          effects?
+        }
+
+      **Field nullability rule:** fields that are required at creation sit
+      ABOVE the atomicity boundary (see below). Fields populated async
+      sit BELOW. Conditional fields (observation_type, confidence) are
+      required for their applicable doc_types, null for others — this is
+      schema-enforced, not caller-optional.
+
+      **Sage-facing surfaces:**
+      · Success: routing_confirmed, embedding_status → surface on deposit
+        confirmation card
+      · Failure: plain language translations required:
+        duplicate → "This content already exists"
+        validation_failed → "Missing required fields"
+        routing_failed → "Couldn't reach target page"
+        embedding_queued_failed → "Saved but search indexing delayed"
+
+---
+
+### DEPOSIT ATOMICITY BOUNDARY
+
+- [x] DESIGNED. The boundary sits after record creation, before embedding
+      and routing. Defined per CLAUDE.md code contract rule: "Atomicity
+      boundary stated before any multi-step operation is written."
+
+      Step 1: validate              — fails → 400, nothing created
+      Step 2: duplicate check       — fails → 409, nothing created
+      Step 3: create deposit record — fails → 500, nothing created
+      ─────── ATOMICITY BOUNDARY ────────────────────────────────
+      Step 4: assign stamp          — fails → deposit exists,
+                                      stamp_status: pending
+      Step 5: trigger embedding     — fails → deposit exists,
+                                      embedding_status: failed
+      Step 6: route to pages        — fails → deposit exists,
+                                      routing_status: partial | failed
+
+      Above the boundary: all-or-nothing. Failure means nothing was
+      created. Request can be retried safely.
+
+      Below the boundary: deposit exists regardless of downstream failure.
+      This is intentional — the deposit record is the canonical artifact.
+      Steps 4-6 are recoverable async operations.
+
+      **Failure handling below the boundary:**
+
+      · **Stamp failure:** deposit enters stamp_pending queue, retry async.
+        Deposit is valid and usable, stamp assigned when queue resolves.
+      · **Embedding failure:** embedding_status: failed, enters embedding
+        retry queue. Deposit is searchable by tags/type but not
+        vector-searchable until resolved. Not a blocking failure.
+      · **Routing failure (partial):** routing_status: partial, records
+        which pages received notification and which didn't. Affected
+        pages flagged, re-routing triggerable manually or on next session
+        open. Deposit exists and is archived — only the page-level index
+        is incomplete.
+
+      The deposit record is always the source of truth. Downstream
+      failures degrade capability, they don't invalidate the deposit.
+
+---
+
+### EMBEDDING PIPELINE
+
+- [x] DESIGNED. Vector embedding of deposit content for semantic search.
+
+      **What gets embedded:** the deposit's content field plus a metadata
+      string constructed from: doc_type + tags + assigned_pages. Metadata
+      appended to content before embedding so vector search is tag-aware,
+      not just content-aware.
+
+      **Timing:** async. Embedding is queued at deposit creation, never
+      blocks the creation response. Deposit is usable immediately; vector
+      searchability follows.
+
+      **Status tracking:**
+
+        embedding_status: queued | processing | complete | failed
+                          | retry_queued | failed_permanent
+
+      **Retry strategy:**
+        attempt_1: immediate on failure
+        attempt_2: 5 minute delay
+        attempt_3: 30 minute delay
+        after attempt_3: status → failed_permanent, surfaces in
+                         maintenance view
+
+      failed_permanent: deposit exists and is fully functional. Vector
+      search will miss it until manually re-queued. Not a data loss
+      condition.
+
+      **Storage:** vector stored with deposit_id as primary key reference.
+      Deposit record holds embedding_id and embedding_status. They are
+      linked, not co-located — the deposit record is not the vector store.
+
+      **Sage-facing surfaces:**
+      · embedding_status → plain language on deposit record:
+        queued / processing → "Indexing"
+        complete → "Indexed"
+        failed / retry_queued → "Index pending"
+        failed_permanent → "Index failed"
+      · failed_permanent → maintenance view: "This deposit exists but
+        won't appear in search results until re-indexed."
+
+---
+
+### HUMAN READABILITY RULE
+
+- [x] DESIGNED. Cross-cutting rule — applies to all Tier 1 systems,
+      established here because Tier 1 has the most user-facing surfaces.
+
+      **Rule:** any field that surfaces in a UI element — review card,
+      batch progress view, deposit record, maintenance view, correction
+      log — must have a display_label or plain language translation
+      defined alongside its internal value.
+
+      Raw status strings, error codes, and flag tokens are
+      system-internal. Sage never reads raw tokens.
+
+      This rule carries forward to all subsequent tiers. When a new
+      system defines status values, error codes, or classification tokens
+      that will appear in any UI surface, the plain language translation
+      is part of the design — not deferred to frontend build time.
+
+---
+
 ### RESOLVED QUESTIONS (Tier 1)
 
 All open questions from the original plan have been answered in session 15:
@@ -441,28 +876,71 @@ All open questions from the original plan have been answered in session 15:
   times_observed split. deposit_weight uses named constants (2.0/1.0/0.5).
   Null flag travels in weight metadata. See Tier 3 for full mechanics.
 
+**Gap resolutions (session 18 — Tier 1 quality pass):**
+- ~~INT parsing partner has no contract~~ → RESOLVED. Structured parse
+  object with typed fields, correction propagation via distilled ruleset,
+  prompt versioning parallel to SNM. See INT Parsing Partner section.
+- ~~Batch processing has statuses but no state machine~~ → RESOLVED.
+  Explicit valid transitions, failure states with typed failure_type,
+  retry limits, manual_required escalation. See Batch Processing State
+  Machine section.
+- ~~No INT gateway API shape~~ → RESOLVED. Full request/response contract
+  with all deposit record fields, typed error responses. See INT Gateway
+  section.
+- ~~Deposit creation has no atomicity boundary~~ → RESOLVED. Boundary
+  after record creation, before stamp/embedding/routing. Below-boundary
+  failures are recoverable async. See Deposit Atomicity Boundary section.
+- ~~Embedding pipeline trigger is a stub~~ → RESOLVED. Async queue with
+  3-attempt retry strategy, failed_permanent state, metadata-enriched
+  embedding. See Embedding Pipeline section.
+- ~~No review queue interaction spec~~ → RESOLVED. Card layout, editable
+  fields, skip/decline state flows, doc_type mapping from simplified
+  parse enum. See Review Queue Interaction Spec section.
+- ~~Simplified parse type → doc_type mapping~~ → RESOLVED. Four simplified
+  types map to doc_type defaults with full enum always available.
+  Calibration feedback tracks mapping accuracy over time. See INT Parsing
+  Partner section.
+- ~~No human readability rule for UI-facing fields~~ → RESOLVED. Cross-
+  cutting rule: every UI-surfacing field gets plain language translation.
+  See Human Readability Rule section.
+
 ---
 
 ### PIPELINE SEGMENT DEFINED HERE
 
-**Deposit creation flow (text):**
-External input → INT gateway (source mode or native mode) → deposit record
-created with all fields (doc_type, source_format, observation_type where
-applicable, confidence where applicable, notes, deposit_weight, source_type,
-swarm fields) → duplicate check fires (warn, not block) → routed to target
-page(s) → child stamp assigned if from source document → embedding pipeline
-triggers.
+**Deposit creation flow (text — with atomicity boundary):**
+External input → INT gateway (source mode or native mode) →
+  Step 1: validate request (all required fields present, conditional
+    fields correct for doc_type) →
+  Step 2: duplicate check fires (warn, not block) →
+  Step 3: create deposit record with all fields →
+  ─── ATOMICITY BOUNDARY ───
+  Step 4: assign composite ID stamp (async, retryable) →
+  Step 5: queue embedding (async, 3-attempt retry) →
+  Step 6: route to target page(s) (async, partial failure tracked) →
+  Success response with deposit_id, stamp, routing_confirmed,
+  embedding_status.
 
 **Deposit creation flow (media):**
 Image upload → AI analyzes → Sage writes summary → tags/routing assigned →
-INT gateway → file saved to filesystem, metadata to PostgreSQL → routed
-to target page → media deposit card displayed.
+INT gateway (same 6-step flow above) → file saved to filesystem, metadata
+to PostgreSQL → routed to target page → media deposit card displayed.
 
-**Batch processing flow:**
+**Batch processing flow (with state machine):**
 Document upload → root stamp → AI chunks (5-8 pages) → rolling buffer
-(3-5 ahead) → per-deposit review queue → Sage approves/corrects/skips →
+(3-5 ahead) → per-chunk: pending → parsing (AI produces chunk_parse
+object with suggested_deposits + parse_flags) → parsed → review (deposits
+appear as review cards with doc_type mapping dropdown) → Sage approves/
+edits/skips/declines per deposit → corrections enter correction_context
+→ active_rules distilled and carried into subsequent chunk prompts →
 approved deposits through INT gateway with child stamps → operational DB
-tracks progress across sessions.
+tracks chunk status + correction context across sessions.
+
+**Batch failure flow:**
+parsing → parse_failed (ai_error | malformed_output | timeout |
+context_overflow) → auto-retry up to 3 attempts (context_overflow
+triggers chunk split before retry) → after 3 failures: manual_required
+→ Sage handles directly.
 
 **Black Pearl flow:**
 Quick capture from any page → Pearl saved to operational DB → lives as
