@@ -4845,3 +4845,46 @@ NEXT_ACTION: Begin Tier 4 design — MTM synthesis wiring, Nexus engine
   visualizations (PCV, DTX, SGR), Void engine, WSC schema, LNV schema.
   Full scope: .claude/plans/design-session-plan.md Tier 4 section.
 ---
+
+---
+TIMESTAMP: 2026-04-05 (session 17)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - .claude/plans/design-session-plan.md — IN_PROGRESS (Tier 4: 3 of 5 items designed)
+  - PROTOCOL/SESSION_LOG.md — IN_PROGRESS
+COMPLETED:
+  - MTM two-pass synthesis wiring FULLY DESIGNED:
+    · Two-pass architecture (Pass 1 engine hypothesis, Pass 2 deposit verification)
+    · Synthesis threshold filter (1.2x baseline), engine frame + filtered patterns
+    · Synthesis Brief intermediate format (convergences + declared_gaps)
+    · Two-mode selection function (convergence resolution + gap resolution with exclusion)
+    · Anti-confirmation bias on Pass 2, four finding_type values
+    · Full provenance chain + attached_open_question links
+    · Fingerprint encodes finding_type + patterns + deposits (three dimensions)
+    · synthesis_sessions expanded: per-phase timestamps, typed counts, selection mode counts
+    · 8-step updated synthesis sequence
+    Commit: 4616a0d
+  - Nexus engine visualizations FULLY DESIGNED (PCV, DTX, SGR):
+    · PCV: card board (primary) + network graph (secondary, domains as nodes)
+    · DTX: drift timeline (swim-lane) + stacked bar (default) + ternary plot (drill-down from lane click)
+    · SGR: score radar (4-axis, tier boundary rings) + tier dashboard (header + stacked area) + grade latency histogram
+    Commit: 2a49dc5
+  - Void engine FULLY DESIGNED:
+    · Two-layer: data (cross-engine absence detection) + analytical (Claude interpretive intelligence)
+    · Five absence types: A cross_engine_convergent, B single_engine_persistent,
+      C temporal_shift, D convergent_with_origin, E hypothesis_attrition
+    · Claude tool: 3 triggers (session-close auto, on-demand open, on-demand targeted)
+    · Output: systemic observations, contradictions (with intensity), open edges (data_gap vs interpretive_limit)
+    · Uncategorized pattern escape hatch in prompt
+    · PCV interaction: A/D enter as void_provenance hypotheses, E stays on Void
+    · Circularity fix: provenance filter prevents reading own downstream as corroboration
+    · 4 visualizations: absence heatmap, expected-vs-observed, silence-duration, Claude output panel
+    Commit: 6ec3861
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - WSC schema (entry structure, 3-entry protocol, RESEARCHER NOTE)
+  - LNV schema (receive contract, provenance, storage format)
+UNCOMMITTED: YES (this log entry)
+NEXT_ACTION: WSC and LNV schema design to complete Tier 4. Can be next session.
+---
