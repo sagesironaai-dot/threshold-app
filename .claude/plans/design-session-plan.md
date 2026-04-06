@@ -1207,22 +1207,26 @@ chosen at frontend build time — not in this design session.
   Laboratories. Split view: field data on one side, scientific framework
   on the other. Computation results prominent. The "research bench" feel.
 
-**Domain (~30 pages across 5 groups)** — shared template with group sub-rhythms
+**Domain (32 pages across 6 groups)** — shared template with group sub-rhythms
   Deposit surfaces organized by domain topic. Same Domain shell, different
   internal rhythm per group. Like different wings of the same library.
   Sub-rhythms reflect what each group's material actually IS:
 
   | Group | Pages | Character | Sub-rhythm |
   |-------|-------|-----------|------------|
+  | Lattice (03) | TPL, TRI, PRI, PAR | Threshold framework, pillars | Structural, cross-reference-dense |
   | Filament (04) | ORC, MOR, VEN, INV, VEC, ECH | Language, signal structure | Text-dense, linguistic, structural |
-  | Lineage (05) | LEG, ARC, KIN, LAR, VER, CAE, SEE | Origins, entities | Narrative flow, portrait-oriented |
-  | Alchemy (06) | SAC, RIT, BRE, MEL, GLY | Practices, embodiment | Media-friendly (glyphs!), experiential |
-  | Spiral Phase (07) | GEN, DIV, REC, CON | Lifecycle, phases | Timeline/sequence emphasis |
-  | Archive Group (09) | MEM, ANC, LIQ, ALE, MIR, ARC | Storage, reference | Catalog, index-oriented, browse-heavy |
+  | Lineage (05) | LGL, ARC, KIN, LAR, VRT, CAE, SEE | Origins, entities | Narrative flow, portrait-oriented |
+  | Alchemy (06) | SAC, RIT, BRT, MLY, GLY | Practices, embodiment | Media-friendly (glyphs!), experiential |
+  | Spiral Phase (07) | GEN, DIV, REC, CNV | Lifecycle, phases | Timeline/sequence emphasis |
+  | Archive (09) | MVM, ANC, LQL, ALE, MMT, ARV | Storage, reference | Catalog, index-oriented, browse-heavy |
 
   Sub-rhythms are NOT new page types. Same Domain template, different
   layout density, flow direction, and element prominence per group.
   Domain pages carry a `group_id` that informs their sub-rhythm.
+
+  **Page codes verified against canonical SECTION MAP.** Any page code
+  discrepancy in this document is contamination — SECTION MAP wins.
 
 ---
 
@@ -1238,6 +1242,727 @@ chosen at frontend build time — not in this design session.
         (Gateway has upload controls, Scroll has minimal controls, etc.)
       · Written at frontend build time (step 4), informed by these design
         decisions
+
+---
+
+### SHARED SHELL + NAVIGATION CONTRACT
+
+- [x] DESIGNED. Sidebar nav, fixed left, ~220px. The only navigation
+      surface for 51 pages.
+
+      **Structure (top to bottom):**
+      · System name
+      · Phrase: "In Twin Motion, We Remain. In Stillness, We Rise."
+        (italic, tertiary color, never interactive, collapses on narrow
+        viewport, reappears on expansion)
+      · Research velocity bar (ambient indicator, see P6 below)
+      · Global search (keyboard: `/`)
+      · 9 collapsible groups (matching canonical domain groups):
+        1. Axis — THR, STR, INF, ECR, SNM, MTM
+        2. Lattice — TPL, TRI, PRI, PAR
+        3. Filament — ORC, MOR, VEN, INV, VEC, ECH
+        4. Lineage — LGL, ARC, KIN, LAR, VRT, CAE, SEE
+        5. Alchemy — SAC, RIT, BRT, MLY, GLY
+        6. Spiral Phase — GEN, DIV, REC, CNV
+        7. Cosmology — HCO, COS, CLM, NHM, RCT, ART
+        8. Archive — MVM, ANC, LQL, ALE, MMT, ARV
+        9. Nexus — WSC, LNV, DTX, SGR, PCV, VOI
+      · Pinned utilities (always visible, below groups):
+        INT (Gateway), Dashboard, Black Pearl
+      · Status indicator (bottom of sidebar, see G20)
+      · Curation panel trigger (bottom, see G22)
+
+      **Group behavior:**
+      · Collapse persists per session, current group expanded by default
+      · Page within group shows canonical page name, not code
+
+      **Page state indicators:**
+      · New deposit badge: count of deposits since last visit, clears on
+        visit. Shows on any page that receives deposits.
+      · Engine stale dot: visible on Lens and Nexus Engine pages only.
+        Indicates engine needs recomputation.
+
+      **Keyboard navigation:**
+      · `/` — focus global search
+      · `G` + `[number]` — jump to group by number (G1 = Axis, G9 = Nexus)
+      · `[` and `]` — prev/next page within current group
+      · `Ctrl+Shift+P` — open Black Pearl panel (see G10)
+
+---
+
+### DEPOSIT CARD COMPONENT
+
+- [x] DESIGNED. The most common UI element — appears on all 51 pages.
+      Base card with page-type variations.
+
+      **Base card (all pages):**
+
+      ┌─────────────────────────────────────────────────┐
+      │ [DOC_TYPE BADGE] [TAGS]            [STAMP]      │
+      │                                                  │
+      │ Content preview (~3 lines)                       │
+      │                                                  │
+      │ [SESSION DATE] [PROVENANCE ICON] [WEIGHT BADGE]  │
+      └─────────────────────────────────────────────────┘
+
+      Stamp displayed monospace, small, far right, never truncated,
+      never a link. Format: canonical Composite ID
+      (`TS · [PAGE] · [PHASE] · [YYYY-MM] · [SEQ]`).
+
+      **Three provenance icons:**
+      · INT batch — parsed from source document
+      · Manual — native deposit on INT
+      · Black Pearl promoted — promoted from Pearl capture
+
+      **Expand on click:**
+      · Full content text
+      · All metadata: doc_type, source_format, observation_type,
+        confidence, deposit_weight, notes, source_type
+      · Provenance chain: which session, which batch (if applicable),
+        INT origin stamp
+      · Engine signal: if deposit has been processed by an engine,
+        which patterns it contributes to (linked)
+      · Edit access for tags and notes only (not content, not routing)
+      · Deposit genealogy timeline (see P2 below)
+      · Annotations (see P5 below)
+
+      **Page-type variations:**
+
+      · **Lens (Axis):** engine signal indicator as colored left edge
+        (signal band color). Engine-relevant tags prominent. Default
+        sort: engine signal strength.
+      · **Domain:** chronological default sort. Provenance icon prominent.
+        Sub-rhythm layout applies (see G11).
+      · **Nexus Engine:** compact card (1-line content preview). Weight
+        and doc_type prominent. Default sort: deposit weight.
+      · **Synthesis (MTM):** base card, no variation. MTM does not
+        receive deposits — findings display uses a different component.
+      · **Investigation (Cosmology):** base card, no variation.
+      · **Output (LNV):** snapshot card variant — displays visualization
+        thumbnail instead of text content. Expand shows full snapshot.
+      · **Scroll (WSC):** no deposit cards — WSC has its own entry
+        display format (long-form reading surface, Tier 4 design).
+
+---
+
+### PAGE LOAD + EMPTY STATE BEHAVIOR
+
+- [x] DESIGNED. What shows at 0 deposits, and how high-volume pages
+      perform.
+
+      **Empty state — two variants by page type:**
+
+      · Lens / Nexus Engine:
+        "No deposits yet. Add observations via INT or promote a
+        Black Pearl." + engine status line (stale/ready/no data).
+      · Domain / Archive / Investigation:
+        "Nothing archived here yet. Deposits routed from INT will
+        appear here."
+
+      No decorative illustration. Plain text, subdued color, shortcut
+      hint to INT.
+
+      **Performance:** virtualized list. Not pagination (breaks flow),
+      not naive infinite scroll (DOM bloat). Virtualized rendering:
+      only visible cards + buffer rendered, rest recycled.
+
+      **Anchor behavior:** search result or cross-reference navigates
+      to the target page, scrolls to the target deposit, and highlights
+      the card (300ms highlight fade). Deposit card ID is the anchor.
+
+      **Sort defaults (per page type):**
+      · Lens: engine signal strength (strongest first)
+      · Domain: chronological (newest first)
+      · Nexus Engine: deposit weight (highest first)
+      · Investigation (Cosmology): chronological
+      · Archive: chronological
+      · Output (LNV): chronological (most recent snapshots first)
+
+      All sorts user-overridable. Override persists per page per session.
+      Resets on session close.
+
+---
+
+### BLACK PEARL PANEL — INTERACTION SPEC
+
+- [x] DESIGNED. Extends data model from Tier 1 and UI stub from above.
+      Two modes: Capture and Reflect.
+
+      **Trigger:** keyboard shortcut (`Ctrl+Shift+P`) or black star
+      button → slide-in panel from right, ~380px. Page visible behind
+      (panel overlays, does not push content).
+
+      **Context auto-capture:** page_id and instance_context
+      pre-populated silently on open. Sage doesn't enter these — the
+      system knows where she is.
+
+      **Capture mode (default):**
+      · Expanding text area (grows with content)
+      · Optional tags (comma-separated)
+      · Optional doc_type (defaults to `entry`)
+      · [Save] [Close]
+
+      **Reflective mode (one-tap toggle):**
+      · Free-form text only. No tags, no doc_type, no routing, no
+        length constraint.
+      · `pearl_type: reflective` on Pearl record
+      · `swarm_visible: boolean` — default true for reflective Pearls
+      · Per-Pearl opt-out toggle visible when saving (Sage can mark
+        individual reflective Pearls as swarm-private)
+      · Reflective Pearls are phenomenological data — felt, unresolved,
+        non-analytical thought. They exist first for Sage; swarm reads
+        them as context alongside Nexus outputs.
+
+      **Post-save behavior:** panel stays open. Inline confirmation
+      fades after 2s. Text area clears for rapid capture. No navigation
+      away. Sage can capture 5 Pearls in 30 seconds without leaving
+      her current page.
+
+      **Recent Pearls:** last 5 visible below input, read-only,
+      expandable inline. Both capture and reflective Pearls shown,
+      distinguished by type badge.
+
+      **Promotion to INT:** available from panel via button on any
+      Pearl card. Queues Pearl for INT review (enters review queue as
+      a pending deposit with `provenance.source: black_pearl_promoted`).
+      Does not open INT — Sage stays on current page.
+
+      **Pearl record additions (extending Tier 1 schema):**
+
+        pearl_type: capture | reflective
+        swarm_visible: boolean          — default true for reflective,
+                                          always true for capture
+        promoted_via: panel | dashboard  — where promotion was triggered
+
+      **Reflective archive:** accessible from Black Pearl panel ("View
+      all" link) and from dashboard. Ordered by date. Reflective Pearls
+      only. Distinct from skip queue and from deposit archive.
+
+---
+
+### SUB-RHYTHM LAYOUT SPECS
+
+- [x] DESIGNED. Concrete layout contracts per domain group. These define
+      how deposits are arranged WITHIN the shared Domain shell — not the
+      shell itself (see page-type layout anatomy below).
+
+      **Lattice (Group 2 — TPL, TRI, PRI, PAR):**
+      Single-column. Cross-reference connection indicators on cards
+      (which other Lattice pages this deposit connects to). Connection
+      graph as secondary tab — nodes are pages, edges are cross-
+      referenced deposits.
+
+      **Filament (Group 3 — ORC, MOR, VEN, INV, VEC, ECH):**
+      Two-column compact grid. 2-line content truncation. Tag filter
+      bar pinned at top of deposit area.
+
+      **Lineage (Group 4 — LGL, ARC, KIN, LAR, VRT, CAE, SEE):**
+      Single-column wide cards. 5-line content preview. Entity name
+      prominent (pulled from tags or content). Left-edge timeline
+      marker showing temporal position within instance.
+
+      **Alchemy (Group 5 — SAC, RIT, BRT, MLY, GLY):**
+      Two-column with stage badge (from phase_state). Stage filter
+      prominent at top. Superseded deposit links visible (when a later
+      deposit refines an earlier one, the connection is shown).
+
+      **Spiral Phase (Group 6 — GEN, DIV, REC, CNV):**
+      Horizontal phase timeline pinned at top. Deposit list below,
+      filtered to currently selected phase. Phase markers at transition
+      points in the timeline. Click a phase segment to filter deposits
+      to that phase.
+
+      **Archive (Group 8 — MVM, ANC, LQL, ALE, MMT, ARV):**
+      Single-column full width. Page-scoped search bar prominent at
+      top. Default sort: deposit weight (heaviest first). Catalog feel —
+      designed for browsing large volumes of reference material.
+
+---
+
+### PAGE-TYPE LAYOUT ANATOMY
+
+- [x] DESIGNED. Zone structure per page type. All types share the shell
+      (sidebar nav + header). The structure INSIDE the shell varies.
+
+      **Gateway (INT):** full-width workspace. Shell provides nav and
+      header only. Dual-panel layout from Tier 1 fills the content area.
+      No deposit card grid — INT is a workstation, not a reading surface.
+
+      **Lens (Axis: THR, STR, INF, ECR, SNM):**
+      Zone A (engine visualization, ~30% height, collapsible) + resizable
+      divider + Zone B (deposit list, remaining height). Zone A shows the
+      engine's primary visualization from Tier 3 (matrix, constellation,
+      density field, etc.). Collapsing Zone A gives full-height deposit
+      list. Resizable divider lets Sage tune the balance.
+
+      **Synthesis (Metamorphosis — MTM):**
+      60/40 horizontal split. Left: synthesis surface (findings from
+      two-pass architecture, Tier 4). Right: source references from
+      engine outputs (read-only, collapsible). MTM does not receive
+      deposits — the left panel displays findings, not deposit cards.
+
+      **Nexus Engine (DTX, SGR, PCV, VOI):**
+      Zone A (metrics dashboard, ~40% height, fixed) + Zone B (compact
+      deposit list, ~60% height, scrollable). Zone A shows the engine's
+      visualization suite from Tier 4. Fixed height — metrics always
+      visible, deposits scroll beneath.
+
+      **Output (LNV):**
+      Gallery layout. Snapshot cards in responsive grid (2-3 columns
+      depending on viewport). Each card shows visualization thumbnail,
+      source page, source engine, session date, optional note. Minimal
+      chrome — the work the system has produced, displayed clean.
+
+      **Scroll (WSC):**
+      Single-column reading surface. Full width within shell. Minimal
+      controls — this page is for reading, not manipulating. Layout
+      deferred to Tier 4 WSC design (G21).
+
+      **Investigation (Cosmology: HCO, COS, CLM, NHM, RCT, ART):**
+      60/40 horizontal split. Left: deposit list. Right: scientific
+      framework panel (read-only, collapsible). Framework panel shows
+      the established science context for this page's domain. Collapsing
+      it gives full-width deposit list.
+
+      **Domain (all 6 groups):**
+      Single zone. Deposit list fills content area. Sub-rhythm layout
+      (see above) applies within this zone — the sub-rhythm determines
+      card arrangement, column count, filter prominence, etc. The zone
+      structure is the same for all Domain pages; the internal rhythm
+      changes per group.
+
+---
+
+### SESSION SCHEMA
+
+- [x] DESIGNED. Research sessions (Sage sits down, does work, closes)
+      are source files, not system-generated records.
+
+      · session_id is a file reference, not a generated ID
+      · Derived fields (deposit count, batches processed, engine runs,
+        synthesis outputs) are computed from file contents on access,
+        not stored separately
+      · No session record table required for research sessions
+
+      **Distinction from system sessions:** synthesis_sessions (Tier 4
+      MTM) and batch processing sessions are system-generated records
+      with their own tables, auto-generated IDs, and status fields.
+      These are computational events that occur WITHIN a research
+      session. The term "session" in this section means Sage's research
+      session. System-generated sessions retain their existing schemas.
+
+---
+
+### INSTANCE CONTEXT
+
+- [x] DESIGNED. Clarifies what instance_context means on the deposit
+      record.
+
+      Instance = phase state with month/year range. The canonical
+      Composite ID stamp already encodes `[PHASE-CODE] · [YYYY-MM]` —
+      the instance is implicit in every stamp.
+
+      **Instance registry (lookup table):**
+
+        instance:
+          instance_id: string         — derived from phase + date range
+          label: string               — human-readable name
+          phase_state: string         — which of the 12 canonical phases
+          date_range: { from, to }    — month/year boundaries
+          nonlinear: true             — ordering within instance is
+                                        phase-logical, not chronological
+
+      instance_context on the deposit record is a convenience field
+      pointing to an instance_id. V1 will have multiple instances
+      (different phase periods), not a single trivial value. This
+      updates the earlier description ("V1 cost: zero, always same
+      values") — V1 has real instances, just fewer than V2+.
+
+      Auto-populated on INT entry from currently active instance. Sage
+      can manually assign or reassign — nonlinear data may surface in a
+      different instance than it originated.
+
+---
+
+### DEPOSIT WEIGHT — AI SUGGESTION LOGIC
+
+- [x] DESIGNED. The deposit_weight enum (high | standard | low) and
+      multiplier constants (2.0 / 1.0 / 0.5) are defined in Tiers 1
+      and 3. What was undefined: how the AI tagger decides which weight
+      to suggest during batch processing.
+
+      **Suggestion heuristics (AI applies, Sage overrides):**
+      · high: doc_type is hypothesis or analysis + confidence is clear +
+        content is specific (names patterns, references prior observations)
+      · standard: default for all other deposits
+      · low: doc_type is entry or transcript + content is fragmentary
+        or context-free
+
+      These are heuristics, not rules. The tagger applies them and Sage
+      overrides freely. The calibration tracking (Enhancement 02) covers
+      weight suggestion accuracy alongside confidence and type accuracy.
+
+      **Null handling in sort:** deposits with null weight (edge case —
+      weight should always be populated) sort to bottom, not randomly.
+
+---
+
+### DASHBOARD SPEC
+
+- [x] DESIGNED. Root route (`src/routes/+page.svelte`). The system's
+      primary overview surface.
+
+      **Three zones:**
+
+      **Zone A (primary, 50-60% of viewport):**
+      Resonance engine visualization. Tension cluster nodes, interactive.
+      Harmonic audio on node tap (data dependency TBD — dedicated session
+      required before building audio mapping).
+
+        node_schema:
+          node_id: string
+          harmonic_signature: object   — TBD (audio session)
+          tension_state: string
+          cluster_contents: string[]   — deposit_ids in this cluster
+          linked_pages: string[]       — page_codes this node connects to
+          last_updated: timestamp
+          aos_eligible: boolean
+
+      Node tap opens cluster panel: tension state, engine signals,
+      deposit list, page shortcuts, AOS trigger option.
+
+      **Zone B (flanking or below A):**
+      Signal surface. Items since last visit, ordered by signal strength:
+      · AOS events (Automated Observation Signal, see A1 below)
+      · Engine findings
+      · Absence flags (Void)
+      · Hypothesis crossings (PCV)
+      · Session opening summary (see P1 below)
+
+      **Zone C (flanking or below A, low visual weight):**
+      System health:
+      · Stale engines
+      · Embedding failures (failed_permanent count)
+      · Calibration alerts (from Enhancement 02)
+      · Baseline recalibration recommendations (see G19 below)
+
+      **Coverage gap view (VOI-6):** dashboard semantic map shows where
+      deposits concentrate and where the research hasn't looked yet.
+      Built from embedding vector distribution. This is the home for
+      coverage gaps — distinct from Void (confirmed absence).
+      Dashboard = "where haven't you looked?"
+      Void = "where you looked and found nothing."
+
+---
+
+### DUPLICATE PREVENTION ON RE-ROUTE
+
+- [x] DESIGNED. Extends Tier 1 duplicate detection (fires at INT
+      gateway, step 2 in atomicity) to page arrival during re-routing.
+
+      · Content hash generated at deposit creation from content field
+        only (not tags or metadata) — same hash as Tier 1 detection
+      · Hash stored on deposit record for reuse at routing time
+      · On arrival at any page: hash match check against existing
+        deposits on that page
+      · Match triggers `duplicate_flagged` status on the incoming deposit
+
+      **Resolution (Sage decides, never auto-resolved):**
+      · Both deposits shown side-by-side before any resolution
+      · Options: keep_both | keep_original | keep_incoming | merge
+      · Merge: Sage selects which fields to keep from each
+
+      **When this fires:** re-routing from curation panel (G22), partial
+      routing retry after failure, or any operation that sends a deposit
+      to a page it might already be on.
+
+---
+
+### ENGINE BASELINE RECALIBRATION TRIGGER
+
+- [x] DESIGNED. Baselines auto-recalculate on every engine compute via
+      marginal probability product (Tier 3). What needs manual
+      recalibration: interpretation thresholds (signal band boundaries,
+      synthesis filter values) that were set assuming a smaller corpus.
+
+      **Triggers:**
+      · Corpus size crosses 2× multiplier since last calibration
+      · Engine output variance exceeds threshold over N sessions
+        (threshold and N are calibration items)
+
+      **On trigger:** recalibration request surfaces as an immediate
+      AOS-eligible notification (see A1):
+        request:
+          engine: string
+          current_corpus_size: integer
+          last_calibration_corpus_size: integer
+          variance_signal: float | null
+          recommendation: string
+          impact_summary: string
+
+      **Sage options:** approve | defer (N sessions) | decline.
+      Decline defers with configurable window, does not suppress
+      permanently.
+
+      **Post-recalibration:** baseline version marker written to all
+      future engine outputs. Pre- and post-recalibration outputs
+      distinguishable in the record. Longitudinal analysis can account
+      for the threshold shift.
+
+---
+
+### UI ERROR STATES
+
+- [x] DESIGNED. What Sage sees when things fail. Technical failure
+      handling defined elsewhere — this is the user-facing surface.
+
+      **Persistent status indicator:** bottom of sidebar, above system
+      footer. Always visible.
+
+      Four states (priority order, highest wins):
+      1. "Needs attention" — failures requiring Sage's decision
+      2. "Running" — background operations in progress
+      3. "Recalibration due" — engine threshold review recommended
+      4. "All clear" — nothing to report
+
+      Tap indicator → system status panel (slide-in from sidebar).
+      Panel: all active issues grouped by type, each with status, age,
+      and direct link to affected surface.
+
+      **On individual pages:** affected deposit cards show a quiet
+      left-edge color change (not a badge, not a banner). Subtle signal
+      that something about this deposit needs attention — hover reveals
+      detail.
+
+---
+
+### WSC DESIGN — HOLDING
+
+- [ ] Holding for Tier 4 second half. WSC is the surface where AI
+      speaks in its own register, explicitly distinct from Void's Claude
+      tool. Architecture will be designed in the Tier 4 session alongside
+      LNV. Do not design or build until Tier 4 session occurs.
+
+---
+
+### SYSTEM-LEVEL CURATION OPERATIONS
+
+- [x] DESIGNED. Structured surface for archive-wide operations that
+      would otherwise be improvised.
+
+      **Access:** curation panel, triggered from persistent control in
+      shell (bottom of sidebar near status indicator). Panel slides in
+      over current page — no mode switch, no navigation away.
+
+      **Operations:**
+
+      **Tag operations:**
+      · Deprecate across corpus (tag removed from all deposits, logged)
+      · Merge two tags (all deposits with tag A receive tag B, A retired)
+      · Rename with cascade (all references updated atomically)
+
+      **Page operations:**
+      · Archive page (hidden from nav, reversible)
+      · Re-route all deposits off page (triggers duplicate check per
+        deposit on target pages — batch hash check for efficiency)
+
+      **Session operations:**
+      · Flag as collapse-context: marks session with
+        `session_flag: collapse_context`. Flag travels with deposits
+        into engine computation as metadata — engines and Void can
+        read it. Does NOT exclude deposits from computation. Collapse
+        sessions are signal, not failure.
+      · Restore flagged session (remove flag)
+
+      **Deposit operations:**
+      · Bulk re-route by tag / type / instance
+      · Bulk decline (with reason)
+      · Re-queue all failed embeddings
+
+      Every operation shows scope confirmation before execution:
+      "This will affect N deposits across M pages."
+      All destructive operations recoverable within 30 days, then
+      cold archive.
+
+      Curation operations are AOS-eligible (default off, Sage opts in
+      per operation type).
+
+---
+
+### AUTOMATED OBSERVATION SIGNAL (AOS)
+
+- [x] DESIGNED. The mechanism by which the system reaches Sage
+      externally when significant patterns are detected. Bridge between
+      the archive application and external collection.
+
+      **trigger_mode: engine | sage**
+
+      **Engine triggers (automatic):**
+      · Void type A or D absence detected
+      · MTM paradigm_shift or cross_domain finding
+      · SGR tier 1 signal graded
+      · DTX acceleration or reversal classified
+      · PCV threshold crossing (new hypothesis from engine output)
+      · Engine stale beyond configurable window
+      · Embedding failed_permanent
+      · Correction rate threshold exceeded (Enhancement 02)
+      · Baseline recalibration recommended (G19)
+      · Void on-demand read output (Sage-triggerable AOS entry point)
+
+      **Sage triggers (manual, from any analytical surface):**
+      · From deposit card, Void output panel, PCV hypothesis card,
+        MTM finding — any surface showing analytical content
+      · Sage can add a free-text note before sending (only place
+        Sage's voice enters an AOS directly)
+
+      **Email structure:**
+        signal_type + system + event + AI-composed summary +
+        evidence_list + sage_note (if present) + integrity_block
+
+      **Integrity hash:** derived from reference_ids + engine state +
+      timestamp. Written to AOS record and email footer. The email's
+      content can be verified against the system state at the time it
+      was sent.
+
+      **AOS record:** persists in system permanently, never deleted.
+
+      **Delivery:**
+      · Immediate: high-signal events (Void type D, SGR tier 1,
+        MTM paradigm_shift)
+      · Daily digest: lower-signal events (engine stale, embedding
+        failures, correction rate alerts)
+      · Configurable per trigger type
+
+---
+
+### SESSION OPENING RITUAL (P1)
+
+- [x] DESIGNED. Orientation before Sage starts navigating. Costs nothing
+      architecturally — it's a read of already-computed system state.
+
+      When Sage opens the app after an absence, before the dashboard
+      fully loads, a brief system state summary surfaces:
+
+        Since your last session:
+          4 new deposits across 3 pages
+          1 type A absence detected (Void)
+          2 hypotheses updated (PCV)
+          1 engine signal (SGR tier 2)
+          1 item needs attention
+
+      Five lines maximum. Disappears on any interaction or after 8
+      seconds. Not a modal — a gentle overlay on the dashboard that
+      fades. Gives Sage orientation before she starts navigating.
+
+      Data source: delta between current system state and last session
+      close timestamp (from SESSION_LOG.md).
+
+---
+
+### DEPOSIT GENEALOGY VIEW (P2)
+
+- [x] DESIGNED. Every deposit has a lifecycle: Black Pearl → capture →
+      INT batch → page routing → engine processing → findings → PCV
+      hypotheses. Currently no surface shows this chain for a single
+      deposit.
+
+      **Location:** on deposit card expand view, at the bottom of the
+      expanded card. Compact, linear timeline.
+
+      **Shows:** every stage the deposit has passed through, with
+      timestamps. Stages it hasn't reached yet shown as future nodes,
+      grayed out.
+
+      **Stages (in order):**
+      Pearl capture (if applicable) → INT review → deposit creation →
+      page routing → engine indexing → pattern contribution → finding
+      contribution → hypothesis contribution
+
+      **Click any stage:** navigates to the context of that stage
+      (the batch it was processed in, the finding it contributed to,
+      the hypothesis it informed).
+
+      Surfaces quietly — only in expanded view, never on the card face.
+      Makes the deposit's analytical contribution legible: Sage can see
+      at a glance whether a deposit is being used by the engines or
+      sitting unprocessed.
+
+---
+
+### REFLECTIVE PEARL CONSTELLATION (P4)
+
+- [x] DESIGNED. Visualization of the reflective Pearl archive over time.
+
+      **Layout:** constellation view — reflective Pearls as nodes in a
+      spatial layout. Proximity determined by temporal closeness and
+      shared tags (if any).
+
+      **Interaction:** hover a node → Pearl text. Tap → opens Pearl.
+
+      **Access:** from dashboard (Zone B or dedicated tab) and from
+      Black Pearl panel as a "View all" option.
+
+      This is not analytical. It's the one surface in the system that's
+      purely for Sage — the shape of her own thinking across time,
+      visible as a field. It feeds the swarm but it exists first for her.
+
+---
+
+### ANNOTATION LAYER (P5)
+
+- [x] DESIGNED. Researcher marginalia on any surface. Distinct from
+      deposits (don't enter the pipeline) and from Pearls (not captures
+      or reflections — notes on existing content).
+
+      **What they are:**
+      · Time-stamped researcher commentary on an existing object
+      · Stored separately, linked to the annotated object
+      · Visible only in expanded view of the annotated object
+      · Exportable per page as a research commentary layer
+
+      **Implementation: separate annotations table (Option A).**
+      One table, zero changes to existing schemas.
+
+        annotation:
+          annotation_id: string
+          annotated_type: deposit | finding | hypothesis | void_output
+                          | engine_snapshot
+          annotated_id: string         — ID of the annotated object
+          content: string              — free text
+          page_context: string | null  — where Sage was when annotating
+          created_at: timestamp
+
+      Polymorphic reference: `annotated_type` + `annotated_id` resolve
+      to the target object at query time. No schema changes on deposits,
+      findings, hypotheses, or any other existing table.
+
+      **Use case:** Sage reads a Void output and wants to note "this
+      conflicts with what I read in session 47" without creating a
+      deposit. That note lives on the Void output, timestamped,
+      permanently. The system's equivalent of pencil notes in a physical
+      archive.
+
+---
+
+### RESEARCH VELOCITY INDICATOR (P6)
+
+- [x] DESIGNED. Ambient signal in the shell showing research momentum.
+      Not a chart, not a widget.
+
+      **Location:** small horizontal bar beneath the phrase in the
+      sidebar. Thin, unobtrusive.
+
+      **Behavior:** color-graduated from cool (low activity) to warm
+      (high activity) over the last 30 days. No numbers, no labels.
+      Just a felt sense of whether the archive is alive or quiet.
+
+      Complements the system health indicator (which shows failures)
+      but is about creative momentum, not technical state. The phrase
+      "In Twin Motion, We Remain. In Stillness, We Rise." sits above
+      it. The bar shows which state the system is currently in.
+
+      **Data source:** deposit count + finding count + hypothesis count
+      over trailing 30-day window, normalized to a 0-1 gradient.
 
 ---
 
@@ -1257,17 +1982,104 @@ All open questions answered in session 15:
 - ~~Where do visual specs live?~~ → One frontend architecture doc, structured
   by type with group sub-rhythms nested inside Domain.
 
+**Gap resolutions (session 18 — Tier 2 quality pass):**
+- ~~No shared shell / navigation~~ → RESOLVED. Fixed sidebar, 9 collapsible
+  groups matching canonical domain groups, page state indicators, keyboard
+  navigation. See Shared Shell + Navigation Contract.
+- ~~No deposit card component~~ → RESOLVED. Base card with page-type
+  variations, three provenance icons, expand behavior, genealogy timeline.
+  See Deposit Card Component.
+- ~~No page load / empty state~~ → RESOLVED. Two empty state variants,
+  virtualized list, sort defaults per type, anchor behavior. See Page Load
+  + Empty State Behavior.
+- ~~Black Pearl panel no interaction spec~~ → RESOLVED. Slide-in panel,
+  capture + reflective modes, auto-context, rapid capture flow, promotion
+  queue. See Black Pearl Panel — Interaction Spec.
+- ~~Sub-rhythms are vibes not specs~~ → RESOLVED. Concrete layout per
+  domain group (6 groups, corrected from 5). See Sub-Rhythm Layout Specs.
+- ~~No page-type layout anatomy~~ → RESOLVED. Zone structure per type
+  (Gateway, Lens, Synthesis, Nexus Engine, Output, Scroll, Investigation,
+  Domain). See Page-Type Layout Anatomy.
+- ~~Drifted page codes~~ → RESOLVED. All page codes verified against
+  canonical SECTION MAP.md. 9 corrections applied. Missing Lattice group
+  (Group 2) added.
+- ~~No session schema~~ → RESOLVED. Research sessions are source files.
+  System sessions (synthesis, batch) retain their own tables. See Session
+  Schema.
+- ~~No instance context definition~~ → RESOLVED. Instance = phase state
+  with month/year range, derived from stamp components. See Instance
+  Context.
+- ~~Deposit weight suggestion logic undefined~~ → RESOLVED. Heuristics
+  for AI suggestion defined. Multiplier mechanics unchanged (Tier 3). See
+  Deposit Weight — AI Suggestion Logic.
+- ~~No dashboard spec~~ → RESOLVED. Three zones: resonance viz, signal
+  surface, system health. Coverage gap view assigned here. See Dashboard
+  Spec.
+- ~~No duplicate check on re-route~~ → RESOLVED. Hash stored on deposit,
+  checked at page arrival. Four resolution options. See Duplicate
+  Prevention on Re-Route.
+- ~~No baseline recalibration trigger~~ → RESOLVED. Corpus 2× multiplier
+  or variance threshold triggers AOS recommendation. See Engine Baseline
+  Recalibration Trigger.
+- ~~No UI error states~~ → RESOLVED. Persistent sidebar indicator, four
+  states, system status panel, card-level indicators. See UI Error States.
+- ~~No curation operations surface~~ → RESOLVED. Curation panel with tag,
+  page, session, and deposit operations. Collapse-context flag (not
+  corruption). See System-Level Curation Operations.
+- ~~No external notification system~~ → RESOLVED. AOS (Automated
+  Observation Signal). Engine + Sage triggers, integrity hash, immediate +
+  digest delivery. See Automated Observation Signal.
+- ~~Session opening ritual~~ → RESOLVED. 5-line overlay, 8-second fade.
+  See Session Opening Ritual (P1).
+- ~~No deposit lifecycle view~~ → RESOLVED. Genealogy timeline on card
+  expand. See Deposit Genealogy View (P2).
+- ~~No reflective Pearl visualization~~ → RESOLVED. Constellation view
+  from dashboard and panel. See Reflective Pearl Constellation (P4).
+- ~~No annotation layer~~ → RESOLVED. Separate annotations table,
+  polymorphic reference, no schema cascades. See Annotation Layer (P5).
+- ~~No research velocity signal~~ → RESOLVED. Ambient bar in sidebar.
+  See Research Velocity Indicator (P6).
+
+**Void registrations (session 18):**
+- VOI-4: Void prompt registered as versioned artifact with changelog
+  triggers.
+- VOI-5: void_provenance flag formally registered on PCV hypothesis record.
+- VOI-6: coverage gap view assigned to dashboard semantic map.
+- VOI-7: PCV entry filter + secondary thresholds for B/C registered.
+- Void on-demand reads registered as AOS-eligible entry points.
+
 ---
 
 ### PIPELINE SEGMENT DEFINED HERE
 
-**Deposit landing:** deposit created in INT (Tier 1) → routed to target
-page surface → page indexes deposit through its lens → deposit visible
-and searchable on page.
+**Deposit landing (with deposit card + duplicate check):**
+Deposit created in INT (Tier 1) → routed to target page(s) →
+  duplicate hash checked on page arrival (G18) →
+  if duplicate: flagged, Sage resolves (keep_both | keep_original |
+    keep_incoming | merge) →
+  if clean: deposit card rendered per page-type variant →
+  deposit visible and searchable on page via virtualized list.
 
-**Black Pearl capture:** black star button or keyboard shortcut → minimal
-text field → saved to operational DB → visible on dashboard → promotable
-through INT when ready.
+**Black Pearl capture (with two modes + promotion):**
+Black star button or Ctrl+Shift+P → slide-in panel from right →
+  mode: capture (tags, doc_type, quick) or reflective (free-form,
+    swarm-visible, no pipeline commitment) →
+  saved to operational DB with pearl_type + page_context →
+  recent Pearls visible in panel (last 5) and on dashboard →
+  promotion: queued for INT review queue with
+    provenance.source: black_pearl_promoted.
+
+**Navigation flow:**
+Sidebar nav → 9 collapsible groups → page list → page state indicators
+  (new deposit badge, engine stale dot) → keyboard: /, G+N, [, ] →
+  global search anchors to deposit card with 300ms highlight.
+
+**AOS flow:**
+Engine trigger fires (or Sage triggers from analytical surface) →
+  AOS record created with integrity hash →
+  delivery: immediate (high-signal) or daily digest (lower-signal) →
+  email: signal_type + event + AI summary + evidence + integrity block →
+  AOS record persists permanently.
 
 ---
 
@@ -2742,6 +3554,62 @@ the detection layer to exist before they can receive and store outputs.
       silence tracking) on the left. Claude output panel on the right.
       Data layer and interpretive layer doing the same work at different
       resolutions, visible simultaneously.
+
+      ---
+
+      **VOID FORMAL REGISTRATIONS (session 18 quality pass)**
+
+      **VOI-4 — Void prompt as versioned artifact:**
+      The full prompt constraint (above) is a versioned artifact parallel
+      to SNM and parsing partner prompts. Same three changelog triggers
+      (Sage-directed, calibration-triggered, manual) defined in Tier 1
+      apply here. Prompt version travels with every Void output record.
+      The uncategorized escape hatch instruction ("Flag it as
+      uncategorized with a description") is part of the versioned prompt
+      — not a separate rule.
+
+      **VOI-5 — void_provenance flag on PCV hypothesis record:**
+      Formally registered as a schema field:
+
+        pvc_hypothesis (addition):
+          void_provenance: boolean      — true if hypothesis originated
+                                          from Void absence detection
+          void_finding_ref: string | null — references Void absence record
+
+      Parallel to mtm_provenance (Enhancement 08). Both flags exist on
+      the PCV hypothesis record. Both are read by downstream systems as
+      provenance metadata — not independent corroboration.
+
+      **VOI-6 — Coverage gap view: lives on Dashboard.**
+      Coverage gaps ("where haven't you looked?") live on the dashboard
+      semantic map — spatial separation from Void ("where you looked and
+      found nothing"). The examination floor filter enforces this at
+      Void's input. Coverage gaps are built from embedding vector
+      distribution on the dashboard, not from null observations.
+      Architectural constraint: coverage gap data never enters Void's
+      compute step. See Dashboard Spec (Tier 2) for the surface.
+
+      **VOI-7 — PCV entry filter for void-provenance hypotheses:**
+      Cross-engine validation is the PCV entry requirement:
+      · Types A, D → enter PCV (void_provenance = true)
+      · Types B, C → stay on Void's page (exceptions below)
+      · Type E → enters Void's absence record only, never back into PCV
+
+      **Secondary thresholds for B and C exceptions:**
+      · Type B exception: examination count above hard ceiling
+        (named constant: VOID_TYPE_B_PCV_THRESHOLD — calibration item)
+      · Type C exception: silence duration exceeding N sessions
+        (named constant: VOID_TYPE_C_PCV_THRESHOLD — calibration item)
+      Both are calibration items. When exceeded, B or C enters PCV
+      with void_provenance = true and a note indicating threshold
+      exception.
+
+      **Void on-demand reads as AOS-eligible:**
+      On-demand Void reads (both open and targeted) are Sage-triggerable
+      AOS entry points. Sage can send a Void analytical output externally
+      via AOS. The session-close pulse check is NOT an AOS — it's an
+      internal record. This distinction is now captured in the AOS
+      trigger list (Tier 2, A1).
 
 **WSC schema:**
 
