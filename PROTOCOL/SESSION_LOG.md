@@ -4920,3 +4920,128 @@ NEXT_ACTION: Next session completes Tier 4 — WSC and LNV schemas. These are
   same design depth. After Tier 4 complete: Tier 5 (Cosmology engines +
   computation infrastructure). Full scope: .claude/plans/design-session-plan.md.
 ---
+
+---
+TIMESTAMP: 2026-04-05 (session 18 — open)
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - none
+IN_PROGRESS:
+  - Tier 1 and Tier 2 quality pass — bringing to Tier 3/4 standard
+NOT_STARTED:
+  - WSC schema, LNV schema (Tier 4 remaining)
+  - Tiers 5-8
+UNCOMMITTED: NO
+NEXT_ACTION: Review Tier 1 gaps against Tier 3/4 quality standard
+---
+
+---
+TIMESTAMP: 2026-04-05 (session 18 — work unit 1)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - .claude/plans/design-session-plan.md — IN_PROGRESS
+COMPLETED:
+  - Tier 1 quality pass: 6 gap resolutions (commit dae2f21)
+    - INT parsing partner contract (parse object, correction propagation, prompt versioning, type mapping)
+    - Batch processing state machine (transitions, failure states, retry limits)
+    - Review queue interaction spec (card layout, skip/decline, inline editing)
+    - INT gateway deposit creation contract (full field set, error responses)
+    - Deposit atomicity boundary (6-step pipeline, recoverable async)
+    - Embedding pipeline (async queue, retry strategy, metadata-enriched vectors)
+    - Human readability rule (cross-cutting)
+IN_PROGRESS:
+  - 9 enhancements identified, not yet written
+NOT_STARTED:
+  - Tier 2 quality pass
+UNCOMMITTED: NO
+NEXT_ACTION: Write 9 enhancements into plan
+---
+
+---
+TIMESTAMP: 2026-04-05 (session 18 — work unit 2)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - .claude/plans/design-session-plan.md — IN_PROGRESS
+COMPLETED:
+  - 9 enhancements across Tiers 1, 3, 4 (commit bb5e7f4)
+    - E01: correction rule contradiction detection (load-bearing)
+    - E02: confidence calibration feedback loop
+    - E03: embedding invalidation on edit (load-bearing)
+    - E04: cross-chunk context in review queue
+    - E05: distillation confirm step (load-bearing)
+    - E06: Type E attrition_reason (Tier 4 Void)
+    - E07: skip queue staleness signal
+    - E08: MTM circular provenance risk (load-bearing, Tier 4)
+    - E09: prompt version changelog triggers (Tiers 1+3)
+IN_PROGRESS:
+  - Tier 2 quality pass
+NOT_STARTED:
+  - Tier 2 gap writing
+UNCOMMITTED: NO
+NEXT_ACTION: Analyze Tier 2 gaps, get Sage's answers, write into plan
+---
+
+---
+TIMESTAMP: 2026-04-05 (session 18 — work unit 3)
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - .claude/plans/design-session-plan.md — IN_PROGRESS
+  - CLAUDE.md — COMPLETE
+COMPLETED:
+  - Tier 2 quality pass: 22 gap resolutions + 6 proposals + 5 Void registrations (commit 3e71b5c)
+    - G7-G12: shell/nav, deposit card, page load, Black Pearl panel, sub-rhythms, page-type anatomy
+    - G13-G22: session schema, instance context, weight suggestion logic, dashboard spec,
+      duplicate on re-route, baseline recalibration, UI error states, WSC holding,
+      curation ops (collapse-context), AOS system
+    - A1-A2: AOS (Automated Observation Signal), phrase header
+    - P1-P2, P4-P6: session ritual, genealogy view, reflective Pearl constellation,
+      annotation layer (Option A), research velocity indicator
+    - VOI-4 through VOI-7: Void prompt versioned, void_provenance on PCV, coverage gap → dashboard,
+      PCV entry filter + B/C thresholds, Void reads as AOS-eligible
+    - Page code corrections: 9 drifted codes fixed against canonical SECTION MAP
+    - Missing Lattice group (Group 2: TPL, TRI, PRI, PAR) added
+    - Omitted: G14 (Composite ID wins), P3 (phase_invariant wrong container)
+  - Page code rot scan added to CLAUDE.md BEFORE EVERY SESSION (step 7)
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Cross-tier conflict audit (recommended for session 19 open)
+  - WSC schema, LNV schema (Tier 4 remaining)
+  - Tiers 5-8
+UNCOMMITTED: YES (this session log + CLAUDE.md page code scan addition)
+NEXT_ACTION: Commit session close, push. Next session: cross-tier audit (10 min),
+  then continue Tier 4 (WSC + LNV schemas).
+---
+
+---
+TIMESTAMP: 2026-04-05 (session 18 — close)
+TYPE: CLOSE
+FILES_MODIFIED:
+  - .claude/plans/design-session-plan.md — IN_PROGRESS (Tiers 1-2 quality pass complete, Tier 4 WSC+LNV remaining)
+  - CLAUDE.md — COMPLETE (page code rot scan added to session open requirements)
+  - PROTOCOL/SESSION_LOG.md — COMPLETE
+COMPLETED THIS SESSION:
+  - Tier 1 quality pass: 6 gap resolutions + human readability rule (commit dae2f21)
+  - 9 enhancements across Tiers 1, 3, 4 — 4 load-bearing (commit bb5e7f4)
+  - Tier 2 quality pass: 22 gap resolutions + 6 proposals + 5 Void registrations (commit 3e71b5c)
+  - Page code rot scan: 9 drifted codes fixed against canonical SECTION MAP
+  - Missing Lattice group restored (Group 2: TPL, TRI, PRI, PAR)
+  - AOS (Automated Observation Signal) system designed
+  - Page code rot scan added to CLAUDE.md as non-negotiable session requirement
+  - Total: +1,598 lines added to design build plan across 3 commits
+  - All commits pushed to GitHub (bb5e7f4..3e71b5c + this close commit)
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Cross-tier conflict audit (recommended session 19 open, 10 min)
+  - WSC schema (Tier 4 remaining)
+  - LNV schema (Tier 4 remaining)
+  - Tiers 5-8
+  - Stress test, SOT
+UNCOMMITTED: YES (this CLOSE entry + CLAUDE.md update — included in commit below)
+NEXT_ACTION: Session 19 opens with cross-tier audit (verify 1,598 new lines against
+  Tiers 3-4 existing content). Then continue Tier 4: WSC and LNV schemas. After
+  Tier 4 complete: Tier 5 (Cosmology engines + computation infrastructure).
+---

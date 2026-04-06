@@ -431,6 +431,14 @@ The same weight as a code rule violation. Not a missed reminder.
 6. Check PROTOCOL/SESSION_LOG.md — last entry type determines next step:
    CLOSE → write TYPE: OPEN entry to SESSION_LOG.md, then proceed
    anything else → interrupted session, follow SESSION_PROTOCOL.md section 3 before any work
-7. Do not assume anything about file state — verify before touching
-8. If uncertain about anything — ask before acting.
+7. **Page code rot scan — NON-NEGOTIABLE.** Verify any page codes referenced
+   in session work against DESIGN/Systems/SECTION MAP.md. The canonical
+   SECTION MAP is the sole authority for page codes, group names, and group
+   numbers. Page codes drift silently across sessions when carried from
+   memory rather than verified from source. Any code that does not match
+   the SECTION MAP is contamination — flag it before writing. This check
+   was added after session 18 caught 9 drifted page codes that had entered
+   the design build plan undetected.
+8. Do not assume anything about file state — verify before touching
+9. If uncertain about anything — ask before acting.
    Silent failure is not acceptable
