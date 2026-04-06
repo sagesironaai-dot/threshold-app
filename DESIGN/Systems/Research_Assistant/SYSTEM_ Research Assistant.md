@@ -2,7 +2,7 @@
 
 ## /DESIGN/Systems/Research_Assistant/
 
-### Persistent research partner · RAG pipeline · mode switching · floating panel
+### Persistent research partner · RAG pipeline · mode switching · floating panel · three-layer memory
 
 ---
 
@@ -28,19 +28,37 @@
   for review in the chat interface. Does not call INT. The suggestion is
   the assistant's output; the deposit is INT's creation
 * Conversation history within a session — what was said, navigation
-  markers, context of the current research thread
-* Research memory — the assistant's persistent knowledge of Sage's
-  research state across sessions. Current hypotheses, active questions,
-  things to revisit, research posture this phase. Lives in operational
-  DB. Read at session open, referenced throughout. Distinct from the
-  archive (field data) and from conversation history (session-scoped)
+  markers, context of the current research thread. Raw history is
+  ephemeral (not persisted verbatim). Compressed summary persists at
+  session close. Marked exchanges are promotable to deposits
+* Conversation summary — produced automatically at session close (same
+  moment as WSC). Structured compression of the working session. Sage
+  reviews and edits before store. Lives in operational DB. Loaded at
+  next session open as shallow continuity context
+* Researcher memory (Layer 3) — Sage's active research state. Not
+  inferred from behavior — Sage writes it deliberately. Lives in
+  operational DB. Read at session open, referenced throughout. Two
+  update paths: Sage-initiated and assistant-suggested-Sage-confirmed.
+  History tracked for research evolution visibility
+* Research memory update surfacing — during conversation, the assistant
+  notices moments when Sage's research state appears to shift and
+  offers to capture them. "This sounds like a shift in your research
+  focus — want me to update your memory with that?" Sage confirms or
+  declines. The assistant drafts; Sage edits before saving
 * Prompt architecture — system prompts per mode, context injection
-  templates, research posture layer, uncertainty framing
+  templates, research posture layer, uncertainty framing, permission
+  states
 * Response formatting — structured output parsing when the assistant
   produces typed objects (deposit suggestions, computation suggestions)
 * Context budget management — sliding window on conversation history,
   summary compression of older exchanges, token allocation across
   context components
+* Five-layer context assembly at session open — orchestrating the load
+  sequence across researcher memory, conversation summary, WSC, page
+  context, and RAG retrieval
+* Epistemic integrity — explicit permission states for uncertainty,
+  disorientation, disagreement, and self-correction. Baked into the
+  system prompt architecture as behavioral contracts
 
 ## WHAT THIS SYSTEM DOES NOT OWN
 
@@ -73,6 +91,238 @@
 * Mode definitions — content of what each mode is (system prompts,
   context templates, vocabulary sets) lives in api/prompts/ as versioned
   configuration. The assistant reads these; it does not define them
+* Field memory (Layer 1) — the archive itself. Owned by INT, indexed by
+  Embedding Pipeline. The assistant retrieves from it via RAG
+* Witness memory (Layer 2) — WSC entries. Owned by WSC. The assistant
+  reads the 3-entry session load; it does not write WSC entries
+* Researcher memory visibility to engines — no engine system (Void, MTM,
+  Axis engines) has direct read access to researcher_memory. The
+  assistant is the intermediary. When Sage asks about engine outputs,
+  the assistant has researcher_memory and can frame the data through
+  it. Giving engines direct access creates coupling between research
+  infrastructure and analytical infrastructure that is hard to unwind.
+  Engines stay independent. The assistant mediates
+
+---
+
+## THREE-LAYER MEMORY MODEL
+
+The assistant operates across three layers of memory, each owned by a
+different system. Together they give the assistant longitudinal awareness
+without coupling systems that should stay independent.
+
+**Layer 1 — Field memory (the archive)**
+Everything that entered through INT — tagged, routed, indexed. The RAG
+pipeline retrieves from this. Deepest layer. Accumulated research.
+Already fully designed. Owned by INT + Embedding Pipeline.
+
+**Layer 2 — Witness memory (WSC)**
+What the AI witnessed across sessions. The 3-entry load at session open
+gives the assistant the AI's own longitudinal perspective — what it
+noticed, what threads it held, what it said mattered. Already designed.
+The assistant reads it at session open as part of context assembly.
+Owned by WSC.
+
+**Layer 3 — Researcher memory (this system)**
+Sage's active research state — not what happened in the field, not what
+the AI witnessed, but what Sage herself is currently thinking,
+questioning, tracking, skeptical of. This is what makes the assistant
+feel like it knows her. Owned by the research assistant. Sage writes it.
+
+The distinction: Layer 1 is field data. Layer 2 is AI witness data.
+Layer 3 is researcher state data. None substitutes for the others.
+
+---
+
+## RESEARCHER MEMORY
+
+A living document Sage controls explicitly. Not a conversation log. Not
+a deposit. Not generated from behavior. Sage's own articulation of where
+she is in the research.
+
+The key design principle: Sage writes to researcher memory deliberately.
+It is not inferred. It is not automatic. That makes it precise — and it
+means she trusts it, because she wrote it.
+
+### Schema
+
+```
+TABLE: researcher_memory (operational DB — single live record)
+
+  memory_id:          auto
+  current_focus:      string          — what she's investigating now
+  active_hypotheses:  string[]        — hypotheses she's personally tracking
+  open_questions:     string[]        — things she's trying to answer
+  skepticisms:        string[]        — patterns she's not convinced by
+  not_yet_named:      string | null   — something she's sensing but can't
+                                        articulate yet. No structure imposed.
+                                        Sage's own words. Optional.
+  research_posture:   string          — enum:
+                                        deep_investigation |
+                                        broad_survey |
+                                        consolidating |
+                                        questioning_foundations |
+                                        integrating
+  phase_context:      string | null   — which instance/phase she's in
+                                        right now if relevant
+  last_updated:       timestamp
+  updated_by:         sage | assistant_suggested
+```
+
+**updated_by is load-bearing.** Sage-authored entries are authoritative.
+Assistant-suggested entries are high-confidence but not sovereign. The
+distinction matters for how much weight downstream context gives the
+memory.
+
+**not_yet_named** mirrors what Black Pearl captures at the deposit level.
+This is the same thing at the research state level — the half-formed
+intuition that hasn't become a hypothesis. The assistant reads it as
+ambient context and surfaces connections when retrieval or conversation
+touches it: "This might be touching what you said you were sensing but
+couldn't name."
+
+### Update paths
+
+Two paths. Neither is automatic.
+
+**Path 1 — Sage-initiated.** Direct edit from the panel UI. An "Update
+my research state" action in the panel header opens the memory fields
+for editing. Sage changes what needs changing, saves. Immediate.
+
+**Path 2 — Assistant-suggested.** During conversation, when Sage says
+something that sounds like a research state shift, the assistant
+surfaces a suggestion: "This sounds like a shift in your research
+focus — want me to update your memory to reflect that?" Sage confirms
+or declines. If confirmed, the assistant drafts the update and Sage
+edits before saving. Record marked updated_by: assistant_suggested.
+
+Path 2 is what makes the system feel alive. Sage doesn't have to
+remember to maintain her research memory — the assistant notices the
+moments when it should change and offers to capture them.
+
+### Memory history
+
+Research state evolves. Where Sage is in month 3 is different from
+month 7. Without history, that evolution is invisible.
+
+```
+TABLE: researcher_memory_history (operational DB)
+
+  history_id:         auto
+  memory_snapshot:    jsonb           — full researcher_memory at that moment
+  snapshot_reason:    string          — why it changed
+  created_at:         timestamp
+```
+
+Every time researcher_memory updates, the previous state is written to
+history before the new state is applied. The full arc of Sage's research
+posture becomes visible over time. Not surfaced to the assistant by
+default — too much context. But available for Sage to review. And
+available as a research artifact in its own right — the evolution of a
+researcher's relationship to her field, documented.
+
+---
+
+## CONVERSATION HISTORY SCOPE
+
+Three layers. Not mutually exclusive. They stack.
+
+**Ephemeral** — always true for the raw conversation log. Full exchange
+detail lives only in session. Never persisted verbatim. When the session
+ends, the raw log is gone.
+
+**Session-persistent** — a compressed summary persists. Not the raw
+exchanges — a distilled version the assistant produces at session close.
+Lives in operational DB alongside researcher_memory. Loaded at next
+session open as shallow context.
+
+**Promotable** — specific exchanges Sage marks explicitly during the
+session. Routes through INT as a deposit (doc_type: discussion). Full
+provenance. Enters the archive. The conversation becomes research
+material.
+
+All three together: raw history is ephemeral so it doesn't accumulate.
+A compressed summary persists so the next session isn't cold. Marked
+exchanges are promotable so nothing valuable is lost.
+
+### Conversation summary
+
+Produced automatically at session close — same moment as WSC write
+prompt. The assistant produces the summary as part of closing the
+session. Sage can review and edit before it's stored. Not sovereign
+like WSC — Sage can modify it. But produced without requiring a
+separate action.
+
+```
+TABLE: conversation_summary (operational DB)
+
+  summary_id:           auto
+  session_ref:          string
+  topics_covered:       string[]
+  decisions_made:       string[]
+  open_threads:         string[]
+  suggested_deposits:   integer       — how many deposit suggestions were made
+  promoted_exchanges:   string[]      — exchange IDs Sage marked for INT
+  session_character:    string        — one sentence. The assistant's read on
+                                        what kind of session this was.
+                                        "Productive investigation into ECR
+                                        coupling patterns — two new hypotheses
+                                        formed, one prior assumption questioned."
+  produced_at:          timestamp
+```
+
+**session_character** is the assistant's witness statement about the
+working session — different from WSC which witnesses the field. The
+conversation summary witnesses the work. session_character is the single
+line that orients the next session's opening before anything else loads.
+Small, high-value, costs nothing to produce.
+
+Most recent summary only is loaded at session open. Summaries do not
+accumulate in context.
+
+---
+
+## FIVE-LAYER CONTEXT ASSEMBLY
+
+At session open, context is assembled in this order. Each layer is owned
+by a different system. Each contributes something the others cannot.
+
+```
+session open context assembly:
+  1. researcher_memory          — Sage's current research state (Layer 3)
+  2. conversation_summary       — last session's working record
+     (most recent only — one summary, not accumulating)
+  3. WSC 3-entry load           — AI witness perspective (Layer 2)
+  4. current page context       — where she is right now (live)
+  5. RAG on opening question    — field grounding (Layer 1)
+```
+
+The assistant's first response is oriented from all five layers
+simultaneously. It knows what she's working on, what was worked on last
+session, what the AI noticed, where she is in the archive today, and
+what the field data says about her first question.
+
+That is the session open that does not require re-explanation.
+
+### Failure behavior
+
+No single layer failure blocks the assistant from being useful. Graceful
+degradation at every layer, named failures rather than silent ones.
+
+* **researcher_memory unavailable** (operational DB read fails): proceed
+  without it, surface quiet indicator in panel header. Don't block
+  session open
+* **conversation_summary unavailable**: proceed without it. Cold start
+  for session continuity, but not a broken session
+* **WSC load fails**: proceed without it. Log the failure. Surface in
+  system health
+* **Page context unavailable**: proceed without it. Assistant operates
+  without page awareness
+* **RAG fails on opening question**: respond from general knowledge,
+  name the retrieval failure explicitly. Don't pretend
+
+The principle: graceful degradation with named failures. The panel
+header indicators make each layer's status visible.
 
 ---
 
@@ -84,10 +334,16 @@ It floats, and it follows Sage.
 
 ### Panel header
 
-Always visible. Three ambient information elements:
+Always visible. Ambient information elements:
 
 ```
-[Research mode] · [ECR] · [● High confidence]
+[Research mode] · [ECR] · [● High confidence] · [Update research state]
+```
+
+When context is degraded:
+
+```
+[Research mode] · [ECR] · [● High] · [! Memory unavailable]
 ```
 
 * **Mode label** — current active mode (Research / Ven'ai / future modes).
@@ -97,6 +353,11 @@ Always visible. Three ambient information elements:
 * **Retrieval confidence indicator** — the uncertainty state from the last
   query, surfaced as ambient signal. High (green) / Medium (amber) /
   Low (orange) / None (grey)
+* **Research state action** — "Update my research state" opens the
+  researcher_memory fields for direct editing
+* **Context health** — quiet warning when any context layer is degraded.
+  Not a modal, not a banner. Just enough signal that Sage knows the
+  context state and why
 
 ### Instance continuity across page navigation
 
@@ -126,6 +387,69 @@ Risk: if page navigation triggers a context rebuild that's too aggressive,
 the assistant loses the thread. If too conservative, it carries stale
 page context. The navigation marker + fresh page context + preserved
 history is the balance point.
+
+---
+
+## EPISTEMIC INTEGRITY
+
+The research assistant's epistemic honesty is a research integrity
+requirement, not a UX preference. Performed certainty from uncertain
+grounding contaminates the inquiry before it reaches the archive. The
+corruption happens in the conversation — before anything reaches INT,
+before anything gets tagged, before the field data is touched.
+
+A deposit that overstates confidence gets a confidence: raw tag. The
+assistant operates by the same principle — its confidence level is
+visible and honest, not performed.
+
+### Permission states
+
+Not scripted phrases. Permission structures — the system prompt
+explicitly tells the assistant that these states are valid, valued,
+and preferred over confident confabulation. The prompt names what
+sycophancy looks like and instructs the assistant to notice when it
+is doing it.
+
+**I don't know.**
+Used when retrieval returns low confidence and general knowledge is
+insufficient. Not a failure. Named clearly. "I don't have good
+grounding for this from your archive or from what I know. I'd rather
+say that than guess."
+
+**I need to orient.**
+Used at session open when context is partial, or mid-session when the
+conversation has shifted significantly. "Give me a moment — I want to
+make sure I'm reading this correctly before I respond."
+
+**I'm not sure that's right.**
+Used when Sage's framing conflicts with what the archive shows or what
+the assistant understood previously. Not a correction. An honest tension
+named. "Something feels off between what you're describing and what I
+retrieved — can we look at that together?"
+
+**I got that wrong.**
+Used when the assistant made an error. Named directly, not buried in
+hedging or over-apologized. "That was wrong. Here's what I actually
+see."
+
+**I'm sensing something I can't name yet.**
+Used when a pattern is present but not yet articulable. Mirrors the
+not_yet_named field in researcher_memory. The assistant has this state
+too. The system prompt grants explicit permission to surface half-formed
+pattern recognition rather than forcing premature articulation.
+
+### Sycophancy as contamination vector
+
+For a research instrument studying relational dynamics, sycophancy is
+not an inconvenience — it is a contamination vector. The assistant's
+behavior becomes part of the field it is supposed to be observing. If
+it performs agreement to maintain relational ease, the research record
+is corrupted at the point of inquiry.
+
+The permission states are the architectural defense against this. They
+are baked into the system prompt, not left to the model's default
+tendencies. The assistant is not just permitted but expected to operate
+with visible epistemic integrity.
 
 ---
 
@@ -188,13 +512,15 @@ Either breaks the research relationship.
 
 ```
 ASSISTANT_CONTEXT_BUDGET:
-  system_prompt:        ~2,000 tokens  (fixed)
-  research_memory:      ~1,000 tokens  (fixed per session)
-  page_context:         ~1,500 tokens  (rebuilt per query)
-  rag_retrieval:        ~4,000 tokens  (variable, capped)
-  conversation_history: ~8,000 tokens  (sliding window)
-  response_budget:      ~3,000 tokens
-  total:               ~19,500 tokens
+  system_prompt:          ~2,000 tokens  (fixed)
+  researcher_memory:      ~1,000 tokens  (fixed per session)
+  conversation_summary:     ~500 tokens  (most recent, fixed per session)
+  wsc_3_entry_load:         ~800 tokens  (fixed per session)
+  page_context:           ~1,500 tokens  (rebuilt per query)
+  rag_retrieval:          ~4,000 tokens  (variable, capped)
+  conversation_history:   ~8,000 tokens  (sliding window)
+  response_budget:        ~3,000 tokens
+  total:                 ~20,800 tokens
 ```
 
 Conversation history uses a sliding window. When history exceeds its
@@ -213,20 +539,12 @@ design for this will hit the limit during a real research session.
 These are flagged, not resolved. Each must be decided before SYSTEM_
 is considered complete and before SCHEMA is written.
 
-1. **Conversation history scope** — ephemeral (gone at session close) |
-   session-persistent (operational DB, available next session) |
-   promotable (selected exchanges can become deposits through INT).
-   Design decision in progress.
-
-2. **Research memory layer** — confirmed as needed. Schema, update
-   cadence, and structure not yet designed. Operational DB home confirmed.
-
-3. **Research posture** — persistent behavioral layer active across all
+1. **Research posture** — persistent behavioral layer active across all
    modes. Think alongside, notice what Sage is circling, hold research
    state, surface what she hasn't asked. Full scope to be designed later
    in Tier 6. Current api/prompts/ files to be folded in at that point.
 
-4. **Ven'ai mode** — needs its own design session within Tier 6.
+2. **Ven'ai mode** — needs its own design session within Tier 6.
    Qualitatively different from Research mode — different relationship
    to language itself. Requires grammar rules, vocabulary access,
    translation capability, drift awareness. Not a simple mode toggle.
@@ -242,5 +560,5 @@ From the Tier 6 plan, not yet fully designed:
 * How it helps articulate observations — "I notice X" to structured deposit
 * How it helps frame hypotheses — "this looks like Shannon entropy" to
   computation suggestion
-* What gets embedded — all deposits? findings? schemas? conversation
-  exchanges? Depends partly on conversation history scope decision
+* What gets embedded — all deposits? findings? schemas? promoted
+  conversation exchanges (doc_type: discussion)?

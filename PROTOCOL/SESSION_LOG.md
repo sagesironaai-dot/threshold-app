@@ -5295,3 +5295,33 @@ NOT_STARTED:
 UNCOMMITTED: YES
 NEXT_ACTION: Resolve conversation history scope, then continue remaining design items.
 ---
+
+---
+TIMESTAMP: 2026-04-06
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DESIGN/Systems/Research_Assistant/SYSTEM_ Research Assistant.md — COMPLETE (major expansion — memory model, conversation scope, epistemic integrity)
+COMPLETED:
+  - Three-layer memory model designed: field (archive) + witness (WSC) + researcher (new)
+  - Researcher memory schema: single live record + history table, two update paths, not_yet_named field
+  - Conversation history scope resolved: ephemeral + session-persistent + promotable (all three stack)
+  - Conversation summary schema: auto at session close, session_character field, operational DB
+  - Five-layer context assembly sequence defined with failure behavior per layer
+  - Context budget updated: ~20,800 tokens with all five layers itemized
+  - Epistemic integrity section: five permission states, sycophancy as contamination vector
+  - Panel header expanded: research state action + context health indicator
+  - Researcher memory visibility: no engine access, assistant mediates (architectural decision)
+  - Conversation summary timing: automatic at session close, same moment as WSC
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Research posture full scope
+  - Ven'ai mode design session
+  - Archive access design (query assembly, result ranking, context packaging)
+  - Observation articulation ("I notice X" → deposit)
+  - Hypothesis framing ("this looks like Shannon entropy" → computation)
+  - What gets embedded
+  - RESEARCH ASSISTANT SCHEMA.md
+UNCOMMITTED: YES
+NEXT_ACTION: Continue remaining design items — archive access, observation articulation, hypothesis framing, embedding scope.
+---
