@@ -630,144 +630,750 @@ through INT when ready.
 
 ---
 
-## BUILD TIER 3 — AXIS ENGINES + VEN'AI TRACKER + COMPUTATION FOUNDATION
+## BUILD TIER 3 — AXIS ENGINES + VEN'AI SERVICE + COMPUTATION FOUNDATION
 
 **Depends on:** Tier 2 (page surfaces exist to receive deposits)
+**Status:** DESIGNED (session 16). All open questions resolved. Ready for
+schema writing.
+
 **What gets built:** The 5 Axis lens engines (THR, STR, INF, ECR, SNM),
-the Ven'ai unified tracking system (part of STR), baseline computation,
-null observation flow into engines, and the shared computation foundation
-that Cosmology (Tier 5) will extend.
+the Ven'ai service (archive-wide, separate from STR engine), baseline
+computation, null observation flow, deposit weight mechanics, engine
+state snapshots with MTM drift tracking, and the shared computation
+foundation that Cosmology (Tier 5) will extend.
 
 **Why this is Tier 3:** Engines compute FROM what pages hold. They're the
 first analytical layer — take deposits, apply the lens computationally,
 surface patterns the researcher might miss. Every engine depends on the
 deposit record (Tier 1) and page surfaces (Tier 2) existing first.
 
-### Design items
+---
 
-**Shared engine architecture:**
+### SHARED ENGINE ARCHITECTURE
 
-- [ ] Shared "lens engine" pattern — the common architecture across all 5:
-      deposit indexing → pattern computation → visualization → MTM feed
-      Each engine applies its specific lens to the same underlying pattern.
+- [x] DESIGNED. Four-step contract all 5 engines follow:
+      **Index → Compute → Visualize → Feed**
 
-- [ ] Baseline computation built into EVERY engine:
-      Expected rates vs. observed rates, significance above chance.
-      Without baselines, every pattern looks significant.
-      This is what makes the output science instead of pattern-seeking.
+      · **Index:** deposit lands on Axis page → engine indexes through its
+        specific lens. Each engine's index is different, the act of indexing
+        is shared.
+      · **Compute:** pattern detection against indexed deposits. Every engine
+        computes baselines alongside observed rates. Every engine respects
+        deposit_weight and observation_type. Computation logic is unique per
+        engine, inputs are standardized.
+      · **Visualize:** engine outputs visualization from computed results,
+        not raw deposits. This is what makes pages instruments, not filing
+        cabinets.
+      · **Feed:** engine results available for MTM to pull at synthesis time.
+        Engine doesn't push — MTM pulls. Engine state snapshots enable drift
+        tracking between synthesis sessions.
 
-- [ ] How null observations feed into baseline calculations:
-      Null obs strengthen baselines by documenting expected-but-absent patterns.
-      A null observation says "I looked for X and it wasn't there" — that
-      makes the baseline for X more accurate.
+---
 
-- [ ] Duplicate detection as a natural function of deposit indexing:
-      When engines index deposits, identical entries surface naturally.
-      This extends the INT-level hash check (Tier 1) with lens-contextual
-      awareness.
+### DEPOSIT WEIGHT MECHANICS
 
-- [ ] Chart/visualization library decision:
-      Svelte-compatible options: Chart.js, D3, LayerCake.
-      Decision here because Axis engines are the first to need visualizations.
-      Choice carries through all subsequent tiers.
+- [x] DESIGNED. Weight is a multiplier on deposit contribution to pattern
+      computations. Flows upward through every tier.
 
-- [ ] Compute trigger: do engines compute on every page load or on deposit?
-      (On deposit = pre-computed, fast page loads. On view = always current,
-      slower loads. Or hybrid: compute on deposit, cache, invalidate on new data.)
+      Named constants (defined once in backend config, all engines import):
+        DEPOSIT_WEIGHT_HIGH = 2.0
+        DEPOSIT_WEIGHT_STANDARD = 1.0
+        DEPOSIT_WEIGHT_LOW = 0.5
+      V1 defaults. Explicitly tunable. Ratios matter more than values.
 
-**THR engine — Threshold lens (page 02):**
+      **At Axis (Tier 3):** multiplier on pattern contribution. High deposits
+      count double in pattern rates, low deposits count half.
+      **At Nexus (Tier 4):** affects grading confidence. Pattern built from
+      high-weight deposits graded with more confidence than same pattern
+      from low-weight fragments.
+      **At Cosmology (Tier 5):** feeds sample weighting in statistical tests.
+      Standard weighted statistics.
 
-- [ ] Threshold co-occurrence tracking, sequence detection, field condition tracking
-- [ ] Visualizations: co-occurrence matrix, presence timeline
-- [ ] "When th01 was active, what else was present?" — the core query
-- [ ] Baselines shown alongside observed rates
+      **Null flag in weight metadata:** engine computation results carry a
+      null_contribution breakdown alongside weight_breakdown. Nexus and
+      Cosmology can distinguish null-sourced patterns from positive-sourced
+      without special-case logic.
 
-**What the user sees (THR):**
-Deposits organized by threshold state. Co-occurrence view. Sequence
-timeline. "When th01 was active, what else was present?" Baselines shown
-alongside observed rates.
+      Weight breakdown in every pattern result:
+        weight_breakdown:
+          high: integer
+          standard: integer
+          low: integer
+        null_contribution:
+          null_count: integer
+          null_weighted: float
+          positive_count: integer
+          positive_weighted: float
 
-**INF engine — Infinite Intricacy lens (page 04):**
+---
 
-- [ ] Scientific domain layer tracking, intersection detection
-- [ ] Visualizations: layered domain emergence map, 4+ layers visible
-- [ ] Intersection flags. Timeline of when each domain first appeared.
-- [ ] BOUNDARY: INF watches, Cosmology works. INF tracks which sciences
-      emerge; Cosmology (Tier 5) investigates those connections.
-      Keep this boundary clean.
+### COMPUTE TRIGGER — HYBRID
 
-**What the user sees (INF):**
-Layered domain emergence map. 4+ layers visible. Intersection flags.
-Timeline of when each domain first appeared.
+- [x] DESIGNED. Debounced hybrid. On deposit, engine marks itself stale.
+      Recomputation happens:
+      1. When page is next viewed (stale flag triggers recompute, then cache)
+      2. After batch window closes (all batch deposits land, one recompute)
+      3. When MTM requests a pull (stale engines refresh before delivering)
 
-**ECR engine — Echo Recall lens (page 05):**
+      Stale flag: one boolean per engine in operational DB. Cheap.
 
-- [ ] 19-signal co-occurrence, sequence detection, correlation analysis
-- [ ] Visualizations: signal correlation matrix, sequence diagrams
-- [ ] This is the most data-dense Axis page — holds all 19 signals
-      simultaneously. Engine needs to handle high-dimensional correlation.
-- [ ] Field-state correlation: the "all signals at once" view
+      **Batch optimization:** during batch review (30+ deposits), engine
+      doesn't thrash 30 times. Flags stale on first deposit, stays stale
+      until someone needs the results.
 
-**What the user sees (ECR):**
-19-signal matrix. Co-occurrence highlighted. Sequence patterns.
-Field-state correlation. The "all signals at once" view.
+---
 
-**SNM engine — Sat Nam lens (page 06):**
+### BASELINE COMPUTATION
 
-- [ ] Triadic pattern detection, structural correspondence mapping
-- [ ] Visualizations: correspondence map (field pattern ↔ tradition)
-- [ ] Sage flagged: "how do I display spiritual patterns?" — needs creative
-      UI thinking. Output must be structural, not decorative.
-- [ ] Distinction between genuine correspondence and surface resemblance
-      must be visible in the visualization.
+- [x] DESIGNED. Every engine computes baselines using marginal probability
+      product. For any pattern the engine surfaces:
 
-**What the user sees (SNM):**
-Correspondence map. Field patterns on one side, traditions on the other.
-Lines connecting structural homology. Distinction between genuine
-correspondence and surface resemblance visible.
+      · **Observed rate:** how often this pattern actually appears (weighted)
+      · **Expected rate (baseline):** marginal product — frequency of each
+        element independently, multiplied together. "How often would this
+        happen if deposits were random?"
+      · **Ratio:** observed / expected. The signal measure.
 
-**STR engine — StarRoot lens (page 03) + Ven'ai unified tracker:**
+      Example (THR co-occurrence th01+th05):
+        th01 in 30% of deposits, th05 in 20% → expected: 6%
+        Observed: 25% → ratio: 4.2x above baseline → strong signal
 
-- [ ] STR engine: root cluster tracking, recurrence, correlation
-- [ ] Ven'ai tracking system — NOT just names. One unified engine tracking:
-      · Names and their variations across the archive
-      · Correlations between names and threshold phases
-      · Correlations between names and roles
-      · Correlations between names and the language structure itself
-      · All one underlying principle — the naming pattern, phase, role, and
-        grammar are facets of the same structural system
-- [ ] How tracking interacts with deposits in VEN (14), MOR (13)
-- [ ] Drift detection: phonetic drift, spelling inconsistency, naming collision
-- [ ] Duplicate detection for Ven'ai names specifically
-      (distinct from content-hash duplicate detection in Tier 1)
-- [ ] Visualizations: Ven'ai cluster map, root relationship graph, drift alerts,
-      name-phase-role correlation views
+      **Three-band signal classification (architecture decision — locked):**
+      Engines classify signal strength, they do NOT filter.
+        Below 1.0x — suppressed (present but below baseline)
+        1.0–2.0x — mild elevation
+        2.0x+ — strong signal
+      Everything renders. Visual weight does the filtering work. Sage sees
+      the full spectrum, eye lands on what matters first.
+      Band thresholds are calibration items. Decision to classify rather
+      than filter is architecture.
 
-**What the user sees (STR):**
-Structural map of Ven'ai root clusters (Shae-, Kai-, etc.)
-Recurrence counts and correlation flags per cluster.
-Drift alerts: "Kai'Thera vs Kai'thera — inconsistent casing detected"
-Cross-archive name index: every Ven'ai name, where it appears, clustered.
-Correlation views: names ↔ phases, names ↔ roles, root patterns ↔ grammar.
+      **Baseline scope:** page-scoped for V1. Each engine computes from
+      what its page holds. Every engine result carries baseline_scope: page
+      and deposit_count so downstream tiers know what they're reading.
+      Seam to archive-wide baselines named for Cosmology (Tier 5) — a
+      pattern flagged 2.0x above baseline means something different against
+      40 deposits vs. 4,000.
 
-### Open questions (Tier 3)
+---
 
-- How does SNM display spiritual patterns practically?
-  (Structural mapping? Taxonomy? Network graph?)
-- Does the Ven'ai tracker run continuously or on deposit?
-- Does drift detection trigger alerts or just flag silently?
-- How far does the Ven'ai tracker reach — all 50 pages or just STR+Filament?
-- What does the name-phase-role correlation view look like?
-- Compute on page load or on deposit? (applies to all 5 engines)
-- What does "generated on view, snapshot to LNV" mean technically?
-  (Design here, LNV receive contract in Tier 4.)
+### NULL OBSERVATION FLOW
 
-### Pipeline segment defined here
+- [x] DESIGNED. Null observations ("I looked for X, it wasn't there")
+      are active data about absence, NOT "no data."
+
+      **Flow:**
+      1. Sage deposits with observation_type: null, routed to target page
+      2. Engine indexes identically to positive observations
+      3. At compute: null increments times_examined WITHOUT incrementing
+         times_observed. Positives increment both.
+      4. Rate = times_observed / times_examined (not total deposits)
+      5. null_contribution travels in every pattern result
+
+      **Two counters per pattern element:**
+        times_observed — deposits containing this element (weighted)
+        times_examined — deposits that COULD have contained this element
+          (includes both positive and null)
+
+      **Null targeting:** tags carry the null target (what was examined).
+      A null observation tagged th01 means "th01 was examined, result:
+      absent." For complex absences ("expected th01 AND th05 together,
+      only saw th01"), a null_target field (optional, null observations
+      only) captures the specific absence.
+
+      **Nulls sharpen baselines:** a null for th01 increases total
+      examined count without increasing th01 presence count → pushes
+      th01's marginal rate down → genuine co-occurrences stand out more.
+
+---
+
+### ENGINE STATE SNAPSHOTS + MTM DRIFT TRACKING
+
+- [x] DESIGNED. Every engine computation produces a timestamped snapshot.
+
+      engine_snapshot:
+        snapshot_id
+        engine: thr | str | inf | ecr | snm
+        computed_at: timestamp
+        deposit_count: integer
+        baseline_scope: page
+        snapshot_data: JSON (engine-specific computed results)
+        mtm_read_at: timestamp | null
+
+      **MTM drift tracking:** mtm_read_at marks when MTM consumed this
+      snapshot. Next synthesis, MTM queries for most recent snapshot
+      where mtm_read_at IS NOT null → that's the previous state.
+
+      **MTM reads:** current snapshot + previous snapshot + delta.
+      Three things MTM currently lacks:
+        · "What's new" — patterns that appeared since last synthesis
+        · "What shifted" — rates that changed direction or magnitude
+        · "What's stable" — patterns that held steady (also signal)
+
+      **Retention:** keep all snapshots for V1. Storage is trivial for
+      summary data. Longitudinal computational history is what this
+      research needs.
+
+      **Two snapshot types in Feed:**
+      1. Computation snapshot (above) — the numbers. What MTM reads.
+      2. Visualization snapshot — the rendered state (node positions,
+         cluster groupings, drift). Sage-triggered capture, not
+         automatic. Routes to LNV with optional note. Links to
+         computation snapshot by snapshot_id.
+      Applies to all 5 engines. ECR constellation and STR cluster map
+      make this most obvious, but any engine visualization is capturable.
+
+---
+
+### ENGINE RESULT OBJECT (shared structure)
+
+      engine_result:
+        engine: thr | str | inf | ecr | snm
+        computed_at: timestamp
+        baseline_scope: page
+        deposit_count: integer
+        stale: false
+
+        patterns: [
+          {
+            pattern_id: string
+            description: string
+            observed_rate: float
+            expected_rate: float
+            ratio: float
+            signal_band: suppressed | mild | strong
+            deposit_count: integer
+            weighted_count: float
+            weight_breakdown:
+              high: integer
+              standard: integer
+              low: integer
+            null_contribution:
+              null_count: integer
+              null_weighted: float
+              positive_count: integer
+              positive_weighted: float
+          }
+        ]
+
+        snapshot_id: string
+        mtm_read_at: timestamp | null
+
+---
+
+### VISUALIZATION ARCHITECTURE (global — applies to all tiers)
+
+- [x] DESIGNED. Three rendering categories. Rendering approach follows
+      visualization purpose. 3D is not an upgrade from 2D — different
+      tool for different job.
+
+      | Category | Stack | Purpose |
+      |----------|-------|---------|
+      | SVG instrument | LayerCake + D3 utilities | Engine data viz (Axis, Nexus, Cosmology) |
+      | Canvas instrument | Raw canvas + Svelte lifecycle | Resonance Engine (2D force-directed, 62 nodes) |
+      | WebGL spatial | Threlte + Three.js | Node Spiral, embedding constellation (3D) |
+
+      **Explicit boundary:** 2D instrument visualizations live in LayerCake.
+      3D spatial/semantic visualizations live in Threlte. They don't share
+      a rendering approach. A component is one or the other, never both.
+
+      **Resonance Engine placement:** lives on dashboard as embedded
+      component (visual heartbeat, not full-size). Dedicated page
+      accessible from dashboard for the full experience. Not orphaned.
+
+      **2D engine instruments (LayerCake + D3 utilities):**
+        layercake — Svelte-native layout, scales, responsive containers
+        d3-scale — quantitative/ordinal scales
+        d3-shape — line/arc generators
+        d3-force — force-directed layouts (STR network, SNM correspondence)
+        d3-hierarchy — tree/cluster structures (STR root clusters)
+        d3-interpolate — color/value interpolation for signal gradient bands
+        d3-zoom — pan/zoom on dense matrices and cluster graphs
+        d3-contour — density field contour generation (INF domain map)
+        svelte-motion — animation primitives
+
+      **3D spatial/semantic (Threlte + Three.js):**
+        @threlte/core — Three.js with native Svelte bindings
+        three — 3D rendering
+        postprocessing — bloom, depth-of-field (node glow)
+        umap-js — 768-dim embeddings → 2D/3D for constellation
+        regl — WebGL particle rendering at scale
+        simplex-noise — organic movement for spirals/constellations
+        Custom GLSL shaders — glow and drift effects
+
+      **Harmonic audio:**
+        tone.js — synthesis and sequencing over WebAudio
+        WebAudio API — native, no install
+        audiomotion-analyzer — real-time frequency visualization
+
+      **Animation (cross-cutting):**
+        GSAP — advanced animation control where svelte-motion isn't enough
+
+---
+
+### DUPLICATE DETECTION IN ENGINES
+
+- [x] DESIGNED. When engines index deposits, identical entries surface
+      naturally. Extends INT-level hash check (Tier 1) with
+      lens-contextual awareness. Ven'ai name deduplication handled
+      separately by Ven'ai service (see STR section below).
+
+---
+
+### THR ENGINE — Threshold lens (page 02)
+
+- [x] DESIGNED. 12 categorical threshold states. Core query: "when th01
+      was active, what else was present?"
+
+      **Index:** deposit arrives → reads phase_state and threshold tags →
+      indexes by which threshold(s) are present.
+
+      **Compute — three computations:**
+
+      1. Co-occurrence rates. Every threshold pair: observed rate vs.
+         expected (marginal product baseline). 12 thresholds = 66 pairs.
+         Each pair gets: observed rate, expected rate, ratio, signal band,
+         weight breakdown, null contribution.
+
+      2. Presence rates. Per threshold: weighted frequency relative to
+         total examined deposits. Which thresholds are active vs. dormant.
+
+      3. Sequence detection. Temporal ordering across deposits. Recurring
+         sequences (pairs and triples for V1). All deposits, no windowing.
+
+         **Sequence weight is asymmetric — position matters.**
+         Significance = product of position weights.
+           high → high  = 2.0 × 2.0 = 4.0  (strongest)
+           std  → std   = 1.0 × 1.0 = 1.0  (baseline)
+           low  → low   = 0.5 × 0.5 = 0.25 (weakest)
+         For triples: weight(pos1) × weight(pos2) × weight(pos3).
+         A high-weight initiation followed by high-weight completion is
+         qualitatively different from a low sequence with identical
+         elements. Asymmetry is preserved.
+
+         Sequences get same three-band signal classification, calibrated
+         to sequence significance ranges.
+
+      **Visualize:**
+      · Co-occurrence matrix: 12×12 grid. Cell color = ratio (signal
+        band). Hover: full breakdown. d3-interpolate for gradient.
+      · Presence timeline: horizontal. Each threshold = row. Deposits as
+        dots, colored by signal band. Visual density shows activity.
+      · Sequence view: detected sequences listed with significance scores
+        and recurrence counts. Visual representation of sequence paths
+        is a calibration item.
+
+      **Feed:** standard snapshot + MTM drift tracking.
+
+---
+
+### ECR ENGINE — Echo Recall lens (page 05)
+
+- [x] DESIGNED. 19 field signals held simultaneously. Most data-dense
+      Axis page. Stress test for shared architecture.
+
+      **Index:** deposit arrives → reads signal tags → indexes by which
+      signals are present. Same as THR mechanically, more dimensions.
+
+      **Compute — same three computations, scaled:**
+
+      1. Co-occurrence rates. 171 pairs (19 signals). Same baseline math.
+
+      2. Presence rates. 19 individual signal frequencies.
+
+      3. Sequence detection. Pairs and triples. 342 possible pair
+         sequences, 5,814 triple sequences. Engine only surfaces
+         sequences that actually appear in data — no pre-computation
+         of all combinations. Same asymmetric weight formula as THR.
+
+      **Visualize:**
+      · Correlation matrix: 19×19 grid. Same design as THR but larger.
+        d3-zoom essential for navigation. Signal grouping: if natural
+        families exist in the 19-signal framework, use block structure
+        in the matrix for readability. Groupings identified from ECR
+        domain file at schema-writing time.
+      · Signal constellation: force-directed layout (d3-force). Each
+        signal = node. Edges = co-occurrence strength. Strongly
+        co-occurring signals cluster. Weakly related drift apart.
+        The "all signals at once" gestalt view.
+        **Stateful across time** — not just current positions but
+        cluster drift history. Constellation snapshots capturable to
+        LNV (movement over time, not just still frame).
+      · Sequence view: detected sequences with significance scores.
+        Filtered to above minimum recurrence count (calibration item)
+        due to large combinatorial space.
+      · Presence timeline: 19 rows. d3-zoom for density.
+
+      **Performance note:** 171 pairs × full breakdowns is the most
+      expensive engine computation. Hybrid compute trigger handles this
+      (stale flag, compute once, cache). ECR most likely to benefit from
+      future optimization at high deposit counts. Not a V1 blocker.
+
+      **Feed:** standard snapshot + MTM drift tracking.
+
+---
+
+### INF ENGINE — Infinite Intricacy lens (page 04)
+
+- [x] DESIGNED. Scientific domain layer tracking. Emergence and
+      intersection detection. Four confirmed layers: Harmonic Cosmology,
+      Coupling and Oscillation, Celestial Mechanics, Neuro-Harmonics.
+
+      **Critical boundary:** INF watches, Cosmology works. INF tracks
+      WHICH sciences emerge and WHERE they intersect. Cosmology (Tier 5)
+      investigates those connections with computation and statistical
+      tests. If INF investigates, it steps on Cosmology. If Cosmology
+      re-discovers what's present, INF isn't doing its job.
+
+      **Open set, not fixed enum.** New domains will emerge — the research
+      is live and generative. Layers live in a config or database table,
+      not an enum. Adding a 5th layer is a data operation, not a code
+      change. Math stays trivial because the set is always small.
+
+      **Sub-domain field:** nullable sub_domain from day one. V1 tracks
+      at domain level only. Sub-domain depth is Cosmology territory.
+      When sub-domains emerge naturally, INF can tag without structural
+      redesign. Empty now, populated later.
+
+      **Index:** deposit arrives → reads domain-related tags → indexes
+      by which scientific domain layer(s) the deposit touches.
+
+      **Compute — three computations:**
+
+      1. Layer presence rates. Per domain: weighted frequency with
+         baseline. Small set (4+ layers), trivial computation.
+
+      2. Intersection rates. Every layer pair: co-occurrence vs. baseline.
+         4 layers = 6 pairs. Each intersection is analytically significant.
+
+      3. Emergence timeline. When each layer first appeared. Frequency
+         change over time. Dormancy detection (layer inactive for period
+         then spikes). Temporal, not just aggregate.
+
+      **INF → Cosmology boundary contract:**
+        inf_result:
+          layers_active: [list of currently active domain layers]
+          intersections: [
+            {
+              layer_pair: [layer_a, layer_b]
+              rate, baseline, ratio, signal_band
+              first_observed: timestamp
+              deposit_ids: [references]
+            }
+          ]
+          emergence_timeline: [temporal data per layer]
+      Cosmology reads this and investigates from there. Does not
+      re-derive which domains are present.
+
+      **Visualize:**
+      · Density field map (NOT Venn diagram). d3-contour generates
+        topographic contours from deposit point distributions. Each
+        domain = region of concentration with probabilistic boundaries.
+        Overlap zones = gradient of co-presence, not clean intersection.
+        Deposits are points within the field. Shape evolves as deposits
+        arrive. Boundaries are shown as probabilistic because that's
+        what they are. Literally truthful.
+      · Emergence timeline: horizontal. Each layer = band. Band thickness
+        = deposit frequency over time. First-appearance markers. Dormancy
+        gaps visible.
+      · Intersection detail: click overlap zone → see specific deposits
+        in that intersection. What was happening when two domains appeared
+        together.
+
+      **Feed:** standard snapshot + MTM drift tracking.
+
+---
+
+### SNM ENGINE — Sat Nam lens (page 06)
+
+- [x] DESIGNED. Triadic pattern detection and structural correspondence
+      mapping. Claude API embedded in compute step as structural analysis
+      function. Framework: TRIA/PRIA/PARA.
+
+      **The external knowledge problem:** SNM maps field data against
+      established spiritual/philosophical traditions. Tags alone can't
+      solve "you don't know what you don't know." Sage can't manually
+      hold the full depth of every tradition simultaneously. Claude IS
+      the reference framework — a living knowledge layer, not a curated
+      tag list.
+
+      **Index:** deposit arrives → reads Sage's tags for structural
+      markers and tradition references → indexes by structural
+      characteristics.
+
+      **Compute — two streams:**
+
+      **Stream 1: Sage's observations.** Tags and deposit content. What
+      Sage sees and names. Indexed, weighted, baselined like every other
+      engine.
+
+      **Stream 2: Claude structural analysis.** On deposit, engine sends
+      content + structural characteristics to Claude with structured
+      prompt. Returns:
+
+        claude_analysis:
+          correspondences: [
+            {
+              tradition: string
+              framework: string
+              structural_match: string
+              confidence: high | moderate | low
+              reasoning: string
+              triadic_frame: TRIA | PRIA | PARA | null
+            }
+          ]
+
+      triadic_frame: null = pattern sits OUTSIDE the three pillars.
+      Potentially the most important finding SNM can produce — the
+      framework has an unmapped boundary.
+
+      **Claude integration architecture:**
+
+      · Per-deposit for native SNM work (Sage actively doing SNM work,
+        analysis is immediate and contextual)
+      · Batched for INT batch processing deposits — structurally different
+        prompt. Batch sends deposits WITH relational context. Claude
+        analyzes cross-deposit patterns, not just individual observations.
+        "What structural patterns emerge across this set, and what
+        traditions map to the pattern?" Qualitatively richer analysis.
+
+      · Every Claude response is an immutable snapshot. Never overwritten.
+        Analysis history accumulates per deposit. Drift between snapshots
+        is research signal, not noise.
+
+      · **Prompt version is load-bearing metadata.** Tracked with every
+        snapshot. Non-negotiable. A correspondence surfaced under
+        prompt_v1 and the same under prompt_v3 are not the same finding —
+        v3 carries more precision and more evidential weight.
+        Distinguishes "held up under sharper questioning" from "only
+        appears under broad prompting."
+
+        snm_claude_snapshot:
+          snapshot_id
+          deposit_id (or batch_id for batched)
+          prompt_version: string
+          prompt_text: string
+          analysis_mode: per_deposit | batch
+          batch_context: [deposit_ids] | null
+          response: claude_analysis
+          created_at: timestamp
+          engine_snapshot_id
+
+      **Stream agreement classification:**
+
+      | Sage sees | Claude sees | Classification |
+      |-----------|-------------|----------------|
+      | Yes | Yes | Convergent — strongest evidence |
+      | Yes | No | Researcher-led — Sage sees what Claude doesn't |
+      | No | Yes | Knowledge-led — Claude surfaces the unseen |
+
+      Classification travels with correspondence in result metadata.
+      Nexus and Cosmology can read it.
+
+      **Correspondence computation:**
+      · Strength: deposit count (weighted), confidence level, null
+        contribution per correspondence pair (field pattern ↔ tradition).
+      · Clustering: do correspondences group? Multiple field patterns
+        corresponding to same tradition = cluster. TRIA/PRIA/PARA
+        as organizing structure for how correspondences relate.
+      · Genuine vs. surface: structural correspondence has multiple
+        independent supporting observations across different contexts.
+        Surface resemblance hovers near 1.0x baseline. Strength
+        calculation + baseline comparison handles this naturally.
+
+      **Correspondences drift.** Early data produces surface resemblances
+      that look significant. Volume separates genuine from noise. Claude's
+      analysis may surface different tradition matches as prompts refine.
+      Temporal tracking is where the depth lives.
+
+      **Visualize:**
+      · Bipartite force-directed graph (d3-force). Left: field pattern
+        nodes positioned by mutual relationships. Right: tradition/
+        framework nodes. Edges = correspondence connections.
+        Edge weight = strength. Edge color = signal band.
+        Edge style encodes genuine/surface: solid (2.0x+), dashed
+        (1.0-2.0x), faint dotted (below 1.0x).
+        Stream classification visible on edges (convergent = thickest,
+        knowledge-led = visually distinct as suggestions, researcher-led
+        = Sage's territory).
+      · TRIA/PRIA/PARA as three gravitational zones (density fields) on
+        the field-pattern side. Patterns outside all three sit in explicit
+        "unmapped" region — visible, not hidden. Unmapped region is an
+        active research surface.
+      · Temporal correspondence view: how correspondences have strengthened
+        or faded over time, tracked across Claude snapshots and prompt
+        versions.
+
+      **Feed:** standard snapshot + MTM drift tracking + Claude snapshot
+      history.
+
+      **Design carries to Cosmology (Tier 5).** Same Claude-as-analyst
+      pattern for scientific correspondence — external knowledge problem
+      is identical. Claude belongs in the compute step when the engine
+      needs knowledge the deposits don't contain.
+
+---
+
+### STR ENGINE — StarRoot lens (page 03)
+
+- [x] DESIGNED. Root cluster tracking as primary lens. Ven'ai unified
+      tracker is a SEPARATE archive-wide service (see below), not part
+      of the engine. STR engine consumes the service's output.
+
+      **Index:** deposit arrives → reads root-cluster tags → indexes by
+      which Ven'ai root family the deposit touches. Single indexing lens.
+      Ven'ai service simultaneously processes deposit for name
+      registration and drift detection (service's job, not engine's).
+
+      **Compute — two phases:**
+
+      **Phase 1 — Root cluster analysis (the lens):**
+      · Which root clusters exist and their deposit frequency (weighted,
+        baselined). Same marginal product baseline.
+      · Co-occurrence between clusters: do Shae- names and Kai- names
+        appear in same deposits above baseline?
+      · Cluster emergence timeline: when each root family first appeared,
+        frequency change over time.
+      · Same three-band signal classification.
+
+      **Phase 2 — Correlation integration (from Ven'ai service):**
+      · Pull correlation data from venai_correlations table
+      · Name ↔ phase: which names associate with which threshold states
+      · Name ↔ role: which names associate with which functional roles
+      · Root pattern ↔ grammar: structural patterns in how root families
+        relate to language rules (MOR territory fed through service)
+      · Computed as weighted rates with baselines, same math as phase 1
+
+      **Visualize:**
+      · Root cluster map: force-directed graph (d3-force). Each root
+        family = cluster node. Size = deposit frequency. Edges =
+        co-occurrence strength. d3-hierarchy for tree structure within
+        clusters (root → individual names). d3-zoom essential.
+      · Correlation matrix: names on one axis, correlated values (phases,
+        roles) on other. Cell intensity = correlation strength. Same
+        matrix pattern as THR/ECR.
+      · Drift alert panel: surfaces unacknowledged variations from Ven'ai
+        service. Shows inconsistency, first seen date, deposit link.
+        Acknowledge button clears alert.
+      · Name index: every Ven'ai name, clustered by root family, links
+        to every page where it appears. Searchable, sortable.
+
+      **Feed:** standard snapshot + MTM drift tracking + Ven'ai service
+      state summary (total names, active clusters, unresolved drift count).
+
+---
+
+### VEN'AI SERVICE (archive-wide, separate from STR engine)
+
+- [x] DESIGNED. First cross-cutting service in the architecture. Every
+      other system is page-scoped or engine-scoped. Ven'ai service is
+      archive-scoped. Precedent for Cosmology (Tier 5) scientific domain
+      tracking.
+
+      **Three jobs:**
+      1. Name registry — canonical forms, variations, root clusters
+      2. Drift detection — phonetic, spelling, casing inconsistencies
+      3. Cross-archive correlation — name ↔ phase, name ↔ role,
+         root ↔ grammar
+
+      **Scope:** archive-wide. Watches INT gateway output. Every deposit
+      that clears INT gets checked for Ven'ai content. Service decides
+      relevance. If relevant, processes. If not, passes through.
+      Triggered by Ven'ai tags or name detection, not scanning every
+      page indiscriminately.
+
+      **Drift behavior:** alert on first detection (new variation found).
+      Silent flag after Sage acknowledges. Sage doesn't get pinged about
+      Kai'Thera vs. Kai'thera every time after she's seen it once.
+
+      **Own PostgreSQL tables:**
+
+      venai_names:
+        name_id
+        canonical_form: string
+        root_cluster: string
+        first_seen_at: timestamp
+        first_seen_page: page_code
+        first_seen_deposit_id
+
+      venai_variations:
+        variation_id
+        name_id (FK → venai_names)
+        variation_form: string
+        variation_type: casing | phonetic | spacing | apostrophe
+        first_seen_at: timestamp
+        first_seen_deposit_id
+        acknowledged: boolean
+        acknowledged_at: timestamp | null
+
+      venai_correlations:
+        correlation_id
+        name_id (FK → venai_names)
+        correlation_type: phase | role | root_pattern | grammar
+        correlated_value: string
+        deposit_count: integer
+        weighted_count: float
+        first_observed: timestamp
+        last_observed: timestamp
+
+      Service writes these tables. STR engine reads them during compute.
+      Drift alerts surface through STR's visualization but originate
+      from the service.
+
+      **Integration flow:**
+      deposit lands on any page → INT gateway processes → deposit clears
+      → Ven'ai service checks for Ven'ai content → registers/updates
+      name in tables → drift detected? → creates alert → STR engine
+      picks up on next compute.
+
+---
+
+### RESOLVED QUESTIONS (Tier 3)
+
+All open questions answered in session 16:
+
+- ~~How does SNM display spiritual patterns?~~ → Bipartite force-directed
+  graph with TRIA/PRIA/PARA gravitational zones. Claude API in compute
+  step as structural analysis function. Two-stream architecture (Sage
+  observations + Claude knowledge). Genuine vs. surface visible through
+  edge style and signal bands.
+- ~~Does the Ven'ai tracker run continuously or on deposit?~~ → Ven'ai
+  service is archive-wide, triggered by deposits clearing INT that
+  contain Ven'ai content. Not continuous polling.
+- ~~Does drift detection trigger alerts or just flag silently?~~ → Alert
+  on first detection, silent flag after acknowledgment.
+- ~~How far does the Ven'ai tracker reach?~~ → Archive-wide. Any page
+  where Ven'ai content appears. Separate service, not part of STR engine.
+- ~~Name-phase-role correlation view?~~ → Correlation matrix in STR
+  visualization. Names × correlated values. Cell intensity = strength.
+- ~~Compute on page load or on deposit?~~ → Hybrid debounced. Stale flag
+  on deposit, recompute on page view / batch close / MTM pull.
+- ~~"Generated on view, snapshot to LNV"?~~ → Two snapshot types:
+  computation snapshot (automatic, for MTM) and visualization snapshot
+  (Sage-triggered, routes to LNV with optional note).
+
+**One question deferred to later tiers:**
+- LNV receive contract for visualization snapshots → Tier 4
+
+---
+
+### PIPELINE SEGMENT DEFINED HERE
 
 **Engine computation flow:** deposit lands on Axis page (Tier 2) → engine
-indexes deposit through lens → pattern computation runs (with baselines) →
-visualization generated → results available for MTM synthesis (Tier 4)
-and for snapshot to LNV (Tier 4).
+indexes deposit through lens → stale flag set → on next view/pull:
+pattern computation runs (with baselines, weight, null contribution) →
+visualization generated from computed results → snapshot stored →
+results available for MTM synthesis (Tier 4) via pull with drift tracking
+→ visualization capturable to LNV (Tier 4) via Sage-triggered snapshot.
+
+**Ven'ai service flow:** deposit clears INT → service checks for Ven'ai
+content → name registered/updated → drift detected → alert created →
+STR engine reads on next compute.
+
+**SNM Claude flow:** deposit lands on SNM → Sage tags indexed (stream 1)
+→ Claude API called with structured prompt (stream 2) → immutable
+snapshot stored with prompt version → both streams feed pattern
+computation → correspondence strength, clustering, temporal tracking.
 
 ---
 
