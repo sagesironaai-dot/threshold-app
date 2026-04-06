@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: aelarian-postgres
+    environment:
+      POSTGRES_USER: aelarian
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: aelarian_archives
+    ports:
+      - "5432:5432"
+    volumes:
+      - aelarian_pgdata:/var/lib/postgresql/data
+    networks:
+      - aelarian-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: aelarian-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - aelarian_redis_data:/data
+    networks:
+      - aelarian-network
+    restart: unless-stopped
+
+networks:
+  aelarian-network:
+    name: aelarian-network
+
+volumes:
+  aelarian_pgdata:
+    external: true
+  aelarian_redis_data:

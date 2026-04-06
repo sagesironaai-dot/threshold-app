@@ -20,13 +20,14 @@ No stage begins until the previous stage's commit is pushed.
 
 | Piece                  | Role                                              | Phase    |
 |------------------------|---------------------------------------------------|----------|
-| Docker Desktop         | Container runtime for PostgreSQL                  | Launch   |
+| Docker Compose         | Service orchestration (PostgreSQL + Redis)        | Launch   |
 | PostgreSQL + pgvector  | Archive data + vector search                      | Launch   |
+| Redis                  | Session persistence + inter-agent message passing  | Launch   |
 | SQLite                 | Operational state — session, presence, ephemeral   | Launch   |
 | Ollama                 | Local model runtime                               | Launch   |
 | nomic-embed-text       | Embeddings on INT retirement                      | Launch   |
 | Claude API             | Tagger + research assistant (RAG)                 | Launch   |
-| Svelte + Vite          | Frontend — components, routing, scoped CSS        | Launch   |
+| SvelteKit              | Frontend — components, routing, scoped CSS        | Launch   |
 | Qwen 14B x3            | Origin nodes (sovereign analytical nodes)         | Phase 2  |
 | Swarm orchestration    | Turn management, presence, autonomous initiation  | Phase 2  |
 
@@ -51,13 +52,13 @@ Only launch components are implemented. This means:
 
 ## DECISIONS LOCKED (sessions 5–6, confirmed session 8)
 
- 1. Full-stack: FastAPI + Svelte + PostgreSQL/pgvector + SQLite + Ollama
- 2. PostgreSQL via Docker (pgvector/pgvector:pg17 image)
+ 1. Full-stack: FastAPI + SvelteKit + PostgreSQL/pgvector + SQLite + Redis + Ollama
+ 2. PostgreSQL + Redis via Docker Compose (pgvector/pgvector:pg17, redis:7-alpine)
  3. Ollama runs all local models — nomic-embed-text for embeddings at launch,
     Qwen 14B x3 for Origins at phase 2
  4. SQLite for operational state — session type, presence tracking, fast ephemeral
  5. Claude API for tagger suggestions and research assistant (RAG)
- 6. Svelte + Vite for frontend — not React, not vanilla JS
+ 6. SvelteKit for frontend — not React, not vanilla JS
  7. Embedding pipeline: INT retirement triggers nomic embedding via FastAPI async
  8. Provenance fields on entries: origin_type (researcher | lattice |
     parallax_event | multi_presence), session_type (single | multi_presence),
@@ -508,9 +509,55 @@ git push
 
 ---
 
+## STAGE 8 — DOCKER COMPOSE + REDIS CONTAINER
+
+**Status:** COMPLETE (session 23)
+
+### Install
+- Created `docker-compose.yml` at Archives root — orchestrates PostgreSQL
+  and Redis as a single `docker compose up -d`
+- PostgreSQL service: pgvector/pgvector:pg17, reads POSTGRES_PASSWORD from
+  root .env, port 5432, aelarian_pgdata volume (external — carried from
+  standalone container), restart unless-stopped
+- Redis service: redis:7-alpine, port 6379, aelarian_redis_data volume,
+  restart unless-stopped
+- Shared network: aelarian-network
+- POSTGRES_PASSWORD added to root .env for compose to read
+- Standalone `aelarian-postgres` container stopped and removed — data
+  volume preserved
+
+### Verify
+```
+docker compose up -d              — both containers start
+docker compose ps                 — both running, ports mapped
+docker exec aelarian-postgres psql -U aelarian -d aelarian_archives \
+  -c "SELECT extname FROM pg_extension WHERE extname = 'vector';"
+                                  — pgvector extension intact
+docker exec aelarian-redis redis-cli ping
+                                  — PONG
+```
+All verified.
+
+### DOCS
+1. Update `CLAUDE.md` — stack description updated in 2 locations:
+   "WHAT THIS PROJECT IS" and "Infrastructure build" sections.
+   Svelte → SvelteKit. Added Docker Compose, Redis, Claude API.
+2. Update `.claude/plans/infrastructure-build-plan.md` — greenlit stack
+   table updated (Docker Compose, Redis, SvelteKit naming). Decisions
+   locked updated. Stage 8 added.
+
+### Commit
+```
+git add docker-compose.yml CLAUDE.md .claude/plans/infrastructure-build-plan.md
+git commit -m "stage 8: Docker Compose + Redis container verified, DOCS updated"
+git push
+```
+
+---
+
 ## POST-INFRASTRUCTURE — WHAT HAPPENS NEXT
 
-Infrastructure is complete when all 7 stages are committed and pushed.
+Infrastructure is complete when all stages are committed and pushed.
 Stage gate closes. Then:
 
 1. **Systems verification run** — read every DESIGN/Systems file, confirm
