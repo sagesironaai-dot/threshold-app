@@ -1,7 +1,9 @@
 ╔══════════════════════════════════════════════════════════════╗
-║  THREAD TRACE SCHEMA  ·  v1                                ║
-║  /DESIGN/systems/thread_trace_schema_v1.md                   ║
-║  PostgreSQL · FastAPI /threads/ · Svelte ThreadTrace        ║
+║  THREAD TRACE SCHEMA  ·  V1                                 ║
+║  /DESIGN/Systems/Thread_Trace/THREAD TRACE SCHEMA.md         ║
+║  Mechanical spec — builders, seed resolution, filter bar,    ║
+║  sequences, tables, edge labels, routing snapshot.           ║
+║  Architectural description in SYSTEM_ Thread Trace.md.       ║
 ╚══════════════════════════════════════════════════════════════╝
 
 
@@ -244,18 +246,44 @@ TWO VIEWS
 FILTER BAR
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  Active across both views. Six filter dimensions:
+  Active across both views. Eight filter dimensions plus section:
 
-    pillar_id       p01 | p02 | p03
-    seed_id         s01–s40
-    layer_id        l01–l04
-    threshold_id    th01–th12
-    phase_state     canonical threshold name | null
-    elarianAnchor   RFLT | WHSP | VEIL | OBSV | RECL |
-                    WEAV | GATE
-    section         any section ID
+    pillar_id          p01 | p02 | p03
+                       Display: "Pillar"
+    seed_id            s01–s40
+                       Display: "Seed"
+    layer_id           l01–l04
+                       Display: "Layer"
+    threshold_id       th01–th12
+                       Display: "Threshold"
+    phase_state        canonical threshold name | null
+                       Display: "Phase state"
+    elarianAnchor      RFLT | WHSP | VEIL | OBSV | RECL |
+                       WEAV | GATE
+                       Display: "Anchor"
+    doc_type           entry | observation | analysis |
+                       hypothesis | discussion | transcript |
+                       glyph | media | reference
+                       Display: "Entry type"
+    observation_type   positive | null | all
+                       Display: "Observation type"
+                       Default: all (no filter)
+    section            any section ID
+                       Display: "Section"
 
-  elarianAnchor values sourced from COMPOSITE ID SCHEMA.
+  doc_type filter enables: "show me only hypothesis entries in
+  this thread." Particularly valuable for Cluster and Emergence
+  threads where the corpus includes mixed deposit types. A
+  cluster that only holds when filtered to hypotheses is a
+  different signal than one that holds across all doc_types.
+
+  observation_type filter enables: "show me null observations in
+  this thread." Complement to the Void engine — Thread Trace
+  lets Sage navigate null observations as a sequence, not just
+  as aggregate data. A temporal thread of null observations
+  around a specific tag set is a research tool Void can't provide.
+
+  elarianAnchor values sourced from SYSTEM_ Composite ID.md.
 
   Filters are applied at buildThread() call time. Changing a
   filter rebuilds the thread against the current corpus with
@@ -338,6 +366,18 @@ ROUTING SNAPSHOT
     entryCount:           integer
     edgeCount:            integer
     threadType:           string
+    snapshot_taken_at:    timestamp — written at save time,
+                          never updated. PCV knows the
+                          temporal distance between the
+                          snapshot and the current session.
+                          Old snapshots can be weighted
+                          differently or flagged for refresh.
+    snapshot_entry_count: integer — how many entries were in
+                          the thread when the snapshot was
+                          taken. If the live thread now has
+                          significantly more or fewer entries,
+                          the snapshot's representativeness
+                          is degraded.
     distributions: {
       pillars:    { [pillar_id]: count }
       seeds:      { [seed_id]: count }
@@ -428,6 +468,20 @@ SAVED THREADS AND ANNOTATIONS
                          Foreign key to saved_threads.id.
 
   text                 — text, not null
+
+  annotation_type      — text, not null
+                         Enum: note | observation | question
+                         note: methodology annotation ("I'm
+                         analyzing this thread looking for X")
+                         observation: research observation
+                         ("this edge label suggests Y")
+                         question: open question for future
+                         investigation
+                         Sage selects at write time. Filters
+                         annotations by type when browsing.
+                         Travels with Thread Trace outputs to
+                         LNV so annotation types display
+                         distinctly from each other.
 
   timestamp            — timestamp, not null
 
@@ -527,16 +581,41 @@ SEQUENCES
 
   THREAD LOAD — strict order
   1. GET /threads/{id} — retrieve saved_threads record.
-  2. Response includes entry_ids.
+  2. Response includes entry_ids and thread_type.
   3. Frontend fetches live entries using entry_ids via
      GET /entries/ with ID filter.
-  4. Frontend passes live entries to buildThread() for
+  4. If thread_type is 'emergence': run EMERGENCE STALENESS
+     CHECK (see below) before rendering.
+  5. Frontend passes live entries to buildThread() for
      re-render.
-  5. PATCH /threads/{id}/touch — writes last_accessed.
+  6. PATCH /threads/{id}/touch — writes last_accessed.
      No other field modified.
   Note: entries reflect any updates made since the thread
     was saved. Thread Trace holds IDs only — it does not
     reconstruct entries.
+
+  EMERGENCE STALENESS CHECK (step 4 — Emergence threads only):
+  Re-run detection for the original finding's type against
+  the current corpus. Compare involvedEntries count from the
+  original finding to the fresh detection result.
+
+  If the finding still exists with the same structure (entry
+  count within EMERGENCE_STALE_THRESHOLD): load normally.
+
+  If the finding has changed significantly (involvedEntries
+  count changed by more than EMERGENCE_STALE_THRESHOLD):
+  surface a staleness notice: "This pattern has evolved since
+  this thread was saved. Re-run detection to update."
+  One-tap re-detection: same seed, fresh corpus. The saved
+  thread stays as the historical record. The re-run produces
+  a new thread from current data.
+
+  EMERGENCE_STALE_THRESHOLD — calibration item. Percentage
+  change in involvedEntries count that triggers the notice.
+  Defined at build time.
+
+  This makes Emergence threads living instruments rather than
+  static snapshots — which is what the research requires.
 
 
 NEXUS FEED
@@ -596,6 +675,22 @@ PUBLIC API
       seed.threadTypes priority. Falls back to TEMPORAL if the
       preferred builder cannot execute. Returns the ordered
       entry set and thread metadata.
+
+      ThreadResult shape:
+        {
+          entry_ids:       string[]
+          edges:           Edge[]
+          thread_type:     string — actual type used
+          seed:            Seed
+          fallback_reason: string | null — null when preferred
+                           builder succeeded. Populated when
+                           fallback occurred, e.g. "Relational
+                           thread unavailable: no entry links
+                           found. Showing temporal view."
+                           Overlay header surfaces this when
+                           non-null — single line below thread
+                           title, distinct styling, dismissible.
+        }
 
     generateEdgeLabel(entryA, entryB, threadType) → string
       Pure function. Produces a human-readable label for the
