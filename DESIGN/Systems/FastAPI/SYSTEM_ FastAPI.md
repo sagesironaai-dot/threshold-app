@@ -129,5 +129,8 @@ Guard: vector and metadata are written in a single INSERT within one transaction
 | backend/models/ | SQLAlchemy models for PostgreSQL and SQLite tables | PLANNED |
 | backend/routes/ | Route modules — entries, tags, threads, search, tagger, assistant, embed | PLANNED |
 | backend/routes/swarm/ | Reserved namespace — phase 2 | RESERVED |
-| backend/services/ | Service modules — embedding, claude, rag, entry operations | PLANNED |
+| backend/services/claude.py | Claude API client wrapper — agent identity registry (8 agents), shared model constant, call_claude() with metadata tracking | LIVE |
+| backend/services/embedding.py | Ollama embedding integration | PLANNED |
+| backend/services/rag.py | Retrieval-augmented generation pipeline | PLANNED |
+| backend/services/tag_resolution.py | resolveTagIds() — server-side tag resolution | PLANNED |
 | backend/db/migrations/ | Alembic migration files | PLANNED |

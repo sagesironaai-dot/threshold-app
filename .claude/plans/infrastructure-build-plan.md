@@ -593,6 +593,63 @@ git push
 
 ---
 
+## STAGE 10 — AGENT IDENTITY ON CLAUDE API CALL LAYER
+
+**Status:** COMPLETE (session 23)
+
+### Install
+- Created `backend/services/claude.py` — thin wrapper around Anthropic
+  AsyncAnthropic client with agent identity tracking
+- Shared model constant: `CLAUDE_MODEL` (claude-sonnet-4-20250514)
+- `INSTANCE_ID` generated once per app startup (UUID)
+- `AgentIdentity` dataclass: agent_id, agent_type, description
+- `AGENT_REGISTRY` — 8 registered agents:
+  - tagger (tagger) — tag routing on every deposit
+  - research_assistant (research) — RAG pipeline
+  - int_parsing_partner (intake) — batch parsing collaboration
+  - snm_structural_analysis (analysis) — tradition structural mapping
+  - mtm_synthesis (synthesis) — two-pass cross-Axis synthesis
+  - void_interpretation (interpretation) — absence pattern analysis
+  - wsc_witness (witness) — witness statement authorship
+  - artis_science_ping (computation) — science framing Layer 2
+- `call_claude()` — async function, accepts agent_id + system_prompt +
+  messages + optional context_block. Attaches identity via Anthropic
+  metadata parameter. Returns content + identity + usage.
+- Model selection slot exists as parameter but defaults to shared constant
+  (not differentiated in V1)
+
+### Verify
+```python
+# Import verification
+from backend.services.claude import AGENT_REGISTRY, INSTANCE_ID, CLAUDE_MODEL
+# 8 agents registered, instance_id generated, model constant set
+
+# Live API call
+result = await call_claude(
+    agent_id="tagger",
+    system_prompt="You are a test. Respond with only: OK",
+    messages=[{"role": "user", "content": "ping"}],
+)
+# → content: OK, agent_id: tagger, agent_type: tagger, instance_id: [uuid]
+```
+All verified.
+
+### DOCS
+1. Update `SYSTEM_ FastAPI.md` — files table: services/ row expanded to
+   list claude.py (LIVE) + embedding.py, rag.py, tag_resolution.py (PLANNED)
+2. Update `.claude/plans/infrastructure-build-plan.md` — Stage 10 added
+
+### Commit
+```
+git add backend/services/claude.py \
+  DESIGN/Systems/FastAPI/SYSTEM_\ FastAPI.md \
+  .claude/plans/infrastructure-build-plan.md
+git commit -m "stage 10: agent identity Claude API wrapper verified, DOCS updated"
+git push
+```
+
+---
+
 ## POST-INFRASTRUCTURE — WHAT HAPPENS NEXT
 
 Infrastructure is complete when all stages are committed and pushed.
