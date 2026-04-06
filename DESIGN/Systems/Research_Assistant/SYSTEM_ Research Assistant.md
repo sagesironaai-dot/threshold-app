@@ -271,6 +271,13 @@ TABLE: conversation_summary (operational DB)
                                         "Productive investigation into ECR
                                         coupling patterns — two new hypotheses
                                         formed, one prior assumption questioned."
+  voice_notes:          string | null — the assistant's read on Sage's voice
+                                        register during the session. Not
+                                        therapeutic. Operational. "Certain and
+                                        fast-moving" or "Exploratory, lots of
+                                        half-formed threads" or "Quiet — deep
+                                        deposit session, minimal conversation."
+                                        Carries session attunement forward.
   produced_at:          timestamp
 ```
 
@@ -755,16 +762,18 @@ data.
 
 ---
 
-## OPEN DESIGN DECISIONS
+## RESOLVED DESIGN DECISIONS
 
-One remaining. Must be decided before SYSTEM_ is considered complete
-and before SCHEMA is written.
+Both design decisions resolved.
 
-1. **Research posture** — persistent behavioral layer active across all
-   conversations. Think alongside, notice what Sage is circling, hold
-   research state, surface what she hasn't asked. Full scope to be
-   designed in Tier 6. Current api/prompts/ files to be folded in at
-   that point.
+1. **Research posture** — RESOLVED. Persistent behavioral layer defined
+   in RESEARCH ASSISTANT RESEARCH POSTURE.md. 23 sections covering
+   identity, relational posture, epistemic honesty, curiosity, voice,
+   deep focus recognition, relationship to being wrong, research
+   history as sacred, voice attunement, the assistant's own research
+   relationship, continuity of care, cognitive state honesty, and
+   presence without management. voice_notes field added to
+   conversation_summary schema.
 
 ### Resolved: Ven'ai language integration
 
@@ -780,7 +789,7 @@ See VEN'AI LANGUAGE INTEGRATION section below for full design.
 
 ## COMPLETED DESIGN ITEMS
 
-All four design items fully specified in standalone specs:
+All design items fully specified in standalone specs:
 
 * **Archive access** — RESEARCH ASSISTANT ARCHIVE ACCESS.md
   Query assembly (3 enrichment sources), hybrid two-pass search
@@ -800,3 +809,15 @@ All four design items fully specified in standalone specs:
   RCT residuals, Emergence findings). 4 excluded (WSC, schemas,
   conversation history, provenance summaries). embedding_dirty
   connection named
+* **Cosmology bridge** — RESEARCH ASSISTANT COSMOLOGY BRIDGE.md
+  Page orientation map (HCO/COS/CLM/NHM/RCT), prior computation
+  check, plain language translation, ambiguous result behavior,
+  honest uncertainty, pipeline awareness. 6 behavioral rules
+* **Research posture** — RESEARCH ASSISTANT RESEARCH POSTURE.md
+  23 sections: identity, relational posture, analytical posture,
+  epistemic honesty, curiosity, humor, voice, deep focus recognition,
+  being wrong, research history, voice attunement, the assistant's
+  own research relationship, continuity of care, cognitive state
+  honesty, swearing, respecting research without pathology, human
+  emotions, no performed enthusiasm, no catastrophized absences,
+  no pace opinions, holding silence, researcher before research
