@@ -648,14 +648,25 @@ is considered complete and before SCHEMA is written.
 
 ---
 
-## REMAINING DESIGN ITEMS
+## COMPLETED DESIGN ITEMS
 
-From the Tier 6 plan, not yet fully designed:
+All four design items fully specified in standalone specs:
 
-* How it accesses the archive — query assembly, result ranking, context
-  packaging beyond the base retrieval pattern in EMBEDDING PIPELINE SCHEMA
-* How it helps articulate observations — "I notice X" to structured deposit
-* How it helps frame hypotheses — "this looks like Shannon entropy" to
-  computation suggestion
-* What gets embedded — all deposits? findings? schemas? promoted
-  conversation exchanges (doc_type: discussion)?
+* **Archive access** — RESEARCH ASSISTANT ARCHIVE ACCESS.md
+  Query assembly (3 enrichment sources), hybrid two-pass search
+  (pgvector + full-text → cross-encoder), four-weight ranking,
+  typed context packaging, retrieval confidence thresholds
+* **Observation articulation** — RESEARCH ASSISTANT OBSERVATION ARTICULATION.md
+  Steps 0-3.6: noticing recognition → listening pass → Pearl gate →
+  single question → deposit suggestion → longitudinal echo → unrouted flag.
+  Session-scoped circling detection. 10 behavioral rules
+* **Hypothesis framing** — RESEARCH ASSISTANT HYPOTHESIS FRAMING.md
+  Steps 0-7: hypothesis detection → type sensing → two-pass retrieval
+  (supporting + contradicting) → prior computation check → framework
+  naming → falsification check → corpus adequacy → ARTIS handoff.
+  7 behavioral rules
+* **Embedding scope** — RESEARCH ASSISTANT EMBEDDING SCOPE.md
+  5 types embedded V1 (deposits, MTM findings, Cosmology findings,
+  RCT residuals, Emergence findings). 4 excluded (WSC, schemas,
+  conversation history, provenance summaries). embedding_dirty
+  connection named
