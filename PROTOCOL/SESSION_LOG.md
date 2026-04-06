@@ -5371,3 +5371,53 @@ NOT_STARTED:
 UNCOMMITTED: YES (this CLOSE entry)
 NEXT_ACTION: Continue Tier 6 — remaining research assistant design items (archive access, observation articulation, hypothesis framing, embedding scope), then research posture + Ven'ai mode sessions, then Resonance audio.
 ---
+
+---
+TIMESTAMP: 2026-04-06
+TYPE: CLOSE
+FILES_MODIFIED:
+  - Archives/.env — COMPLETE (added POSTGRES_PASSWORD for Docker Compose)
+  - Archives/docker-compose.yml — COMPLETE (new file — PostgreSQL + Redis orchestration)
+  - backend/.env — COMPLETE (added REDIS_URL)
+  - backend/config.py — COMPLETE (added REDIS_URL loading)
+  - backend/main.py — COMPLETE (Redis lifespan + health endpoint)
+  - backend/requirements.txt — COMPLETE (redis[hiredis] added, 37 packages)
+  - backend/services/claude.py — COMPLETE (new file — agent identity wrapper, 8 agents)
+  - CLAUDE.md — COMPLETE (stack description updated: SvelteKit, Docker Compose, Redis, Claude API, Agent Identity Registry, 10 stages)
+  - .claude/plans/infrastructure-build-plan.md — COMPLETE (stages 8-10 added, greenlit stack updated, SvelteKit naming corrected)
+  - DESIGN/Systems/FastAPI/SYSTEM_ FastAPI.md — COMPLETE (Redis in lifecycle + failure modes, services/claude.py in files table)
+  - DESIGN/Systems/Research_Assistant/SYSTEM_ Research Assistant.md — COMPLETE (Redis conversation history, agent identity section, Redis Streams PLANNED, six-layer context assembly, Ven'ai always-on, voice_notes on conversation_summary, all design items + decisions resolved)
+  - DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT ARCHIVE ACCESS.md — COMPLETE (new file)
+  - DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT OBSERVATION ARTICULATION.md — COMPLETE (new file)
+  - DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT HYPOTHESIS FRAMING.md — COMPLETE (new file)
+  - DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT EMBEDDING SCOPE.md — COMPLETE (new file)
+  - DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT COSMOLOGY BRIDGE.md — COMPLETE (new file)
+  - DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT RESEARCH POSTURE.md — COMPLETE (new file)
+COMPLETED:
+  - Caught and reverted unauthorized file changes from prior interrupted session (CLAUDE.md only file touched, no commits made)
+  - Infrastructure stage 8: Docker Compose (wraps PostgreSQL + Redis container, standalone container migrated, data volume preserved)
+  - Infrastructure stage 9: Redis backend wiring (redis[hiredis] installed, .env + config + lifespan + health endpoint)
+  - Infrastructure stage 10: Agent Identity Registry (services/claude.py — 8 agents, shared CLAUDE_MODEL, per-startup INSTANCE_ID, call_claude() with metadata)
+  - CLAUDE.md stack description updated (SvelteKit naming fix, Docker Compose, Redis, Claude API, Agent Identity Registry, 10 stages)
+  - SYSTEM_ FastAPI.md updated (Redis connection lifecycle, failure mode #3, files table expanded)
+  - SYSTEM_ Research Assistant updated for infrastructure: conversation history → Redis, session close sequence, agent identity named section, Redis Streams PLANNED slot, navigation marker → Redis
+  - Tier 6 design item 1: Archive access spec (query assembly with 3 enrichment sources, hybrid two-pass search, cross-encoder re-ranking, four-weight ranking formula, typed context packaging, retrieval confidence thresholds, 8 calibration items)
+  - Tier 6 design item 2: Observation articulation spec (Steps 0-3.6, silence rule, Pearl gate, session-scoped circling detection, deposit_suggestion shape, 10 behavioral rules)
+  - Tier 6 design item 3: Hypothesis framing spec (Steps 0-7, falsification check, corpus adequacy, contradicting evidence pass, computation_suggestion shape, 7 behavioral rules)
+  - Tier 6 design item 4: Embedding scope spec (5 types embedded V1, 4 excluded, embedding_dirty connection named, retrieval surface mapped)
+  - Ven'ai mode → always-on language integration (mode toggle removed, six-layer context assembly, Redis cache, pgvector named corpus, drift logging, conversational depth dial)
+  - Cosmology bridge spec (page orientation map, prior computation check, plain language translation, ambiguous result behavior, pipeline awareness, 6 behavioral rules)
+  - Research posture spec (23 sections: identity through researcher-before-research, voice_notes field added to conversation_summary)
+  - Both open design decisions RESOLVED (research posture + Ven'ai integration)
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - RESEARCH ASSISTANT SCHEMA.md (blocked on nothing — all design items complete)
+  - Resonance audio sonification (Tier 6 second block)
+  - Tagger makeover (PARKED — separate session)
+  - Tiers 7-8
+  - CONNECTS TO + SEED AFFINITY pass
+  - Stress test, SOT
+UNCOMMITTED: YES (this CLOSE entry)
+NEXT_ACTION: Next session — RESEARCH ASSISTANT SCHEMA.md (all design items complete, ready to assemble), then Resonance audio to finish Tier 6.
+---
