@@ -4888,3 +4888,35 @@ NOT_STARTED:
 UNCOMMITTED: YES (this log entry)
 NEXT_ACTION: WSC and LNV schema design to complete Tier 4. Can be next session.
 ---
+
+---
+TIMESTAMP: 2026-04-05 (session 17 — close)
+TYPE: CLOSE
+FILES_MODIFIED:
+  - .claude/plans/design-session-plan.md — IN_PROGRESS (Tier 4: 3 of 5 designed)
+  - PROTOCOL/SESSION_LOG.md — COMPLETE
+COMPLETED THIS SESSION:
+  - Tier 4 design: 3 of 5 items fully designed
+  - MTM two-pass synthesis wiring (commit 4616a0d)
+  - Nexus engine visualizations — PCV, DTX, SGR (commit 2a49dc5)
+  - Void engine — two-layer architecture, 5 absence types, Claude interpretive
+    tool, PCV interaction with circularity fix (commit 6ec3861)
+  - Session log work unit (commit 66722a9)
+  - All 4 commits pushed to GitHub (e4f5952..66722a9)
+  - Session 16 log gap acknowledged (no OPEN/WORK_UNIT/CLOSE entries for
+    Tier 3 design session — committed work is intact, log gap noted)
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - WSC schema (entry structure, 3-entry session open protocol, sovereign-from-DNR
+    boundary, RESEARCHER NOTE field)
+  - LNV schema (receive contract for visualization snapshots, provenance tracking,
+    storage format decision, "generated on view, snapshot to LNV" technical spec)
+  - Tiers 5-8
+  - Stress test, SOT
+UNCOMMITTED: YES (this CLOSE entry — included in commit below)
+NEXT_ACTION: Next session completes Tier 4 — WSC and LNV schemas. These are
+  output surfaces, not engine architectures. Lighter than MTM/Void but deserve
+  same design depth. After Tier 4 complete: Tier 5 (Cosmology engines +
+  computation infrastructure). Full scope: .claude/plans/design-session-plan.md.
+---
