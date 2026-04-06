@@ -329,26 +329,59 @@ The Integration page is a collaborative workstation with two panels.
 
       **Correction propagation — running context object:**
 
-      Corrections don't travel as raw conversation history (context window
-      blows up). They travel as a distilled ruleset that grows as Sage
-      corrects. Each correction becomes a rule; the ruleset enters every
-      subsequent chunk prompt.
+      Corrections travel as a distilled ruleset, not raw conversation
+      history (context window blows up). The distillation process has
+      three steps:
+
+      1. Sage corrects a deposit field during review (edit fires
+         correction event)
+      2. AI distills the correction into a candidate rule
+      3. Candidate rule shown to Sage for one-tap confirm or edit
+         BEFORE it enters active_rules
+
+      The confirm step (step 3) keeps Sage in control without adding
+      friction — she sees exactly what the AI extracted from her
+      correction. Keeps the rule clear, prevents distortion. (If the AI
+      distills without oversight it can fail or distort. If Sage writes
+      every rule manually it adds cognitive load mid-flow. This is the
+      middle path.)
+
+      **Contradiction detection (load-bearing):**
+
+      Before a confirmed rule enters active_rules, it is checked against
+      all existing rules for conflict. If the incoming rule contradicts
+      an existing one:
+      · Conflict flagged to Sage with both rules shown side-by-side
+      · Sage confirms which rule takes precedence
+      · Superseded rule moved to superseded_rules (retained for history,
+        not deleted)
+      · Do NOT auto-resolve — contradictions are Sage's decision
+      A late-session rule silently conflicting with an earlier one makes
+      the entire ruleset incoherent. This check prevents that.
 
         correction_context:
           session_id: string
           corrections: [
             {
               chunk_id: string          — which chunk triggered correction
-              field: string             — what was wrong (tag | type | routing
-                                          | boundary)
+              field: string             — tag | type | routing | boundary
               original: string          — what AI produced
               corrected: string         — what Sage set it to
-              instruction: string       — extracted rule: "when X, do Y instead"
+              instruction: string       — extracted rule: "when X, do Y
+                                          instead"
+              distillation_confirmed: boolean — Sage confirmed the rule
             }
           ]
-          active_rules: string[]        — distilled from corrections, these
-                                          travel in the prompt on every
+          active_rules: string[]        — confirmed, non-contradicting rules
+                                          that travel in the prompt on every
                                           subsequent chunk
+          superseded_rules: [
+            {
+              rule: string
+              superseded_by: string     — which newer rule replaced it
+              superseded_at: timestamp
+            }
+          ]
 
       Every subsequent chunk prompt opens with: "Apply these corrections
       from this session: [active_rules]."
@@ -357,10 +390,53 @@ The Integration page is a collaborative workstation with two panels.
       in next session as starting correction context if Sage wants
       continuity.
 
-      **Prompt versioning:** parallel to SNM (Tier 3). Parsing partner
-      prompt carries a version string. Every parse object records which
-      prompt version produced it. Corrections that inspired a prompt
-      revision are the changelog.
+      **Prompt versioning + changelog triggers:**
+
+      Parallel to SNM (Tier 3). Parsing partner prompt carries a version
+      string. Every parse object records which prompt version produced it.
+
+      Three defined trigger types for a version bump:
+
+      (a) **Sage-directed:** Sage explicitly flags a correction as "update
+          the prompt, not just this session." Always triggers a bump.
+      (b) **Calibration-triggered:** correction rate on a confidence tier
+          exceeds threshold (see calibration tracking below) → surfaces a
+          prompt revision recommendation to Sage, she confirms. Not
+          automatic — recommendation only.
+      (c) **Manual:** bump from the prompt management view at any time.
+
+      All three create a changelog entry. The correction or observation
+      that inspired the bump is the changelog body. Version history is
+      traceable to its cause.
+
+      These trigger types apply to all versioned prompts in the system
+      (parsing partner here, SNM in Tier 3). Defined once, applied
+      consistently. See Tier 3 SNM section for application.
+
+      **Confidence calibration tracking:**
+
+      Parse object returns confidence: high | medium | low. Without
+      tracking, whether AI confidence is calibrated against Sage's actual
+      corrections is invisible — if the AI consistently returns high
+      confidence on deposits Sage consistently corrects, that signal is
+      broken and nobody knows.
+
+      Track correction rate per confidence tier:
+
+        calibration_view:
+          tier: high | medium | low
+          total_deposits: integer
+          correction_count: integer
+          correction_rate: float
+          fields_corrected: { tag: int, type: int, routing: int,
+                              content: int }
+
+      Surfaces in a calibration view alongside type → doc_type mapping
+      calibration. Persistent miscalibration at a tier (e.g., high
+      confidence deposits corrected >30% of the time) is a changelog
+      trigger for the parsing prompt — ties directly to prompt version
+      trigger type (b) above. Threshold for triggering the recommendation
+      is a calibration item.
 
       **Sage-facing surfaces:**
       · suggested_deposits → entire review card built from this
@@ -372,6 +448,12 @@ The Integration page is a collaborative workstation with two panels.
       · active_rules → visible as live correction log panel during
         batch session (Sage can see what rules are accumulating —
         corrections are not a black box)
+      · distillation confirm → one-tap confirm/edit shown after each
+        correction, before rule enters active_rules
+      · contradiction flag → side-by-side display when incoming rule
+        conflicts with existing one
+      · calibration view → correction rates per confidence tier,
+        alongside type mapping calibration
       · correction_hooks, provisional_id, parse_version → internal only,
         never displayed
 
@@ -523,6 +605,21 @@ designed in Composite ID schema.
       a chunk group — Sage sees the AI's concerns before reviewing content.
       chunk_summary displays as the group header.
 
+      **Cross-chunk context sidebar:**
+
+      When Sage reviews chunk 4 she sees it in isolation. If chunk 4
+      references something established in chunk 1, there's no way to see
+      that without leaving the queue — leading to decontextualized review
+      decisions.
+
+      Solution: lightweight session thread sidebar in the review queue.
+      · Prior chunks' summaries (from chunk_summary field) listed in order
+      · Approved deposits from the same session, collapsible per chunk
+      · Collapsible — not always open, not a full workspace
+      · Just enough context to anchor each chunk review in session history
+      · Sidebar updates as Sage progresses through chunks — approved
+        deposits from chunk N are visible when reviewing chunk N+1
+
       **doc_type mapping on card:** AI's suggested_type badge shows at top.
       Below it, the doc_type dropdown is pre-populated from the mapping
       table (see INT Parsing Partner section). Sage confirms or changes
@@ -546,6 +643,15 @@ designed in Composite ID schema.
       INT. Sage can re-queue individually or batch re-queue all skipped
       from a session. Re-queuing returns to review state — does not
       re-parse.
+
+      **Staleness signal:** skipped deposits don't expire (correct — no
+      forced decisions). But a skip from 8 months ago may no longer be
+      relevant without being wrong. After a configurable window (default:
+      90 days), a staleness indicator appears on the skip. Sage sees the
+      deposit is old and can re-queue, decline, or let it sit. Staleness
+      is informational, not an expiry. No automatic action taken.
+
+        SKIP_STALENESS_WINDOW_DAYS = 90    — named constant, configurable
 
       **Decline behavior:**
 
@@ -814,9 +920,33 @@ become deposits. `archived` status for Pearls Sage explicitly dismisses.
       search will miss it until manually re-queued. Not a data loss
       condition.
 
+      **Embedding invalidation on edit (load-bearing):**
+
+      Embedding is built from content + tags + doc_type + pages. If Sage
+      edits any of those fields after creation, the embedding is stale
+      immediately. Without handling, vector search returns results based
+      on the old content/tags — silently degraded accuracy.
+
+        embedding_dirty: boolean        — set true on any post-creation edit
+                                          to content, tags, doc_type, or pages
+
+      When embedding_dirty is set:
+      · Deposit remains usable — all non-vector functionality unaffected
+      · Automatic re-queue triggered: embedding_status → retry_queued
+      · Same retry strategy as initial embedding (3 attempts)
+      · Vector search accuracy degrades until re-indexing completes
+      · embedding_dirty cleared when new embedding completes successfully
+
+      This applies during batch review (Sage edits before approve) AND
+      post-deposit edits (if the system supports editing after creation).
+      During batch review, the final approved state is what gets embedded
+      — edits before approve don't trigger re-queue, only the approve
+      action triggers the initial embed with the final field values.
+
       **Storage:** vector stored with deposit_id as primary key reference.
-      Deposit record holds embedding_id and embedding_status. They are
-      linked, not co-located — the deposit record is not the vector store.
+      Deposit record holds embedding_id, embedding_status, and
+      embedding_dirty. They are linked, not co-located — the deposit
+      record is not the vector store.
 
       **Sage-facing surfaces:**
       · embedding_status → plain language on deposit record:
@@ -903,6 +1033,34 @@ All open questions from the original plan have been answered in session 15:
 - ~~No human readability rule for UI-facing fields~~ → RESOLVED. Cross-
   cutting rule: every UI-surfacing field gets plain language translation.
   See Human Readability Rule section.
+
+**Enhancements (session 18 — cross-tier):**
+- Enhancement 01: correction rule contradiction detection → RESOLVED.
+  Conflict check before rule enters active_rules, Sage resolves. See INT
+  Parsing Partner correction propagation. (Load-bearing.)
+- Enhancement 02: confidence calibration feedback loop → RESOLVED.
+  Correction rate tracked per confidence tier, surfaces in calibration
+  view, triggers prompt revision recommendation. See INT Parsing Partner.
+- Enhancement 03: embedding invalidation on edit → RESOLVED. embedding_dirty
+  flag on post-creation edits, auto re-queue. See Embedding Pipeline.
+  (Load-bearing.)
+- Enhancement 04: cross-chunk context in review queue → RESOLVED.
+  Session thread sidebar with prior chunk summaries and approved deposits.
+  See Review Queue Interaction Spec.
+- Enhancement 05: distillation confirm step → RESOLVED. AI distills
+  candidate rule, Sage confirms/edits before it enters active_rules.
+  See INT Parsing Partner correction propagation. (Load-bearing.)
+- Enhancement 06: Type E attrition_reason → RESOLVED. field_silence vs
+  researcher_deprioritised distinction. Deprioritized hypotheses
+  reactivatable. See Tier 4 Void engine Type E.
+- Enhancement 07: skip queue staleness signal → RESOLVED. Informational
+  staleness indicator after 90-day window. See Review Queue skip state.
+- Enhancement 08: MTM circular provenance risk → RESOLVED. Same
+  provenance filter as Void applied to MTM. mtm_provenance hypotheses
+  flagged as downstream in payload. See Tier 4 MTM section. (Load-bearing.)
+- Enhancement 09: prompt version changelog triggers → RESOLVED. Three
+  trigger types (Sage-directed, calibration-triggered, manual) defined
+  once, applied to parsing partner (Tier 1) and SNM (Tier 3).
 
 ---
 
@@ -1631,6 +1789,14 @@ deposit record (Tier 1) and page surfaces (Tier 2) existing first.
         Distinguishes "held up under sharper questioning" from "only
         appears under broad prompting."
 
+        **Changelog triggers:** same three trigger types defined in Tier 1
+        (INT Parsing Partner) apply here: (a) Sage-directed bump,
+        (b) calibration-triggered recommendation, (c) manual bump. For
+        SNM, trigger (b) fires when Claude's structural analysis produces
+        correspondences that Sage consistently overrides or dismisses —
+        signal that the prompt's framing needs revision. All bumps create
+        a changelog entry traceable to the correction that inspired it.
+
         snm_claude_snapshot:
           snapshot_id
           deposit_id (or batch_id for batched)
@@ -2086,6 +2252,33 @@ the detection layer to exist before they can receive and store outputs.
          Write valid Findings. Write typed counts + findings_dropped.
       8. Write status → complete. Return result object to DNR.
 
+      **MTM provenance filter (load-bearing — parallel to Void
+      circularity fix):**
+
+      The Void circularity was caught and fixed: void-provenance
+      hypotheses flagged as downstream in Void's Claude tool payload.
+      The parallel risk in MTM exists:
+
+      MTM generates finding → finding enters PCV as hypothesis
+      (mtm_provenance = true) → PCV topology updated → if MTM's
+      synthesis payload ever includes PCV state (for context,
+      deduplication, or hypothesis awareness), MTM reads its own prior
+      output as if it were independent evidence → confirmation loop.
+
+      **Fix:** apply the same provenance filter. Any PCV data included
+      in MTM's synthesis payload must flag mtm_provenance hypotheses
+      as downstream outputs, not independent sources. Prompt instructs
+      accordingly:
+
+      "Hypotheses in PCV marked mtm_provenance originated from this
+      system's prior synthesis passes. They are downstream outputs.
+      Do not treat them as independent corroboration of the patterns
+      that generated them."
+
+      This filter applies whether MTM reads PCV in V1 or in a later
+      version. The constraint is specified now so the loop cannot be
+      introduced accidentally when MTM's input scope expands.
+
 **Nexus engine visualizations:**
 
 - [x] DESIGNED (session 17). All three Nexus engines. LayerCake + D3 per
@@ -2283,6 +2476,26 @@ the detection layer to exist before they can receive and store outputs.
          vs "why did the field stop producing?"
          Void detects from PCV hypothesis activity monitoring.
          Enters Void's absence record. Does NOT re-enter PCV.
+
+         **Attrition reason (load-bearing distinction):**
+         A dying hypothesis could be wrongly classified as field-level
+         absence if Sage deprioritized it rather than exhausted it.
+         "Gone quiet because the field stopped producing" and "gone
+         quiet because I stopped looking" are analytically opposite.
+
+           attrition_reason: field_silence | researcher_deprioritised
+
+         field_silence: the field stopped producing evidence for this
+           hypothesis. Research-level absence signal.
+         researcher_deprioritised: Sage chose to focus elsewhere.
+           Meta-level absence — about the researcher's attention
+           allocation, not the field's output.
+
+         Deprioritized hypotheses remain reactivatable without
+         re-entering the full PCV creation flow. Reactivation restores
+         hypothesis to active status in PCV with its full prior history
+         intact. Keeps field-level and meta-level absence cleanly
+         separated in the data model.
       ```
 
       **PCV entry rules for void-provenance hypotheses:**
