@@ -226,8 +226,8 @@ def scan_phantom_refs(files):
     # Do NOT use IGNORECASE — we only want uppercase file names
     file_patterns = [
         re.compile(r'\bSYSTEM_\s+[A-Z][A-Za-z\' ]+\.md'),
-        re.compile(r'\b[A-Z][A-Z ]+SCHEMA\.md'),
-        re.compile(r'\b[A-Z][A-Z]+ [A-Z][A-Z ]+\.md'),
+        re.compile(r'\b[A-Z][A-Z]{2,}[A-Z ]+SCHEMA\.md'),
+        re.compile(r'\b[A-Z][A-Z]{3,} [A-Z][A-Z ]+\.md'),
     ]
 
     # Build index of existing .md files
@@ -578,7 +578,7 @@ def scan_count_consistency(files):
         (r'(\d+)\s+sections', "sections", 50),
         (r'(\d+)\s+groups', "groups", 9),
         (r'(\d+)\s+seeds', "seeds", 40),
-        (r'(\d+)\s+tags', "tags", 320),
+        (r'(\d+)\s+tags\b(?!\s*,\s*and|\s*per)', "tags", 320),
         (r'(\d+)\s+thresholds', "thresholds", 12),
         (r'(\d+)\s+nodes', "nodes", 62),
         (r'(\d+)\s+layers', "layers", 4),
