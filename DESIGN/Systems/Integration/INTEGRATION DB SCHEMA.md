@@ -1218,6 +1218,177 @@ is traceable to the correction or observation that caused each bump.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: instances
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Phase period lookup registry. An instance = a phase state with a
+month/year range. The canonical Composite ID stamp encodes
+[PHASE-CODE] · [YYYY-MM] — the instance is implicit in every stamp.
+This table makes that implicit grouping explicit and queryable.
+
+Sage creates instances manually. Instances are research-level
+decisions about phase boundaries — the system cannot determine
+when a phase period begins or ends without Sage's judgment.
+
+  instance_id          — text, primary key
+                         Derived from phase + date range.
+                         Human-readable identifier.
+
+  label                — text, NOT NULL
+                         Human-readable name for this instance.
+
+  phase_state          — text, NOT NULL
+                         Which of the 12 canonical threshold names
+                         this instance spans. See TAG VOCABULARY.md.
+
+  date_range_from      — text (YYYY-MM), NOT NULL
+                         Start of this phase period.
+
+  date_range_to        — text (YYYY-MM), nullable
+                         End of this phase period. Null = open
+                         instance (current, no end date yet).
+
+  nonlinear            — boolean, NOT NULL, default true
+                         Ordering within instance is phase-logical,
+                         not chronological. Always true — instances
+                         are nonlinear by nature.
+
+  active               — boolean, NOT NULL, default false
+                         One instance is active at any time. New
+                         deposits on INT auto-populate
+                         instance_context from the active instance.
+                         Sage can override per-deposit during review
+                         (nonlinear data may belong to a prior
+                         instance).
+                         Enforced at application layer — not a DB
+                         unique constraint (allows safe transition).
+
+  created_at           — timestamp, NOT NULL
+
+  INSTANCE TRANSITIONS:
+    Sage closes the current instance (sets date_range_to) and
+    opens a new one. Closing an instance does not retroactively
+    change deposits already assigned to it. The transition is
+    prospective — it changes what future deposits default to.
+
+  STARTUP REQUIREMENT:
+    V1 launches with at least one instance pre-created by Sage
+    before first deposit. INT gateway validates instance_context
+    is non-null at deposit creation (Step 1 validation in
+    atomicity boundary).
+
+  WHAT IS NOT AUTO-GENERATED:
+    Instances are not created by phase_state changes on deposits.
+    A deposit with a new phase_state landing in an existing
+    instance is normal — instances span phase transitions, they
+    don't map 1:1.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: annotations
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Researcher marginalia on any analytical surface. Distinct from
+deposits (don't enter the pipeline) and from Pearls (not captures
+or reflections — notes on existing content). Time-stamped
+commentary linked to the annotated object.
+
+  annotation_id        — text, primary key
+
+  annotated_type       — text, NOT NULL
+                         enum: 'deposit' | 'finding' | 'hypothesis'
+                               | 'void_output' | 'engine_snapshot'
+                         Polymorphic discriminator — identifies which
+                         table annotated_id references.
+
+  annotated_id         — text, NOT NULL
+                         ID of the annotated object. Resolved at
+                         query time using annotated_type. No foreign
+                         key constraint — polymorphic reference.
+
+  content              — text, NOT NULL
+                         Free text. The annotation body.
+
+  page_context         — text, nullable
+                         Which page Sage was on when annotating.
+                         Informational — does not constrain display.
+
+  created_at           — timestamp, NOT NULL
+
+  Annotations are visible only in expanded view of the annotated
+  object. Exportable per page as a research commentary layer.
+  Zero changes to existing schemas — annotations reference objects,
+  objects do not reference annotations.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: aos_records
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Automated Observation Signal records. The mechanism by which the
+system reaches Sage externally when significant patterns are
+detected. Persistent — never deleted. Every AOS event is a
+permanent record in the system.
+
+Write authority: dedicated AOS service. Triggering systems
+(Emergence, MTM, SGR, DTX, PCV, Void, Sage manual) call the AOS
+service — they do not write AOS records directly. One write path,
+one place for integrity hash enforcement and delivery rules.
+
+  aos_id               — text, primary key
+
+  signal_type          — text, NOT NULL
+                         Classification of the signal event.
+
+  system               — text, NOT NULL
+                         Which system triggered the AOS.
+                         enum: 'emergence' | 'mtm' | 'sgr' | 'dtx'
+                               | 'pcv' | 'void' | 'sage'
+
+  event                — text, NOT NULL
+                         Specific event description.
+
+  summary              — text, NOT NULL
+                         AI-composed summary of the signal event.
+
+  evidence_list        — jsonb, NOT NULL
+                         Structured list of evidence references:
+                         deposit_ids, finding_ids, hypothesis_ids
+                         that support this signal.
+
+  sage_note            — text, nullable
+                         Free-text note from Sage. Only populated
+                         on Sage-triggered AOS. The only place
+                         Sage's voice enters an AOS directly.
+
+  integrity_hash       — text, NOT NULL
+                         Derived from reference_ids + engine state
+                         + timestamp. Written to AOS record and
+                         email footer. The email's content can be
+                         verified against the system state at the
+                         time it was sent.
+
+  trigger_mode         — text, NOT NULL
+                         enum: 'engine' | 'sage'
+                         engine: automatic trigger from system.
+                         sage: manual trigger from analytical surface.
+
+  delivery_type        — text, NOT NULL
+                         enum: 'immediate' | 'digest'
+                         immediate: high-signal events (Void type D,
+                         SGR tier 1, MTM paradigm_shift).
+                         digest: lower-signal events (engine stale,
+                         embedding failures, correction rate alerts).
+                         Configurable per trigger type.
+
+  delivered_at         — timestamp, nullable
+                         When the AOS was delivered (email sent).
+                         Null if pending delivery or delivery failed.
+
+  created_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CHUNK QUEUE DERIVATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -1237,7 +1408,8 @@ FILES
 backend/models/
   SQLAlchemy models for all PostgreSQL tables defined in this
   schema: root_entries, file_assets, manifest_sessions,
-  deposits, archives, prompt_versions, system_counters.
+  deposits, archives, prompt_versions, instances,
+  annotations, aos_records, system_counters.
   Status: PLANNED
 
 backend/services/

@@ -205,7 +205,36 @@ TABLE: pearls
                        References the deposit ID created when
                        this Pearl was promoted. Null until
                        promotion. Links pre-archive Pearl to its
-                       post-promotion archive entry.
+                       post-promotion deposit record.
+
+  pearl_type           — text, not null, default 'capture'
+                         enum: 'capture' | 'reflective'
+                         capture:    standard quick-capture Pearl.
+                                     Tags, doc_type, routing
+                                     available at capture time.
+                         reflective: free-form phenomenological
+                                     data. No tags, no doc_type,
+                                     no routing, no length
+                                     constraint. Felt, unresolved,
+                                     non-analytical thought. Exists
+                                     first for Sage; swarm reads
+                                     as context alongside Nexus
+                                     outputs.
+
+  swarm_visible        — integer (0 | 1), not null
+                         Default: 1 for reflective, 1 for capture.
+                         Reflective Pearls have a per-Pearl opt-out
+                         toggle — Sage can mark individual
+                         reflective Pearls as swarm-private (0).
+                         Capture Pearls are always swarm-visible (1).
+                         Phase 2 relevance: Origins read
+                         swarm-visible Pearls as context.
+
+  promoted_via         — text, nullable
+                         enum: 'panel' | 'dashboard' | null
+                         Where promotion was triggered. Null until
+                         promotion. Panel = Black Pearl slide-in
+                         panel. Dashboard = Pearl list on dashboard.
 
   Pearls are PRE-ARCHIVE. They do not live in PostgreSQL until
   promoted. This preserves the key invariant: "nothing enters

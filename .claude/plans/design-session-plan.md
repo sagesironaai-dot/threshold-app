@@ -1200,8 +1200,12 @@ deposit fields assigned → enters PostgreSQL as archive entry.
 ## BUILD TIER 2 — BLACK PEARL UI + PAGE SURFACES + VOID
 
 **Depends on:** Tier 1 (deposit record shape, INT engine)
-**Status:** DESIGNED (session 15). All open questions resolved. Ready for
-schema writing.
+**Status:** PART 1 COMPLETE (session 26). Void page (Domain + Manifest +
+SECTION MAP entry), Pearl extensions (pearl_type, swarm_visible, promoted_via),
+instances table, annotations table, aos_records table — all written.
+PART 2 PENDING: Frontend system doc (SYSTEM_ Frontend.md) — page type system,
+shell/navigation, deposit card, layout anatomy, sub-rhythms. Requires
+infrastructure verification before starting.
 
 **What gets built:** The 51 page surfaces that receive deposits from INT.
 Black Pearl UI (accessible from any page + dashboard). Page identity
@@ -1406,7 +1410,7 @@ chosen at frontend build time — not in this design session.
 
       **Expand on click:**
       · Full content text
-      · All metadata: doc_type, source_format, observation_type,
+      · All metadata: doc_type, source_format, observation_presence,
         confidence, deposit_weight, notes, source_type
       · Provenance chain: which session, which batch (if applicable),
         INT origin stamp
@@ -5470,7 +5474,9 @@ Items that don't belong to a single tier or can be done at any point.
       are written for that tier's systems:
       · Tier 1: COMPLETE (session 26) — deposits table, observation_presence,
         deposit_weight, correction_context, prompt_versions, INT manifest rewrite
-      · Tier 2: Void page manifest + schema slot
+      · Tier 2: PART 1 COMPLETE (session 26) — Void page (Domain + Manifest +
+        SECTION MAP), Pearl extensions, instances, annotations, aos_records.
+        PART 2 PENDING: Frontend system doc
       · Tier 3: 5 Axis engine schemas (THR, STR, INF, ECR, SNM)
       · Tier 4: WSC schema, LNV schema, Void engine schema
       · Tier 5: ARTIS schema (5 tables, 12 endpoints), cosmology_findings,

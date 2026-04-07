@@ -1,0 +1,95 @@
+PAGE 51 · void · VOI · Group 9 · Nexus
+
+
+VISION
+  The negative space of the research, made visible. Every
+  archive section records what appears. This page records
+  what doesn't — expected patterns that failed to manifest,
+  signals that went silent, hypotheses that the field did
+  not confirm. Without Void, the archive is structurally
+  biased toward confirmation. With it, absence has the same
+  evidential standing as presence.
+
+  Void is not a failure log. Null observations are data.
+  A cluster of absences around a specific tag set or time
+  window is a research finding in its own right — one that
+  only becomes visible when absence is aggregated and
+  structured.
+
+
+RESEARCHER TASK
+  Observe absence · Detect patterns · Navigate null space
+
+
+OBJECTIVE
+  Aggregate null observations (observation_presence: null)
+  from across the entire archive and surface them as
+  structured, queryable data. Show where expected patterns
+  did not appear, where signals went quiet, and where the
+  negative space of the research has its own shape.
+
+  Void reads null observations from all pages — it does not
+  own them and does not receive deposits directly. Deposits
+  with observation_presence: positive do not appear here.
+  The input is the set of all deposits where the researcher
+  recorded "I looked and it wasn't there."
+
+  The Void engine (Tier 4) will compute detection types,
+  classify absence patterns, and surface on-demand reads.
+  Until the engine is built, this page exists as the
+  structural surface where null observations are visible
+  as a collection. The page precedes the engine.
+
+  Distinction from dashboard coverage gap view:
+    Dashboard says "where haven't you looked?"
+    Void says "where you looked and found nothing."
+  Coverage gaps are about attention distribution.
+  Void is about observational absence.
+  Both are signal. They are not the same signal.
+
+
+AI ROLE
+  Aggregate null observations across the archive. Detect
+  temporal and thematic clustering in absence data. Surface
+  patterns where expected signals consistently fail to
+  appear. Do not interpret absence as conclusion — a
+  cluster of null observations is a structural observation,
+  not a finding. Detection and display only.
+
+  Engine-level analysis (detection types A-E, classification,
+  on-demand reads, Sage-triggerable AOS entry points) is
+  defined in Tier 4. AI role at this tier is aggregation
+  and pattern surfacing only.
+
+
+AI FUNCTIONS
+  Aggregate null observations · Detect absence clusters ·
+  Surface temporal patterns · Filter by tag set · Filter
+  by time window
+
+
+GOOD OUTPUT
+  Null observations aggregated cleanly across the archive
+  with full provenance intact. Absence clusters detected
+  where they exist, with named tag sets and time windows.
+  Temporal patterns in absence visible — when signals go
+  quiet, when they return. No interpretation beyond what
+  the data shows. No conflation with coverage gaps.
+
+
+BAD OUTPUT
+  Treats absence as failure rather than data. Interprets
+  null clusters as conclusions before engine analysis.
+  Conflates "haven't looked" (coverage gap) with "looked
+  and found nothing" (observational absence). Loses
+  provenance on null observations. Filters out null
+  observations from deposits that also carry positive
+  observations on other dimensions.
+
+
+CONNECTS TO
+  DEFERRED — populated during dedicated seed affinity and
+  CONNECTS TO pass when all schemas and manifests are
+  complete and seed vocabulary is locked.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

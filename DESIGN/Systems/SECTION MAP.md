@@ -5,10 +5,10 @@ Section and code lookup tables for SOT and backend configuration (backend/models
 Source: individual page manifests (DESIGN/Domains/) + COMPOSITE ID SCHEMA.md
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-PAGE_CODES — 50 sections
+PAGE_CODES — 51 sections
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-50 sections · 9 groups · 1 standalone
+51 sections · 9 groups · 1 standalone
 Source: individual page manifests (DESIGN/Domains/)
 
 | page | section_id          | page_code | name                 | group | category     |
@@ -63,6 +63,7 @@ Source: individual page manifests (DESIGN/Domains/)
 | 48   | drift_taxonomy      | DTX       | Drift Taxonomy       | 9     | Nexus        |
 | 49   | signal_grading      | SGR       | Signal Grading       | 9     | Nexus        |
 | 50   | pattern_convergence | PCV       | Pattern Convergence  | 9     | Nexus        |
+| 51   | void                | VOI       | Void                 | 9     | Nexus        |
 
 AX is the Axis root marker used in source mode stamps. It is not a section code.
 
@@ -90,7 +91,7 @@ PHASE_CODES = lifecycle position of the entry. Separate systems. Never conflate.
 | NUL  | No Phase        | No lifecycle phase applies                          |
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SEED AFFINITIES — 50 sections
+SEED AFFINITIES — 51 sections
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Per-section signal seed affinities for the tagger system. Up to 3 signal

@@ -7507,3 +7507,158 @@ TIMESTAMP: 2026-04-07 10:16
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
 ---
+
+---
+TIMESTAMP: 2026-04-07 10:33
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\plans\wobbly-weaving-newt.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:34
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\SECTION MAP.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:34
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\SECTION MAP.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:35
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\SECTION MAP.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:35
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "SECTION MAP"
+---
+
+---
+TIMESTAMP: 2026-04-07 10:35
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Domains\10_Nexus\Domain_Void.txt
+---
+
+---
+TIMESTAMP: 2026-04-07 10:36
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Domains\10_Nexus\Manifest_51_Void.txt
+---
+
+---
+TIMESTAMP: 2026-04-07 10:36
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Domain_Void\|Manifest_51"
+---
+
+---
+TIMESTAMP: 2026-04-07 10:36
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Operational_DB\OPERATIONAL DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:36
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "OPERATIONAL DB SCHEMA"
+---
+
+---
+TIMESTAMP: 2026-04-07 10:37
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:37
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:37
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "instances\|annotations\|aos_records" | head -20
+---
+
+---
+TIMESTAMP: 2026-04-07 10:38
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:38
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:38
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:38
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "SYSTEM_ Integration DB"
+---
+
+---
+TIMESTAMP: 2026-04-07 10:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:42
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:42
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:43
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\SECTION MAP.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:43
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\CLAUDE.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:45
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DESIGN/Systems/SECTION MAP.md — COMPLETE (VOI entry added page 51, counts updated 50→51)
+  - DESIGN/Domains/10_Nexus/Domain_Void.txt — COMPLETE (NEW — Void domain file, seeds DEFERRED)
+  - DESIGN/Domains/10_Nexus/Manifest_51_Void.txt — COMPLETE (NEW — Void manifest, Engine page type)
+  - DESIGN/Systems/Operational_DB/OPERATIONAL DB SCHEMA.md — COMPLETE (Pearl extensions: pearl_type, swarm_visible, promoted_via)
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — COMPLETE (3 new tables: instances, annotations, aos_records)
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md — COMPLETE (inventory + write authority updated)
+  - .claude/plans/design-session-plan.md — COMPLETE (observation_presence fix, Tier 2 Part 1 status)
+  - CLAUDE.md — COMPLETE (50→51 pages)
+COMPLETED:
+  - Tier 2 Part 1: Void page + database schemas + file mapping — all 8 passes
+  - All entropy scans: 0 new findings. All passes: AUDIT PASS
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Tier 2 Part 2: Frontend system doc (separate session with infrastructure verification)
+UNCOMMITTED: YES
+NEXT_ACTION: Commit + push Tier 2 Part 1
+---

@@ -12,7 +12,7 @@
 
 * Database layer (PostgreSQL) — all read and write operations across every table in the archive
 * Schema versioning via Alembic migrations — every table change is a versioned migration
-* Table ownership for: root_entries · file_assets · manifest_sessions · deposits · archives · prompt_versions · system_counters · routine_sessions · synthesis_sessions · findings · drift_events · patterns · emergence_findings · embeddings
+* Table ownership for: root_entries · file_assets · manifest_sessions · deposits · archives · prompt_versions · instances · annotations · aos_records · system_counters · routine_sessions · synthesis_sessions · findings · drift_events · patterns · emergence_findings · embeddings
 * arc_seq counter operations — increment, checkpoint write, checkpoint clear
 * Chunk queue derivation — computing next_chunk, page_start, page_end, queue_done
 * Write path execution for every system — FastAPI service layer executes the write; the owning system owns the decision to write
@@ -67,6 +67,9 @@ Each table lists who decides what is written and what the FastAPI service layer 
 | patterns | PCV | record creation, status transitions |
 | emergence_findings | Emergence | record creation, detection config version write |
 | prompt_versions | INT | version creation on prompt bump (sage_directed, calibration_triggered, manual), active flag toggle |
+| instances | Sage (via curation panel) | instance creation, date_range_to close, active flag toggle |
+| annotations | Sage (via any analytical surface) | annotation creation on any annotated object |
+| aos_records | AOS service | record creation on engine trigger or Sage manual trigger, delivery tracking |
 | embeddings | Embedding pipeline | vector write with metadata after INT retirement (async) |
 
 The service layer never initiates a write based on its own judgment. Every write is triggered by the owning system.
@@ -88,6 +91,12 @@ The service layer never initiates a write based on its own judgment. Every write
 **embeddings** — vector embeddings for archived entries. One per embedded entry (re-embedding on model change creates new record, preserves old). Carries vector(768) from nomic-embed-text, model identifier, and metadata jsonb (tag routing snapshot, section_id, ownership_classification). See EMBEDDING PIPELINE SCHEMA.md for full definition.
 
 **prompt_versions** — version-tracked AI prompts. One record per prompt version per prompt_type (parsing_partner, snm). Stores full prompt text, changelog entry (what changed and why), trigger_type (sage_directed, calibration_triggered, manual), and active flag. Referenced by parse_version on chunk_parse objects. Only one version per prompt_type is active at a time.
+
+**instances** — phase period lookup registry. One per phase period. Sage creates manually via curation panel. One active at a time. Feeds instance_context on deposit records. date_range_to nullable (open instance = current period). Instances are research-level decisions about phase boundaries — not auto-generated from deposit data.
+
+**annotations** — polymorphic researcher marginalia. One per annotation on any analytical object (deposit, finding, hypothesis, void_output, engine_snapshot). Polymorphic reference via annotated_type + annotated_id. Zero changes to existing schemas — annotations reference objects, objects do not reference annotations. Exportable per page as research commentary layer.
+
+**aos_records** — Automated Observation Signal records. One per signal event. Triggered by engines (Emergence, MTM, SGR, DTX, PCV, Void) or by Sage manually. Write authority: dedicated AOS service (not individual triggering systems). Carries integrity_hash for email verification. Persistent — never deleted.
 
 **system_counters** — single-record table. Holds arc_seq (global counter, never decrements) and arc_seq_checkpoint (crash-safe retirement guard, cleared at retirement step 12).
 

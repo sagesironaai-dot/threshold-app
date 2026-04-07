@@ -344,7 +344,7 @@ corruption across core systems. Infrastructure changed from browser app
    Written new from SOT. Every file is V1 from first line written.
 
 5. App running at localhost — NOT STARTED. Blocked on step 4.
-   Svelte app served by Vite. All 50 pages navigable. Deposit → save →
+   Svelte app served by Vite. All 51 pages navigable. Deposit → save →
    embed → retrieve working end-to-end. Research assistant live.
 
 Nothing from steps 3, 4, or 5 has been started. Do not reference or build
