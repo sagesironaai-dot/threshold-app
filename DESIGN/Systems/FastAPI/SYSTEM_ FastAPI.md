@@ -46,6 +46,14 @@
 | `/engines/` | Axis engine endpoints — compute trigger, result read, snapshot read, visualization snapshot capture. Covers all 5 engines (THR, STR, INF, ECR, SNM) | PLANNED |
 | `/engines/snm/` | SNM-specific — Claude snapshot read, prompt management | PLANNED |
 | `/venai/` | Ven'ai service endpoints — drift acknowledgment, name correction, name index read, correlation read | PLANNED |
+| `/mtm/` | MTM synthesis endpoint — POST /mtm/synthesize (called by DNR only). Two-pass synthesis, result object return | PLANNED |
+| `/pcv/` | PCV pattern endpoints — pattern creation, archive, query. Hypothesis_id assignment | PLANNED |
+| `/dtx/` | DTX drift event endpoints — event creation, trajectory update, Bayesian update, outcome validation, vector history | PLANNED |
+| `/sgr/` | SGR signal grading endpoints — grade creation, scoring, revision, Bayesian return, dashboard/latency queries | PLANNED |
+| `/dnr/` | DNR session-close pipeline endpoints — close-session, retry, session query, init | PLANNED |
+| `/api/lnv/` | LNV universal receive + read contracts — POST /api/lnv/receive, GET /api/lnv/entries | PLANNED |
+| `/void/` | Void engine endpoints — compute (data layer), analyze (analytical layer), reactivate (Type E), absence record + output queries | PLANNED |
+| `/api/wsc/` | WSC witness scroll endpoints — write, recent (3-entry load), entries query, single entry read | PLANNED |
 | `/swarm/` | RESERVED — phase 2 (turn management, presence, autonomous initiation, parallax logging) | RESERVED |
 
 All routes are versioned by namespace, not by URL prefix. No `/v1/` prefix. If the API contract changes, the change is a migration — not a new version namespace.
@@ -131,6 +139,14 @@ Guard: vector and metadata are written in a single INSERT within one transaction
 | backend/.env | Local credentials — DATABASE_URL, SQLITE_PATH, OLLAMA_BASE_URL, REDIS_URL, ANTHROPIC_API_KEY (gitignored) | LIVE |
 | backend/models/ | SQLAlchemy models for PostgreSQL and SQLite tables | PLANNED |
 | backend/routes/ | Route modules — entries, tags, threads, search, tagger, assistant, embed, engines, venai | PLANNED |
+| backend/routes/mtm.py | MTM synthesis endpoint — POST /mtm/synthesize | PLANNED |
+| backend/routes/convergence.py | PCV pattern endpoints — POST/PATCH/GET patterns | PLANNED |
+| backend/routes/drift.py | DTX drift event endpoints — POST/PATCH/GET events, vector history | PLANNED |
+| backend/routes/grading.py | SGR grading endpoints — POST/PATCH/GET grades, dashboard, latency | PLANNED |
+| backend/routes/dnr.py | DNR session-close endpoints — close-session, retry, sessions, init | PLANNED |
+| backend/routes/lnv.py | LNV endpoints — POST /api/lnv/receive, GET /api/lnv/entries | PLANNED |
+| backend/routes/void.py | Void engine endpoints — compute, analyze, reactivate, queries | PLANNED |
+| backend/routes/wsc.py | WSC endpoints — write, recent, entries, single entry | PLANNED |
 | backend/routes/swarm/ | Reserved namespace — phase 2 | RESERVED |
 | backend/services/engine_base.py | Shared engine computation — baseline math, weight application, null handling, signal classification, snapshot write, stale flag check | PLANNED |
 | backend/services/engine_thr.py | THR engine — co-occurrence, presence, sequence | PLANNED |
@@ -139,6 +155,14 @@ Guard: vector and metadata are written in a single INSERT within one transaction
 | backend/services/engine_str.py | STR engine — root clusters, Ven'ai service integration | PLANNED |
 | backend/services/engine_snm.py | SNM engine — two-stream, Claude API structural analysis | PLANNED |
 | backend/services/venai.py | Ven'ai service — name registry, drift detection, correlation tracking | PLANNED |
+| backend/services/mtm.py | MTM synthesis — engine output reading, two-pass Claude API, Selection Function, Finding production, fingerprinting, dedup | PLANNED |
+| backend/services/convergence.py | PCV service — pattern creation, hypothesis_id assignment, provenance validation, status transitions | PLANNED |
+| backend/services/drift.py | DTX service — drift event creation, classification, trajectory updates, Bayesian receipt, outcome validation, vector history | PLANNED |
+| backend/services/grading.py | SGR service — grade creation, score vector, tier derivation, Bayesian return, dashboard/latency queries | PLANNED |
+| backend/services/dnr.py | DNR service — session-close pipeline, in_progress guard, MTM trigger, LNV routing, Void pulse check, retry logic | PLANNED |
+| backend/services/lnv.py | LNV service — receive validation, content shape checking, entry writes, read queries | PLANNED |
+| backend/services/void.py | Void service — absence detection, five-type classification, Claude tool (3 modes), PCV routing, Type E, reactivation | PLANNED |
+| backend/services/wsc.py | WSC service — payload assembly, Claude API call, entry creation, gap detection, corrections, 3-entry load, LNV routing | PLANNED |
 | backend/services/claude.py | Claude API client wrapper — agent identity registry (8 agents), shared model constant, call_claude() with metadata tracking | LIVE |
 | backend/services/embedding.py | Ollama embedding integration | PLANNED |
 | backend/services/rag.py | Retrieval-augmented generation pipeline | PLANNED |

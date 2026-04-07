@@ -1647,6 +1647,149 @@ Updated when new domains or layer mappings are added.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: lnv_entries
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Consolidated output gallery. Single table, type-discriminated.
+Full spec in LNV SCHEMA.md.
+
+Write authority: LNV service via POST /api/lnv/receive.
+
+  lnv_entry_id         — serial, primary key
+  entry_type           — text, NOT NULL
+  source_system        — text, NOT NULL
+  source_page          — text, nullable
+  session_ref          — text, nullable
+  prompt_version       — text, nullable
+  content              — jsonb, NOT NULL
+  sage_note            — text, nullable
+  created_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: void_absence_records
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cross-engine absence pattern detection. Five types (A-E).
+Full spec in VOID ENGINE SCHEMA.md.
+
+Write authority: Void engine service (POST /void/compute).
+
+  id                   — serial, primary key
+  absence_type         — text, NOT NULL
+  engines_involved     — text[], nullable
+  pattern_identifiers  — text[], NOT NULL
+  time_window          — jsonb, NOT NULL
+  examination_data     — jsonb, nullable
+  silence_duration_sessions — integer, nullable
+  origin_engine        — text, nullable
+  hypothesis_ref       — text, nullable
+  attrition_reason     — text, nullable
+  pcv_routed           — boolean, NOT NULL, default false
+  pcv_hypothesis_ref   — text, nullable
+  reactivated          — boolean, NOT NULL, default false
+  reactivated_at       — timestamp, nullable
+  detected_at          — timestamp, NOT NULL
+  created_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: void_outputs
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Claude analytical tool outputs. Session-close and on-demand.
+Full spec in VOID ENGINE SCHEMA.md.
+
+Write authority: Void engine service (POST /void/analyze).
+
+  id                   — serial, primary key
+  trigger              — text, NOT NULL
+  scope                — jsonb, nullable
+  output               — jsonb, NOT NULL
+  prompt_version       — text, NOT NULL
+  nexus_state_timestamp — timestamp, NOT NULL
+  engines_read         — text[], NOT NULL
+  lnv_routing_status   — text, NOT NULL, default 'pending'
+  lnv_entry_id         — integer, nullable
+  session_ref          — text, nullable
+  created_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: wsc_entries
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+AI-sovereign witness entries. Immutable after creation. No update
+path. No delete path. Full spec in WSC SCHEMA.md.
+
+Write authority: WSC service (POST /api/wsc/write).
+
+  wsc_entry_id         — serial, primary key
+  session_ref          — text, NOT NULL
+  instance_context     — text, NOT NULL
+  prompt_version       — text, NOT NULL
+  created_at           — timestamp, NOT NULL
+  entry_timestamp      — text, NOT NULL
+  field_state          — jsonb, NOT NULL
+  session_summary      — text, NOT NULL
+  pattern_flags        — jsonb, NOT NULL
+  open_threads         — jsonb, NOT NULL
+  handoff_note         — text, NOT NULL
+  milestone_marker     — jsonb, nullable
+  reconstruction_note  — text, nullable
+  dnr_session_ref      — text, nullable
+  wsc_write_payload    — jsonb, NOT NULL
+  prior_context_acknowledged — jsonb, nullable
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: wsc_corrections
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Forward-reference self-correction records. Full spec in WSC SCHEMA.md.
+
+Write authority: WSC service (at entry creation).
+
+  correction_id        — serial, primary key
+  original_entry_id    — integer, NOT NULL, FK → wsc_entries
+  correcting_entry_id  — integer, NOT NULL, FK → wsc_entries
+  correction           — text, NOT NULL
+  written_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: wsc_gaps
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Session gap detection records. Full spec in WSC SCHEMA.md.
+
+Write authority: WSC service (at entry creation, gap detection step).
+
+  gap_id               — serial, primary key
+  session_ref          — text, NOT NULL
+  sessions_elapsed     — integer, NOT NULL
+  detected_at          — timestamp, NOT NULL
+  gap_note             — text, nullable
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: outcome_vector_history
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DTX Bayesian update history for ternary plot visualization.
+Full spec in DRIFT TAXONOMY SCHEMA.md.
+
+Write authority: DTX service (on every Bayesian update from SGR).
+
+  id                   — serial, primary key
+  drift_event_id       — integer, NOT NULL, FK → drift_events
+  p_resolve            — float, NOT NULL
+  p_collapse           — float, NOT NULL
+  p_stable             — float, NOT NULL
+  updated_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CHUNK QUEUE DERIVATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -1670,7 +1813,10 @@ backend/models/
   annotations, aos_records, system_counters,
   engine_snapshots, visualization_snapshots,
   snm_claude_snapshots, venai_names, venai_variations,
-  venai_correlations, inf_domain_layers, inf_layer_bridge.
+  venai_correlations, inf_domain_layers, inf_layer_bridge,
+  lnv_entries, void_absence_records, void_outputs,
+  wsc_entries, wsc_corrections, wsc_gaps,
+  outcome_vector_history.
   Status: PLANNED
 
 backend/services/

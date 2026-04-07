@@ -8155,3 +8155,79 @@ TIMESTAMP: 2026-04-07 13:12
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Witness_Scroll\SYSTEM_ WSC.md
 ---
+
+---
+TIMESTAMP: 2026-04-07 13:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Daily_Nexus_Routine\DAILY NEXUS ROUTINE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 13:18
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/DAILY NEXUS ROUTINE SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/METAMORPHOSIS SCHEMA.md
+REASON: Calls MTM.runSynthesis(). DNR sequence is strictly ordered — step 1 MTM, step 2 LNV notification. WSC is not part of this routine.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 13:19
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Daily_Nexus_Routine\SYSTEM_ Daily Nexus Routine.md
+---
+
+---
+TIMESTAMP: 2026-04-07 13:22
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && cat -A "DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md" | sed -n '1646,1651p'
+---
+
+---
+TIMESTAMP: 2026-04-07 13:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 13:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 13:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-07 13:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-07 13:24
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\FastAPI\SYSTEM_ FastAPI.md
+---
+
+---
+TIMESTAMP: 2026-04-07 13:24
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\FastAPI\SYSTEM_ FastAPI.md
+---
+
+---
+TIMESTAMP: 2026-04-07 13:24
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\FastAPI\SYSTEM_ FastAPI.md
+---
+
+---
+TIMESTAMP: 2026-04-07 13:25
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---

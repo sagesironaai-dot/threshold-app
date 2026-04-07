@@ -101,6 +101,21 @@ frontend/
 | StrNameIndex | Ven'ai name index — grouped by root family, searchable, sortable |
 | SnmBipartiteGraph | Bipartite force-directed graph — field patterns, traditions, TRIA/PRIA/PARA zones |
 | SnmTemporalCorrespondence | Temporal correspondence view — strength over time, prompt version boundaries |
+| PcvCardBoard | PCV primary surface — filterable/sortable hypothesis cards with provenance badges, expand for full detail |
+| PcvNetworkGraph | PCV secondary view — domains as nodes, hypotheses as weighted edges, isolated nodes visible |
+| DtxDriftTimeline | DTX primary view — swim-lane timeline, color-coded by trajectory_state, grade latency as lane length |
+| DtxTrajectoryBar | DTX stacked bar — p_resolve/p_collapse/p_stable per active event, scannable comparison |
+| DtxTernaryPlot | DTX deep-dive — three-axis probability space, inference trajectory trail per event |
+| SgrScoreRadar | SGR per-signal radar — four axes, polygon profile, tier boundary rings, lowest-qualifying dimension highlighted |
+| SgrTierDashboard | SGR aggregate — header (S/A/B/C counts) + stacked area over time |
+| SgrLatencyDistribution | SGR histogram/density — grade latency in days, optionally split by tier |
+| VoidAbsenceHeatmap | Void primary data view — sessions x engines, absence intensity, Type D spread visible |
+| VoidExpectedVsObserved | Void quantitative backing — per-engine expected vs observed rate comparison |
+| VoidSilenceDuration | Void bar chart/timeline — persistence of absences, feeds Type B/C classification |
+| VoidClaudeOutputPanel | Void interpretive view — session-close default, on-demand history, expandable per-read |
+| LnvGalleryCard | LNV gallery card — type badge, source system, date, content preview, sage note, prompt version |
+| LnvGalleryGrid | LNV responsive grid — 2-3 columns, filterable by type/source/page/date, sortable |
+| WscWriteButton | WSC write trigger — available in session close flow and WSC page directly |
 
 ### Stores (PLANNED)
 

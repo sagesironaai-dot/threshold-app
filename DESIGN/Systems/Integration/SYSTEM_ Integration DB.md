@@ -79,6 +79,13 @@ Each table lists who decides what is written and what the FastAPI service layer 
 | venai_correlations | Ven'ai service | correlation record creation and increment on each correlated deposit |
 | inf_domain_layers | Application config; INF engine writes first_observed | seed data at startup, domain addition by Sage decision |
 | inf_layer_bridge | Application config | seed data at startup, mapping updates when domains or layers change |
+| lnv_entries | LNV service | entry creation via POST /api/lnv/receive, content validation |
+| void_absence_records | Void engine service | absence pattern detection, classification, PCV routing |
+| void_outputs | Void engine service | Claude tool output storage, LNV routing |
+| wsc_entries | WSC service | AI-authored entry creation (immutable, no update path) |
+| wsc_corrections | WSC service | forward-reference correction creation at entry write time |
+| wsc_gaps | WSC service | gap detection and recording at entry write time |
+| outcome_vector_history | DTX service | vector history write on every Bayesian update from SGR |
 
 The service layer never initiates a write based on its own judgment. Every write is triggered by the owning system.
 
@@ -135,6 +142,20 @@ The service layer never initiates a write based on its own judgment. Every write
 **inf_domain_layers** — INF engine scientific domain registry. Open set (5 confirmed V1, extensible). Carries domain_id, display_name, cosmology_page link (nullable), first_observed, active flag. Config table seeded at startup. See INFINITE INTRICACY ENGINE SCHEMA.md.
 
 **inf_layer_bridge** — bridge between TAG VOCABULARY routing layers (l01-l04) and INF domain layers. Many-to-many. Composite primary key (tag_layer_id, inf_domain_id). Config table seeded at startup. See INFINITE INTRICACY ENGINE SCHEMA.md.
+
+**lnv_entries** — consolidated output gallery. Single table, type-discriminated (mtm_finding, engine_snapshot, wsc_entry, void_output). Universal receive contract via POST /api/lnv/receive. Content jsonb validated against declared entry_type. Both display surface (gallery) and data source (PCV reads mtm_finding entries). See LNV SCHEMA.md.
+
+**void_absence_records** — cross-engine absence pattern detection. Five types: A (cross_engine_convergent), B (single_engine_persistent), C (temporal_shift), D (convergent_with_origin), E (hypothesis_attrition). Types A and D route to PCV as hypotheses. Carries examination_data, PCV routing status, Type E reactivation tracking. See VOID ENGINE SCHEMA.md.
+
+**void_outputs** — Claude analytical tool output storage. Three trigger modes: session_close, on_demand_open, on_demand_targeted. Each output stored permanently with prompt version and Nexus state timestamp. Routes to LNV via POST /api/lnv/receive. See VOID ENGINE SCHEMA.md.
+
+**wsc_entries** — AI-sovereign witness entries. Immutable after creation — no update path, no delete path. Carries session summary, pattern flags, open threads, handoff note, and the full wsc_write_payload for reproducibility. Prompt version travels with every entry. See WSC SCHEMA.md.
+
+**wsc_corrections** — forward-reference self-correction records. Written when a subsequent AI instance recognizes a prior entry misread the field. Original entry is byte-for-byte untouched. 3-entry load API joins corrections into the response. See WSC SCHEMA.md.
+
+**wsc_gaps** — session gap detection records. Written automatically when a WSC entry is created and the system detects the prior session has no WSC record. Carries sessions_elapsed count. Included in the 3-entry session open timeline. See WSC SCHEMA.md.
+
+**outcome_vector_history** — DTX Bayesian update history for ternary plot visualization. Written on every Bayesian update from SGR alongside the outcome_vector write on drift_events. Carries the full probability vector (p_resolve, p_collapse, p_stable) at each update point. See DRIFT TAXONOMY SCHEMA.md.
 
 ---
 
