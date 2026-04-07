@@ -7749,3 +7749,72 @@ NOT_STARTED:
 UNCOMMITTED: YES (this CLOSE entry)
 NEXT_ACTION: Next session reads SESSION HANDOFF in design-session-plan.md before starting Tier 3. Tier 3 depends on Tier 2 (page surfaces exist). Process: orient → audit → map → execute one file at a time → entropy scan → cross-map → commit.
 ---
+
+---
+TIMESTAMP: 2026-04-07 11:30
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - Session open checklist complete
+  - Read CLAUDE.md, ENFORCEMENT.md, SESSION_PROTOCOL.md, GITHUB_PROTOCOL.md
+  - Read SESSION HANDOFF in design-session-plan.md
+  - Read full Tier 3 design section (lines 2214-2966)
+  - Verified DESIGN/Systems/ state: 37 files across existing folders, no engine schemas yet
+  - Verified DESIGN/Domains/02_Axis/: all 6 domain files + 6 manifests present
+  - Verified SECTION MAP: 51 pages, page codes confirmed
+  - SOT_BUILD_TODO [x] items spot-checked — all carry SOURCE references
+  - Last SESSION_LOG entry: TYPE: CLOSE 2026-04-07 10:58 — clean close
+IN_PROGRESS:
+  - Tier 3 manifest and schema build — starting with audit and scope map
+NOT_STARTED:
+  - Tier 3 schema files (THR, STR, INF, ECR, SNM engine schemas)
+  - Ven'ai service schema
+  - Computation foundation documentation
+  - Updates to existing files for engine references
+  - Tier 3 manifests for Axis pages 02-06
+UNCOMMITTED: YES
+NEXT_ACTION: Audit existing files Tier 3 touches, then map full scope for Sage's approval before writing anything
+---
+
+---
+TIMESTAMP: 2026-04-07 12:30
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DESIGN/Systems/Engine_Computation/ENGINE COMPUTATION SCHEMA.md — COMPLETE (NEW file: shared engine architecture, baseline math, deposit weight, null observation, signal classification, compute trigger, snapshots, result object, visualization architecture)
+  - DESIGN/Systems/Threshold_Engine/THRESHOLD ENGINE SCHEMA.md — COMPLETE (NEW file: THR engine, 12 thresholds, 66 co-occurrence pairs, presence rates, sequence detection, three visualizations)
+  - DESIGN/Systems/Echo_Recall_Engine/ECHO RECALL ENGINE SCHEMA.md — COMPLETE (NEW file: ECR engine, 19 signals s01-s19, 171 co-occurrence pairs, signal constellation with drift state, four visualizations)
+COMPLETED:
+  - File 1/12: ENGINE COMPUTATION SCHEMA.md — shared foundation, entropy scan clean
+  - File 2/12: THRESHOLD ENGINE SCHEMA.md — THR engine, entropy scan clean. Design decision locked: phase_state merged with threshold tags at index time (Option A confirmed by Sage)
+  - File 3/12: ECHO RECALL ENGINE SCHEMA.md — ECR engine, entropy scan clean. ECR does NOT merge phase_state (signal lens, not threshold lens)
+  - insufficient_data boolean field added to engine result object — not in original design plan, mechanical necessity of baseline formula zero guard. Sage confirmed.
+IN_PROGRESS:
+  - Tier 3 schema build — files 4-12 remaining
+NOT_STARTED:
+  - File 4: INFINITE INTRICACY ENGINE SCHEMA.md
+  - File 5: VEN'AI SERVICE SCHEMA.md
+  - File 6: STARROOT ENGINE SCHEMA.md
+  - File 7: SAT NAM ENGINE SCHEMA.md
+  - Files 8-12: updates to existing files
+UNCOMMITTED: YES
+NEXT_ACTION: Write file 4 (INFINITE INTRICACY ENGINE SCHEMA.md)
+---
+
+---
+TIMESTAMP: 2026-04-07 11:10
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Engine_Computation\ENGINE COMPUTATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 11:16
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Threshold_Engine\THRESHOLD ENGINE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 11:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Echo_Recall_Engine\ECHO RECALL ENGINE SCHEMA.md
+---
