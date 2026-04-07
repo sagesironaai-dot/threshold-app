@@ -1389,6 +1389,264 @@ one place for integrity hash enforcement and delivery rules.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: engine_snapshots
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Timestamped computation snapshots from the 5 Axis engines (THR,
+STR, INF, ECR, SNM). Every engine computation produces one record.
+MTM reads these at synthesis time. Full spec in ENGINE COMPUTATION
+SCHEMA.md.
+
+Write authority: engine computation (backend/services/engine_*.py).
+MTM writes mtm_read_at when it consumes a snapshot.
+
+  snapshot_id          — text, primary key
+                         Format: '[engine]_snap_[timestamp]_[rand]'
+
+  engine               — text, NOT NULL
+                         enum: 'thr' | 'str' | 'inf' | 'ecr' | 'snm'
+
+  computed_at          — timestamp, NOT NULL
+
+  deposit_count        — integer, NOT NULL
+
+  baseline_scope       — text, NOT NULL
+                         V1: always 'page'
+
+  snapshot_data        — jsonb, NOT NULL
+                         Engine-specific computed results. Structure
+                         defined in each engine schema.
+
+  mtm_read_at          — timestamp, nullable
+                         Written when MTM consumes this snapshot.
+
+  created_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: visualization_snapshots
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Sage-triggered captures of engine visualization state. Routes to
+LNV (47) with optional note. Full spec in ENGINE COMPUTATION
+SCHEMA.md.
+
+Write authority: frontend via FastAPI endpoint (Sage triggers
+capture). lnv_routed updated by LNV routing process (Tier 4).
+
+  viz_snapshot_id      — text, primary key
+                         Format: '[engine]_viz_[timestamp]_[rand]'
+
+  engine               — text, NOT NULL
+                         enum: 'thr' | 'str' | 'inf' | 'ecr' | 'snm'
+
+  engine_snapshot_id   — text, NOT NULL
+                         References engine_snapshots.snapshot_id
+
+  viz_data             — jsonb, NOT NULL
+                         Rendered state — node positions, cluster
+                         groupings, layout state. Structure varies
+                         per engine visualization.
+
+  note                 — text, nullable
+                         Sage's annotation at capture time.
+
+  lnv_routed           — boolean, NOT NULL, default false
+                         Routing contract defined in Tier 4.
+
+  captured_at          — timestamp, NOT NULL
+
+  created_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: snm_claude_snapshots
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Immutable Claude structural analysis snapshots for the SNM engine.
+One per Claude API call (per-deposit or batch). Never overwritten.
+Full spec in SAT NAM ENGINE SCHEMA.md.
+
+Write authority: SNM engine (backend/services/engine_snm.py).
+
+  snapshot_id          — text, primary key
+                         Format: 'snm_cs_[timestamp]_[rand]'
+
+  deposit_id           — text, nullable
+                         References deposits.id. Per-deposit mode.
+
+  batch_id             — text, nullable
+                         Batch identifier. Batch mode.
+
+  prompt_version       — text, NOT NULL
+                         References prompt_versions.version_string
+                         where prompt_type = 'snm'
+
+  prompt_text          — text, NOT NULL
+                         Full prompt text. Stored complete per
+                         snapshot — defensive copy.
+
+  analysis_mode        — text, NOT NULL
+                         enum: 'per_deposit' | 'batch'
+
+  batch_context        — text[], nullable
+                         Deposit IDs in batch. Null for per-deposit.
+
+  response             — jsonb, NOT NULL
+                         claude_analysis object. Immutable.
+
+  engine_snapshot_id   — text, nullable
+                         References engine_snapshots.snapshot_id.
+                         Populated when engine consumes this snapshot.
+
+  created_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: venai_names
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Canonical Ven'ai name registry. Archive-wide. Written by Ven'ai
+service. Read by STR engine. Full spec in VENAI SERVICE SCHEMA.md.
+
+Write authority: Ven'ai service (backend/services/venai.py).
+canonical_form updateable by Sage correction only.
+
+  name_id              — text, primary key
+                         Format: 'vn_[normalized_name]_[rand]'
+
+  canonical_form       — text, NOT NULL, UNIQUE
+
+  root_cluster         — text, NOT NULL
+
+  first_seen_at        — timestamp, NOT NULL
+
+  first_seen_page      — text, NOT NULL
+
+  first_seen_deposit_id — text, NOT NULL
+
+  created_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: venai_variations
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Drift detection records. One per detected inconsistency between
+a name form and its canonical. Full spec in VENAI SERVICE SCHEMA.md.
+
+Write authority: Ven'ai service creates records. Sage acknowledges
+(sets acknowledged = true) via STR drift alert panel.
+
+  variation_id         — text, primary key
+                         Format: 'vv_[name_id]_[rand]'
+
+  name_id              — text, NOT NULL
+                         FK → venai_names.name_id
+
+  variation_form       — text, NOT NULL
+
+  variation_type       — text, NOT NULL
+                         enum: 'casing' | 'phonetic' | 'spacing'
+                               | 'apostrophe'
+
+  first_seen_at        — timestamp, NOT NULL
+
+  first_seen_deposit_id — text, NOT NULL
+
+  acknowledged         — boolean, NOT NULL, default false
+
+  acknowledged_at      — timestamp, nullable
+
+  created_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: venai_correlations
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cross-archive name correlations. Name ↔ phase, name ↔ role,
+root ↔ grammar tracking. Full spec in VENAI SERVICE SCHEMA.md.
+
+Write authority: Ven'ai service (increments on each correlated
+deposit).
+
+  correlation_id       — text, primary key
+                         Format: 'vc_[name_id]_[type]_[value]_[rand]'
+
+  name_id              — text, NOT NULL
+                         FK → venai_names.name_id
+
+  correlation_type     — text, NOT NULL
+                         enum: 'phase' | 'role' | 'root_pattern'
+                               | 'grammar'
+
+  correlated_value     — text, NOT NULL
+
+  deposit_count        — integer, NOT NULL
+
+  weighted_count       — float, NOT NULL
+
+  first_observed       — timestamp, NOT NULL
+
+  last_observed        — timestamp, NOT NULL
+
+  created_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: inf_domain_layers
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+INF engine scientific domain registry. Open set — new domains
+added as data operations. Full spec in INFINITE INTRICACY ENGINE
+SCHEMA.md.
+
+Write authority: application config (seed data at startup).
+New domains added by Sage decision. first_observed written by
+INF engine computation.
+
+  domain_id            — text, primary key
+
+  display_name         — text, NOT NULL
+
+  description          — text, NOT NULL
+
+  sub_domain           — text, nullable
+                         V1: null. Cosmology territory (Tier 5).
+
+  cosmology_page       — text, nullable
+                         Page code of corresponding Cosmology page.
+                         Null for domains without one.
+
+  first_observed       — timestamp, nullable
+                         Populated by engine computation.
+
+  active               — boolean, NOT NULL, default true
+
+  created_at           — timestamp, NOT NULL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: inf_layer_bridge
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Bridge between TAG VOCABULARY routing layers (l01-l04) and INF
+domain layers. Many-to-many. Full spec in INFINITE INTRICACY
+ENGINE SCHEMA.md.
+
+Write authority: application config (seed data at startup).
+Updated when new domains or layer mappings are added.
+
+  tag_layer_id         — text, NOT NULL
+
+  inf_domain_id        — text, NOT NULL
+                         FK → inf_domain_layers.domain_id
+
+  PRIMARY KEY: (tag_layer_id, inf_domain_id)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CHUNK QUEUE DERIVATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -1409,7 +1667,10 @@ backend/models/
   SQLAlchemy models for all PostgreSQL tables defined in this
   schema: root_entries, file_assets, manifest_sessions,
   deposits, archives, prompt_versions, instances,
-  annotations, aos_records, system_counters.
+  annotations, aos_records, system_counters,
+  engine_snapshots, visualization_snapshots,
+  snm_claude_snapshots, venai_names, venai_variations,
+  venai_correlations, inf_domain_layers, inf_layer_bridge.
   Status: PLANNED
 
 backend/services/

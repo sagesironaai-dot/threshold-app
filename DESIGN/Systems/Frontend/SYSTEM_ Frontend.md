@@ -85,6 +85,22 @@ frontend/
 | DepositGenealogy | Lifecycle timeline on deposit card expand view |
 | ResearchVelocity | Ambient bar in sidebar showing research momentum |
 | SessionOpening | Brief overlay on app open — system state since last session |
+| ThrCooccurrenceMatrix | 12x12 threshold co-occurrence matrix — LayerCake + d3-interpolate |
+| ThrPresenceTimeline | Threshold presence timeline — 12 rows, deposit dots |
+| ThrSequenceView | Threshold sequence detection display — table/card layout |
+| EcrCorrelationMatrix | 19x19 signal correlation matrix — LayerCake + d3-interpolate + d3-zoom |
+| EcrSignalConstellation | Force-directed signal constellation — d3-force, stateful drift tracking |
+| EcrPresenceTimeline | Signal presence timeline — 19 rows, d3-zoom |
+| EcrSequenceView | Signal sequence display with significance filter |
+| InfDensityFieldMap | INF density field map — d3-contour, probabilistic domain boundaries |
+| InfEmergenceTimeline | INF emergence timeline — domain bands, dormancy gaps |
+| InfIntersectionDetail | INF intersection detail panel — triggered from density field map |
+| StrRootClusterMap | Force-directed root cluster map — d3-force + d3-hierarchy + d3-zoom |
+| StrCorrelationMatrix | Name correlation matrix — filterable by phase/role/root_pattern/grammar |
+| StrDriftAlertPanel | Ven'ai drift alert panel — acknowledge action, alert count badge |
+| StrNameIndex | Ven'ai name index — grouped by root family, searchable, sortable |
+| SnmBipartiteGraph | Bipartite force-directed graph — field patterns, traditions, TRIA/PRIA/PARA zones |
+| SnmTemporalCorrespondence | Temporal correspondence view — strength over time, prompt version boundaries |
 
 ### Stores (PLANNED)
 

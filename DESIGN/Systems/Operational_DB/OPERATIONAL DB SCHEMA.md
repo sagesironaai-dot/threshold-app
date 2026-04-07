@@ -27,6 +27,7 @@ WHAT BELONGS HERE
   - Multi-presence session invocation tracking
   - Origin presence state per session (active, dormant, returned)
   - Transient UI operational state (current section, filters)
+  - Engine stale flags (one boolean per Axis engine)
 
   This is the fast, lightweight layer. Reads and writes are
   local and synchronous. No network hop. No connection pool.
@@ -271,6 +272,40 @@ TABLE: operational_state
   No schema enforcement on keys — the application layer
   defines what keys exist and what their values mean.
   This flexibility is intentional for ephemeral UI state.
+
+
+TABLE: engine_stale_flags
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  One row per Axis engine. Tracks whether the engine's computation
+  is stale (new deposits arrived since last compute). Cheap
+  ephemeral state — no research value, no cross-session persistence
+  needed. Full spec in ENGINE COMPUTATION SCHEMA.md.
+
+  engine             — text, primary key
+                       enum: 'thr' | 'str' | 'inf' | 'ecr' | 'snm'
+                       5 rows, one per engine.
+
+  stale              — integer (0 | 1), not null, default 1
+                       1 = stale (needs recomputation)
+                       0 = fresh (computation is current)
+                       Default 1: on first load, all engines are
+                       stale — forces initial computation.
+
+  updated_at         — text (ISO timestamp), not null
+                       Last time this flag was modified.
+
+  SET TO 1: when a deposit lands on the engine's page.
+  SET TO 0: when engine recomputation completes successfully.
+
+  THREE RECOMPUTATION TRIGGERS (read stale flag, if 1: compute):
+    1. Page view — user navigates to the engine's page
+    2. Batch window close — all batch deposits have landed
+    3. MTM pull — MTM requests engine output for synthesis
+
+  CREATED AT STARTUP: if the table is empty at FastAPI startup,
+  all 5 rows are inserted with stale = 1. The table is
+  self-initializing.
 
 
 KNOWN FAILURE MODES

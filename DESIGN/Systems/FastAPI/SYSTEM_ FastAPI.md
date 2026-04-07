@@ -43,6 +43,9 @@
 | `/tagger/` | Claude API tag suggestions — receives section context, returns candidates | PLANNED |
 | `/assistant/` | Research assistant — RAG pipeline, context retrieval, Claude response | PLANNED |
 | `/embed/` | Embedding pipeline triggers — async nomic-embed-text via Ollama | PLANNED |
+| `/engines/` | Axis engine endpoints — compute trigger, result read, snapshot read, visualization snapshot capture. Covers all 5 engines (THR, STR, INF, ECR, SNM) | PLANNED |
+| `/engines/snm/` | SNM-specific — Claude snapshot read, prompt management | PLANNED |
+| `/venai/` | Ven'ai service endpoints — drift acknowledgment, name correction, name index read, correlation read | PLANNED |
 | `/swarm/` | RESERVED — phase 2 (turn management, presence, autonomous initiation, parallax logging) | RESERVED |
 
 All routes are versioned by namespace, not by URL prefix. No `/v1/` prefix. If the API contract changes, the change is a migration — not a new version namespace.
@@ -127,8 +130,15 @@ Guard: vector and metadata are written in a single INSERT within one transaction
 | backend/requirements.txt | Pinned dependencies (37 packages) | LIVE |
 | backend/.env | Local credentials — DATABASE_URL, SQLITE_PATH, OLLAMA_BASE_URL, REDIS_URL, ANTHROPIC_API_KEY (gitignored) | LIVE |
 | backend/models/ | SQLAlchemy models for PostgreSQL and SQLite tables | PLANNED |
-| backend/routes/ | Route modules — entries, tags, threads, search, tagger, assistant, embed | PLANNED |
+| backend/routes/ | Route modules — entries, tags, threads, search, tagger, assistant, embed, engines, venai | PLANNED |
 | backend/routes/swarm/ | Reserved namespace — phase 2 | RESERVED |
+| backend/services/engine_base.py | Shared engine computation — baseline math, weight application, null handling, signal classification, snapshot write, stale flag check | PLANNED |
+| backend/services/engine_thr.py | THR engine — co-occurrence, presence, sequence | PLANNED |
+| backend/services/engine_ecr.py | ECR engine — 171 pairs, signal constellation drift | PLANNED |
+| backend/services/engine_inf.py | INF engine — domain layers, bridge resolution, emergence timeline | PLANNED |
+| backend/services/engine_str.py | STR engine — root clusters, Ven'ai service integration | PLANNED |
+| backend/services/engine_snm.py | SNM engine — two-stream, Claude API structural analysis | PLANNED |
+| backend/services/venai.py | Ven'ai service — name registry, drift detection, correlation tracking | PLANNED |
 | backend/services/claude.py | Claude API client wrapper — agent identity registry (8 agents), shared model constant, call_claude() with metadata tracking | LIVE |
 | backend/services/embedding.py | Ollama embedding integration | PLANNED |
 | backend/services/rag.py | Retrieval-augmented generation pipeline | PLANNED |

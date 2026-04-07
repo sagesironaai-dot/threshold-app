@@ -71,6 +71,14 @@ Each table lists who decides what is written and what the FastAPI service layer 
 | annotations | Sage (via any analytical surface) | annotation creation on any annotated object |
 | aos_records | AOS service | record creation on engine trigger or Sage manual trigger, delivery tracking |
 | embeddings | Embedding pipeline | vector write with metadata after INT retirement (async) |
+| engine_snapshots | Engine computation (THR, STR, INF, ECR, SNM) | snapshot write after computation; MTM writes mtm_read_at on consumption |
+| visualization_snapshots | Sage (via frontend capture action) | snapshot capture; lnv_routed updated by LNV routing (Tier 4) |
+| snm_claude_snapshots | SNM engine | Claude API response storage; engine_snapshot_id linked when engine consumes |
+| venai_names | Ven'ai service | name registration, canonical_form update (Sage correction only) |
+| venai_variations | Ven'ai service creates; Sage acknowledges | drift record creation; acknowledged flag set by Sage via STR drift panel |
+| venai_correlations | Ven'ai service | correlation record creation and increment on each correlated deposit |
+| inf_domain_layers | Application config; INF engine writes first_observed | seed data at startup, domain addition by Sage decision |
+| inf_layer_bridge | Application config | seed data at startup, mapping updates when domains or layers change |
 
 The service layer never initiates a write based on its own judgment. Every write is triggered by the owning system.
 
@@ -111,6 +119,22 @@ The service layer never initiates a write based on its own judgment. Every write
 **patterns** — PCV pattern records. One per observed cross-domain pattern. Carries hypothesis_id (the structural thread to DTX and SGR), source_signals, and hypothesis_statement.
 
 **emergence_findings** — Emergence detection findings. Distinct from findings (MTM). Different record shape, different provenance chain, different downstream consumers. One per detected pattern per detection pass. Carries finding type, severity, metrics with doc_type_distribution, detection_config_version. See EMERGENCE SCHEMA.md.
+
+**engine_snapshots** — timestamped computation snapshots from the 5 Axis engines. One per computation. Carries engine identifier, deposit_count, baseline_scope, snapshot_data (jsonb, engine-specific), and mtm_read_at for MTM drift tracking. See ENGINE COMPUTATION SCHEMA.md.
+
+**visualization_snapshots** — Sage-triggered captures of engine visualization state. Links to engine_snapshots via engine_snapshot_id. Carries viz_data (jsonb), optional note, lnv_routed flag. Routes to LNV (Tier 4). See ENGINE COMPUTATION SCHEMA.md.
+
+**snm_claude_snapshots** — immutable Claude structural analysis snapshots for the SNM engine. One per Claude API call (per-deposit or batch). Carries prompt_version, prompt_text (defensive copy), analysis_mode, response (jsonb), and engine_snapshot_id link. Never overwritten. See SAT NAM ENGINE SCHEMA.md.
+
+**venai_names** — canonical Ven'ai name registry. Archive-wide. One per unique name. Carries canonical_form (unique), root_cluster, first_seen provenance. Written by Ven'ai service, read by STR engine. See VENAI SERVICE SCHEMA.md.
+
+**venai_variations** — drift detection records. One per detected inconsistency between a name form and its canonical. Carries variation_type (casing/phonetic/spacing/apostrophe), acknowledged flag with lifecycle. Written by Ven'ai service, acknowledged by Sage via STR drift panel. See VENAI SERVICE SCHEMA.md.
+
+**venai_correlations** — cross-archive name correlations. Name ↔ phase, name ↔ role, root ↔ grammar. Carries deposit_count and weighted_count, incremented on each correlated deposit. Written by Ven'ai service, read by STR engine Phase 2. See VENAI SERVICE SCHEMA.md.
+
+**inf_domain_layers** — INF engine scientific domain registry. Open set (5 confirmed V1, extensible). Carries domain_id, display_name, cosmology_page link (nullable), first_observed, active flag. Config table seeded at startup. See INFINITE INTRICACY ENGINE SCHEMA.md.
+
+**inf_layer_bridge** — bridge between TAG VOCABULARY routing layers (l01-l04) and INF domain layers. Many-to-many. Composite primary key (tag_layer_id, inf_domain_id). Config table seeded at startup. See INFINITE INTRICACY ENGINE SCHEMA.md.
 
 ---
 
