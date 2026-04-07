@@ -12,7 +12,7 @@
 
 * Database layer (PostgreSQL) — all read and write operations across every table in the archive
 * Schema versioning via Alembic migrations — every table change is a versioned migration
-* Table ownership for: root_entries · file_assets · manifest_sessions · archives · system_counters · routine_sessions · synthesis_sessions · findings · drift_events · patterns · emergence_findings · embeddings
+* Table ownership for: root_entries · file_assets · manifest_sessions · deposits · archives · prompt_versions · system_counters · routine_sessions · synthesis_sessions · findings · drift_events · patterns · emergence_findings · embeddings
 * arc_seq counter operations — increment, checkpoint write, checkpoint clear
 * Chunk queue derivation — computing next_chunk, page_start, page_end, queue_done
 * Write path execution for every system — FastAPI service layer executes the write; the owning system owns the decision to write
@@ -56,7 +56,8 @@ Each table lists who decides what is written and what the FastAPI service layer 
 | --- | --- | --- |
 | root_entries | INT (integration system) | intake sequence, retirement sequence writes |
 | file_assets | INT | blob upload, record creation, re-upload path |
-| manifest_sessions | INT | record creation, status writes, chunk_text lifecycle |
+| manifest_sessions | INT | record creation, status writes, chunk_text lifecycle, correction_context writes |
+| deposits | INT | record creation via INT gateway (batch confirm, manual, Pearl promotion), tag/notes edits, embedding state |
 | archives | INT | retirement step 6 write, post-retirement page_deposit_id, embedding trigger |
 | system_counters | INT | arc_seq increment, checkpoint write and clear |
 | routine_sessions | DNR | record creation, status writes, lnv_notified, retry_available |
@@ -65,6 +66,7 @@ Each table lists who decides what is written and what the FastAPI service layer 
 | drift_events | DTX | record creation, trajectory_state, outcome_vector, outcome_label, grade_latency |
 | patterns | PCV | record creation, status transitions |
 | emergence_findings | Emergence | record creation, detection config version write |
+| prompt_versions | INT | version creation on prompt bump (sage_directed, calibration_triggered, manual), active flag toggle |
 | embeddings | Embedding pipeline | vector write with metadata after INT retirement (async) |
 
 The service layer never initiates a write based on its own judgment. Every write is triggered by the owning system.
@@ -77,11 +79,15 @@ The service layer never initiates a write based on its own judgment. Every write
 
 **file_assets** — blob storage for large files. One record per uploaded file. blob may be replaced by re-upload on an existing record without creating a new root.
 
-**manifest_sessions** — chunk parsing sessions. One per chunk per document. Tracks deposit array, stats, and session state. chunk_text is the working copy for the session — cleared on completion.
+**manifest_sessions** — chunk parsing sessions. One per chunk per document. Tracks deposit staging array, stats, correction_context (jsonb), and session state. chunk_text is the working copy for the session — cleared on completion. Confirmed deposits link to the deposits table via deposit_ref.
+
+**deposits** — standalone deposit records. One per confirmed deposit in the archive. Created through INT gateway (batch confirmation, manual deposit, Pearl promotion). Carries all Tier 1 fields: doc_type (9-value deposit-level enum), source_format, observation_presence, confidence, deposit_weight, notes, tags, pages, phase_state, elarianAnchor, provenance (jsonb), swarm foundation fields, embedding state. This is what all downstream systems (engines, MTM, embedding pipeline, research assistant) query. See INTEGRATION DB SCHEMA.md for full field definitions.
 
 **archives** — retirement records. One per retired document. Carries confirmed_targets, provenance_summary, aggregate stats, and the ARC id. Links back to root_entries and forward to the Archives page deposit. Provenance and methodology fields carried from root_entries at retirement. Embedding generated asynchronously post-retirement and stored in embeddings table.
 
 **embeddings** — vector embeddings for archived entries. One per embedded entry (re-embedding on model change creates new record, preserves old). Carries vector(768) from nomic-embed-text, model identifier, and metadata jsonb (tag routing snapshot, section_id, ownership_classification). See EMBEDDING PIPELINE SCHEMA.md for full definition.
+
+**prompt_versions** — version-tracked AI prompts. One record per prompt version per prompt_type (parsing_partner, snm). Stores full prompt text, changelog entry (what changed and why), trigger_type (sage_directed, calibration_triggered, manual), and active flag. Referenced by parse_version on chunk_parse objects. Only one version per prompt_type is active at a time.
 
 **system_counters** — single-record table. Holds arc_seq (global counter, never decrements) and arc_seq_checkpoint (crash-safe retirement guard, cleared at retirement step 12).
 

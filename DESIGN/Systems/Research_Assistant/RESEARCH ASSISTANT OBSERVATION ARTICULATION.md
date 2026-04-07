@@ -301,7 +301,7 @@ what Sage reviews before confirming or discarding.
 deposit_suggestion:
   content:              string        — Sage's voice, unpolished
   doc_type:             string        — observation | analysis | hypothesis
-  observation_type:     string        — positive | null
+  observation_presence: string        — positive | null
   confidence:           null          — Sage fills, never pre-populated
   suggested_tags:       string[]      — tag vocabulary only, never invented
   suggested_routing:    string[]      — page codes, empty if unrouted

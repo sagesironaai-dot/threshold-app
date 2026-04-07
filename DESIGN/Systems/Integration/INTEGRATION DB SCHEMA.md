@@ -755,6 +755,17 @@ TABLE: manifest_sessions
                               deferred
 
 
+    deposit_ref      — references deposits.id, nullable
+                       Null while deposit is pending review.
+                       Written when deposit is confirmed —
+                       links the staging record in
+                       manifest_sessions to the canonical
+                       deposit record in the deposits table.
+                       For manual deposits and Pearl promotions,
+                       the deposit is created directly in the
+                       deposits table without a manifest_sessions
+                       staging record.
+
     status           — enum: pending | confirmed | skipped |
                               deferred
                        DERIVED when split_flag true:
@@ -773,6 +784,21 @@ TABLE: manifest_sessions
                        only — not on individual target
                        resolution. One deposit, one
                        decrement.
+
+
+  correction_context — jsonb, nullable
+                       Parsing partner correction ruleset for this
+                       batch session. Contains active_rules,
+                       superseded_rules, and corrections array.
+                       Written progressively during review as Sage
+                       corrects deposits. Persists across session
+                       interrupts — the ruleset is recoverable.
+                       Optionally surfaces in next session as
+                       starting context if Sage wants continuity.
+                       Structure defined in INTEGRATION SCHEMA.md
+                       (INT Parsing Partner — API Contract section).
+                       Null for single-chunk documents (no batch
+                       correction context).
 
 
   stats
@@ -808,6 +834,229 @@ TABLE: manifest_sessions
     root_integrity   — derived on session load. Mirrors
                        root_entries derivation logic.
                        Never persisted.
+
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: deposits
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Standalone deposit records. Every confirmed deposit in the archive
+lives here — this is what ALL downstream systems read from. Engines,
+MTM, embedding pipeline, research assistant query this table.
+
+Deposits are created through the INT gateway (POST /api/deposits/create).
+Three creation paths:
+  - Batch processing: deposit confirmed during review →
+    manifest_sessions.deposits[].deposit_ref links to this record
+  - Manual deposit: created directly on INT workstation, no
+    manifest_sessions involvement
+  - Pearl promotion: Pearl promoted from operational DB → deposit
+    created here with pearl_captured_at populated
+
+Field definitions for doc_type, source_format, observation_presence,
+confidence, deposit_weight, and all other Tier 1 fields are canonical
+in INTEGRATION SCHEMA.md (DEPOSIT RECORD — FULL FIELD SHAPE section).
+This table is the database materialization of that record.
+
+
+  id                   — composite ID stamp
+                         TS · [PAGE] · [PHASE] · [YYYY-MM] · [SEQ]
+                         Assigned at deposit creation. SEQ: query
+                         deposits for highest existing SEQ at same
+                         page + phase + YYYY-MM. Increment by 1.
+                         Start at 1 if none exist.
+                         For batch deposits: stamp was previewed in
+                         manifest_sessions.deposits[].child_id_preview,
+                         finalized here at confirmation.
+
+  root_ref             — references root_entries.id, nullable
+                         Links deposit to its source document.
+                         Populated for batch-processed deposits.
+                         Null for manual deposits and Pearl
+                         promotions (no source document).
+
+  manifest_ref         — references manifest_sessions.id, nullable
+                         Links deposit to the batch processing
+                         session that produced it. Null for manual
+                         deposits and Pearl promotions.
+
+  content              — text, NOT NULL
+                         The deposit text body. Immutable after
+                         creation — content edits are not permitted
+                         post-deposit. (Tags and notes are editable.)
+
+  doc_type             — enum: entry | observation | analysis |
+                                hypothesis | discussion | transcript |
+                                glyph | media | reference
+                         NOT NULL. What the content IS. AI-suggested
+                         via tagger, Sage confirms during review.
+                         Default: entry.
+                         NOTE: this enum classifies individual
+                         DEPOSIT content. root_entries.doc_type
+                         classifies SOURCE DOCUMENTS with a separate
+                         enum (session_transcript | field_note |
+                         compiled_research | external_source |
+                         glyph_image). Two levels of classification,
+                         two fields, two enums.
+
+  source_format        — enum: digital | handwritten | scan |
+                                image | audio | file | json
+                         NOT NULL. How the content arrived.
+
+  source_type          — enum: field | generated
+                         NOT NULL. Non-nullable on every deposit.
+                         Schema-level enforcement per ENFORCEMENT.md
+                         F26+F10. Deposits without this are rejected.
+
+  tags                 — text[], NOT NULL (may be empty array)
+                         Semantic tags from tagger system. Tag
+                         routing defined in TAG VOCABULARY.md.
+
+  pages                — text[], NOT NULL
+                         Routing targets — which page(s) this
+                         deposit lives on. At least one required.
+                         Immutable after creation — routing edits
+                         not permitted post-deposit.
+
+  observation_presence — enum: positive | null, nullable
+                         REQUIRED for doc_types: observation,
+                         analysis, hypothesis. NULL for all others.
+                         Schema-enforced conditional — not
+                         caller-optional.
+                         Is this something observed, or something
+                         expected but absent? Null observations
+                         prevent confirmation bias.
+                         Named observation_presence (not
+                         observation_type) to distinguish from
+                         root_entries.observation_type which is a
+                         methodology field (real_time | retrospective).
+                         Different tables, different semantics.
+
+  confidence           — enum: clear | emerging | raw, nullable
+                         REQUIRED for doc_types: observation,
+                         analysis, hypothesis. NULL for all others.
+                         About the OBSERVATION, not the observer.
+
+  deposit_weight       — enum: high | standard | low
+                         NOT NULL. AI-suggested via tagger, Sage
+                         can override. How much this deposit counts
+                         in engine computations. Engines (Tier 3)
+                         define multiplier constants per weight.
+
+  notes                — text, nullable
+                         Universal freeform annotation. Available
+                         on every deposit regardless of doc_type.
+                         Editable post-deposit.
+
+  pearl_captured_at    — timestamp, nullable
+                         Null for non-Pearl deposits. Populated on
+                         Pearl promotion from the Pearl record's
+                         created_at. Records when Sage first noticed
+                         the signal, not when it entered the archive.
+                         Required on the promotion path — not
+                         optional, not backfillable.
+
+  phase_state          — text, nullable
+                         Ontological threshold state. One of 12
+                         canonical threshold names or null. Detected
+                         by tagger. See TAG VOCABULARY.md for the
+                         12 names. Not phase_code — phase_state and
+                         PHASE_CODES are separate systems per
+                         CLAUDE.md invariants.
+
+  elarianAnchor        — text, nullable
+                         7-state psychological arc classification.
+                         Detected by tagger. States defined in
+                         COMPOSITE ID SCHEMA.md.
+
+  authored_by          — text, NOT NULL
+                         Which AI instance or human created this.
+                         V1: "sage" or "claude".
+                         Swarm phase: per-origin-node values.
+
+  node_id              — text, NOT NULL
+                         Which analytical node. V1: single value.
+                         Swarm phase: multiple nodes.
+
+  instance_context     — text, NOT NULL
+                         Session identifier for creating instance.
+                         V1: same value always.
+
+  session_id           — uuid, NOT NULL
+                         Cross-DB correlation with SQLite operational
+                         DB. References session record. No cross-DB
+                         FK — consistency enforced by FastAPI.
+
+  provenance           — jsonb, NOT NULL
+                         {
+                           source: manual | ai_parsed |
+                                   ai_suggested_sage_confirmed,
+                           correction_applied: boolean,
+                           original_suggestion: object | null
+                         }
+                         Tracks how this deposit was created and
+                         whether AI suggestions were corrected.
+
+  content_hash         — text, NOT NULL
+                         SHA-256 hash of content field. Computed at
+                         creation. Used for duplicate detection
+                         (warn, not block — see INTEGRATION SCHEMA.md
+                         DUPLICATE DETECTION section).
+
+  embedding_status     — enum: queued | processing | complete |
+                                failed | retry_queued |
+                                failed_permanent
+                         Tracks async vector embedding state.
+                         See INTEGRATION SCHEMA.md EMBEDDING PIPELINE
+                         section for retry strategy (3-attempt:
+                         immediate, 5min, 30min).
+
+  embedding_dirty      — boolean, default false
+                         Set true on any post-creation edit to tags.
+                         (Content and pages are immutable. Notes edits
+                         do not affect embeddings.)
+                         When true: automatic re-queue triggered,
+                         embedding_status → retry_queued. Cleared
+                         when new embedding completes.
+
+  created_at           — timestamp, NOT NULL
+                         Written once at deposit creation. Never
+                         updated.
+
+  status               — enum: created | active
+                         created: deposit record exists, async
+                         operations (stamp, embedding, routing)
+                         may still be in progress.
+                         active: all creation steps complete.
+
+
+  CREATION SEQUENCE — fires through INT gateway
+  (POST /api/deposits/create):
+
+    Full 6-step pipeline with atomicity boundary defined in
+    INTEGRATION SCHEMA.md (DEPOSIT ATOMICITY BOUNDARY section).
+
+    Steps 1-3 (above boundary): validate, duplicate check, create
+    deposit record. All-or-nothing. Failure = nothing created.
+
+    Steps 4-6 (below boundary): assign stamp, trigger embedding,
+    route to pages. Deposit exists regardless of downstream failure.
+    Each step is recoverable async.
+
+
+  EDIT RULES — post-creation:
+
+    Editable:   tags, notes
+    Immutable:  content, pages, doc_type, source_format,
+                observation_presence, confidence, deposit_weight,
+                provenance, authored_by, node_id, instance_context
+
+    Tag edit triggers:
+      1. embedding_dirty → true (vector pipeline)
+      2. Engine stale flag on assigned pages (engine pipeline)
+    Notes edit triggers: nothing (no downstream computation impact)
 
 
 
@@ -919,6 +1168,56 @@ TABLE: archives
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE: prompt_versions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Version-tracked AI prompts with changelog audit trail. Referenced
+by parse_version field on chunk_parse objects (see INTEGRATION
+SCHEMA.md, INT Parsing Partner section). Prompt version history
+is traceable to the correction or observation that caused each bump.
+
+  id                   — auto
+  prompt_type          — enum: parsing_partner | snm
+                         Which system prompt this version belongs to.
+                         parsing_partner: INT batch processing AI.
+                         snm: Sat Nam engine (Tier 3, same versioning
+                         pattern). Extensible — new prompt types added
+                         as systems are built.
+
+  version_string       — text, NOT NULL
+                         Semantic version or sequential identifier.
+                         Referenced in chunk_parse.parse_version.
+
+  prompt_text          — text, NOT NULL
+                         Full prompt text for this version. Stored
+                         complete — not as a diff. Any version can
+                         be loaded independently.
+
+  changelog_entry      — text, NOT NULL
+                         What changed and why. The correction or
+                         observation that inspired the bump. This is
+                         the audit trail.
+
+  trigger_type         — enum: sage_directed | calibration_triggered
+                                | manual
+                         sage_directed: Sage explicitly flagged a
+                         correction as "update the prompt."
+                         calibration_triggered: correction rate on a
+                         confidence tier exceeded threshold, surfaced
+                         as recommendation, Sage confirmed.
+                         manual: bump from prompt management view.
+
+  created_at           — timestamp, NOT NULL
+
+  active               — boolean, NOT NULL, default false
+                         Only one version per prompt_type is active
+                         at a time. When a new version is activated,
+                         the previous active version is deactivated.
+                         Enforced at application layer — not a DB
+                         constraint (allows safe rollback).
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CHUNK QUEUE DERIVATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -938,7 +1237,8 @@ FILES
 backend/models/
   SQLAlchemy models for all PostgreSQL tables defined in this
   schema: root_entries, file_assets, manifest_sessions,
-  archives, system_counters. Status: PLANNED
+  deposits, archives, prompt_versions, system_counters.
+  Status: PLANNED
 
 backend/services/
   FastAPI service layer — intake sequence execution, retirement

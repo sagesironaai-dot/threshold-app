@@ -6952,3 +6952,558 @@ NOT_STARTED:
 UNCOMMITTED: YES (this CLOSE entry + SESSION_LOG hook entries + CLAUDE.md from prior interrupted session)
 NEXT_ACTION: Decide seed affinity authority (Phase 0 of Domains plan). Then begin Domains rebuild per saved plan.
 ---
+
+---
+TIMESTAMP: 2026-04-07 09:52
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\plans\wobbly-weaving-newt.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:00
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - Full orientation: CLAUDE.md, SESSION_PROTOCOL.md, ENFORCEMENT.md, GITHUB_PROTOCOL.md read
+  - SESSION_LOG.md last entry confirmed TYPE: CLOSE (clean open)
+  - SOT_BUILD_TODO spot-check: Items 0-5 all [x] with valid SOURCE: lines, no downgrades
+  - DESIGN/Systems/ confirmed: 37 files, all on VERIFIED list from prior session
+  - DESIGN/Domains/ confirmed: 100 files (50 domains + 50 manifests), seed affinity conflict unresolved
+  - Tier 1 audit complete: INTEGRATION SCHEMA.md (1490 lines) contains full Tier 1 operational spec
+  - Structural gap identified: INTEGRATION DB SCHEMA.md lacks standalone deposits table + Tier 1 fields
+  - Three naming/enum collisions identified (doc_type, observation_type, deposits table)
+  - Tier 1 execution plan written and approved (.claude/plans/wobbly-weaving-newt.md)
+IN_PROGRESS:
+  - Tier 1 manifest and schema build — awaiting Sage decisions on 5 design questions (Q1-Q5)
+NOT_STARTED:
+  - Pass 1: INTEGRATION DB SCHEMA.md — deposits table + field reconciliation
+  - Pass 2: OPERATIONAL DB SCHEMA.md — verify batch processing tables
+  - Pass 3: EMBEDDING PIPELINE SCHEMA.md — verify deposit-level cross-references
+  - Pass 4: TAGGER SCHEMA.md — deposit_weight suggestion addition
+  - Pass 5: Manifest_01_Integration.txt — full Tier 1 rewrite
+  - Pass 6: Cross-file verification sweep
+UNCOMMITTED: YES
+NEXT_ACTION: Sage resolves Q1-Q5 design questions, then begin Pass 1
+---
+
+---
+TIMESTAMP: 2026-04-07 09:59
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:59
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/INTEGRATION SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/COMPOSITE ID SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+  - DESIGN/Systems/TAGGER SCHEMA.md
+REASON: References composite ID stamp assignment, IDB store write sequence, and tagger routing at step 5. Changes here cascade to all three.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:00
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:00
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/INTEGRATION SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/COMPOSITE ID SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+  - DESIGN/Systems/TAGGER SCHEMA.md
+REASON: References composite ID stamp assignment, IDB store write sequence, and tagger routing at step 5. Changes here cascade to all three.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:00
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:00
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/INTEGRATION SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/COMPOSITE ID SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+  - DESIGN/Systems/TAGGER SCHEMA.md
+REASON: References composite ID stamp assignment, IDB store write sequence, and tagger routing at step 5. Changes here cascade to all three.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:00
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:00
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/INTEGRATION SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/COMPOSITE ID SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+  - DESIGN/Systems/TAGGER SCHEMA.md
+REASON: References composite ID stamp assignment, IDB store write sequence, and tagger routing at step 5. Changes here cascade to all three.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:00
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:00
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:03
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:03
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:03
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "INTEGRATION DB SCHEMA\|INTEGRATION SCHEMA\|SYSTEM_ Integration DB"
+---
+
+---
+TIMESTAMP: 2026-04-07 10:03
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py 2>&1 | grep -i "deposits\|prompt_versions\|correction_context\|observation_presence"
+---
+
+---
+TIMESTAMP: 2026-04-07 10:05
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — COMPLETE (Pass 1: deposits table added, correction_context jsonb on manifest_sessions, deposit_ref on deposits[], prompt_versions table added, FILES section updated)
+  - DESIGN/Systems/Integration/INTEGRATION SCHEMA.md — COMPLETE (Pass 1 cascade: observation_type → observation_presence rename at 4 locations in deposit record and gateway contract)
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md — COMPLETE (Pass 1 cascade: table ownership list, TABLE INVENTORY, WRITE AUTHORITY TABLE updated for deposits + prompt_versions)
+COMPLETED:
+  - Pass 1: INTEGRATION DB SCHEMA.md — deposit table + field reconciliation
+  - Q1-Q5 design decisions locked: standalone deposits table, two doc_type fields, observation_presence rename, correction_context as jsonb on manifest_sessions, prompt_versions as dedicated table
+  - Entropy scan: 0 new findings (4 pre-existing false positives on parallax_flag/split_flag field names)
+  - AUDIT phase: PASS
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Pass 2: OPERATIONAL DB SCHEMA.md
+  - Pass 3: EMBEDDING PIPELINE SCHEMA.md
+  - Pass 4: TAGGER SCHEMA.md
+  - Pass 5: Manifest_01_Integration.txt
+  - Pass 6: Cross-file verification sweep
+UNCOMMITTED: YES
+NEXT_ACTION: Begin Pass 2 — OPERATIONAL DB SCHEMA.md verification
+---
+
+---
+TIMESTAMP: 2026-04-07 10:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Embedding_Pipeline\EMBEDDING PIPELINE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Embedding_Pipeline\EMBEDDING PIPELINE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Embedding_Pipeline\EMBEDDING PIPELINE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:05
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "EMBEDDING PIPELINE"
+---
+
+---
+TIMESTAMP: 2026-04-07 10:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Tagger\TAGGER SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:05
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/TAGGER SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/RESONANCE ENGINE SCHEMA.md
+  - DESIGN/Systems/EMERGENCE SCHEMA.md
+  - DESIGN/Systems/SYSTEM_ Tagger.md
+  - DESIGN/Systems/INTEGRATION SCHEMA.md
+REASON: ae:tagCommit payload structure is a shared contract with resonance_engine and emergence. Sync sequence must stay aligned with SYSTEM_ Tagger.md. Tag routing feeds INT step 5.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Tagger\TAGGER SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/TAGGER SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/RESONANCE ENGINE SCHEMA.md
+  - DESIGN/Systems/EMERGENCE SCHEMA.md
+  - DESIGN/Systems/SYSTEM_ Tagger.md
+  - DESIGN/Systems/INTEGRATION SCHEMA.md
+REASON: ae:tagCommit payload structure is a shared contract with resonance_engine and emergence. Sync sequence must stay aligned with SYSTEM_ Tagger.md. Tag routing feeds INT step 5.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Tagger\TAGGER SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/TAGGER SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/RESONANCE ENGINE SCHEMA.md
+  - DESIGN/Systems/EMERGENCE SCHEMA.md
+  - DESIGN/Systems/SYSTEM_ Tagger.md
+  - DESIGN/Systems/INTEGRATION SCHEMA.md
+REASON: ae:tagCommit payload structure is a shared contract with resonance_engine and emergence. Sync sequence must stay aligned with SYSTEM_ Tagger.md. Tag routing feeds INT step 5.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Tagger\TAGGER SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/TAGGER SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/RESONANCE ENGINE SCHEMA.md
+  - DESIGN/Systems/EMERGENCE SCHEMA.md
+  - DESIGN/Systems/SYSTEM_ Tagger.md
+  - DESIGN/Systems/INTEGRATION SCHEMA.md
+REASON: ae:tagCommit payload structure is a shared contract with resonance_engine and emergence. Sync sequence must stay aligned with SYSTEM_ Tagger.md. Tag routing feeds INT step 5.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Tagger\TAGGER SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/TAGGER SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/RESONANCE ENGINE SCHEMA.md
+  - DESIGN/Systems/EMERGENCE SCHEMA.md
+  - DESIGN/Systems/SYSTEM_ Tagger.md
+  - DESIGN/Systems/INTEGRATION SCHEMA.md
+REASON: ae:tagCommit payload structure is a shared contract with resonance_engine and emergence. Sync sequence must stay aligned with SYSTEM_ Tagger.md. Tag routing feeds INT step 5.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Tagger\TAGGER SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/TAGGER SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/RESONANCE ENGINE SCHEMA.md
+  - DESIGN/Systems/EMERGENCE SCHEMA.md
+  - DESIGN/Systems/SYSTEM_ Tagger.md
+  - DESIGN/Systems/INTEGRATION SCHEMA.md
+REASON: ae:tagCommit payload structure is a shared contract with resonance_engine and emergence. Sync sequence must stay aligned with SYSTEM_ Tagger.md. Tag routing feeds INT step 5.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Tagger\TAGGER SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/TAGGER SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/RESONANCE ENGINE SCHEMA.md
+  - DESIGN/Systems/EMERGENCE SCHEMA.md
+  - DESIGN/Systems/SYSTEM_ Tagger.md
+  - DESIGN/Systems/INTEGRATION SCHEMA.md
+REASON: ae:tagCommit payload structure is a shared contract with resonance_engine and emergence. Sync sequence must stay aligned with SYSTEM_ Tagger.md. Tag routing feeds INT step 5.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Tagger\TAGGER SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/TAGGER SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/RESONANCE ENGINE SCHEMA.md
+  - DESIGN/Systems/EMERGENCE SCHEMA.md
+  - DESIGN/Systems/SYSTEM_ Tagger.md
+  - DESIGN/Systems/INTEGRATION SCHEMA.md
+REASON: ae:tagCommit payload structure is a shared contract with resonance_engine and emergence. Sync sequence must stay aligned with SYSTEM_ Tagger.md. Tag routing feeds INT step 5.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:06
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "TAGGER SCHEMA"
+---
+
+---
+TIMESTAMP: 2026-04-07 10:07
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Domains\01_Integration\Manifest_01_Integration.txt
+---
+
+---
+TIMESTAMP: 2026-04-07 10:08
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Manifest_01\|01_Integration"
+---
+
+---
+TIMESTAMP: 2026-04-07 10:10
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DESIGN/Systems/Operational_DB/OPERATIONAL DB SCHEMA.md — VERIFIED, no changes needed (Black Pearl table complete, correction_context in PostgreSQL per Q4, calibration computed on-demand)
+  - DESIGN/Systems/Embedding_Pipeline/EMBEDDING PIPELINE SCHEMA.md — COMPLETE (Pass 3: source_type discriminator added to embeddings table, source_ref updated to reference both archives.id and deposits.id, unique constraint updated, retrieval queries updated)
+  - DESIGN/Systems/Tagger/TAGGER SCHEMA.md — COMPLETE (Pass 4: deposit_weight added to ownership, response shape, system prompt, validation, DEPOSIT_WEIGHT ASSESSMENT prompt block written, sequence references updated)
+  - DESIGN/Domains/01_Integration/Manifest_01_Integration.txt — COMPLETE (Pass 5: full Tier 1 rewrite — dual panel, parsing partner, batch processing, review queue, Black Pearl promotion, media deposit, duplicate detection, deposit creation contract, updated AI role/functions/good/bad output, expanded CONNECTS TO)
+COMPLETED:
+  - Pass 2: OPERATIONAL DB SCHEMA.md — verified complete, no changes
+  - Pass 3: EMBEDDING PIPELINE SCHEMA.md — source_type discriminator for archive vs deposit embeddings
+  - Pass 4: TAGGER SCHEMA.md — deposit_weight suggestion addition
+  - Pass 5: Manifest_01_Integration.txt — full Tier 1 rewrite
+  - Entropy scan: 0 findings on all four files
+  - All four passes: AUDIT PASS
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Pass 6: Cross-file verification sweep
+UNCOMMITTED: YES
+NEXT_ACTION: Begin Pass 6 — cross-file verification sweep
+---
+
+---
+TIMESTAMP: 2026-04-07 10:10
+TYPE: HOOK_BASH
+COMMAND: cat > /tmp/verification_summary.txt << 'EOF'
+CROSS-FILE VERIFICATION SWEEP - SUMMARY REPORT
+==============================================
+
+A. OBSERVATION_PRESENCE VS OBSERVATION_TYPE NAMING
+
+Files checked for observation_type references:
+- INTEGRATION DB SCHEMA.md: âœ“ observation_type on root_entr...
+---
+
+---
+TIMESTAMP: 2026-04-07 10:11
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Research_Assistant\RESEARCH ASSISTANT OBSERVATION ARTICULATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:11
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Thread_Trace\THREAD TRACE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:11
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/THREAD TRACE SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/EMERGENCE SCHEMA.md
+REASON: window.ThreadTraceUI global used by emergence as bridge. Graph export stub must stay disabled in both. DB version dependency with data.js.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:12
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Emergence\EMERGENCE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:12
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/EMERGENCE SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/THREAD TRACE SCHEMA.md
+  - DESIGN/Systems/TAGGER SCHEMA.md
+REASON: Thread Trace bridge via window.ThreadTraceUI. onTagSessionComplete sequence depends on tagger commit hook. setEntriesFetcher order dependency.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:12
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Thread_Trace\THREAD TRACE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:12
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/THREAD TRACE SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/EMERGENCE SCHEMA.md
+REASON: window.ThreadTraceUI global used by emergence as bridge. Graph export stub must stay disabled in both. DB version dependency with data.js.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 10:13
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "OBSERVATION ARTICULATION\|THREAD TRACE SCHEMA\|EMERGENCE SCHEMA"
+---
+
+---
+TIMESTAMP: 2026-04-07 10:15
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT OBSERVATION ARTICULATION.md — COMPLETE (Pass 6 cascade: observation_type → observation_presence on deposit_suggestion shape line 304)
+  - DESIGN/Systems/Thread_Trace/THREAD TRACE SCHEMA.md — COMPLETE (Pass 6 cascade: observation_type → observation_presence in filter key line 270 and filter description line 282)
+  - DESIGN/Systems/Emergence/EMERGENCE SCHEMA.md — COMPLETE (Pass 6 cascade: observation_type → observation_presence in detection skip threshold line 271)
+COMPLETED:
+  - Pass 6: Cross-file verification sweep — all cross-references verified consistent
+  - 3 additional observation_type → observation_presence cascades found and fixed
+  - All remaining observation_type references confirmed as root_entries/archives methodology only
+  - doc_type enums verified consistent (two separate enums, no mixing)
+  - deposit_weight enum verified consistent everywhere
+  - deposits table and prompt_versions references verified
+  - source_type on embeddings verified distinct from deposits.source_type
+  - All file existence checks passed
+  - design-session-plan.md: observation_type at 4 deposit-level locations — schemas canonical, plan is history. Flagged, not changed.
+  - AUDIT: PASS
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - none — all 6 passes complete
+UNCOMMITTED: YES
+NEXT_ACTION: Sage reviews complete work, then commit + push
+---
+
+---
+TIMESTAMP: 2026-04-07 10:15
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:16
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:16
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:16
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:16
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-07 10:16
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---

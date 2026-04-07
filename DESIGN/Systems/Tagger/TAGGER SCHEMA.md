@@ -10,12 +10,13 @@ OWNERSHIP BOUNDARIES
   OWNS
     Claude API tag suggestion pipeline — entry text + section
       context in, tag candidates + phase_state + elarianAnchor
-      + doc_type out
+      + doc_type + deposit_weight out
     Tagger Svelte store — single shared state surface
     Tagger panel UI — suggestion display, accept/reject/modify
     Elarian Anchor detection logic — prompt block (below)
     phase_state suggestion — one of 12 threshold names or null
     doc_type suggestion — AI-suggested, Sage can override
+    deposit_weight suggestion — AI-assessed, Sage can override
     clearResult() sequencing — fires only after createEntry()
       confirms success
     Seed affinity weighting — section-specific seed weights
@@ -50,7 +51,8 @@ CLAUDE API REQUEST
     - System prompt: tag vocabulary summary (from TAG
       VOCABULARY.md via backend service), seed affinity weights
       for the active section, 12 threshold names with
-      descriptions, Elarian Anchor prompt block, doc_type enum
+      descriptions, Elarian Anchor prompt block, doc_type enum,
+      deposit_weight assessment criteria
     - User prompt: the entry text
     - Response format: structured JSON (see response shape below)
 
@@ -86,6 +88,12 @@ CLAUDE API RESPONSE
                        One of: entry | observation | analysis |
                        hypothesis | discussion | transcript |
                        glyph | media | reference
+    deposit_weight:    string
+                       One of: high | standard | low
+                       AI assessment of how much this deposit
+                       should count in engine computations.
+                       Based on doc_type, content specificity,
+                       and confidence level.
     section_context:   boolean
                        true if seed affinity weighting was
                        applied, false if section was missing
@@ -190,6 +198,37 @@ TAGGER PROMPT BLOCKS
   doc_type enum defined in INTEGRATION SCHEMA.md.
 
 
+  DEPOSIT_WEIGHT ASSESSMENT PROMPT
+
+  Assess how much this deposit should count in downstream
+  engine computations. Return one of three values:
+
+    high     — specific, detailed content. Clear signal.
+               Observations with clear confidence. Analyses
+               with named patterns. Hypotheses with defined
+               predictions. Content that engines should
+               weight heavily.
+    standard — typical deposit. Solid content but not
+               exceptional specificity. Default when unsure.
+    low      — fragmentary, ambient, or contextual. Notes
+               and brief captures. Content that provides
+               background but should not dominate engine
+               calculations.
+
+  Assessment factors (in order of importance):
+    1. doc_type — observations, analyses, and hypotheses
+       trend higher than entries and transcripts
+    2. Content specificity — named patterns, specific
+       references, and detailed descriptions trend higher
+    3. Confidence level — clear confidence trends higher
+       than raw (when observation_presence fields are present)
+
+  Default to "standard" when assessment is ambiguous.
+  Sage can override during review.
+
+  deposit_weight enum defined in INTEGRATION SCHEMA.md.
+
+
 SEQUENCES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -210,11 +249,13 @@ SEQUENCES
   7. FastAPI sends request to Claude API. Awaits response.
   8. FastAPI validates response shape. Strips invalid tag
      IDs, replaces invalid phase_state/elarianAnchor with
-     null, replaces invalid doc_type with "entry".
+     null, replaces invalid doc_type with "entry", replaces
+     invalid deposit_weight with "standard".
   9. FastAPI returns validated response to frontend.
   10. Tagger panel displays suggestions in UI.
   11. Sage reviews: accepts, rejects, or modifies each tag.
-      Sage can override phase_state, elarianAnchor, doc_type.
+      Sage can override phase_state, elarianAnchor, doc_type,
+      deposit_weight.
 
   Failure at step 7: Claude API call fails. Return error
     to frontend. Tagger panel surfaces error. Sage can retry
@@ -226,8 +267,8 @@ SEQUENCES
   DEPOSIT INTEGRATION — strict order
 
   1. Sage confirms deposit.
-  2. Accepted tags, phase_state, elarianAnchor, doc_type
-     travel with entry data to createEntry().
+  2. Accepted tags, phase_state, elarianAnchor, doc_type,
+     deposit_weight travel with entry data to createEntry().
   3. createEntry() writes to PostgreSQL via FastAPI
      POST /entries/.
   4. createEntry() confirms success.

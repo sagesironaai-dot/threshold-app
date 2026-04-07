@@ -81,7 +81,7 @@ CLASSIFICATION FIELDS:
                                           article, someone else's work)
                          Unlocks conditional fields: observation,
                          analysis, and hypothesis doc_types unlock
-                         observation_type and confidence. Other
+                         observation_presence and confidence. Other
                          doc_types do not display these fields.
                          doc_type is a database field only — not
                          encoded in the composite ID stamp. Travels
@@ -114,13 +114,18 @@ analysis, hypothesis. They do NOT appear for raw input doc_types
 flow from feeling like a wellness check when ingesting raw source
 material.
 
-  observation_type     — positive | null
+  observation_presence — positive | null
                          Is this something observed, or something
                          expected but absent? Null observations are
                          the mechanism that prevents confirmation
                          bias. "I looked for X and it wasn't there"
                          is first-class data. Only meaningful for
                          researcher observations — raw input just IS.
+                         Named observation_presence (not observation_type)
+                         to distinguish from root_entries.observation_type
+                         which is a methodology field (real_time |
+                         retrospective). Different tables, different
+                         semantics — different names.
 
   confidence           — clear | emerging | raw
                          About the OBSERVATION, not the observer.
@@ -543,7 +548,7 @@ REQUEST:
       // Conditional fields (doc_type dependent)
       // REQUIRED for: observation, analysis, hypothesis
       // NULL for all other doc_types
-      observation_type: positive | null
+      observation_presence: positive | null
       confidence: clear | emerging | raw | null
 
       // Universal metadata
@@ -590,7 +595,7 @@ RESPONSE — failure:
 
 Field nullability rule: fields required at creation sit ABOVE the
 atomicity boundary (see below). Fields populated async sit BELOW.
-Conditional fields (observation_type, confidence) are required for
+Conditional fields (observation_presence, confidence) are required for
 their applicable doc_types, null for others — schema-enforced, not
 caller-optional.
 

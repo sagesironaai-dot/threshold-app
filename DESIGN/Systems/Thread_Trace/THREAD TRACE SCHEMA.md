@@ -267,7 +267,7 @@ FILTER BAR
                        hypothesis | discussion | transcript |
                        glyph | media | reference
                        Display: "Entry type"
-    observation_type   positive | null | all
+    observation_presence  positive | null | all
                        Display: "Observation type"
                        Default: all (no filter)
     section            any section ID
@@ -279,7 +279,7 @@ FILTER BAR
   cluster that only holds when filtered to hypotheses is a
   different signal than one that holds across all doc_types.
 
-  observation_type filter enables: "show me null observations in
+  observation_presence filter enables: "show me null observations in
   this thread." Complement to the Void engine — Thread Trace
   lets Sage navigate null observations as a sequence, not just
   as aggregate data. A temporal thread of null observations

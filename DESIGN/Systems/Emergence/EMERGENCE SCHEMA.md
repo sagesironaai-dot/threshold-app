@@ -268,7 +268,7 @@ against DETECTION_SKIP_THRESHOLD:
 
   Significant changes — always fire full detection pass:
     New tag added, tag removed, routing change, new deposit,
-    doc_type change, observation_type change.
+    doc_type change, observation_presence change.
 
   Minor changes — skip detection pass, return cached findings:
     Tag weight adjustment only, note edit only, no new tags,

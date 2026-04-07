@@ -114,8 +114,10 @@ The foundation is free now. It's expensive later.
 ## BUILD TIER 1 — INT ENGINE + DEPOSIT FOUNDATION
 
 **Depends on:** nothing — this is the root
-**Status:** DESIGNED (session 15). All open questions resolved. Ready for
-schema writing.
+**Status:** COMPLETE (session 26). Design complete (session 15). Schemas and
+manifest written (session 26). Deposits table, prompt_versions table,
+correction_context column, observation_presence rename, deposit_weight in
+tagger, INT manifest rewrite, cross-file verification — all done.
 
 **What gets built:** The deposit record shape, the INT gateway engine, and
 the core API foundation. Everything enters the archive through INT. The
@@ -186,7 +188,7 @@ hypothesis. They do NOT appear for raw input doc_types (entry, discussion,
 transcript, etc.). This prevents the deposit flow from feeling like a
 wellness check when ingesting raw source material.
 
-- [x] `observation_type: positive | null` — DESIGNED. Is this something
+- [x] `observation_presence: positive | null` — DESIGNED. Is this something
       observed, or something expected but absent? Null observations are
       the mechanism that prevents confirmation bias. "I looked for X and
       it wasn't there" is first-class data.
@@ -839,7 +841,7 @@ become deposits. `archived` status for Pearls Sage explicitly dismisses.
           // Conditional fields (doc_type dependent)
           // REQUIRED for: observation, analysis, hypothesis
           // NULL for all other doc_types
-          observation_type: positive | null
+          observation_presence: positive | null
           confidence: clear | emerging | raw | null
 
           // Universal metadata
@@ -5466,7 +5468,8 @@ Items that don't belong to a single tier or can be done at any point.
 
 - [ ] Schema writing pass — as each tier completes design, formal schemas
       are written for that tier's systems:
-      · Tier 1: deposit schema additions (null obs, conditions, quality, swarm fields)
+      · Tier 1: COMPLETE (session 26) — deposits table, observation_presence,
+        deposit_weight, correction_context, prompt_versions, INT manifest rewrite
       · Tier 2: Void page manifest + schema slot
       · Tier 3: 5 Axis engine schemas (THR, STR, INF, ECR, SNM)
       · Tier 4: WSC schema, LNV schema, Void engine schema
@@ -5536,7 +5539,7 @@ Decisions made during design sessions. Recorded with reasoning.
 
 **Research methodology gaps identified:**
 - Null observation mechanism needed — system is confirmation-biased without it.
-  `observation_type: positive | null` on every deposit.
+  `observation_presence: positive | null` on every deposit.
 - Baseline computation needed — built into every Axis engine. Show expected
   rates alongside observed rates. Without baselines, every pattern looks
   significant.
@@ -5709,7 +5712,7 @@ Deposit record fields designed:
   discussion, transcript, glyph, media, reference). AI-suggested via tagger.
 - `source_format` — 6-value enum (digital, handwritten, scan, image, audio,
   file). Separate axis from doc_type.
-- `observation_type: positive | null` — conditional, only for researcher
+- `observation_presence: positive | null` — conditional, only for researcher
   doc_types (observation, analysis, hypothesis).
 - `confidence: clear | emerging | raw` — conditional, same doc_types.
 - `notes` — universal optional freeform field on ALL deposits. Replaces

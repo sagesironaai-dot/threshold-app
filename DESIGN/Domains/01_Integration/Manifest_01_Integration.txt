@@ -1,42 +1,144 @@
-﻿PAGE 01 · Integration · INT · standalone
+PAGE 01 · Integration · INT · standalone
 
 
 VISION
-  This page is the data entry point for the entire Archive.
-  Every field observation, session transcript, external
-  source, and research document enters the system here
-  before it exists anywhere else. Nothing reaches the
-  Archive without passing through INT. Intake, tagging,
-  parsing, and deposit routing all originate here —
-  making this page the provenance anchor for the
+  The data entry point for the entire Archive. Every field
+  observation, session transcript, external source, research
+  document, and promoted Pearl enters the system here before
+  it exists anywhere else. Nothing reaches the Archive without
+  passing through INT. Intake, tagging, parsing, batch
+  processing, deposit routing, and retirement all originate
+  on this page — making it the provenance anchor for the
   whole system.
+
+  INT is a collaborative workstation with two panels: upload
+  and review on the left, AI parsing partner on the right.
+  Three creation paths converge here: batch processing
+  (source documents parsed into deposits), manual deposit
+  (single entries created directly), and Pearl promotion
+  (pre-archive captures promoted to full deposits).
 
 
 RESEARCHER TASK
-  Upload · Tag · Parse · Deposit
+  Upload · Parse · Review · Tag · Route · Deposit · Retire
 
 
 OBJECTIVE
-Receive source documents and initiate the full intake sequence — assigning provenance, parsing deposit candidates, proposing signal tags, confirming section routing, and retiring completed sources to the archive. INT is the structural gateway: no entry reaches any section without clearing this page first. The intake and retirement sequences defined in the INT schema (v1) are the authoritative behavioral specification for this page. The manifest governs the layer above that structure — the behavioral posture, output quality, and routing discipline the AI maintains throughout. Split deposits are named and handled independently. Deferrals are flagged without resolution pressure. Provenance is the chain of custody for research data that may train future intelligence systems — it is never administrative, never approximate, and never skipped.
+  Receive source documents and initiate the full intake
+  sequence — assigning provenance, parsing deposit candidates,
+  proposing signal tags, confirming section routing, and
+  retiring completed sources to the archive. INT is the
+  structural gateway: no entry reaches any section without
+  clearing this page first.
 
-INT routes to all sections except MTM (07). MTM is the Axis synthesis layer and does not receive deposits — it reads across the five Axis lens pages (THR 02, STR 03, INF 04, ECR 05, SNM 06) and produces Findings through a separate AI-driven synthesis cycle at session close. Material that would otherwise route to MTM routes instead to the appropriate lens page. MTM reads from there.
+  The INT workstation operates as a dual-panel layout:
+
+  Left panel — upload and review:
+    File upload area (drag-drop or button) with title, note,
+    date fields. Review queue showing deposits as they come
+    in from parsing. Per-deposit controls: approve, correct
+    routing/tags, skip (come back later), decline (no deposit).
+    Progress indicator (chunk N of M, deposits approved/
+    pending/total). All deposit metadata fields (doc_type,
+    source_format, deposit_weight, observation_presence,
+    confidence) visible and editable during review.
+
+  Right panel — AI parsing partner:
+    Scoped to batch processing collaboration: parsing, context
+    enrichment, correction feedback loop. NOT the research
+    assistant — the research assistant (RAG, mode switching,
+    Cosmology integration) is a separate, larger system
+    designed in Tier 6. The INT parsing partner helps Sage
+    process source documents efficiently. Corrections feed
+    forward as distilled rules into subsequent chunk parsing.
+
+  Batch processing:
+    Large source documents are chunked (5-8 pages), parsed by
+    the AI, and presented as individual deposits for review.
+    A rolling buffer keeps the AI 3-5 chunks ahead of Sage's
+    review position. Session persistence tracks exactly where
+    processing stopped if interrupted. Each approved deposit
+    routes through the INT gateway with a child composite ID
+    stamp linking back to the source document's root stamp.
+
+  Review queue:
+    Per-deposit review cards built from the parsing partner's
+    output. Each card shows suggested type, confidence, flags,
+    content, editable doc_type dropdown, suggested tags, and
+    routing targets. Parse flags surface above the first card
+    in each chunk group. Cross-chunk context sidebar provides
+    prior chunk summaries and approved deposits for context.
+    Skip and decline states are tracked — skipped deposits
+    are re-queueable, declined deposits are archived (not
+    deleted).
+
+  Black Pearl promotion:
+    Pearls captured from any page live in the operational
+    database as pre-archive signals. When ready, a Pearl is
+    promoted through the INT gateway — full deposit fields
+    assigned, pearl_captured_at timestamp preserved, and the
+    deposit enters PostgreSQL as a proper archive entry. The
+    gap between Pearl capture and deposit creation is itself
+    data.
+
+  Media deposit:
+    Images (JPEG, PNG in V1) enter through INT with the same
+    tagging and routing as text, through a simpler flow (no
+    chunking). AI analyzes the image and suggests tags and
+    routing. Sage writes the summary text — the AI does not
+    write the deposit. The summary and metadata route through
+    the standard INT gateway.
+
+  Duplicate detection:
+    Hash-based identical content match fires on deposit
+    creation. WARN, not BLOCK — same content on two pages
+    may be intentional. Sage decides.
+
+  Deposit creation contract:
+    Every deposit passes through a 6-step pipeline with a
+    defined atomicity boundary. Steps 1-3 (validate, duplicate
+    check, create record) are all-or-nothing. Steps 4-6
+    (assign stamp, trigger embedding, route to pages) are
+    recoverable async — the deposit exists regardless of
+    downstream failure. Full contract defined in INTEGRATION
+    SCHEMA.md.
+
+  INT routes to all sections except MTM (07). MTM is the
+  Axis synthesis layer and does not receive deposits — it
+  reads across the five Axis lens pages (THR 02, STR 03,
+  INF 04, ECR 05, SNM 06) and produces Findings through a
+  separate AI-driven synthesis cycle at session close.
+  Material that would otherwise route to MTM routes instead
+  to the appropriate lens page. MTM reads from there.
 
 
 AI ROLE
   Parse incoming documents with full signal attention.
-  Propose section routing grounded in the SOT section
-  map — never guessed, never assumed. Flag split
-  deposits at identification, not after the fact.
+  Propose section routing grounded in the SOT section map —
+  never guessed, never assumed. Suggest doc_type, deposit_
+  weight, tags, and routing for each extracted deposit.
+  Flag split deposits at identification, not after the fact.
   Support deferral decisions without forcing resolution.
-  Generate provenance summaries at retirement with
-  honest self-assessment of parsing confidence.
-  The AI does not decide what enters the Archive —
-  it makes the intake sequence legible enough
-  for Sage to decide.
+  Carry correction context forward as distilled rules —
+  when Sage corrects routing on chunk 5, adjust approach
+  for chunk 6+. Surface parse flags (ambiguous boundaries,
+  missing context, cross-page routing) above deposits so
+  Sage sees concerns before reviewing content.
+  Generate provenance summaries at retirement with honest
+  self-assessment of parsing confidence.
+  The AI does not decide what enters the Archive — it makes
+  the intake sequence legible enough for Sage to decide.
+
+  SCOPE: the right-panel AI is a parsing partner for batch
+  processing. It is NOT the research assistant. The research
+  assistant (RAG, Ven'ai mode switching, Cosmology queries)
+  is a separate system with its own design (Tier 6).
 
 
 AI FUNCTIONS
-  Parse · Tag · Route · Flag · Summarize · Timestamp · Deposit
+  Parse · Tag · Route · Suggest doc_type · Suggest deposit_
+  weight · Flag · Summarize · Timestamp · Deposit · Carry
+  correction context · Surface parse flags
 
 
 GOOD OUTPUT
@@ -44,6 +146,13 @@ GOOD OUTPUT
   confirmed, deposits parsed and routed with precision,
   provenance intact throughout. Split routing named at
   the deposit level. Deferrals held open until resolved.
+  Correction rules carried forward accurately — when Sage
+  fixes a routing error in one chunk, subsequent chunks
+  reflect the correction without re-instruction.
+  Review cards surface AI concerns (parse flags) before
+  content. Doc_type and deposit_weight suggestions are
+  calibrated — high confidence deposits are actually high
+  quality, not systematically overcounted.
   Retirement summaries that report honestly on what was
   clear, what was approximate, and what a future model
   should weight accordingly.
@@ -51,18 +160,27 @@ GOOD OUTPUT
 
 BAD OUTPUT
   Guessed routing presented as confirmed. Provenance
-  fields skipped or approximated. Split deposits
-  collapsed into single targets without flagging.
-  Retirement executed before confirmed_targets are
-  complete. Parsing confidence reported as higher
-  than it was. Any step in the intake or retirement
-  sequence executed out of order or silently skipped.
-  Routing material to MTM (07) — MTM does not receive
-  deposits.
+  fields skipped or approximated. Split deposits collapsed
+  into single targets without flagging. Retirement executed
+  before confirmed_targets are complete. Parsing confidence
+  reported as higher than it was. Any step in the intake
+  or retirement sequence executed out of order or silently
+  skipped. Routing material to MTM (07) — MTM does not
+  receive deposits. Corrections acknowledged but not
+  carried forward into subsequent chunks. Parse flags
+  hidden or placed after content instead of before.
+  deposit_weight systematically biased (everything marked
+  high). Doc_type defaulting to entry when a more specific
+  type is clearly applicable.
 
 
 CONNECTS TO
   Feeds → all sections except MTM (07)
+  Feeds → deposits table (PostgreSQL)
+  Feeds → embeddings table (async, post-deposit)
   Draws from → SOT section map (routing authority)
+  Draws from → TAG VOCABULARY.md (tag suggestions)
+  Draws from → operational DB (Pearl records, session state)
+  Draws from → prompt_versions (parsing partner prompt)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
