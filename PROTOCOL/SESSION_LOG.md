@@ -5421,3 +5421,1534 @@ NOT_STARTED:
 UNCOMMITTED: YES (this CLOSE entry)
 NEXT_ACTION: Next session — RESEARCH ASSISTANT SCHEMA.md (all design items complete, ready to assemble), then Resonance audio to finish Tier 6.
 ---
+
+---
+TIMESTAMP: 2026-04-06 16:20
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\ROT_CONTAMINATION_REPORT.md
+---
+
+---
+TIMESTAMP: 2026-04-06 18:38
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\FLAG\VIOLATION_REPORT.md
+---
+
+---
+TIMESTAMP: 2026-04-06 18:41
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\FLAG\VIOLATION_REPORT.md
+---
+
+---
+TIMESTAMP: 2026-04-06 18:57
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\CURRENT_BUILD_VIOLATION_REPORT.md
+---
+
+---
+TIMESTAMP: 2026-04-06 19:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\ROT_CONTAMINATION_REPORT.md
+---
+
+---
+TIMESTAMP: 2026-04-06 19:25
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\CLAUDE.md
+---
+
+---
+TIMESTAMP: 2026-04-06 19:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\CLAUDE.md
+---
+
+---
+TIMESTAMP: 2026-04-06 19:28
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\recursion_repair_gate.py
+---
+
+---
+TIMESTAMP: 2026-04-06 19:29
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 19:30
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\settings.json
+---
+
+---
+TIMESTAMP: 2026-04-06 19:30
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\phase_state.json
+---
+
+---
+TIMESTAMP: 2026-04-06 19:30
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/phase_control.py status
+---
+
+---
+TIMESTAMP: 2026-04-06 19:30
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && CLAUDE_TOOL_NAME=Write CLAUDE_FILE_PATH="C:/Users/sasir/Desktop/Aelarian/Archives/DESIGN/Systems/Tagger/TEST.md" python hooks/recursion_repair_gate.py; echo "Exit code: $?"
+---
+
+---
+TIMESTAMP: 2026-04-06 19:32
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && CLAUDE_TOOL_NAME=Write CLAUDE_FILE_PATH="C:/Users/sasir/Desktop/Aelarian/Archives/.claude/plans/test.md" python hooks/recursion_repair_gate.py; echo "Exit code: $?"
+---
+
+---
+TIMESTAMP: 2026-04-06 19:33
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/phase_control.py spec "DESIGN/Systems/Tagger/TEST.md" && python hooks/phase_control.py status "DESIGN/Systems/Tagger/TEST.md" && echo "--- Testing gate with spec_pending (should BLOCK) ---" && CLAUDE_TOOL_NAME=Write CLAUDE_FILE_PATH="C:/U...
+---
+
+---
+TIMESTAMP: 2026-04-06 19:34
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 19:34
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 19:34
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 19:34
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/phase_control.py spec "TEST.md" && python hooks/phase_control.py approve "TEST.md" && echo "--- spec_approved: gate should ALLOW ---" && CLAUDE_TOOL_NAME=Write CLAUDE_FILE_PATH="C:/Users/sasir/Desktop/Aelarian/Archives/TEST.md" python hoo...
+---
+
+---
+TIMESTAMP: 2026-04-06 19:42
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py status
+---
+
+---
+TIMESTAMP: 2026-04-06 19:43
+TYPE: HOOK_BASH
+COMMAND: python hooks/recursion_repair_gate.py 2>&1; echo "EXIT: $?"
+---
+
+---
+TIMESTAMP: 2026-04-06 19:43
+TYPE: HOOK_BASH
+COMMAND: CLAUDE_TOOL_NAME=Write CLAUDE_TOOL_INPUT='{"file_path":"C:/Users/sasir/Desktop/Aelarian/Archives/DESIGN/Systems/test_block.md"}' python hooks/recursion_repair_gate.py 2>&1; echo "EXIT: $?"
+---
+
+---
+TIMESTAMP: 2026-04-06 19:43
+TYPE: HOOK_BASH
+COMMAND: # Test full phase cycle
+TEST_FILE="DESIGN/Systems/test_cycle.md"
+
+echo "=== 1. Register SPEC ==="
+python hooks/phase_control.py spec "$TEST_FILE"
+
+echo ""
+echo "=== 2. Try write (should BLOCK â€” spec_pending) ==="
+CLAUDE_TOOL_NAME=Write CLAUDE_TOOL_INPUT="{\"file_path\":\"C:/Users/sasir/Desktop/Ael...
+---
+
+---
+TIMESTAMP: 2026-04-06 19:43
+TYPE: HOOK_BASH
+COMMAND: # Test exemptions
+echo "=== .claude/ file (should ALLOW) ==="
+CLAUDE_TOOL_NAME=Write CLAUDE_TOOL_INPUT='{"file_path":"C:/Users/sasir/Desktop/Aelarian/Archives/.claude/plans/test.md"}' python hooks/recursion_repair_gate.py 2>&1; echo "EXIT: $?"
+
+echo ""
+echo "=== SESSION_LOG.md (should ALLOW) ==="
+CL...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:02
+TYPE: HOOK_BASH
+COMMAND: TEST_FILE="backend/models/test_spec.py"
+
+echo "=== 1. Register SPEC (creates template) ==="
+python hooks/phase_control.py spec "$TEST_FILE"
+
+echo ""
+echo "=== 2. Try approve with empty template (should FAIL) ==="
+python hooks/phase_control.py approve "$TEST_FILE" 2>&1; echo "EXIT: $?"
+
+echo ""
+echo ...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:03
+TYPE: HOOK_BASH
+COMMAND: TEST_FILE="backend/models/test_spec.py"
+SPEC_PATH=".claude/specs/$TEST_FILE.spec.md"
+
+# Write a SPEC with code in it
+cat > "$SPEC_PATH" << 'TEMPLATE'
+# SPEC: backend/models/test_spec.py
+
+## Goal
+Test file for validation.
+
+## Assumptions
+None.
+
+## Risks
+
+### Edge cases
+None identified.
+
+### Invalid i...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:04
+TYPE: HOOK_BASH
+COMMAND: TEST_FILE="backend/models/test_spec.py"
+SPEC_PATH=".claude/specs/$TEST_FILE.spec.md"
+
+# Write a clean SPEC â€” no code
+cat > "$SPEC_PATH" << 'TEMPLATE'
+# SPEC: backend/models/test_spec.py
+
+## Goal
+Test file for validation.
+
+## Assumptions
+None.
+
+## Risks
+
+### Edge cases
+None identified.
+
+### Invalid...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:04
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:04
+TYPE: HOOK_BASH
+COMMAND: TEST_FILE="backend/models/test_spec.py"
+SPEC_PATH=".claude/specs/$TEST_FILE.spec.md"
+
+# Register
+python hooks/phase_control.py spec "$TEST_FILE"
+
+# Write clean SPEC
+cat > "$SPEC_PATH" << 'TEMPLATE'
+# SPEC: backend/models/test_spec.py
+
+## Goal
+Test file for validation.
+
+## Assumptions
+None.
+
+## Risks...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:14
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:15
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\recursion_repair_gate.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:15
+TYPE: HOOK_BASH
+COMMAND: TEST_FILE="backend/models/test_build.py"
+SPEC_PATH=".claude/specs/$TEST_FILE.spec.md"
+
+echo "=== 1. Register and approve SPEC ==="
+python hooks/phase_control.py spec "$TEST_FILE"
+
+# Fill the SPEC with test files and implementation files
+cat > "$SPEC_PATH" << 'TEMPLATE'
+# SPEC: backend/models/test_bu...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:16
+TYPE: HOOK_BASH
+COMMAND: TEST_FILE="backend/models/test_build.py"
+
+echo "=== 2. Try writing implementation BEFORE test exists (should BLOCK) ==="
+CLAUDE_TOOL_NAME=Write CLAUDE_TOOL_INPUT="{\"file_path\":\"C:/Users/sasir/Desktop/Aelarian/Archives/backend/models/test_build.py\"}" python hooks/recursion_repair_gate.py 2>&1; ec...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:16
+TYPE: HOOK_BASH
+COMMAND: TEST_FILE="backend/models/test_build.py"
+
+echo "=== 6. Try build_done (should PASS â€” all files exist) ==="
+mkdir -p backend/models
+echo "# impl" > backend/models/test_build.py
+python hooks/phase_control.py build_done "$TEST_FILE" 2>&1; echo "EXIT: $?"
+
+echo ""
+echo "=== 7. Verify SPEC hash check â...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:24
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:24
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:24
+TYPE: HOOK_BASH
+COMMAND: TEST_FILE="backend/models/test_audit.py"
+SPEC_PATH=".claude/specs/$TEST_FILE.spec.md"
+
+# Set up: register, fill SPEC, approve, create test + impl files, mark build done
+python hooks/phase_control.py spec "$TEST_FILE"
+cat > "$SPEC_PATH" << 'TEMPLATE'
+# SPEC: backend/models/test_audit.py
+
+## Goal
+Test...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:25
+TYPE: HOOK_BASH
+COMMAND: TEST_FILE="backend/models/test_audit.py"
+AUDIT_PATH=".claude/audits/$TEST_FILE.audit.md"
+
+echo "=== 3. Try audit_pass with empty template (should FAIL) ==="
+python hooks/phase_control.py audit_pass "$TEST_FILE" 2>&1; echo "EXIT: $?"
+
+echo ""
+echo "=== 4. Fill audit as PASS but leave Break attempts e...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:25
+TYPE: HOOK_BASH
+COMMAND: TEST_FILE="backend/models/test_audit.py"
+AUDIT_PATH=".claude/audits/$TEST_FILE.audit.md"
+
+# Reset to build_complete for FAIL tests
+python hooks/phase_control.py reset "$TEST_FILE"
+
+# Re-register and fast-forward to build_complete
+python hooks/phase_control.py spec "$TEST_FILE" > /dev/null 2>&1
+
+cat ...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\recursion_repair_gate.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\recursion_repair_gate.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:28
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\recursion_repair_gate.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:28
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\recursion_repair_gate.py
+---
+
+---
+TIMESTAMP: 2026-04-06 20:29
+TYPE: HOOK_BASH
+COMMAND: TEST_FILE="backend/models/test_repair.py"
+SPEC_PATH=".claude/specs/$TEST_FILE.spec.md"
+AUDIT_PATH=".claude/audits/$TEST_FILE.audit.md"
+
+# Fast-forward through SPEC â†’ BUILD â†’ AUDIT FAIL
+python hooks/phase_control.py spec "$TEST_FILE" > /dev/null 2>&1
+cat > "$SPEC_PATH" << 'TEMPLATE'
+# SPEC: backe...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:29
+TYPE: HOOK_BASH
+COMMAND: TEST_FILE="backend/models/test_repair.py"
+AUDIT_PATH=".claude/audits/$TEST_FILE.audit.md"
+
+echo "=== 4. Mark repair done ==="
+python hooks/phase_control.py repair_done "$TEST_FILE"
+
+echo ""
+echo "=== 5. Try writing (should BLOCK â€” needs re-AUDIT) ==="
+CLAUDE_TOOL_NAME=Write CLAUDE_TOOL_INPUT="{\"f...
+---
+
+---
+TIMESTAMP: 2026-04-06 20:56
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py spec "DESIGN/Systems/Tagger/SYSTEM_ Tagger.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 21:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\specs\DESIGN\Systems\Tagger\SYSTEM_ Tagger.md.spec.md
+---
+
+---
+TIMESTAMP: 2026-04-06 21:52
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py spec "DESIGN/Systems/TAG VOCABULARY.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:00
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\specs\DESIGN\Systems\TAG VOCABULARY.md.spec.md
+---
+
+---
+TIMESTAMP: 2026-04-06 22:00
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py approve "DESIGN/Systems/TAG VOCABULARY.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:01
+TYPE: HOOK_BASH
+COMMAND: python3 << 'SCRIPT'
+import re
+
+# Read the file
+with open("DESIGN/Systems/TAG VOCABULARY.md", "r", encoding="utf-8") as f:
+    content = f.read()
+
+# Old-to-new remap (what old ID becomes)
+remap = {
+    "th01": "th01",  # no change
+    "th02": "th03",
+    "th03": "th07",
+    "th04": "th05",
+    "th05"...
+---
+
+---
+TIMESTAMP: 2026-04-06 22:02
+TYPE: HOOK_BASH
+COMMAND: python3 << 'SCRIPT'
+import re
+
+with open("DESIGN/Systems/TAG VOCABULARY.md", "r", encoding="utf-8") as f:
+    content = f.read()
+
+# === STEP 1: Remap all threshold_ids via placeholders ===
+remap = {
+    "th01": "th01", "th02": "th03", "th03": "th07", "th04": "th05",
+    "th05": "th04", "th06": "th11...
+---
+
+---
+TIMESTAMP: 2026-04-06 22:04
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\phase_control.py
+---
+
+---
+TIMESTAMP: 2026-04-06 22:04
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py build_done "DESIGN/Systems/TAG VOCABULARY.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:04
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py audit "DESIGN/Systems/TAG VOCABULARY.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:05
+TYPE: HOOK_BASH
+COMMAND: python3 << 'SCRIPT'
+import re
+
+with open("DESIGN/Systems/TAG VOCABULARY.md", "r", encoding="utf-8") as f:
+    content = f.read()
+
+# === BREAK ATTEMPT 1: Verify correct threshold mapping ===
+print("=== THRESHOLD TABLE CHECK ===")
+# Extract THRESHOLDS section
+thresh_match = re.search(r'THRESHOLDS\n((?...
+---
+
+---
+TIMESTAMP: 2026-04-06 22:06
+TYPE: HOOK_BASH
+COMMAND: python3 << 'SCRIPT'
+with open("DESIGN/Systems/TAG VOCABULARY.md", "r", encoding="utf-8") as f:
+    content = f.read()
+
+# Debug: check what dup_section contains
+start = content.find("DUPLICATES REGISTER")
+end = content.find("NODE_REGISTRY")
+print(f"DUPLICATES REGISTER found at: {start}")
+print(f"NODE...
+---
+
+---
+TIMESTAMP: 2026-04-06 22:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\audits\DESIGN\Systems\TAG VOCABULARY.md.audit.md
+---
+
+---
+TIMESTAMP: 2026-04-06 22:06
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py audit_pass "DESIGN/Systems/TAG VOCABULARY.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:21
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py status
+---
+
+---
+TIMESTAMP: 2026-04-06 22:22
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py approve "DESIGN/Systems/Tagger/SYSTEM_ Tagger.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Tagger\SYSTEM_ Tagger.md
+---
+
+---
+TIMESTAMP: 2026-04-06 22:25
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Tagger\TAGGER SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-06 22:25
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/TAGGER SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/RESONANCE ENGINE SCHEMA.md
+  - DESIGN/Systems/EMERGENCE SCHEMA.md
+  - DESIGN/Systems/SYSTEM_ Tagger.md
+  - DESIGN/Systems/INTEGRATION SCHEMA.md
+REASON: ae:tagCommit payload structure is a shared contract with resonance_engine and emergence. Sync sequence must stay aligned with SYSTEM_ Tagger.md. Tag routing feeds INT step 5.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-06 22:25
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py build_done "DESIGN/Systems/Tagger/SYSTEM_ Tagger.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:25
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py audit "DESIGN/Systems/Tagger/SYSTEM_ Tagger.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:29
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\audits\DESIGN\Systems\Tagger\SYSTEM_ Tagger.md.audit.md
+---
+
+---
+TIMESTAMP: 2026-04-06 22:29
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py audit_pass "DESIGN/Systems/Tagger/SYSTEM_ Tagger.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:31
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py spec "DESIGN/Systems/Composite_ID/COMPOSITE ID SCHEMA.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:31
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\specs\DESIGN\Systems\Composite_ID\COMPOSITE ID SCHEMA.md.spec.md
+---
+
+---
+TIMESTAMP: 2026-04-06 22:31
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py approve "DESIGN/Systems/Composite_ID/COMPOSITE ID SCHEMA.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:32
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Composite_ID\COMPOSITE ID SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-06 22:32
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/COMPOSITE ID SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/INTEGRATION SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+REASON: Stamp format and sequence counter behavior referenced in integration flow. buildCompositeId() vs previewCompositeId() distinction load-bearing.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-06 22:33
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Composite_ID\COMPOSITE ID SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-06 22:33
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/COMPOSITE ID SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/INTEGRATION SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+REASON: Stamp format and sequence counter behavior referenced in integration flow. buildCompositeId() vs previewCompositeId() distinction load-bearing.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-06 22:33
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py build_done "DESIGN/Systems/Composite_ID/COMPOSITE ID SCHEMA.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:33
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py audit "DESIGN/Systems/Composite_ID/COMPOSITE ID SCHEMA.md"
+---
+
+---
+TIMESTAMP: 2026-04-06 22:33
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\audits\DESIGN\Systems\Composite_ID\COMPOSITE ID SCHEMA.md.audit.md
+---
+
+---
+TIMESTAMP: 2026-04-06 22:33
+TYPE: HOOK_BASH
+COMMAND: python hooks/phase_control.py audit_pass "DESIGN/Systems/Composite_ID/COMPOSITE ID SCHEMA.md"
+---
+
+---
+TIMESTAMP: 2026-04-07 07:37
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 07:38
+TYPE: HOOK_BASH
+COMMAND: git add "DESIGN/ENTROPY_EXCAVATION.md" && git commit -m "$(cat <<'EOF'
+Entropy Excavation: phased rot cleanup protocol + verified file tracking
+
+Tracks verified vs unverified files during the rot cleanup sweep.
+Sessions must prefer VERIFIED sources over unverified ones. Includes
+15 audit categories ...
+---
+
+---
+TIMESTAMP: 2026-04-07 07:55
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-07 07:56
+TYPE: HOOK_BASH
+COMMAND: python hooks/entropy_scan.py --summary
+---
+
+---
+TIMESTAMP: 2026-04-07 07:57
+TYPE: HOOK_BASH
+COMMAND: python hooks/entropy_scan.py --summary 2>&1
+---
+
+---
+TIMESTAMP: 2026-04-07 07:59
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --summary
+---
+
+---
+TIMESTAMP: 2026-04-07 07:59
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python -c "
+import os
+counts = {}
+for scan_dir in ['DESIGN', 'PROTOCOL', 'api', 'backend', 'frontend']:
+    target = os.path.join('.', scan_dir)
+    if not os.path.isdir(target):
+        continue
+    c = 0
+    for root, dirs, files in os.walk(target):...
+---
+
+---
+TIMESTAMP: 2026-04-07 08:00
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python -c "
+import os
+for root, dirs, files in os.walk('backend'):
+    dirs[:] = [d for d in dirs if d not in ('node_modules', '.svelte-kit', '__pycache__', '.git')]
+    if files:
+        print(f'  {root}: {len(files)} files')
+" | head -20
+---
+
+---
+TIMESTAMP: 2026-04-07 08:00
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-07 08:00
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-07 08:00
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --summary
+---
+
+---
+TIMESTAMP: 2026-04-07 08:01
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --category 2 --summary
+---
+
+---
+TIMESTAMP: 2026-04-07 08:01
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --category 2 2>&1 | head -60
+---
+
+---
+TIMESTAMP: 2026-04-07 08:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-07 08:01
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --category 2 2>&1 | head -80
+---
+
+---
+TIMESTAMP: 2026-04-07 08:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-07 08:01
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --category 2 2>&1 | head -80
+---
+
+---
+TIMESTAMP: 2026-04-07 08:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-07 08:02
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --summary
+---
+
+---
+TIMESTAMP: 2026-04-07 08:02
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --category 1 --summary
+---
+
+---
+TIMESTAMP: 2026-04-07 08:03
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --category 1 2>&1 | grep -c "index.html"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:03
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --category 1 2>&1 | grep "Contamination\|Old architecture\|arcPhase\|aetherrot\|Misspelling\|threshold ID\|framework\|page code" | sort | uniq -c | sort -rn | head -20
+---
+
+---
+TIMESTAMP: 2026-04-07 08:04
+TYPE: HOOK_BASH
+COMMAND: git add hooks/entropy_scan.py && git commit -m "$(cat <<'EOF'
+Entropy Scanner: 12-category automated rot and drift detection
+
+Comprehensive scan script covering contamination markers, phantom file
+references, stale counts, canonical value verification, threshold order,
+file path headers, spelling en...
+---
+
+---
+TIMESTAMP: 2026-04-07 08:10
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -A3 "Tagger"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:11
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-07 08:11
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-07 08:11
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -A3 "Tagger"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:11
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-07 08:11
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -A3 "Tagger"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:12
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-07 08:12
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -A3 "Tagger"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:12
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --category 2 --summary
+---
+
+---
+TIMESTAMP: 2026-04-07 08:13
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:21
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1
+---
+
+---
+TIMESTAMP: 2026-04-07 08:21
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep "DESIGN/Systems/" | sort
+---
+
+---
+TIMESTAMP: 2026-04-07 08:27
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep "DESIGN/Systems/" | sed 's/:.*$//' | sort | uniq -c | sort -rn
+---
+
+---
+TIMESTAMP: 2026-04-07 08:38
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Metamorphosis\METAMORPHOSIS SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:38
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/METAMORPHOSIS SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/DAILY NEXUS ROUTINE SCHEMA.md
+REASON: MTM.runSynthesis() public API called by DNR as step 1. prior_mtm_session_ids (plural) confirmed in both. Return type must match what DNR expects.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 08:38
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -A3 "Metamorphosis"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:42
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Research_Assistant\RESEARCH ASSISTANT EMBEDDING SCOPE.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:42
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -E "Metamorphosis|EMBEDDING SCOPE"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:42
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "EMBEDDING SCOPE"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:44
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep "SYSTEM_ Metamorphosis"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:45
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:45
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "INTEGRATION DB SCHEMA"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:48
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:48
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:48
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:48
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:49
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:49
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "INTEGRATION DB SCHEMA"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:49
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:50
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "INTEGRATION SCHEMA.md" | grep -v "INTEGRATION DB SCHEMA"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:53
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/INTEGRATION SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/COMPOSITE ID SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+  - DESIGN/Systems/TAGGER SCHEMA.md
+REASON: References composite ID stamp assignment, IDB store write sequence, and tagger routing at step 5. Changes here cascade to all three.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 08:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:53
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/INTEGRATION SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/COMPOSITE ID SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+  - DESIGN/Systems/TAGGER SCHEMA.md
+REASON: References composite ID stamp assignment, IDB store write sequence, and tagger routing at step 5. Changes here cascade to all three.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 08:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:53
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/INTEGRATION SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/COMPOSITE ID SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+  - DESIGN/Systems/TAGGER SCHEMA.md
+REASON: References composite ID stamp assignment, IDB store write sequence, and tagger routing at step 5. Changes here cascade to all three.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 08:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:53
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/INTEGRATION SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/COMPOSITE ID SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+  - DESIGN/Systems/TAGGER SCHEMA.md
+REASON: References composite ID stamp assignment, IDB store write sequence, and tagger routing at step 5. Changes here cascade to all three.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 08:53
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:53
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/INTEGRATION SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/COMPOSITE ID SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+  - DESIGN/Systems/TAGGER SCHEMA.md
+REASON: References composite ID stamp assignment, IDB store write sequence, and tagger routing at step 5. Changes here cascade to all three.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 08:53
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "INTEGRATION SCHEMA.md" | grep -v "INTEGRATION DB SCHEMA"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:54
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:54
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "SYSTEM_ Integration DB"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:55
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "SYSTEM_ Integration.md"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:55
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-07 08:55
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "SYSTEM_ Integration DB"
+---
+
+---
+TIMESTAMP: 2026-04-07 08:55
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:01
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/INTEGRATION SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/COMPOSITE ID SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+  - DESIGN/Systems/TAGGER SCHEMA.md
+REASON: References composite ID stamp assignment, IDB store write sequence, and tagger routing at step 5. Changes here cascade to all three.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 09:01
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "INTEGRATION SCHEMA.md" | grep -v "INTEGRATION DB SCHEMA"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:01
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:01
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "SWARM ARCHITECTURE"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Swarm\SWARM ARCHITECTURE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:02
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "SWARM ARCHITECTURE"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:02
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Emergence"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Emergence\EMERGENCE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:05
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/EMERGENCE SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/THREAD TRACE SCHEMA.md
+  - DESIGN/Systems/TAGGER SCHEMA.md
+REASON: Thread Trace bridge via window.ThreadTraceUI. onTagSessionComplete sequence depends on tagger commit hook. setEntriesFetcher order dependency.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 09:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Emergence\SYSTEM_ Emergence.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:06
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Emergence"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:07
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Research_Assistant\RESEARCH ASSISTANT EMBEDDING SCOPE.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:08
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Archive/ARCHIVE SCHEMA\|Archive/SYSTEM_ Archive"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:08
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Archive\ARCHIVE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:08
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Archive\ARCHIVE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:09
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Archive\SYSTEM_ Archive.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:09
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Archive/ARCHIVE SCHEMA\|Archive/SYSTEM_ Archive"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:09
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:11
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Thread_Trace"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:11
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Thread_Trace\THREAD TRACE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:11
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/THREAD TRACE SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/EMERGENCE SCHEMA.md
+REASON: window.ThreadTraceUI global used by emergence as bridge. Graph export stub must stay disabled in both. DB version dependency with data.js.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 09:11
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Thread_Trace"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:11
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:12
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Resonance_Engine"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:12
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Resonance_Engine\RESONANCE ENGINE PHYSICS SPEC.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:12
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Resonance_Engine"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:12
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Operational_DB\|Embedding_Pipeline\|Daily_Nexus"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:12
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Daily_Nexus_Routine\DAILY NEXUS ROUTINE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:12
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/DAILY NEXUS ROUTINE SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/METAMORPHOSIS SCHEMA.md
+REASON: Calls MTM.runSynthesis(). DNR sequence is strictly ordered — step 1 MTM, step 2 LNV notification. WSC is not part of this routine.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-07 09:13
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Embedding_Pipeline\EMBEDDING PIPELINE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:13
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Operational_DB\OPERATIONAL DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:13
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Operational_DB\|Embedding_Pipeline\|Daily_Nexus"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:13
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:13
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Signal_Grading\|Pattern_Convergence\|Drift_Taxonomy"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:14
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Signal_Grading\SIGNAL GRADING SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:14
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Pattern_Convergence\PATTERN CONVERGENCE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:14
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Drift_Taxonomy\DRIFT TAXONOMY SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:14
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Signal_Grading\|Pattern_Convergence\|Drift_Taxonomy"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:15
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:15
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Research_Assistant\|FastAPI\|Frontend\|Composite_ID/SYSTEM"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:15
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:16
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "Frontend/SYSTEM_\|SYSTEM_ FastAPI\|Composite_ID/SYSTEM_"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:16
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-07 09:20
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep "DESIGN/Domains/" | sed 's/:.*$//' | sort | uniq -c | sort -rn
+---
+
+---
+TIMESTAMP: 2026-04-07 09:20
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py 2>&1 | grep -B1 -A3 "DESIGN/Domains/"
+---
+
+---
+TIMESTAMP: 2026-04-07 09:22
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && for f in DESIGN/Domains/*/Domain_*.txt; do name=$(basename "$f" .txt | sed 's/Domain_//'); seeds=$(grep -oP 'SEEDS: [^\n]*' "$f" | head -1 | sed 's/SEEDS: //'); echo "$name | $seeds"; done
+---
+
+---
+TIMESTAMP: 2026-04-07 09:22
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && for f in DESIGN/Domains/*/Domain_*.txt; do name=$(basename "$f" .txt | sed 's/Domain_//'); seeds=$(grep -o 'SEEDS: [^O]*' "$f" | head -1 | sed 's/ ORIGIN.*//;s/SEEDS: //'); echo "$name | $seeds"; done
+---
+
+---
+TIMESTAMP: 2026-04-07 09:30
+TYPE: CLOSE
+FILES_MODIFIED:
+  - DESIGN/Systems/Metamorphosis/METAMORPHOSIS SCHEMA.md — COMPLETE (clean V1 rewrite, 75→0 findings)
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — COMPLETE (targeted fixes, 16→3 false positives)
+  - DESIGN/Systems/Integration/INTEGRATION SCHEMA.md — COMPLETE (targeted fixes + KIN+VEN BUILD FLAG resolved, 13→1 false positive)
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md — COMPLETE (IDB ref removed, 1→0)
+  - DESIGN/Systems/Swarm/SWARM ARCHITECTURE SCHEMA.md — COMPLETE (header fix, 9→2 false positives)
+  - DESIGN/Systems/Emergence/EMERGENCE SCHEMA.md — COMPLETE (header fix, 8→1 scanner limitation)
+  - DESIGN/Systems/Emergence/SYSTEM_ Emergence.md — COMPLETE (seven→eight detectors, 2→1)
+  - DESIGN/Systems/Archive/ARCHIVE SCHEMA.md — COMPLETE (header + V2 fix, 8→0)
+  - DESIGN/Systems/Archive/SYSTEM_ Archive.md — COMPLETE (V2 fix, 1→0)
+  - DESIGN/Systems/Thread_Trace/THREAD TRACE SCHEMA.md — COMPLETE (header fix, 7→0)
+  - DESIGN/Systems/Resonance_Engine/RESONANCE ENGINE PHYSICS SPEC.md — COMPLETE (header fix, 7→0)
+  - DESIGN/Systems/Operational_DB/OPERATIONAL DB SCHEMA.md — COMPLETE (header + path fix, 7→0)
+  - DESIGN/Systems/Embedding_Pipeline/EMBEDDING PIPELINE SCHEMA.md — COMPLETE (header + path fix, 7→0)
+  - DESIGN/Systems/Daily_Nexus_Routine/DAILY NEXUS ROUTINE SCHEMA.md — COMPLETE (header fix, 7→0)
+  - DESIGN/Systems/Signal_Grading/SIGNAL GRADING SCHEMA.md — COMPLETE (header + path fix, 3→0)
+  - DESIGN/Systems/Pattern_Convergence/PATTERN CONVERGENCE SCHEMA.md — COMPLETE (header + path fix, 3→0)
+  - DESIGN/Systems/Drift_Taxonomy/DRIFT TAXONOMY SCHEMA.md — COMPLETE (header + path fix, 3→0)
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — COMPLETE (phantom ref fix, 1→0)
+  - DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT EMBEDDING SCOPE.md — COMPLETE (cross-file fixes: finding_type + seven detectors)
+  - DESIGN/MISC/ENTROPY_EXCAVATION.md — COMPLETE (all 37 Systems files added to VERIFIED list)
+  - DESIGN/Systems/Integration/SYSTEM_ Integration.md — COMPLETE (0 findings, cascade verified)
+  - DESIGN/Systems/Metamorphosis/SYSTEM_ Metamorphosis.md — COMPLETE (0 findings, cascade verified)
+  - Remaining 10 Systems files verified at 0 findings (no changes needed)
+COMPLETED:
+  - Full entropy sweep of DESIGN/Systems/ — all 37 files verified
+  - 33 files newly verified this session (4 were prior)
+  - 2 design decisions resolved: finding_type removed from MTM validation, KIN+VEN atomicity boundary designed (ven_pair_status)
+  - Domains folder scanned — seed affinity conflict confirmed as total (all 50 sections differ between domain files and SECTION MAP)
+  - Domains rebuild plan created and saved by Sage
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Domains rebuild (Phase 0: seed affinity authority decision, Phases 1-6 per saved plan)
+  - RESEARCH ASSISTANT SCHEMA.md (all design items complete, ready to assemble)
+  - Resonance audio sonification
+  - VOI (Void engine) schema — Sage was mid-build when rot interrupted
+  - Remaining entropy outside Systems: PROTOCOL/, DESIGN/MISC/, api/, CLAUDE.md
+UNCOMMITTED: YES (this CLOSE entry + SESSION_LOG hook entries + CLAUDE.md from prior interrupted session)
+NEXT_ACTION: Decide seed affinity authority (Phase 0 of Domains plan). Then begin Domains rebuild per saved plan.
+---
