@@ -1,10 +1,11 @@
-╔══════════════════════════════════════════════════════════════╗
-║  EMERGENCE SCHEMA  ·  V1                                    ║
-║  /DESIGN/Systems/Emergence/EMERGENCE SCHEMA.md               ║
-║  Mechanical spec — detectors, finding shape, commit hook,    ║
-║  nudge, Claude API, severity, failure modes.                 ║
-║  Architectural description in SYSTEM_ Emergence.md.          ║
-╚══════════════════════════════════════════════════════════════╝
+# EMERGENCE SCHEMA
+
+## V1
+
+## /DESIGN/Systems/Emergence/EMERGENCE SCHEMA.md
+
+Mechanical spec — detectors, finding shape, commit hook, nudge, Claude API,
+severity, failure modes. Architectural description in SYSTEM_ Emergence.md.
 
 
 OWNERSHIP BOUNDARIES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

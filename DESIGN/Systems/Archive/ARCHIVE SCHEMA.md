@@ -1,10 +1,11 @@
-╔══════════════════════════════════════════════════════════════╗
-║  ARCHIVE SCHEMA  ·  ARV  ·  V1                              ║
-║  /DESIGN/Systems/Archive/ARCHIVE SCHEMA.md                   ║
-║  Mechanical spec — deposit format, write sequence, sealed    ║
-║  enforcement, failure modes. Architectural description in    ║
-║  SYSTEM_ Archive.md.                                         ║
-╚══════════════════════════════════════════════════════════════╝
+# ARCHIVE SCHEMA
+
+## ARV · V1
+
+## /DESIGN/Systems/Archive/ARCHIVE SCHEMA.md
+
+Mechanical spec — deposit format, write sequence, sealed enforcement,
+failure modes. Architectural description in SYSTEM_ Archive.md.
 
 
 OWNERSHIP BOUNDARIES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -169,9 +170,9 @@ API enforcement:
 
 Database enforcement:
   No additional DB-level constraint required — application layer is
-  sufficient given single-service architecture. If V2+ introduces
-  multiple write paths, add a PostgreSQL trigger or check constraint
-  on the status field.
+  sufficient given single-service architecture. If a future phase
+  introduces multiple write paths, add a PostgreSQL trigger or check
+  constraint on the status field.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

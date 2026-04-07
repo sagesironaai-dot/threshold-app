@@ -1,10 +1,11 @@
-╔══════════════════════════════════════════════════════════════╗
-║  INTEGRATION SCHEMA  ·  INT  ·  V1                          ║
-║  /DESIGN/Systems/Integration/INTEGRATION SCHEMA.md           ║
-║  Mechanical spec — sequences, fields, contracts, state       ║
-║  machines. Architectural/behavioral description in           ║
-║  SYSTEM_ Integration.md.                                     ║
-╚══════════════════════════════════════════════════════════════╝
+# INTEGRATION SCHEMA
+
+## INT · V1
+
+## /DESIGN/Systems/Integration/INTEGRATION SCHEMA.md
+
+Mechanical spec — sequences, fields, contracts, state machines.
+Architectural/behavioral description in SYSTEM_ Integration.md.
 
 
 OWNERSHIP BOUNDARIES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -82,10 +83,11 @@ CLASSIFICATION FIELDS:
                          analysis, and hypothesis doc_types unlock
                          observation_type and confidence. Other
                          doc_types do not display these fields.
-                         BUILD FLAG from COMPOSITE ID SCHEMA.md:
                          doc_type is a database field only — not
                          encoded in the composite ID stamp. Travels
                          in AI-facing JSON export as top-level field.
+                         (Confirmed in COMPOSITE ID SCHEMA.md,
+                         verified 2026-04-06.)
 
   source_format        — how the content arrived. Separate axis from
                          doc_type. A handwritten observation is
@@ -167,16 +169,16 @@ UNIVERSAL METADATA FIELDS:
 SWARM FOUNDATION FIELDS:
 
   authored_by          — which AI instance or human created this.
-                         V1: always "sage" or "claude".
-                         V2+: per-origin-node values.
+                         Launch: always "sage" or "claude".
+                         Swarm phase: per-origin-node values.
 
   node_id              — which analytical node.
-                         V1: single value.
-                         V2+: multiple nodes in swarm.
+                         Launch: single value.
+                         Swarm phase: multiple nodes.
 
   instance_context     — session identifier for creating instance.
-                         V1 cost: zero (always same values).
-                         V2+ value: critical.
+                         Launch cost: zero (always same values).
+                         Swarm phase value: critical.
 
 DROPPED FIELDS (session 15 — recorded for audit trail):
   deposit_depth (deep|standard|fragment) — redundant with doc_type,
@@ -1197,14 +1199,27 @@ combination, the AI names the ambiguity and flags it for Sage's
 decision. The VEN deposit is not generated until the determination is
 confirmed.
 
-BUILD FLAG: This rule needs its own mini-sequence with explicit failure
-handling before it is build-ready. Open questions:
-  — If VEN write fails after KIN write succeeds, is the KIN deposit
-    valid? Is it flagged? Does it retry?
-  — What is the atomicity boundary for the KIN+VEN pair?
-  — Does failure of the VEN deposit block confirmation of the KIN
-    deposit, or are they independent after generation?
-These must be resolved during schema writing, not at build time.
+KIN+VEN FAILURE HANDLING (resolved 2026-04-07):
+
+KIN confirms and writes first. VEN is a dependent write that triggers
+immediately after KIN confirmation. They are not in the same database
+transaction, but they are coupled for resolution.
+
+  ven_pair_status — tracked on the KIN deposit record.
+    pending:  VEN generation triggered, write not yet confirmed.
+    complete: VEN deposit written and confirmed. Both clear.
+    failed:   VEN write failed. KIN is flagged. Both deposits are
+              blocked until retry verification clears the VEN write.
+
+Atomicity boundary: KIN commit is the point of no return for KIN
+content. The KIN content is valid — only its VEN derivative failed.
+VEN status is tracked on the KIN record. Resolution requires both.
+
+On retry: VEN write re-attempted. On success, ven_pair_status →
+complete, both confirmed. KIN content is not re-processed.
+
+STR is not involved in this pair. STR maps relations between entities
+but is not part of the KIN+VEN cross-deposit sequence.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

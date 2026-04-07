@@ -130,7 +130,7 @@ remainder. Asynchronous.
 ### Emergence Findings — at production
 
 Pattern detection outputs from the Emergence system — cross-domain
-patterns surfaced by the seven detectors.
+patterns surfaced by the eight detectors.
 
 **Input:** Finding content + detector type + involved deposits/nodes +
 pattern classification.
@@ -213,7 +213,7 @@ source record. The input text varies by data type.
 | Data type | source_ref format | Input text |
 | --- | --- | --- |
 | Deposit | deposit composite_id | content + doc_type + tags + pages |
-| MTM finding | finding_id | content + finding_type + confidence |
+| MTM finding | finding_id | content + title + source_page_codes |
 | Cosmology finding | finding_id | content + framework + computation_type + confidence |
 | RCT residual | residual_id | content + source_computation + unexplained_remainder |
 | Emergence finding | finding_id | content + detector_type + pattern_classification |

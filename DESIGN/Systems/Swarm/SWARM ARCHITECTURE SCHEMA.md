@@ -1,8 +1,10 @@
-╔══════════════════════════════════════════════════════════════╗
-║  SWARM ARCHITECTURE SCHEMA  ·  v1                          ║
-║  /DESIGN/systems/swarm_architecture_schema_v1.md             ║
-║  Phase 2 design · Ollama + Qwen 14B · FastAPI /swarm/      ║
-╚══════════════════════════════════════════════════════════════╝
+# SWARM ARCHITECTURE SCHEMA
+
+## V1
+
+## /DESIGN/Systems/Swarm/SWARM ARCHITECTURE SCHEMA.md
+
+Phase 2 design · Ollama + Qwen 14B · FastAPI /swarm/
 
 
 OVERVIEW

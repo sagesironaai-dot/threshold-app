@@ -2,7 +2,7 @@
 
 ## /DESIGN/Systems/Emergence/
 
-### Pattern detection engine · seven detectors · read-only analysis layer
+### Pattern detection engine · eight detectors · read-only analysis layer
 
 ---
 

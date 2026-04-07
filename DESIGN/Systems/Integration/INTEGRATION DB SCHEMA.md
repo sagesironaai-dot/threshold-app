@@ -1,8 +1,10 @@
-﻿╔══════════════════════════════════════════════════════════════╗
-║  INTEGRATION DB SCHEMA  ·  INT  ·  v1                       ║
-║  /DESIGN/systems/integration_db_schema_v1.md                  ║
-║  PostgreSQL + pgvector · Alembic migrations                 ║
-╚══════════════════════════════════════════════════════════════╝
+﻿# INTEGRATION DB SCHEMA
+
+## INT · V1
+
+## /DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md
+
+PostgreSQL + pgvector · Alembic migrations
 
 
 INFRASTRUCTURE NOTE
@@ -12,8 +14,8 @@ INFRASTRUCTURE NOTE
   Database name: aelarian_archives
   Migrations: Alembic (backend/db/migrations/)
   Access layer: FastAPI service layer (backend/services/, backend/models/)
-  Embedding storage: dedicated embeddings table (schema in EMBEDDING
-    PIPELINE SCHEMA.md)
+  Embedding storage: dedicated embeddings table (schema in
+    EMBEDDING PIPELINE SCHEMA.md)
   Operational state (sessions, presence): SQLite (schema in
     OPERATIONAL DB SCHEMA.md)
   Cross-DB correlation: session_id (UUID) shared between PostgreSQL
@@ -21,13 +23,12 @@ INFRASTRUCTURE NOTE
     consistency via FastAPI.
 
   All tables below are PostgreSQL tables managed via Alembic migrations.
-  Previous IDB (IndexedDB) store definitions are superseded.
 
 
 ID FORMAT REFERENCE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  TS              — Threshold Studies. Hardcoded literal prefix.
+  TS              — Threshold Pillars. Hardcoded literal prefix.
                     First segment of every composite stamp in
                     the system. Never computed. Never variable.
 
@@ -942,7 +943,7 @@ backend/models/
 backend/services/
   FastAPI service layer — intake sequence execution, retirement
   sequence execution, arc_seq management, chunk queue derivation,
-  embedding pipeline trigger. Replaces data.js from the old build.
+  embedding pipeline trigger.
   Status: PLANNED
 
 backend/db/postgres.py

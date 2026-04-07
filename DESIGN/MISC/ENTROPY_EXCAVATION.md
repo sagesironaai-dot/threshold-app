@@ -61,6 +61,102 @@ a VERIFIED file, the VERIFIED file wins.
     both BUILD FLAGS updated to COMPLETE
     Gate: SPEC → BUILD → AUDIT → PASS
 
+  METAMORPHOSIS SCHEMA.md
+    Verified: 2026-04-07
+    Scope: clean V1 rewrite — all formatting corruption removed (box-drawing,
+    escaped underscores/brackets, wall-of-text), finding_type removed from
+    validation criteria (field did not exist in response format or store),
+    cross-file fix in RESEARCH ASSISTANT EMBEDDING SCOPE.md (finding_type +
+    confidence → title + source_page_codes)
+    Gate: SPEC → BUILD → AUDIT → PASS
+    Entropy scan: 0 findings (2026-04-07)
+
+  INTEGRATION SCHEMA.md
+    Verified: 2026-04-07
+    Scope: targeted fixes — box-drawing header replaced, V2 version refs
+    reworded to "Launch" / "Swarm phase" (not version contamination — refers
+    to Ollama swarm wiring phase), stale BUILD FLAG on doc_type resolved
+    (COMPOSITE ID SCHEMA already verified COMPLETE)
+    Gate: SPEC → BUILD → AUDIT → PASS
+    Entropy scan: 1 finding (false positive on split_flag field name).
+    KIN+VEN BUILD FLAG resolved 2026-04-07: KIN confirms first, VEN is
+    dependent write tracked via ven_pair_status on KIN record, both
+    blocked until retry clears VEN on failure.
+    Cross-file scan: 33 references across 14 files — all clean
+
+  ARCHIVE SCHEMA.md
+    Verified: 2026-04-07
+    Scope: targeted fixes — box-drawing header replaced, V2 version ref
+    reworded to "future phase" (sealed record enforcement note)
+    Gate: SPEC → BUILD → AUDIT → PASS
+    Entropy scan: 0 findings (2026-04-07)
+    Cross-file scan: 8 external references — all clean
+
+  SYSTEM_ Archive.md
+    Verified: 2026-04-07
+    Scope: targeted fix — V2 version ref reworded to "future phase"
+    (sealed record chain of custody note)
+    Gate: SPEC → BUILD → AUDIT → PASS
+    Entropy scan: 0 findings (2026-04-07)
+
+  EMERGENCE SCHEMA.md
+    Verified: 2026-04-07
+    Scope: targeted fix — box-drawing header replaced. VOI references
+    are correct (Void engine page exists, mid-build when rot interrupted).
+    VOI missing from SECTION MAP.md — SECTION MAP gap, not Emergence error.
+    Gate: SPEC → BUILD → AUDIT → PASS
+    Entropy scan: 1 finding (VOI phantom — scanner false positive,
+    VOI is real but not yet in SECTION MAP)
+
+  SYSTEM_ Emergence.md
+    Verified: 2026-04-07
+    Scope: targeted fix — "seven detectors" → "eight detectors".
+    VOI reference correct (same as EMERGENCE SCHEMA).
+    Gate: SPEC → BUILD → AUDIT → PASS
+    Entropy scan: 1 finding (VOI phantom — same scanner limitation)
+
+  SWARM ARCHITECTURE SCHEMA.md
+    Verified: 2026-04-07
+    Scope: targeted fix — box-drawing header replaced, old file path
+    corrected (/DESIGN/systems/ → /DESIGN/Systems/)
+    Gate: SPEC → BUILD → AUDIT → PASS
+    Entropy scan: 2 findings (both false positives — parallax_flag
+    field names matched by BUILD FLAG scanner pattern)
+    Cross-file scan: no external references — no cascade possible
+
+  SYSTEM_ Integration DB.md
+    Verified: 2026-04-07
+    Scope: targeted fix — old IDB reference removed from Alembic section
+    Gate: SPEC → BUILD → AUDIT → PASS
+    Entropy scan: 0 findings (2026-04-07)
+
+  SYSTEM_ Integration.md
+    Verified: 2026-04-07
+    Scope: 0 findings pre-audit. Cascade check against INTEGRATION SCHEMA.md
+    and INTEGRATION DB SCHEMA.md fixes — no contamination found. Content
+    consistent with both verified schemas.
+    Gate: verified by entropy scan + cascade audit — no changes required
+    Entropy scan: 0 findings (2026-04-07)
+
+  INTEGRATION DB SCHEMA.md
+    Verified: 2026-04-07
+    Scope: targeted fixes — box-drawing header replaced, old file path
+    corrected, IDB/IndexedDB reference removed, "Threshold Studies" →
+    "Threshold Pillars", phantom "PIPELINE SCHEMA.md" → "EMBEDDING PIPELINE
+    SCHEMA.md", old "data.js" reference removed
+    Gate: SPEC → BUILD → AUDIT → PASS
+    Entropy scan: 3 findings (all false positives — scanner matches
+    "FLAG —" in schema field names parallax_flag and split_flag)
+    Cross-file scan: 23 references across 16 files — all clean
+
+  SYSTEM_ Metamorphosis.md
+    Verified: 2026-04-07
+    Scope: 0 findings pre-rewrite, 0 findings post-rewrite. No cascade from
+    METAMORPHOSIS SCHEMA.md clean rewrite. Content consistent with rewritten
+    schema.
+    Gate: verified by entropy scan — no changes required
+    Entropy scan: 0 findings (2026-04-07)
+
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 UNVERIFIED — KNOWN ISSUES

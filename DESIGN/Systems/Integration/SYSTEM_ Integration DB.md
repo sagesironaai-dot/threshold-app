@@ -36,7 +36,7 @@
 
 ## SCHEMA VERSIONING — ALEMBIC MIGRATIONS
 
-All table changes are managed through Alembic migrations (backend/db/migrations/). This replaces the DB_VERSION / REQUIRED_VERSION coupling from the old IDB build.
+All table changes are managed through Alembic migrations (backend/db/migrations/).
 
 **The rule:** every table addition, column change, index change, or constraint change is a versioned Alembic migration. Migrations are tested before applying to production data. Never modify tables directly via SQL. Never skip a migration version.
 

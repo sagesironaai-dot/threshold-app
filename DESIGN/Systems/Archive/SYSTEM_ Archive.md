@@ -94,7 +94,7 @@ Once an entry is written to the Archives page with status `sealed`, it is not re
 
 The sealed record rule is not administrative caution. It is the integrity guarantee that makes the archive's provenance claims defensible. A finding produced from a record that was later modified cannot be attributed to what the record said at the time of the finding. Sealed means the record is what it was when the research happened. That is the only condition under which the archive can be treated as evidence.
 
-Anyone building against this system in V2+ needs to understand: this is not a soft convention. It is the chain of custody. A record that can be reopened is not a chain of custody. It is a draft.
+Anyone building against this system in a future phase needs to understand: this is not a soft convention. It is the chain of custody. A record that can be reopened is not a chain of custody. It is a draft.
 
 Enforcement mechanics in ARCHIVE SCHEMA.md.
 
