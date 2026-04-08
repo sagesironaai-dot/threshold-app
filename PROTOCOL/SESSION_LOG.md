@@ -10237,3 +10237,385 @@ NEXT_ACTION: Next session opens with SOT authoring. All prerequisites verified.
   - SOT_BUILD_TODO items 1-5 (all [x] with valid sources)
   - infrastructure-build-plan.md (stack decisions, route namespace)
 ---
+
+---
+TIMESTAMP: 2026-04-08 04:22
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && git add PROTOCOL/SESSION_LOG.md && \
+git commit -m "$(cat <<'EOF'
+Session close: Audio Phase 3 complete + infrastructure gate closed (132 tests)
+
+Audio UI: WaveformStrip (ambient bar) + AudioPanel (floating panel).
+Audio engine: ambient modes wired (h...
+---
+
+---
+TIMESTAMP: 2026-04-08 06:13
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\plans\foamy-enchanting-rainbow.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:15
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\plans\foamy-enchanting-rainbow.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:15
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\plans\foamy-enchanting-rainbow.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:16
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.gitignore
+---
+
+---
+TIMESTAMP: 2026-04-08 06:16
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\CLAUDE.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:16
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\CLAUDE.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:17
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\CLAUDE.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:17
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\CLAUDE.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:17
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\CLAUDE.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\SOT_BUILD_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\DOCS_STAGE_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\DOCS_STAGE_TODO.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\infrastructure-build-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\infrastructure-build-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\infrastructure-build-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:19
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:19
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\api\prompts\_Global_Identity.txt
+---
+
+---
+TIMESTAMP: 2026-04-08 06:19
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\api\prompts\_Global_Identity.txt
+---
+
+---
+TIMESTAMP: 2026-04-08 06:19
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\api\prompts\GLOBAL_KNOWLEDGE_BASE.txt
+---
+
+---
+TIMESTAMP: 2026-04-08 06:19
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\api\prompts\GENESIS_Origin_Node.txt
+---
+
+---
+TIMESTAMP: 2026-04-08 06:20
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\SECTION MAP.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:20
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\api\prompts\GENESIS_Origin_Node.txt
+---
+
+---
+TIMESTAMP: 2026-04-08 06:26
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:26
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:30
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Embedding_Pipeline\EMBEDDING PIPELINE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:31
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Swarm\SWARM ARCHITECTURE SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:31
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Thread_Trace\SYSTEM_ Thread Trace.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:31
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Composite_ID\SYSTEM_ Composite ID.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:31
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Tagger\SYSTEM_ Tagger.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:31
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Composite_ID\COMPOSITE ID SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:31
+TYPE: CASCADE_ALERT
+TRIGGER_FILE: DESIGN/Systems/COMPOSITE ID SCHEMA.md
+REQUIRES_REVIEW:
+  - DESIGN/Systems/INTEGRATION SCHEMA.md
+  - DESIGN/Systems/INTEGRATION IDB SCHEMA.md
+REASON: Stamp format and sequence counter behavior referenced in integration flow. buildCompositeId() vs previewCompositeId() distinction load-bearing.
+STATUS: UNREVIEWED
+---
+
+---
+TIMESTAMP: 2026-04-08 06:31
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Domains\10_Nexus\Manifest_46_Witness_Scroll.txt
+---
+
+---
+TIMESTAMP: 2026-04-08 06:32
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\MISC\ENTROPY_EXCAVATION.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:33
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\DEPENDENCY_MAP.json
+---
+
+---
+TIMESTAMP: 2026-04-08 06:33
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SESSION_PROTOCOL.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:34
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SCHEMA_PROTOCOL.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:34
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SCHEMA_PROTOCOL.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:34
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SCHEMA_PROTOCOL.md
+---
+
+---
+TIMESTAMP: 2026-04-08 06:34
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python -c "import json; d=json.load(open('PROTOCOL/DEPENDENCY_MAP.json')); print('files empty:', len(d['files'])==0); print('status:', d['status'][:40])"
+---
+
+---
+TIMESTAMP: 2026-04-08 06:35
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\backend\config.py
+---
+
+---
+TIMESTAMP: 2026-04-08 06:35
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\backend\main.py
+---
+
+---
+TIMESTAMP: 2026-04-08 06:35
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\backend\services\claude.py
+---
+
+---
+TIMESTAMP: 2026-04-08 06:35
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\backend\services\claude.py
+---
+
+---
+TIMESTAMP: 2026-04-08
+TYPE: CLOSE
+FILES_MODIFIED:
+  - .gitignore — COMPLETE (added Audio/, BackGround/, backups/)
+  - CLAUDE.md — COMPLETE (section count 51, frontend audio state, file boundaries)
+  - DESIGN/MISC/SOT_BUILD_TODO.md — COMPLETE (50→51 count, 3 locations)
+  - DESIGN/MISC/DOCS_STAGE_TODO.md — COMPLETE (50→51 count, 2 locations)
+  - .claude/plans/infrastructure-build-plan.md — COMPLETE (50→51, 3 locations)
+  - .claude/plans/design-session-plan.md — COMPLETE (50→51, 3 locations)
+  - api/prompts/_Global_Identity.txt — COMPLETE (46→51, 8→9 groups, group names)
+  - api/prompts/GLOBAL_KNOWLEDGE_BASE.txt — COMPLETE (46→51, 8→9 groups, group names + list)
+  - api/prompts/GENESIS_Origin_Node.txt — COMPLETE (46→51, 2 locations)
+  - DESIGN/Systems/SECTION MAP.md — COMPLETE (VOI added to SEED AFFINITIES table)
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — COMPLETE (3 TABLE sections + FILES list)
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md — COMPLETE (3 write authority + 3 inventory + ownership list)
+  - DESIGN/Systems/Embedding_Pipeline/EMBEDDING PIPELINE SCHEMA.md — COMPLETE (stale GAP NOTE removed)
+  - DESIGN/Systems/Swarm/SWARM ARCHITECTURE SCHEMA.md — COMPLETE (stale cleanup note removed)
+  - DESIGN/Systems/Thread_Trace/SYSTEM_ Thread Trace.md — COMPLETE (3 file paths fixed)
+  - DESIGN/Systems/Composite_ID/SYSTEM_ Composite ID.md — COMPLETE (2 file paths fixed)
+  - DESIGN/Systems/Tagger/SYSTEM_ Tagger.md — COMPLETE (claude.py PLANNED→LIVE)
+  - DESIGN/Systems/Composite_ID/COMPOSITE ID SCHEMA.md — COMPLETE (box-drawing header replaced)
+  - DESIGN/Domains/10_Nexus/Manifest_46_Witness_Scroll.txt — COMPLETE (page codes 14→21, 31→38)
+  - DESIGN/MISC/ENTROPY_EXCAVATION.md — COMPLETE (stale UNVERIFIED section cleaned)
+  - PROTOCOL/DEPENDENCY_MAP.json — COMPLETE (old-build entries cleared, rebuild-pending note)
+  - PROTOCOL/SESSION_PROTOCOL.md — COMPLETE (DEPENDENCY_MAP deferred note)
+  - PROTOCOL/SCHEMA_PROTOCOL.md — COMPLETE (3 DEPENDENCY_MAP status notes)
+  - backend/config.py — COMPLETE (ANTHROPIC_API_KEY warning on missing)
+  - backend/main.py — COMPLETE (health endpoint diagnostic error capture)
+  - backend/services/claude.py — COMPLETE (lazy client init with validation)
+COMPLETED:
+  - Full-tier audit: 29 schemas, all SYSTEM_ files, backend+frontend state, SOT_BUILD_TODO, SECTION MAP, TAG VOCABULARY, DEPENDENCY_MAP, api/prompts, PROTOCOL files
+  - Fix 1: Repository safety — gitignore for Audio/, BackGround/, backups/ (~1.7GB binary protection)
+  - Fix 2: CLAUDE.md truth pass — section count 51, audio system exists, file boundary corrections
+  - Fix 3: System-wide count propagation — 51 sections / 9 groups across 8 downstream files
+  - Fix 4: INTEGRATION DB table registration — signal_grades, saved_threads, thread_annotations (3 TABLE sections, FILES list, write authority, inventory)
+  - Fix 5: Cross-reference integrity sweep — 8 DESIGN files (stale notes, wrong paths, statuses, formatting, page codes)
+  - Fix 6: DEPENDENCY_MAP resolution — old-build entries cleared, 3 protocol files updated with deferred notes
+  - Fix 7: Backend hardening — ANTHROPIC_API_KEY lazy validation, health endpoint error capture
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Fix 8: 9 missing SYSTEM_ files (Engine_Computation, Embedding_Pipeline, Operational_DB, Venai_Service, THR, STR, INF, ECR, SNM) + SYSTEM_ Research Assistant.md verification
+  - Seed affinity authority conflict (SECTION MAP vs domain files — blocking decision for Sage)
+UNCOMMITTED: NO
+FILES_THIS_SESSION:
+  - 25 files modified across 7 commits (b389fcc through 4c5a79c)
+  - .claude/plans/foamy-enchanting-rainbow.md — audit remediation plan (Fix 8 spec for next session)
+NEXT_ACTION: Fix 8 — write 9 missing SYSTEM_ files from schemas + verify SYSTEM_ Research Assistant.md.
+  Plan with full spec at .claude/plans/foamy-enchanting-rainbow.md.
+  After Fix 8: final verification sweep, then SOT assembly can begin.
+---
+
+---
+TIMESTAMP: 2026-04-08 06:38
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && cat >> PROTOCOL/SESSION_LOG.md << 'CLOSEENTRY'
+
+---
+TIMESTAMP: 2026-04-08
+TYPE: CLOSE
+FILES_MODIFIED:
+  - .gitignore â€” COMPLETE (added Audio/, BackGround/, backups/)
+  - CLAUDE.md â€” COMPLETE (section count 51, frontend audio state, file boundaries...
+---
