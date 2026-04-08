@@ -19,6 +19,63 @@ tiers follows the dependency chain.
 
 ---
 
+## INCOMPLETE ITEMS — QUICK REFERENCE
+
+Last updated: 2026-04-08. Read this before working in the document.
+Items are grouped by status. Line numbers are approximate — verify
+against the document if editing.
+
+**TIER 5 — Cosmology pages (unchecked in completed tier):**
+- [ ] HCO (34) — redefine with investigation + computation frame (~4814)
+- [ ] COS (35) — redefine with investigation + computation frame (~4832)
+- [ ] CLM (36) — redefine with investigation + computation frame (~4848)
+- [ ] NHM (37) — redefine with investigation + computation frame (~4862)
+
+**TIER 6 — Research assistant design questions (work done, tracker not updated):**
+- [ ] Lines ~5312-5327 — 9 design questions (ownership, archive access,
+      page context, observations, hypotheses, Cosmology, UI, embedding,
+      mode switching). All answered in companion specs and SYSTEM_ file.
+      Checkboxes need updating to [x].
+
+**TIER 7 — Dashboard, navigation, live write, export, pipelines (NOT STARTED):**
+- [ ] Semantic map (~5383)
+- [ ] Notification center (~5388)
+- [ ] Email notification system (~5391)
+- [ ] WSC handoff on dashboard (~5395)
+- [ ] Black Pearl dashboard surface (~5398)
+- [ ] Active patterns summary (~5401)
+- [ ] Recent activity feed (~5403)
+- [ ] Page sorting — A-Z and date for sidebar nav (NEW)
+- [ ] Search results surface (NEW)
+- [ ] Live write / document creation tool (NEW)
+- [ ] Entry editing UI — post-deposit corrections (NEW)
+- [ ] Export formats, scope, integration (~5407-5411)
+- [ ] Page relationship visualization (~5415)
+- [ ] Full pipeline contracts — 5 items (~5420-5424)
+- [ ] Shared viz architecture, computation architecture (~5426-5428)
+
+**TIER 8 — Stress test + finish line + SOT (NOT STARTED):**
+- [ ] Full stress test — new schemas (~5456)
+- [ ] Full stress test — existing schemas (~5457)
+- [ ] Stub and placeholder sweep (~5459)
+- [ ] Finish line inventory (~5462)
+- [ ] SOT readiness check (~5465)
+
+**CROSS-TIER (deferred, do any session):**
+- [ ] #13 TRIA name change (~5475)
+- [ ] #14 API folder rewrite (~5478)
+- [ ] CONNECTS TO + seed affinity pass (~5482)
+
+**AGENDA ITEM TRACKER (stale — items in completed tiers not checked off):**
+- [ ] #2, #4, #5, #6, #7, #9, #10, #11, #12, #15 (~5530-5542)
+      These reference work in Tiers 1-6 (all COMPLETE). The design work
+      exists in schemas. Tracker checkboxes were never updated.
+
+**INTENTIONALLY HOLDING:**
+- [ ] WSC DESIGN (~1869) — holding for Tier 4 second half, by design
+
+---
+
 ## KEY CONTEXT FOR FUTURE SESSIONS
 
 Read this section first. It captures the reasoning behind the plan —
@@ -5414,6 +5471,33 @@ connect end-to-end. These require everything beneath them to exist.
 
 - [ ] Where deposits flow, what connects to what
       (visual map of the full system — how pages relate)
+
+**Navigation + search:**
+
+- [ ] Page sorting — A-Z and date sorting options for the 51-page sidebar
+      navigation. Currently fixed canonical group order only. Sort toggles
+      in sidebar header, override persists per session.
+
+- [ ] Search results surface — global search (`/`) needs a results view.
+      Cross-page results from text search and vector search. Where do
+      results render? Dedicated results page, overlay, or inline in sidebar?
+
+**Live write surface:**
+
+- [ ] Document creation tool — in-app writing surface for research notes,
+      hypothesis development, and longer-form content. Sage currently has no
+      place to create a document within the archive. Not a deposit (too
+      structured), not a Pearl (too short). A freeform writing surface with
+      optional promotion to deposit through INT when ready.
+      Questions: markdown editor? autosave to operational DB? taggable?
+      linkable to pages/entries? exportable?
+
+**Entry management:**
+
+- [ ] Entry editing UI — post-deposit editing path for corrections and
+      additions. API has CRUD (/entries/), but needs a designed UI surface.
+      Edit action on deposit cards → routes back through INT validation.
+      Revision history? Diff view? Who-edited tracking?
 
 **Full pipeline contracts (end-to-end documentation):**
 
