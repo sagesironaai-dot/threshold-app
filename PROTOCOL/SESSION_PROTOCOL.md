@@ -204,6 +204,10 @@ implementation does not begin until every step is complete.
 
 2. State which file(s) this function lives in and which files call it.
    Cross-check against PROTOCOL/DEPENDENCY_MAP.json.
+   NOTE: DEPENDENCY_MAP.json is currently empty (old-build entries
+   cleared 2026-04-08). Map will be rebuilt during Step 4 (core files
+   phase). Until then, use manual cascade analysis from schema
+   cross-references.
 
 3. Sage approves the contract before any code is written.
 

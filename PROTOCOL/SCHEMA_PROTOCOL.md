@@ -25,6 +25,10 @@ Run this procedure before changing any file in DESIGN/Systems/ or DESIGN/Domains
 
 2. Open PROTOCOL/DEPENDENCY_MAP.json. Look up the file being modified.
    List every file in its `affects` array.
+   NOTE: DEPENDENCY_MAP.json is currently empty (old-build entries
+   cleared 2026-04-08). Use the human-readable cascade reference in
+   section 2 below for manual cascade analysis until the map is
+   rebuilt during Step 4 (core files phase).
 
 3. For each affected file: state what specifically could break as a result
    of the change. If the impact is unknown, say so — do not proceed until
@@ -62,6 +66,8 @@ A single unchecked cascade is a blocking gap — not a calibration item.
 Human-readable version of DEPENDENCY_MAP.json for schema files.
 Use this when planning changes. Machine version in PROTOCOL/DEPENDENCY_MAP.json
 is what the hook reads — both must stay in sync.
+NOTE: The JSON map is currently empty (rebuild pending, Step 4). This
+human-readable section is the active cascade reference until then.
 
 ---
 
@@ -255,7 +261,8 @@ Never move to the next file until the current one is confirmed complete.
 
 ## 4. DEPENDENCY MAP MAINTENANCE
 
-PROTOCOL/DEPENDENCY_MAP.json is a living document.
+PROTOCOL/DEPENDENCY_MAP.json is a living document. Currently empty
+(old-build entries cleared 2026-04-08, rebuild pending Step 4).
 
 **When to update it:**
 - A new file is created → add an entry for it
