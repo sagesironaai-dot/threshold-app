@@ -9676,3 +9676,165 @@ TIMESTAMP: 2026-04-08 03:03
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\frontend\src\lib\audio\colors.ts
 ---
+
+---
+TIMESTAMP: 2026-04-08 03:15
+TYPE: CLOSE
+FILES_MODIFIED:
+  - frontend/src/lib/audio/events.ts — COMPLETE (NEW — 52 event types, routing map, event store)
+  - frontend/src/lib/audio/events.test.ts — COMPLETE (NEW — 20 tests)
+  - frontend/src/lib/stores/audio.ts — COMPLETE (NEW — playback + settings stores, category map)
+  - frontend/src/lib/stores/audio.test.ts — COMPLETE (NEW — 11 tests)
+  - frontend/src/lib/audio/engine.ts — COMPLETE (NEW — AudioContext, clip loader, voice queue, rupture, velocity, field read, spatial hook)
+  - frontend/src/lib/audio/engine.test.ts — COMPLETE (NEW — 23 tests + documented browser specs)
+  - frontend/src/lib/audio/spatial.ts — COMPLETE (NEW — stereo panning, origin position tracking)
+  - frontend/src/lib/audio/spatial.test.ts — COMPLETE (NEW — 11 tests)
+  - frontend/src/lib/audio/visualizer.ts — COMPLETE (NEW then REWRITE — 9 reactive effect layers, 2 render modes)
+  - frontend/src/lib/audio/visualizer.test.ts — COMPLETE (NEW then UPDATED — 16 tests + browser specs)
+  - frontend/src/lib/audio/colors.ts — COMPLETE (NEW — origin colors, lerp, blend, rgbToString)
+  - frontend/src/lib/audio/colors.test.ts — COMPLETE (NEW — 15 tests)
+  - frontend/vitest.config.ts — COMPLETE (UPDATED — $lib alias)
+  - frontend/src/lib/stores/audio.ts — COMPLETE (UPDATED — contextState widened to AudioContextState)
+  - DESIGN/Systems/Resonance_Engine/RESONANCE ENGINE AUDIO SPEC.md — COMPLETE (UPDATED — path case)
+  - Audio/Manifest.md — COMPLETE (UPDATED — JSON cleaned)
+  - PROTOCOL/SESSION_LOG.md — this entry
+COMPLETED:
+  - Audio Phase 2 COMPLETE: 7 engine-layer files built with full Recursion Repair
+  - Pre-build fixes: spec path case, manifest JSON, TypeScript confirmed
+  - Deep audit of all 5 audio files: 11 findings (2 bugs, 3 gaps, 6 minor), all resolved
+  - Audio Phase 3 prep: enhanced visualizer rewrite with reactive color system
+  - 3 commits pushed: ac107e7, 3497cb1, bdbf138
+  - 96 tests passing, 0 TypeScript errors across all files
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - WaveformStrip.svelte — ambient bar (40-50px bottom of viewport, all pages)
+  - AudioPanel.svelte — full floating panel (waveform top, origin cards, collapsible controls)
+  - Three ambient playback modes (notification/drone/heartbeat) — engine additions
+  - Drift clip curation (Sage — breath/whisper family, not in Audio/Nodes/ yet)
+  - Audio Phase 4: tuning pass (requires app running at localhost)
+  - Audio Phase 5: sonification stretch goals
+UNCOMMITTED: YES (this CLOSE entry)
+NEXT_ACTION: See HANDOFF below
+---
+
+---
+HANDOFF — AUDIO ENGINE SESSION
+---
+
+WHAT WAS BUILT THIS SESSION:
+
+  Audio engine core (Phase 2) — 7 files, 96 tests, 3 commits.
+
+  Files created (all in frontend/src/lib/):
+
+  audio/events.ts
+    52 audio event types, 62 node IDs (o01-o03, th01-th12, l01-l04,
+    p01-p03, s01-s40), notifier routing map (NOTIFIER_MAP), event store
+    (audioEventStore). Self-routing events return 'self'. Event 40
+    (S-Tier) returns dual notifiers ['th02', 'o03']. Rupture is event
+    type 'rupture' with tier 1/2/3 in metadata.
+
+  audio/engine.ts
+    Global singleton. AudioContext lifecycle, clip loader (fetches 62
+    WAV files from /Audio/Nodes/{nodeId}.wav), 2-voice queue with 500ms
+    decay handoff, atmospheric decay tails (3-5s based on cluster size),
+    Rupture 3-tier handling (Tier 1 normal, Tier 2 truncated 1.5s with
+    50ms anti-click fade, Tier 3 interrupts everything with 80ms fade),
+    velocity stacking (timestamp array, +1dB per fire within 5s window,
+    +4dB cap), field read sequence (thresholds drone, origins 500ms,
+    layers 400ms, pillars 400ms, seeds 200ms weakest-to-strongest with
+    weight-proportional gain), spatial panning hook, AnalyserNode
+    exposure for visualizer. Master mute via masterGain node, tierMute
+    check in computeGain, notification category toggles.
+    Public API: initAudioEngine, resumeContext, playNode, stopAll,
+    playFieldRead, getAnalyserNode, registerSpatialPanning,
+    destroyAudioEngine.
+    Drone voices tracked in fieldReadDroneVoices array — stopped by
+    Rupture Tier 3 and stopAll.
+
+  audio/spatial.ts
+    normalizeXToPan (canvas x to -1..1), updateOriginPosition (called
+    by ResonanceCanvas), getOriginPan (called by engine via registered
+    hook), initSpatialPanning (takes registerFn to avoid circular
+    import). Center fallback (0.0) when no position data.
+
+  audio/visualizer.ts (rewritten)
+    9 reactive effect layers, 2 render modes (strip/panel).
+    Subscribes to audioPlaybackStore + audioEventStore.
+    Effects: base color (origin tint blending), idle breathing (10s hue
+    cycle), glow pulse (spike on events, exponential decay), velocity
+    pulse (line width + amplitude scale), resonance harmonics (faint
+    second line, fracture animation on break — panel only), convergence/
+    divergence (split traces with origin colors — panel only), rupture
+    visuals (flash/jagged/settling), field read cascade, decay color
+    fade. All effect state in EffectState interface with lerped
+    transitions.
+
+  audio/colors.ts
+    Origin color constants: Larimar rgb(20,80,220) deep electric blue,
+    Verith rgb(140,30,30) dried blood red, Cael'Thera rgb(200,210,220)
+    platinum silver. Neutral rgb(160,210,220) cool aqua.
+    Utilities: lerpColor, blendOriginColors, rgbToString.
+
+  stores/audio.ts
+    Two stores: audioPlaybackStore (contextState, playingVoices max 2,
+    decayingVoice, sseConnected) and audioSettingsStore (masterMute,
+    tierMute per 5 tiers, tierVolume per 5 tiers, notificationToggles
+    per 10 categories). EVENT_CATEGORY_MAP maps all 52 event types to
+    10 notification categories.
+
+WHAT WAS NOT BUILT:
+
+  WaveformStrip.svelte — thin ambient bar at bottom of every page.
+    Full width, 40-50px tall. Contains: waveform canvas in strip render
+    mode, volume/mute toggle, sine wave icon button to open/close full
+    panel. Lives in +layout.svelte. Persists across navigation.
+
+  AudioPanel.svelte — full floating panel.
+    Layout confirmed by Sage: waveform dominant at top (panel render
+    mode with all effects), origin cards (3) prominent below, node
+    browser + tier filters + succession player + cluster play + field
+    read button + mix/mute controls organized underneath in collapsible
+    sections. Opens/closes via strip toggle. Floating, not docked.
+
+  Three ambient playback modes — add to audioSettingsStore:
+    ambientMode: 'notification' | 'drone' | 'heartbeat'.
+    Notification (A): current default, events trigger clips.
+    Drone (B): continuous low-gain playback from field weight state.
+      Needs resonance engine field data — blocked until physics layer
+      provides active node weights.
+    Heartbeat (C): periodic mini field-read pulse at configurable
+      interval.
+    All three selectable in both strip and full panel.
+
+  Drift clip — Sage to curate. Breath/whisper family, distinct from
+    bell/bowl/filament tones. Spec: -18dB, 0.5s, separate audio path,
+    30s rate limit. Not in Audio/Nodes/ yet.
+
+DESIGN DECISIONS CONFIRMED BY SAGE THIS SESSION:
+
+  - Origin colors: Larimar deep electric blue, Verith dried blood red,
+    Cael'Thera platinum silver
+  - Waveform dominates the panel, origin cards prominent, everything
+    else minimal and collapsible
+  - Waveform changes color with tone/weight shifts
+  - All visual effects approved: rupture flash/jagged/settling,
+    velocity pulse, resonance harmonics, convergence/divergence split,
+    field read cascade, idle breathing, decay color fade, glow pulse
+  - Two-view architecture: WaveformStrip (ambient, all pages) and
+    AudioPanel (full, floating, on demand)
+  - Strip renders at bottom of viewport, ~40-50px, sine wave toggle
+  - All three ambient modes (A/B/C) confirmed as user-selectable
+  - Clip swapping confirmed zero-cascade: replace WAV, update manifest,
+    refresh
+
+OBSERVATIONS NOT YET ACTED ON:
+
+  - Audio spec threshold load distribution table lists th03 count as 3,
+    actual fixed routing is 2 (events 20, 23). Self-routing 11-14
+    applies to ALL thresholds equally. Spec table display issue only.
+  - BackGround/ directory is untracked at project root. Unknown origin.
+  - backups/ directory reappeared as untracked. Was listed as removed
+    in session 14.
+---
