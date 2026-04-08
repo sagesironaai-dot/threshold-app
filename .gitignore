@@ -35,3 +35,8 @@ build/
 *.dmg
 *.pkg
 *.msi
+
+# Audio and media assets (large binaries)
+Audio/
+BackGround/
+backups/
