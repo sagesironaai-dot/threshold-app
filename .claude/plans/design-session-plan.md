@@ -5946,11 +5946,43 @@ cross-map all references, entropy scan after every pass. One file at a time.
 | 3 | Shared engine computation, 5 Axis engine schemas (THR, ECR, INF, STR, SNM), Ven'ai service, 8 PostgreSQL tables, stale flags, visualization architecture, Mirror Dynamics (5th INF domain), 17 frontend components | COMPLETE | session 27 |
 | 4 | WSC schema, LNV schema, Void engine schema, MTM wiring, Nexus engines (PCV/DTX/SGR cascades) | COMPLETE | session 28 |
 | 5 | ARTIS schema (5 tables, 12 endpoints, 15 computations), ARTIS system doc, Cosmology schema (cosmology_findings + rct_residuals + 5 investigation surfaces), Cosmology system doc, LNV cascade (6 entry types), PCV cascade (cosmology_provenance), Integration DB cascade (7 tables), FastAPI cascade (3 namespaces, 11 files), Frontend cascade (20 components) | COMPLETE | session 29 |
+| 6 | Research Assistant (7 files verified, venai_drift_log gap closed, 6 cascade updates across OPERATIONAL DB / FastAPI / Frontend / Embedding Pipeline / Integration DB). Resonance Engine Audio Spec (52 events, 15 notifiers, 3-tier rupture, spatial panning, velocity stacking, field read hierarchy, Ven'ai drift texture, waveform visualizer, floating panel). Cosmology manifests 34-38 rewritten for investigation surface model. Audio Phase 1 file prep (62 clips renamed, licenses verified, ATTRIBUTION.md, Git LFS). StarWell Bloom Hz 351→3510. SOT_BUILD_TODO threshold drift fixed. Origin Hz defined (Larimar 1930, Verith 4212, Cael'Thera 5967). Frontend: tone.js + howler.js. Backend: librosa + soundfile. | COMPLETE | session 30 (11cc511, fa882fb, 0117814) |
 
 ### REMAINING TIERS
-| 6 | Research assistant spec, resonance audio spec | Tier 5 |
 | 7 | Dashboard details, notifications, export, pipeline contracts | Tier 6 |
 | 8 | Stress test, stub sweep, finish line, SOT | Tiers 1-7 |
+
+### AUDIO BUILD — REMAINING PHASES (post-design, pre-SOT)
+
+Audio Phase 1 (file prep) is complete. The remaining phases build the
+engine and UI. These are implementation work, not design docs — they
+happen during the core files build phase (step 4 in the main rebuild
+sequence), not during the schema/manifest tier process.
+
+**Phase 2 — Audio Engine (next session)**
+Build the core engine: clip loader, playNode(), notify() with 2-voice
+queue + decay handoff, Rupture 3-tier handler, succession player,
+cluster size → decay/gain mapping. Global engine in +layout.svelte.
+Event subscription via Svelte store (frontend events) + SSE (backend
+events). Files: engine.ts, events.ts, spatial.ts, visualizer.ts,
+audio store.
+
+**Phase 3 — Panel UI**
+Floating AudioPanel.svelte: node browser, succession player, origin
+cards, tier filters, field read button, mix/mute controls, waveform
+visualizer (AnalyserNode + canvas with bezierCurveTo, retina support,
+iridescent glow aesthetic).
+
+**Phase 4 — Tuning pass**
+Per-node decay/gain adjustment in context. th11 Noirune Trai shorter
+decay. th09 Hearth Song subliminal. Rupture Tier 2 hard stop. S-Tier
+dual voice (th02 + o03). Can only happen after engine is built and
+clips are firing.
+
+**Phase 5 — Sonification (stretch)**
+Chord mode, weight-based gain, sequence-on-event, drift mode. Ambient
+continuous mapping of engine state to audio. Stretch goals documented
+in RESONANCE ENGINE AUDIO SPEC.md.
 
 ### PROCESS PER TIER (non-negotiable)
 
