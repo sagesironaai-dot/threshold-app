@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { isSignalSilent, scaleCanvasDimensions, SILENCE_THRESHOLD } from './visualizer';
+import {
+	isSignalSilent,
+	scaleCanvasDimensions,
+	SILENCE_THRESHOLD,
+	resolveWaveformColor,
+	EFFECT_FILTERS,
+	type VisualizerMode
+} from './visualizer';
+import { ORIGIN_COLORS, NEUTRAL_COLOR } from './colors';
 
 describe('visualizer.ts — silence detection', () => {
 	it('detects silence when all samples are zero', () => {
@@ -62,31 +70,88 @@ describe('visualizer.ts — canvas scaling', () => {
 	});
 });
 
+describe('visualizer.ts — waveform color resolution', () => {
+	it('returns neutral color when no origins active', () => {
+		const color = resolveWaveformColor([]);
+		expect(color).toEqual(NEUTRAL_COLOR);
+	});
+
+	it('returns Larimar color when o01 active', () => {
+		const color = resolveWaveformColor(['o01']);
+		expect(color).toEqual(ORIGIN_COLORS.o01);
+	});
+
+	it('returns Verith color when o02 active', () => {
+		const color = resolveWaveformColor(['o02']);
+		expect(color).toEqual(ORIGIN_COLORS.o02);
+	});
+
+	it('blends two origin colors', () => {
+		const color = resolveWaveformColor(['o01', 'o03']);
+		// Midpoint of Larimar (20,80,220) and Cael'Thera (200,210,220)
+		expect(color.r).toBeCloseTo(110, 0);
+		expect(color.g).toBeCloseTo(145, 0);
+		expect(color.b).toBeCloseTo(220, 0);
+	});
+});
+
+describe('visualizer.ts — render mode effect filtering', () => {
+	it('strip mode includes base, idle, glow, velocity, rupture_glow, cascade, decay', () => {
+		const strip = EFFECT_FILTERS.strip;
+		expect(strip).toContain('base_color');
+		expect(strip).toContain('idle_breathing');
+		expect(strip).toContain('glow_pulse');
+		expect(strip).toContain('velocity_pulse');
+		expect(strip).toContain('field_read_cascade');
+		expect(strip).toContain('decay_color_fade');
+	});
+
+	it('strip mode excludes harmonics, divergence, rupture_jagged', () => {
+		const strip = EFFECT_FILTERS.strip;
+		expect(strip).not.toContain('resonance_harmonic');
+		expect(strip).not.toContain('convergence_divergence');
+	});
+
+	it('panel mode includes all effects', () => {
+		const panel = EFFECT_FILTERS.panel;
+		expect(panel).toContain('base_color');
+		expect(panel).toContain('resonance_harmonic');
+		expect(panel).toContain('convergence_divergence');
+		expect(panel).toContain('rupture_visual');
+	});
+});
+
 // --- Documented test specs for browser-only tests ---
 
 // TEST SPEC: createVisualizer
-// - Accepts a canvas element and starts the draw loop
-// - Calls getAnalyserNode() to get the AnalyserNode
-// - If AnalyserNode is null, renders idle state (flat line)
-// - Sets up retina scaling on the canvas
-// - Runs requestAnimationFrame loop
+// - Accepts canvas element + mode ('strip' | 'panel')
+// - Subscribes to audioPlaybackStore and audioEventStore
+// - Starts requestAnimationFrame loop
+// - Initializes all effect state to defaults
 
-// TEST SPEC: draw loop — idle state
-// - Flat horizontal line at vertical center
-// - Line opacity 0.3-0.4
-// - shadowBlur glow active but dim
+// TEST SPEC: origin color tinting
+// - When o01 plays, waveform color lerps toward deep electric blue
+// - When o02 plays, waveform color lerps toward dried blood red
+// - When o03 plays, waveform color lerps toward platinum silver
+// - When multiple play, colors blend weighted by count
+// - When voice decays, its color fades proportionally
 
-// TEST SPEC: draw loop — active state
-// - Waveform follows audio data from getFloatTimeDomainData
-// - Line opacity 1.0
-// - shadowBlur glow at full intensity (8-12px)
-// - Smooth bezierCurveTo curves between sample points
+// TEST SPEC: rupture visuals
+// - Tier 1: glow flare (shadowBlur 10→25→10 over 500ms)
+// - Tier 2: waveform truncates with hard vertical edge at ~1.5s
+// - Tier 3: white flash frame, then jagged rendering, settling to smooth
 
-// TEST SPEC: draw loop — transition
-// - Smooth opacity fade between idle and active (not a hard switch)
-// - Transition driven by silence detection threshold crossing
+// TEST SPEC: resonance harmonics (panel only)
+// - resonance_line_formed: faint second line appears at 30% opacity
+// - resonance_line_broken: second line fractures and fades over 500ms
 
-// TEST SPEC: destroyVisualizer
-// - Cancels requestAnimationFrame
-// - Clears canvas
-// - Releases references
+// TEST SPEC: convergence/divergence (panel only)
+// - multi_origin_convergence: colors blend to center over 500ms
+// - origin_divergence: two traces split apart, settle back over 800ms
+
+// TEST SPEC: field read cascade
+// - Color walks through hierarchy tiers as field read progresses
+
+// TEST SPEC: idle breathing
+// - When silent, slow hue drift over ~10s cycle
+// - Subtle — not a visible color change per frame
