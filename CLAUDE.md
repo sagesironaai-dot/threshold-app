@@ -318,7 +318,7 @@ corruption across core systems. Infrastructure changed from browser app
 **Rebuild sequence:**
 
 1. DOCS verification and completion — COMPLETE
-   All 50 domain files verified. All 50 manifests verified. All system
+   All 51 domain files verified. All 51 manifests verified. All system
    schemas verified. Cross-file consistency confirmed. SOT_BUILD_TODO
    Items 0–5 all [x] with valid sources. Stage gate closed.
 
@@ -384,10 +384,14 @@ explicit direction from Sage.
 ```
 backend/          — FastAPI app (main.py, config.py, db connections verified)
 frontend/         — SvelteKit scaffold (Svelte 5, TypeScript, Vite 7, dev server verified)
+                    Audio system built post-infrastructure: engine, visualizer,
+                    AudioPanel, WaveformStrip, audio store, spatial, colors,
+                    events (14 files, all with tests)
 ```
 These directories contain the infrastructure skeleton from stages 5-6.
-Models, routes, services, components, and stores are not yet written —
-those are built from SOT in the core files phase (step 4).
+Models, routes, and services are not yet written. Audio components and
+audio store exist (built post-infrastructure). Remaining components and
+stores are built from SOT in the core files phase (step 4).
 
 **CLAUDE WORKING FILES — .claude/ directory:**
 ```
@@ -399,9 +403,15 @@ artifacts outside this directory.
 
 **REMOVED — session 14:**
 - `core/` — old build JS modules. Deleted. No longer needed.
-- `backups/` — old manual backup folder (installers, index snapshots).
-  Deleted. Superseded by backup.py + git + B2.
 - `_REFERENCE_ONLY/` — deleted by Sage in prior session.
+
+**MEDIA ASSETS — gitignored, not tracked:**
+```
+Audio/Staging/    — audio source files for Resonance Engine. Gitignored.
+BackGround/       — background image assets. Gitignored.
+backups/          — audio file backups (directory recreated by Sage post-session 14).
+                    Contains audio assets, not archive data. Gitignored.
+```
 
 ---
 
@@ -434,13 +444,14 @@ src/lib/components/     — shared components (Shell, CompositeId, TaggerPanel,
                           DepositPanel, ThreadTrace, ResonanceCanvas)
 src/lib/stores/         — Svelte stores (session state, entry data cache)
 src/lib/api.ts          — fetch wrapper for FastAPI calls
-src/routes/             — 50 page routes (structure TBD: individual files
+src/routes/             — 51 page routes (structure TBD: individual files
                           vs dynamic [section] route)
 src/routes/+layout.svelte — shared shell wrapping all pages
 ```
 
 Backend skeleton exists (main.py, config.py, db/). Frontend scaffold exists
-(SvelteKit + TypeScript). Full app code written from SOT in step 4.
+(SvelteKit + TypeScript). Audio system built post-infrastructure (14 files).
+Full app code written from SOT in step 4.
 Full planned structure in .claude/plans/infrastructure-build-plan.md.
 
 ---
