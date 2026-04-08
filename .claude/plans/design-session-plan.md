@@ -38,21 +38,40 @@ against the document if editing.
       Checkboxes need updating to [x].
 
 **TIER 7 — Dashboard, navigation, live write, export, pipelines (NOT STARTED):**
-- [ ] Semantic map (~5383)
-- [ ] Notification center (~5388)
-- [ ] Email notification system (~5391)
-- [ ] WSC handoff on dashboard (~5395)
-- [ ] Black Pearl dashboard surface (~5398)
-- [ ] Active patterns summary (~5401)
-- [ ] Recent activity feed (~5403)
-- [ ] Page sorting — A-Z and date for sidebar nav (NEW)
-- [ ] Search results surface (NEW)
-- [ ] Live write / document creation tool (NEW)
-- [ ] Entry editing UI — post-deposit corrections (NEW)
-- [ ] Export formats, scope, integration (~5407-5411)
-- [ ] Page relationship visualization (~5415)
-- [ ] Full pipeline contracts — 5 items (~5420-5424)
-- [ ] Shared viz architecture, computation architecture (~5426-5428)
+
+  Dashboard:
+  - [ ] Semantic map, notification center, email notifications
+  - [ ] WSC handoff, Black Pearl surface, active patterns, recent activity
+
+  Navigation + search:
+  - [ ] Page sorting — A-Z and date for sidebar nav
+  - [ ] Search results surface for cross-page queries
+
+  Live write + entry management:
+  - [ ] Document creation tool (freeform writing surface)
+  - [ ] Entry editing UI — post-deposit corrections
+
+  Research workflow QoL:
+  - [ ] Bookmarks / pinned entries
+  - [ ] Comparison view (side-by-side entries, engine states, snapshots)
+  - [ ] Timeline view across all pages
+  - [ ] Tag explorer / tag cloud
+  - [ ] Undo on deposit (30-second grace period)
+
+  Power user + daily use:
+  - [ ] Keyboard shortcuts (beyond / and Ctrl+P)
+  - [ ] Session statistics (shape of work, not content)
+  - [ ] Mobile / tablet read view
+
+  Ambient:
+  - [ ] Sound state per page (Resonance Engine remembers per page)
+
+  Export:
+  - [ ] Export formats, scope, integration
+
+  Pipeline contracts + architecture:
+  - [ ] 5 end-to-end pipeline contracts
+  - [ ] Shared viz architecture, computation architecture
 
 **TIER 8 — Stress test + finish line + SOT (NOT STARTED):**
 - [ ] Full stress test — new schemas (~5456)
@@ -5498,6 +5517,63 @@ connect end-to-end. These require everything beneath them to exist.
       additions. API has CRUD (/entries/), but needs a designed UI surface.
       Edit action on deposit cards → routes back through INT validation.
       Revision history? Diff view? Who-edited tracking?
+
+**Research workflow quality-of-life:**
+
+- [ ] Bookmarks / pinned entries — star or pin entries for quick access.
+      Personal shortlist in sidebar or dashboard. The entries Sage keeps
+      returning to — the one that cracked a hypothesis, the deposit that
+      connects to everything. Faster than search, more intentional than
+      recent activity.
+
+- [ ] Comparison view — side-by-side surface for two entries, two engine
+      states, or two snapshots from different dates. The research is built
+      on parallax; the UI should support deliberate comparison without
+      two browser tabs. Overlay or split-pane? Modal or page?
+
+- [ ] Timeline view across all pages — single temporal view of everything
+      that entered the archive, across all 51 pages, in order. Bird's-eye
+      view of deposit rhythm during fast-capture periods. Filterable by
+      page, group, tag, doc_type. Distinct from per-engine timelines.
+
+- [ ] Tag explorer / tag cloud — visual surface for the full tag vocabulary.
+      Frequency, clustering, which tags are never used, which ones dominate.
+      Makes TAG VOCABULARY feel like a living instrument, not a reference
+      doc. Interactive — click a tag to see all entries that carry it.
+
+- [ ] Undo on deposit — 30-second grace period after deposit before full
+      pipeline runs. "I deposited to the wrong page" or "that tag was
+      wrong." Pull it back, fix it, re-deposit. After the window closes,
+      entry is in the archive and corrections go through the edit path.
+      Not delete — undo.
+
+**Power user + daily use:**
+
+- [ ] Keyboard shortcuts — beyond `/` (search) and `Ctrl+P` (Pearl).
+      Quick deposit from any page, toggle research assistant panel, jump
+      to last page, cycle Axis pages, open most recent finding. The
+      shortcuts that make the app an extension of thinking, not a tool
+      you operate.
+
+- [ ] Session statistics — end-of-session summary of the shape of work.
+      Deposits made, Pearls promoted, tags suggested vs. accepted, most
+      active pages, time distribution. Not a dashboard metric — a personal
+      researcher mirror. Conversation summary captures content; this
+      captures pattern. Stored in operational DB alongside
+      conversation_summary.
+
+- [ ] Mobile / tablet read view — stripped-down responsive view for reading
+      entries and findings without the full engine UI. Not for depositing.
+      For reviewing on the couch or when something clicks at 2am. Read-only,
+      entry-focused, no engine controls.
+
+**Ambient experience:**
+
+- [ ] Ambient sound state per page — Resonance Engine audio configuration
+      remembers itself per page. Walk into ECR and the sound shifts. Walk
+      into Void and it goes quiet. Audio state stored in operational DB
+      (operational_state key-value). The archive breathes differently
+      depending on where you are.
 
 **Full pipeline contracts (end-to-end documentation):**
 
