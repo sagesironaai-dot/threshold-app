@@ -152,13 +152,18 @@ jobs:
 
       # ---------------------------------------------------------------
       # CHECK 6 — Entropy scan (19 categories)
-      # Runs the full automated rot scanner.
+      # Runs the full automated rot scanner. Blocks on HIGH findings.
       # ---------------------------------------------------------------
       - name: Entropy scan
         run: |
-          python hooks/entropy_scan.py --summary
-          HIGH_COUNT=$(python hooks/entropy_scan.py --summary 2>&1 | grep "HIGH:" | awk '{print $2}')
-          echo "Entropy scan HIGH findings: $HIGH_COUNT"
+          OUTPUT=$(python hooks/entropy_scan.py --summary 2>&1)
+          echo "$OUTPUT"
+          HIGH_COUNT=$(echo "$OUTPUT" | grep "HIGH:" | awk '{print $2}')
+          if [ -n "$HIGH_COUNT" ] && [ "$HIGH_COUNT" -gt 0 ] 2>/dev/null; then
+            echo "BLOCKED: $HIGH_COUNT HIGH severity findings from entropy scan."
+            exit 1
+          fi
+          echo "Entropy scan: clean"
 
   # ═══════════════════════════════════════════════════════════════
   # BUNDLE SIZE CHECK (activates when performance-budget.json exists)

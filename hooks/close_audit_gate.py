@@ -195,16 +195,36 @@ def main():
         sys.exit(2)
 
     # CHECK 3: Verified list gate — if ENTROPY_EXCAVATION.md was modified,
-    # check for new VERIFIED entries without Sage approval marker
+    # block on new VERIFIED entries (Sage approval required per
+    # ENTROPY_EXCAVATION.md three-gate rule)
     entropy_path = os.path.join(PROJECT_ROOT, "ENTROPY_EXCAVATION.md")
     verified_warning = check_verified_additions(entropy_path)
     if verified_warning:
-        # Warn but don't block — Sage can approve verbally
-        sys.stdout.write(
-            f"\n  VERIFIED LIST WARNING: {verified_warning}\n"
-            f"  ENTROPY_EXCAVATION.md requires Sage's explicit approval\n"
-            f"  for every VERIFIED addition. Confirm before closing.\n"
-        )
+        # Check for approval marker (.claude/verified_approved.marker)
+        approval_marker = os.path.join(PROJECT_ROOT, ".claude", "verified_approved.marker")
+        if not os.path.exists(approval_marker):
+            msg = (
+                f"\n{'='*60}\n"
+                f"  CLOSE AUDIT GATE — BLOCKED\n"
+                f"{'='*60}\n"
+                f"  Reason: {verified_warning}\n"
+                f"\n"
+                f"  ENTROPY_EXCAVATION.md requires Sage's explicit approval\n"
+                f"  for every VERIFIED addition (three-gate rule).\n"
+                f"\n"
+                f"  After Sage approves, create the marker:\n"
+                f"    echo 'approved' > .claude/verified_approved.marker\n"
+                f"  Then retry the close.\n"
+                f"{'='*60}\n"
+            )
+            sys.stderr.write(msg)
+            sys.exit(2)
+        else:
+            # Approval marker exists — consume it
+            try:
+                os.remove(approval_marker)
+            except OSError:
+                pass
 
     # All checks passed — consume the audit marker and allow
     try:

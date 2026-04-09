@@ -305,13 +305,17 @@ def check_precision_values(rel_path, content, lines):
         return
 
     for i, line in enumerate(lines):
-        # Look for specific threshold/timeout/count patterns without source
+        # Look for specific threshold/timeout/count patterns without source.
+        # Any numeric value assigned to these terms is flagged — no arbitrary
+        # minimums. A timeout of 50 is as unsourced as a timeout of 5000.
         patterns = [
-            (r'timeout\s*[:=]\s*(\d{3,})', "timeout value"),
+            (r'timeout\s*[:=]\s*(\d+)', "timeout value"),
             (r'threshold\s*[:=]\s*(\d+\.?\d*)', "threshold value"),
             (r'retry\s*[:=]\s*(\d+)', "retry count"),
-            (r'max\s*[:=]\s*(\d{3,})', "max value"),
-            (r'interval\s*[:=]\s*(\d{3,})', "interval value"),
+            (r'max[_\s]*(?:size|count|limit|retries|attempts)\s*[:=]\s*(\d+)', "max value"),
+            (r'interval\s*[:=]\s*(\d+)', "interval value"),
+            (r'delay\s*[:=]\s*(\d+)', "delay value"),
+            (r'duration\s*[:=]\s*(\d+)', "duration value"),
         ]
         for pattern, desc in patterns:
             match = re.search(pattern, line, re.IGNORECASE)
@@ -411,10 +415,13 @@ def check_contamination(rel_path, content, lines):
     is_code = rel_path.endswith(CODE_EXTENSIONS)
     is_doc = rel_path.endswith(DOC_EXTENSIONS)
 
-    # Skip files that document these patterns (entropy scan, rot registry, etc.)
+    # Skip files that document these patterns (governance docs, hook scripts)
     basename = os.path.basename(rel_path)
     if basename in ("entropy_scan.py", "code_quality_gate.py", "ROT_REGISTRY.md",
-                    "ENTROPY_EXCAVATION.md", "ROT_OPEN.md"):
+                    "ENTROPY_EXCAVATION.md", "ROT_OPEN.md", "CLAUDE.md",
+                    "SESSION_PROTOCOL.md", "GITHUB_PROTOCOL.md",
+                    "RECURSION_REPAIR.md", "SESSION_LOG.md",
+                    "bash_safety_gate.py", "session_start.py"):
         return
 
     for i, line in enumerate(lines):

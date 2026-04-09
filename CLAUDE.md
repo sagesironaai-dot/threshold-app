@@ -285,7 +285,7 @@ corruption across core systems. Infrastructure changed from browser app
    Cleanup pass completed: all old architecture references removed from DOCS.
    Working plan: .claude/plans/infrastructure-build-plan.md
 
-3. SOT written and verified — NOT STARTED. Blocked on step 2.
+3. SOT written and verified — NOT STARTED. Next step (infrastructure complete).
    Source of truth document. Assembles the verified, infrastructure-updated
    DOCS state into the authoritative reference that all code is written
    against.

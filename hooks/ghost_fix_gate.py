@@ -4,19 +4,20 @@ GHOST FIX GATE — Combined PreToolUse + PostToolUse hook.
 
 PostToolUse behavior: After every Edit, writes a pending marker with
 the file path and timestamp. This flags that a ghost fix verification
-may be needed.
+is needed.
 
 PreToolUse behavior: Before every Write/Edit to non-exempt paths,
-checks for pending ghost fix marker. If present, prints a WARNING
-(not a hard block) reminding to verify the fix is present.
+checks for pending ghost fix marker. If present, BLOCKS the write
+(exit 2) until a TYPE: GHOST_FIX entry is written to SESSION_LOG.md.
 
 The marker is cleared when a TYPE: GHOST_FIX entry is written to
 SESSION_LOG.md.
 
-This is a soft gate (warning only) because not every Edit is a fix.
-Sage can promote to hard block if warranted.
+This is a hard block (exit 2). Promoted from soft warning on
+2026-04-09 to prevent F55 (ghost fixes) and F07 (corrections
+not incorporated faithfully).
 
-Enforces SESSION_PROTOCOL.md: "Run after every patch, correction,
+Enforces SESSION_PROTOCOL.md §4: "Run after every patch, correction,
 or fix — no exceptions."
 """
 
