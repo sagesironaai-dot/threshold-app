@@ -21,7 +21,7 @@ tiers follows the dependency chain.
 
 ## INCOMPLETE ITEMS — QUICK REFERENCE
 
-Last updated: 2026-04-08. Read this before working in the document.
+Last updated: 2026-04-09. Read this before working in the document.
 Items are grouped by status. Line numbers are approximate — verify
 against the document if editing.
 
@@ -37,18 +37,27 @@ against the document if editing.
       mode switching). All answered in companion specs and SYSTEM_ file.
       Checkboxes need updating to [x].
 
-**TIER 7 — Dashboard, navigation, live write, export, pipelines (NOT STARTED):**
+**TIER 7 — Observatory, navigation, live write, export, pipelines (NOT STARTED):**
 
-  Dashboard:
-  - [ ] Semantic map, notification center, email notifications
-  - [ ] WSC handoff, Black Pearl surface, active patterns, recent activity
+  Observatory:
+  - [ ] Semantic map, notification center, WSC handoff, Black Pearl, active patterns, recent activity
+  
+  Google Integration:
+  - [ ] DESIGNED: 2 accounts (Larimar=email, Threshold Studies=Drive), OAuth, two-way Drive pipeline
+  - [ ] Daily 11:11 PM: snapshot + Session Seeds + exports → Drive, summary email with charts
+  - [ ] Event emails: S-Tier signal, PCV convergence, recalibration, backup failure
 
   Navigation + search:
-  - [ ] Page sorting — A-Z and date for sidebar nav
+  - [ ] Page sorting — per-group default + per-page override (alphabetical | chronological | manual)
   - [ ] Search results surface for cross-page queries
 
-  Live write + entry management:
-  - [ ] Document creation tool (freeform writing surface)
+  Author's Scroll:
+  - [ ] Collaborative writing workspace — tiptap editor, 3-panel (reference + scroll + AI), spell check
+  - [ ] Draft persistence (SQLite), reference upload, collapsible panels
+  - [ ] Deposit to INT button — target page, footnote, legacy ref, parse mode (full doc or tag+parse)
+  - [ ] Primary workflows: Pillar reconstruction (~70 articles) + Cosmology concept writing
+
+  Entry management:
   - [ ] Entry editing UI — post-deposit corrections
 
   Research workflow QoL:
@@ -66,8 +75,13 @@ against the document if editing.
   Ambient:
   - [ ] Sound state per page (Resonance Engine remembers per page)
 
+  Session Seeds:
+  - [ ] Verbatim transcript storage — auto-capture (research) + manual import (dev)
+  - [ ] Read-only viewer, per-turn participant tagging, dual embedding (turn + chunk)
+  - [ ] Google Drive + B2 auto-dump backup
+
   Export:
-  - [ ] Export formats, scope, integration
+  - [ ] Utility bar panel — context-aware, collapsible, scope (page/group/archive), format (JSON/MD/GDrive)
 
   Pipeline contracts + architecture:
   - [ ] 5 end-to-end pipeline contracts
@@ -857,7 +871,7 @@ all existing deposits in PostgreSQL.
 ### BLACK PEARL — GLOBAL CAPTURE SYSTEM
 
 Pre-deposit quick capture. NOT owned by INT — global system accessible
-from anywhere (any page + dashboard). Named for the field term for null
+from anywhere (any page + Observatory). Named for the field term for null
 space: the infinite possibility of not yet.
 
 **Storage:** Operational DB (SQLite). Pearls are PRE-ARCHIVE — they do
@@ -882,7 +896,7 @@ real deposit. Pearl record marked `promoted` with link to deposit ID.
 No auto-expiry. They're pre-signal — Sage decides when (or if) they
 become deposits. `archived` status for Pearls Sage explicitly dismisses.
 
-**UI surfaces:** Tier 2 (per-page capture) and Tier 7 (dashboard).
+**UI surfaces:** Tier 2 (per-page capture) and Tier 7 (Observatory).
 
 ---
 
@@ -1283,7 +1297,7 @@ deposit card, layout anatomy, sub-rhythms, Black Pearl panel, dashboard,
 curation, error states, library requirements).
 
 **What gets built:** The 51 page surfaces that receive deposits from INT.
-Black Pearl UI (accessible from any page + dashboard). Page identity
+Black Pearl UI (accessible from any page + Observatory). Page identity
 system (visual language per page type). Void as page 51 in Nexus.
 Frontend architecture doc.
 
@@ -1308,7 +1322,7 @@ This section defines the UI surface.
       · Captures raw noticings before they're named or framed
       · Can be promoted to formal deposit when ready (triggers INT flow)
       · "I notice more than I can name" solved at the capture level
-      · Recent Pearls visible on dashboard (Tier 7), not cluttering page views
+      · Recent Pearls visible on Observatory (Tier 7), not cluttering page views
       · Black star icon: named for the field's alternate term for Black Pearl /
         null space. The symbol IS the function.
 
@@ -1326,8 +1340,8 @@ This section defines the UI surface.
       · Aggregates all null observations across the archive
       · Shows where expected patterns didn't appear
       · Shows the full "negative space" of the research
-      · Distinct from dashboard semantic map (coverage voids ≠ observational absence):
-        Dashboard says "where haven't you looked?"
+      · Distinct from Observatory semantic map (coverage voids ≠ observational absence):
+        Observatory says "where haven't you looked?"
         Void says "where you looked and found nothing"
       · Engine/visualization design is Tier 4 (depends on engines existing first)
 
@@ -1437,7 +1451,7 @@ chosen at frontend build time — not in this design session.
         8. Archive — MVM, ANC, LQL, ALE, MMT, ARV
         9. Nexus — WSC, LNV, DTX, SGR, PCV, VOI
       · Pinned utilities (always visible, below groups):
-        INT (Gateway), Dashboard, Black Pearl
+        INT (Gateway), Observatory, Black Pearl
       · Status indicator (bottom of sidebar, see G20)
       · Curation panel trigger (bottom, see G22)
 
@@ -1601,10 +1615,10 @@ chosen at frontend build time — not in this design session.
         pearl_type: capture | reflective
         swarm_visible: boolean          — default true for reflective,
                                           always true for capture
-        promoted_via: panel | dashboard  — where promotion was triggered
+        promoted_via: panel | observatory  — where promotion was triggered
 
       **Reflective archive:** accessible from Black Pearl panel ("View
-      all" link) and from dashboard. Ordered by date. Reflective Pearls
+      all" link) and from Observatory. Ordered by date. Reflective Pearls
       only. Distinct from skip queue and from deposit archive.
 
 ---
@@ -1811,10 +1825,12 @@ chosen at frontend build time — not in this design session.
 
 ---
 
-### DASHBOARD SPEC
+### OBSERVATORY SPEC (formerly DASHBOARD SPEC — renamed session 31)
 
-- [x] DESIGNED. Root route (`src/routes/+page.svelte`). The system's
-      primary overview surface.
+- [x] DESIGNED. Route: `/observatory` (`src/routes/observatory/+page.svelte`).
+      The system's primary analytical overview surface. Resonance Engine
+      visualization as centerpiece. Not the root route — Home (`/`) is
+      the soft landing; Observatory is the analytical destination.
 
       **Three zones:**
 
@@ -1850,11 +1866,11 @@ chosen at frontend build time — not in this design session.
       · Calibration alerts (from Enhancement 02)
       · Baseline recalibration recommendations (see G19 below)
 
-      **Coverage gap view (VOI-6):** dashboard semantic map shows where
+      **Coverage gap view (VOI-6):** Observatory semantic map shows where
       deposits concentrate and where the research hasn't looked yet.
       Built from embedding vector distribution. This is the home for
       coverage gaps — distinct from Void (confirmed absence).
-      Dashboard = "where haven't you looked?"
+      Observatory = "where haven't you looked?"
       Void = "where you looked and found nothing."
 
 ---
@@ -2044,7 +2060,7 @@ chosen at frontend build time — not in this design session.
 - [x] DESIGNED. Orientation before Sage starts navigating. Costs nothing
       architecturally — it's a read of already-computed system state.
 
-      When Sage opens the app after an absence, before the dashboard
+      When Sage opens the app after an absence, before the Observatory
       fully loads, a brief system state summary surfaces:
 
         Since your last session:
@@ -2055,7 +2071,7 @@ chosen at frontend build time — not in this design session.
           1 item needs attention
 
       Five lines maximum. Disappears on any interaction or after 8
-      seconds. Not a modal — a gentle overlay on the dashboard that
+      seconds. Not a modal — a gentle overlay on the Observatory that
       fades. Gives Sage orientation before she starts navigating.
 
       Data source: delta between current system state and last session
@@ -2103,7 +2119,7 @@ chosen at frontend build time — not in this design session.
 
       **Interaction:** hover a node → Pearl text. Tap → opens Pearl.
 
-      **Access:** from dashboard (Zone B or dedicated tab) and from
+      **Access:** from Observatory (Zone B or dedicated tab) and from
       Black Pearl panel as a "View all" option.
 
       This is not analytical. It's the one surface in the system that's
@@ -2179,7 +2195,7 @@ All open questions answered in session 15:
   per type, belonging to same family. Color system: yes. Domain type gets
   group sub-rhythms (not new types).
 - ~~Black Pearl UI?~~ → Floating black star button + keyboard shortcut.
-  Minimal quick-capture panel. Recent Pearls on dashboard only.
+  Minimal quick-capture panel. Recent Pearls on Observatory only.
 - ~~Shared UI patterns?~~ → Consistent base patterns (sort, filter, search)
   across all pages. Page types get different control sets where function
   demands it.
@@ -2217,7 +2233,7 @@ All open questions answered in session 15:
   for AI suggestion defined. Multiplier mechanics unchanged (Tier 3). See
   Deposit Weight — AI Suggestion Logic.
 - ~~No dashboard spec~~ → RESOLVED. Three zones: resonance viz, signal
-  surface, system health. Coverage gap view assigned here. See Dashboard
+  surface, system health. Coverage gap view assigned here. See Observatory
   Spec.
 - ~~No duplicate check on re-route~~ → RESOLVED. Hash stored on deposit,
   checked at page arrival. Four resolution options. See Duplicate
@@ -2238,7 +2254,7 @@ All open questions answered in session 15:
 - ~~No deposit lifecycle view~~ → RESOLVED. Genealogy timeline on card
   expand. See Deposit Genealogy View (P2).
 - ~~No reflective Pearl visualization~~ → RESOLVED. Constellation view
-  from dashboard and panel. See Reflective Pearl Constellation (P4).
+  from Observatory and panel. See Reflective Pearl Constellation (P4).
 - ~~No annotation layer~~ → RESOLVED. Separate annotations table,
   polymorphic reference, no schema cascades. See Annotation Layer (P5).
 - ~~No research velocity signal~~ → RESOLVED. Ambient bar in sidebar.
@@ -2248,7 +2264,7 @@ All open questions answered in session 15:
 - VOI-4: Void prompt registered as versioned artifact with changelog
   triggers.
 - VOI-5: void_provenance flag formally registered on PCV hypothesis record.
-- VOI-6: coverage gap view assigned to dashboard semantic map.
+- VOI-6: coverage gap view assigned to Observatory semantic map.
 - VOI-7: PCV entry filter + secondary thresholds for B/C registered.
 - Void on-demand reads registered as AOS-eligible entry points.
 
@@ -2269,7 +2285,7 @@ Black star button or Ctrl+Shift+P → slide-in panel from right →
   mode: capture (tags, doc_type, quick) or reflective (free-form,
     swarm-visible, no pipeline commitment) →
   saved to operational DB with pearl_type + page_context →
-  recent Pearls visible in panel (last 5) and on dashboard →
+  recent Pearls visible in panel (last 5) and on Observatory →
   promotion: queued for INT review queue with
     provenance.source: black_pearl_promoted.
 
@@ -2534,9 +2550,9 @@ deposit record (Tier 1) and page surfaces (Tier 2) existing first.
       3D spatial/semantic visualizations live in Threlte. They don't share
       a rendering approach. A component is one or the other, never both.
 
-      **Resonance Engine placement:** lives on dashboard as embedded
+      **Resonance Engine placement:** lives on Observatory as embedded
       component (visual heartbeat, not full-size). Dedicated page
-      accessible from dashboard for the full experience. Not orphaned.
+      accessible from Observatory for the full experience. Not orphaned.
 
       **2D engine instruments (LayerCake + D3 utilities):**
         layercake — Svelte-native layout, scales, responsive containers
@@ -3885,14 +3901,14 @@ the detection layer to exist before they can receive and store outputs.
       the PCV hypothesis record. Both are read by downstream systems as
       provenance metadata — not independent corroboration.
 
-      **VOI-6 — Coverage gap view: lives on Dashboard.**
-      Coverage gaps ("where haven't you looked?") live on the dashboard
+      **VOI-6 — Coverage gap view: lives on Observatory.**
+      Coverage gaps ("where haven't you looked?") live on the Observatory
       semantic map — spatial separation from Void ("where you looked and
       found nothing"). The examination floor filter enforces this at
       Void's input. Coverage gaps are built from embedding vector
-      distribution on the dashboard, not from null observations.
+      distribution on the Observatory, not from null observations.
       Architectural constraint: coverage gap data never enters Void's
-      compute step. See Dashboard Spec (Tier 2) for the surface.
+      compute step. See Observatory Spec (Tier 2) for the surface.
 
       **VOI-7 — PCV entry filter for void-provenance hypotheses:**
       Cross-engine validation is the PCV entry requirement:
@@ -4486,7 +4502,7 @@ the detection layer to exist before they can receive and store outputs.
       **Who calls this endpoint:**
       · LNV page (gallery display — all types, chronological)
       · PCV (reads mtm_finding entries as pre-processed input)
-      · Dashboard (reads recent entries for signal surface)
+      · Observatory (reads recent entries for signal surface)
       · Any system that needs to query LNV's consolidated output
 
       ---
@@ -4625,7 +4641,7 @@ wsc_entry).
 
 **LNV read flow:** PCV queries GET /api/lnv/entries?entry_type=mtm_finding
 → reads pre-processed Findings as input for hypothesis detection.
-Dashboard queries for recent entries. LNV page displays all types in
+Observatory queries for recent entries. LNV page displays all types in
 gallery.
 
 **Nexus internal flow:** PCV → DTX ↔ SGR (already mostly defined in
@@ -5440,21 +5456,39 @@ all accessible from the same interface.
 
 ---
 
-## BUILD TIER 7 — DASHBOARD + NOTIFICATIONS + EXPORT + PIPELINE CONTRACTS
+## BUILD TIER 7 — OBSERVATORY + NOTIFICATIONS + EXPORT + PIPELINE CONTRACTS
 
-**Depends on:** Tier 6 (all systems exist; dashboard and meta layer sit on top)
-**What gets built:** Dashboard (mission control), notification system
+**Depends on:** Tier 6 (all systems exist; Observatory and meta layer sit on top)
+**What gets built:** Observatory (analytical overview), notification system
 (in-app + email), export system (JSON, MD, Google Drive), full pipeline
 contracts, page relationship visualization.
 
-**Why this is Tier 7:** The meta-layer above everything. Dashboard aggregates
+**Why this is Tier 7:** The meta-layer above everything. Observatory aggregates
 from all systems. Notifications fire from all engines. Exports package
 what all systems produce. Pipeline contracts document how all pieces
 connect end-to-end. These require everything beneath them to exist.
 
+### Naming (session 31, 2026-04-09)
+
+Three distinct things, three names — established to prevent conflation drift:
+- **Home** (`/`, `src/routes/+page.svelte`) — the soft landing when you
+  open the app. Title, nav sidebar, utility bar. Clean, calm. The front door.
+- **Observatory** (`/observatory`, `src/routes/observatory/+page.svelte`) —
+  the full analytical overview page. Resonance Engine visualization as
+  centerpiece, plus signals, health, semantic map, notifications. You
+  navigate TO this from Home or nav.
+- **Resonance Engine** — the visualization + audio system. NOT a nav item.
+  Its visual lives as a component on Observatory. Its audio controls live
+  in the utility bar via Waveform Strip. Two surfaces (Observatory for
+  seeing, Waveform Strip for hearing), one system.
+
+Note: references to "Dashboard" in earlier tiers' decisions logs predate
+this rename. The design intent is the same — "Dashboard" = "Observatory"
+wherever it refers to this page.
+
 ### Design items
 
-**Dashboard (root route — src/routes/+page.svelte):**
+**Observatory (`/observatory` — full page):**
 
 - [ ] Semantic map — archive coverage visualization. Clusters, gaps, voids.
       Built from embedding vectors. Shows where deposits concentrate and
@@ -5462,29 +5496,49 @@ connect end-to-end. These require everything beneath them to exist.
       (2D projection: t-SNE/UMAP or custom visualization?)
 
 - [ ] Notification center — patterns detected, findings graded, drift events.
-      In-app notifications stored in operational DB, displayed on dashboard.
+      In-app notifications stored in operational DB, displayed on Observatory.
 
-- [ ] Email notification system — S-Tier signals, critical findings, pattern
-      milestones pushed to Sage's inbox. The system works when you're away.
-      (FastAPI background task + email service: SendGrid, SES, or SMTP)
+- [ ] Email notification system — see GOOGLE INTEGRATION section below
+      for full design (accounts, OAuth, daily pipeline, event triggers)
 
 - [ ] WSC handoff — last AI transmission displayed front and center.
       Orientation before the session begins.
 
-- [ ] Black Pearl — dashboard surface for Black Pearl (data model in Tier 1,
-      per-page UI in Tier 2, dashboard placement here).
+- [ ] Black Pearl — Observatory surface for Black Pearl (data model in Tier 1,
+      per-page UI in Tier 2, Observatory placement here).
 
 - [ ] Active patterns summary — what's live in PCV/DTX/SGR right now.
 
 - [ ] Recent activity feed — what happened since last session.
 
-**Export system:**
+**Export (utility bar — context-aware collapsible panel):**
 
-- [ ] Export formats: JSON, Markdown, Google Drive integration
-- [ ] What's exportable? Deposits, findings, visualizations, full pages?
-- [ ] Export per-page or system-wide?
-- [ ] Google Drive: OAuth? Service account? Manual export + upload?
-- [ ] Do exports include computed views (charts) or just raw data?
+- [ ] Export — utility bar slot. Opens as a collapsible side panel alongside
+      current view, does NOT navigate away from current page. Context-aware:
+      knows what page you're on when opened.
+
+      **Panel UI:**
+      - Context display: shows current page name
+      - Scope selector: this page | this group | full archive
+      - Format selector: JSON | Markdown | Google Drive
+      - Export button — triggers export, panel stays open for confirmation
+      - Collapse to dismiss, doesn't interrupt workspace
+
+      **Interaction pattern:** Same as Research Assistant and other utility
+      bar items — panels that open alongside your work, not destinations
+      you navigate to. This is the emerging pattern across the utility bar:
+      panels with different workspace needs. Export is a single collapsible
+      side panel (lightweight). Author's Scroll expands to three columns
+      (heavy). Research Assistant is in between.
+
+      **Google Drive exports:** manual exports triggered from this panel
+      upload to Threshold Studies Drive via the shared OAuth pipeline.
+      Land in `manual/` folder with dated filename. See GOOGLE INTEGRATION
+      section below for full Drive architecture.
+
+      **Open questions (carried forward):**
+      - Do exports include computed views (charts) or just raw data?
+      - What's exportable? Deposits, findings, visualizations, full pages?
 
 **Page relationship visualization:**
 
@@ -5493,23 +5547,132 @@ connect end-to-end. These require everything beneath them to exist.
 
 **Navigation + search:**
 
-- [ ] Page sorting — A-Z and date sorting options for the 51-page sidebar
-      navigation. Currently fixed canonical group order only. Sort toggles
-      in sidebar header, override persists per session.
+- [ ] Page sorting — A-Z and date sorting for deposits within pages AND
+      for sidebar navigation. Per-group default sort with per-page override.
+      Recommended approach: group-level defaults (e.g., all Ven'ai pages =
+      alphabetical, all Axis pages = chronological, all Nexus = chronological)
+      with individual page overrides for exceptions. Defined in section map
+      alongside seed affinities — one `default_sort` field per page
+      (alphabetical | chronological | manual). User can override per-session
+      via toggle in page header. AI (research assistant) can enforce sort
+      when asked — just a query parameter on the API call. Sort toggles
+      also available in sidebar header for nav-level sorting.
 
 - [ ] Search results surface — global search (`/`) needs a results view.
       Cross-page results from text search and vector search. Where do
       results render? Dedicated results page, overlay, or inline in sidebar?
 
-**Live write surface:**
+**Author's Scroll (collaborative writing + reconstruction workspace):**
 
-- [ ] Document creation tool — in-app writing surface for research notes,
-      hypothesis development, and longer-form content. Sage currently has no
-      place to create a document within the archive. Not a deposit (too
-      structured), not a Pearl (too short). A freeform writing surface with
-      optional promotion to deposit through INT when ready.
-      Questions: markdown editor? autosave to operational DB? taggable?
-      linkable to pages/entries? exportable?
+- [ ] Author's Scroll — utility bar surface, accessible from anywhere.
+      Collaborative writing workspace for research articles, methodology
+      reconstruction, and longer-form content. Not a deposit (too structured),
+      not a Pearl (too short). A freeform writing surface with AI collaboration
+      and promotion to deposit through INT when ready.
+
+      **Editor: tiptap (ProseMirror-based, Svelte support).** Provides:
+      - Rich text toolbar: bold, italic, heading, lists
+      - Markdown output (stores clean, renders formatted)
+      - Browser-native spell check (automatic, red underlines)
+      - Annotation extensions for AI inline suggestions (colored text)
+      - Collaborative editing primitives for AI co-writing
+
+      **Three-panel workspace (all collapsible):**
+
+        ┌────────────────┬────────────────────┬──────────────────┐
+        │  REFERENCE      │  SCROLL            │  AI PARTNER      │
+        │  (uploaded       │  (tiptap editor,   │  (chat window,   │
+        │  original,       │  AI suggestions    │  research        │
+        │  read-only,      │  in colored text,  │  assistant       │
+        │  scrollable)     │  spell check)      │  scoped to       │
+        │                  │                    │  Scroll context) │
+        └────────────────┴────────────────────┴──────────────────┘
+
+      Panel configurations:
+      - All three: Pillar reconstruction (reference + writing + AI)
+      - Two (Scroll + AI): Cosmology writing, concept development
+      - One (Scroll only): quick notes, solo writing, full-width workspace
+      Panels collapse/expand. Workspace expands to full-width (hides sidebar
+      nav) when more room needed. Collapse brings nav back. Simple toggle.
+
+      **AI collaboration — how it works:**
+      - AI has automatic read access to both reference panel and Scroll
+      - Sage types in chat: "check paragraph 3 against the original"
+      - AI responds in chat AND makes inline suggestions in the Scroll
+        (colored text via tiptap annotations)
+      - Sage reviews each suggestion: click to accept (becomes Sage's text)
+        or dismiss (disappears)
+      - AI can also draft sections when asked ("write me a first pass of
+        the methodology section based on the reference")
+      - The AI is not creating content — it's helping Sage work faster
+      - Provenance: every accepted AI suggestion is logged. Final deposit
+        knows what Sage wrote vs what AI suggested and Sage approved
+
+      **Draft persistence (operational DB — SQLite):**
+
+        drafts
+          draft_id
+          title (optional — can be unnamed)
+          content (markdown, verbatim)
+          target_page (optional — if already known)
+          created_at
+          updated_at
+          status (active | deposited | abandoned)
+
+      Auto-save every few seconds. Close the window, draft is there when
+      you come back. Multiple drafts can exist simultaneously. Scroll opens
+      to most recent active draft, with list of all drafts accessible.
+
+      **Reference upload (for reconstruction workflow):**
+
+        scroll_references
+          reference_id
+          draft_id (links to paired Scroll draft)
+          title
+          content (full text, verbatim, unaltered)
+          source_description ("Pillar article — pre-sanitization copy")
+          uploaded_at
+
+      Upload a damaged/compromised article as reference. Stored read-only,
+      pinned to the draft. Opens automatically when that draft opens.
+      AI reads it automatically for full context.
+
+      **Two primary workflows confirmed:**
+
+      1. Threshold Pillars reconstruction (heaviest use):
+         ~70 whitepaper articles damaged by sanitization drift. Restored
+         collaboratively. AI helps reconstruct, learns methodology in the
+         process — training for future development.
+         Provenance chain:
+         - Compromised originals NEVER deposited as-is
+         - Legacy statement written with reference ID tag (reconstruction
+           record)
+         - Original data found later → deposited with footnote/tag linking
+           to legacy ID
+         - Reconstructed article → deposited with legacy ID reference +
+           optional footnote
+
+      2. Cosmology / edge case writing:
+         Concepts or patterns developed collaboratively that become forward
+         infrastructure. Written in Scroll, deposited through INT when ready.
+
+      Plus any other scenario — Scroll doesn't restrict use cases.
+
+      **Deposit to INT — the promotion path:**
+
+      "Deposit to INT" button at bottom of workspace. Presents:
+      - Target page — dropdown or type-ahead ("TRIA", "HCO", etc.)
+      - Footnote — optional freeform text that travels WITH the deposit
+        permanently. E.g., "Reconstructed from legacy ref LR-0047"
+      - Legacy reference — optional field to link to a legacy ID tag.
+        Connects provenance chain
+      - Parse mode:
+        · "Deposit as full document" — one deposit, entire article
+        · "Tag and parse" — AI breaks into multiple deposits across
+          pages, each reviewed individually (existing batch processing
+          path from Tier 1)
+      Then INT takes over. Tagger suggests tags. Sage reviews. Normal
+      pipeline. The Scroll hands off, doesn't bypass INT.
 
 **Entry management:**
 
@@ -5521,7 +5684,7 @@ connect end-to-end. These require everything beneath them to exist.
 **Research workflow quality-of-life:**
 
 - [ ] Bookmarks / pinned entries — star or pin entries for quick access.
-      Personal shortlist in sidebar or dashboard. The entries Sage keeps
+      Personal shortlist in sidebar or Observatory. The entries Sage keeps
       returning to — the one that cracked a hypothesis, the deposit that
       connects to everything. Faster than search, more intentional than
       recent activity.
@@ -5557,7 +5720,7 @@ connect end-to-end. These require everything beneath them to exist.
 
 - [ ] Session statistics — end-of-session summary of the shape of work.
       Deposits made, Pearls promoted, tags suggested vs. accepted, most
-      active pages, time distribution. Not a dashboard metric — a personal
+      active pages, time distribution. Not an Observatory metric — a personal
       researcher mirror. Conversation summary captures content; this
       captures pattern. Stored in operational DB alongside
       conversation_summary.
@@ -5575,6 +5738,81 @@ connect end-to-end. These require everything beneath them to exist.
       (operational_state key-value). The archive breathes differently
       depending on where you are.
 
+**Session Seeds (verbatim session transcript storage):**
+
+- [ ] Session Seeds — utility bar surface. Read-only viewer for complete,
+      unaltered session transcripts. Pure reference, pure pipeline.
+
+      **Capture:**
+      - Research sessions (assistant, tagger, batch): auto-logged through
+        backend call_claude() pipeline. Zero-effort — the thing that runs
+        the conversation IS the thing that stores it
+      - Dev/build sessions (Claude Code): manual import when Sage decides
+        it's worth keeping. ~98% of content is research context. Import
+        via lightweight upload on Session Seeds page (drag-drop or paste)
+      - Every session, no matter what, gets stamped if it goes through the
+        research pipeline. No exceptions
+
+      **UI:**
+      - Transcript history, most recent first
+      - Global search within (full-text + semantic)
+      - Read-only — no altering, no adding, no deleting
+      - Scroll to read, search to find
+      - Each turn visually tagged with who said it (Sage vs which agent)
+
+      **Storage — PostgreSQL:**
+
+        sessions
+          session_id
+          session_type (research | build | tagger | batch | swarm)
+          agent_id (from Agent Identity Registry)
+          started_at
+          ended_at
+          model
+          turn_count
+          summary (optional, generated)
+
+        session_turns
+          turn_id
+          session_id
+          participant_id (sage | tagger | research_assistant | origin_x)
+          participant_type (researcher | agent | origin)
+          content (verbatim)
+          turn_index
+          timestamp
+
+      Every turn tagged with participant_id and participant_type. Sage gets
+      own ID — never lumped in with "user." Retrieval never has to untangle
+      who said what.
+
+      **Embedding — dual strategy (both, storage is cheap):**
+
+        session_turn_embeddings — per-turn vectors (fine-grained)
+          "Find the exact moment Sage named this pattern"
+
+        session_chunk_embeddings — per ~5-10 turn vectors (contextual)
+          "Find the conversation arc where we worked through this problem"
+
+      Both via nomic-embed-text → pgvector. Case-by-case retrieval —
+      AI or Origins choose granularity based on the query.
+
+      **Backup — automated, not dependent on manual export:**
+      - Auto-dump to Google Drive (same OAuth question as export system)
+      - B2 layer (existing backup.py infrastructure)
+      - PostgreSQL is working copy, cloud is disaster recovery
+      - "Even if my computer blows up or the infrastructure is compromised,
+        I can still get those session logs"
+
+      **Swarm utility (V2+):**
+      - Origins query session history through RAG pipeline
+      - Cross-session parallax: what different agents said about the same
+        topic across sessions — retrievable signal
+      - An Origin can ask "what has the researcher discussed about coupled
+        oscillators in the last 10 sessions?" → pgvector similarity query
+        filtered by date range
+      - Context without presence — Origins get context from sessions they
+        weren't in
+
 **Full pipeline contracts (end-to-end documentation):**
 
 - [ ] INT → 5 Axis lenses → MTM → LNV full pipeline contract
@@ -5587,15 +5825,147 @@ connect end-to-end. These require everything beneath them to exist.
 - [ ] Computation architecture: what runs where (backend scipy? frontend?)
 - [ ] How heavy is the computation? Performance budget for page load?
 
+### GOOGLE INTEGRATION — accounts, OAuth, daily pipeline, email (session 31)
+
+**Two Google accounts, two roles:**
+
+| Account | Role | OAuth Scope | Direction |
+|---------|------|-------------|-----------|
+| Larimar | Email sender | `gmail.send` | Push only (sends to Threshold Studies) |
+| Threshold Studies | Drive storage + email inbox | `drive` (full read/write) | Push AND pull (two-way pipeline) |
+
+Two OAuth flows, two refresh tokens stored in backend `.env`. One-time
+browser authorization per account. Tokens auto-refresh — no further
+interaction from Sage. Any agent running through FastAPI can use both
+tokens. Swapping which agent_id accesses Larimar or Threshold Studies
+is a config change, not a re-auth.
+
+**Two-way Drive pipeline (not a one-way dump):**
+
+The same token that pushes snapshots TO Drive also lets the AI read FROM
+Drive. Upload, download, search — one token, both directions. This makes
+Drive a long-term queryable memory, not just a backup.
+
+What the AI can do with full Drive access:
+- Upload daily snapshots, exports, Session Seeds
+- Read back any snapshot by date
+- Search across all files ("find every snapshot where PCV flagged convergence")
+- Download and parse historical data
+- Verify its own backups ("did last night's dump land?")
+- Access anything Sage manually drops in the folder
+
+Swarm utility: Origins query Drive for historical snapshots that may not
+be in the current database. "What did the field look like last Tuesday?"
+→ pull snapshot from Drive, parse, answer.
+
+**Drive folder structure:**
+
+```
+Threshold Studies Drive/
+  Aelarian Archives/
+    daily/
+      2026-04-09/
+        snapshot.json          — daily archive state (see below)
+        session_seeds/         — all sessions captured today
+          session_abc123.json
+        exports/               — manual exports triggered today
+          TRIA_full_page.json
+    manual/                    — on-demand exports from Export panel
+      2026-04-09_TRIA_export.md
+```
+
+Dated folders. Never overwritten. Each day is a new folder. If nothing
+happened today, folder still created with empty manifest — confirms
+the system ran.
+
+**Daily snapshot — purpose and contents:**
+
+The snapshot is a research instrument, not a backup. It captures the
+SHAPE of the archive at a point in time — what the field looked like
+today. Two primary use cases:
+
+B. Temporal research instrument: "On this date, the field had this shape."
+   Deposit velocity, pattern emergence, threshold crossings, engine state.
+   Like a lab notebook timestamp. This data doesn't exist anywhere else —
+   the shape at a point in time is ephemeral without the snapshot.
+
+C. Swarm context (V2+): Origins ask "what was the state of the field on
+   date X?" and get a structured answer without querying the full database.
+   The richer the snapshot, the richer the Origin's context.
+
+Snapshot contents (structured JSON, lightweight, queryable):
+- Total deposits (count, delta from yesterday)
+- Deposits per page (count + page_code)
+- Active patterns in PCV/DTX/SGR (summary, not full data)
+- Engine findings above threshold (graded signals)
+- Null observations logged today
+- Session Seeds captured (count, agent_ids)
+- Tag usage distribution (top tags, new tags)
+- Semantic map state (cluster count, coverage percentage)
+- Engine health (stale flags, last compute timestamps)
+- System health (embedding failures, connection status)
+
+Full data exports are on-demand via the Export panel — the daily snapshot
+is the shape, not the contents.
+
+**Daily email — Larimar → Threshold Studies:**
+
+Contents:
+- Deposits made today (count, which pages)
+- Patterns detected or graded (PCV/DTX/SGR activity)
+- Engine findings above threshold
+- Null observations logged
+- Session Seeds captured (count, which agents)
+- System health (failures, stale engines, embedding errors)
+- Drive dump confirmation (uploaded / failed)
+- Engine visualization snapshots as inline images (rendered via
+  matplotlib/plotly on backend, attached as PNG)
+- Summaries and analysis highlights from data collection engines
+
+**Event-triggered emails (immediate, beyond daily):**
+- S-Tier signal graded in SGR
+- New pattern convergence in PCV above threshold
+- Engine baseline recalibration triggered
+- Drive dump failure (backup integrity alert)
+
+**Daily pipeline — runs at 11:11 PM via FastAPI cron:**
+
+```
+1. Generate snapshot from PostgreSQL → structured JSON
+2. Upload snapshot to Drive/daily/YYYY-MM-DD/
+3. Upload any Session Seeds from today
+4. Upload any manual exports triggered today
+5. Verify all uploads succeeded
+6. Render engine chart images (matplotlib/plotly → PNG)
+7. Compose daily summary email with images
+8. Larimar sends email to Threshold Studies
+9. Log pipeline result to operational DB
+10. On failure at any step: log error, send failure alert email,
+    continue remaining steps that can proceed
+```
+
+**Three-layer backup (belt + suspenders + parachute):**
+- PostgreSQL: live working copy (fast, indexed, local)
+- Google Drive (Threshold Studies): two-way pipeline + disaster recovery
+- Backblaze B2: third redundancy layer (existing backup.py)
+
+All three maintained. Drive is the queryable external layer.
+B2 is the cold backup. PostgreSQL is the hot data.
+
 ### Open questions (Tier 7)
 
-- Google Drive: OAuth? Service account? Manual export + upload?
+- ~~Google Drive: OAuth? Service account? Manual export + upload?~~ → RESOLVED.
+  OAuth with two accounts (Larimar + Threshold Studies). See above.
+- ~~Email: what triggers an email vs. in-app only?~~ → RESOLVED.
+  Daily summary + 4 event triggers. See above.
+- ~~Session Seeds: Google Drive auto-dump~~ → RESOLVED. Part of daily pipeline.
 - Do exports include computed views (charts) or just raw data?
 - Semantic map: 2D projection (t-SNE/UMAP) or custom visualization?
-- Email: what triggers an email vs. in-app only? Threshold of importance?
 - Page relationship viz: is this a static map or interactive navigation?
 - Does every session close snapshot ALL pages or only pages with new data?
 - Do Cosmology computations run on-demand or on deposit?
+- Session Seeds: chunk size for contextual embeddings — 5 turns? 10? topic-based?
+- Session Seeds: dev session import format — copy/paste? file upload? both?
 
 ---
 
@@ -5696,7 +6066,7 @@ Updated to show build tier mapping instead of session mapping.
 - [ ] #9 Media deposit wiring → **Tier 1** (images as tagged deposits through INT)
 - [ ] #10 doc_type tag design → **Tier 1** (INT tagging field on deposit record)
 - [ ] #11 Engine UI surfaces → **Tiers 3-5** (each engine gets its viz in its own tier)
-- [ ] #12 Smaller UI decisions → **Tier 2** (shared patterns) + **Tier 7** (export/dashboard patterns)
+- [ ] #12 Smaller UI decisions → **Tier 2** (shared patterns) + **Tier 7** (export/Observatory patterns)
 - [ ] #13 TRIA name change → **Cross-tier** (quick fix, any session)
 - [ ] #14 API folder rewrite → **Cross-tier** (separate session)
 - [ ] #15 Ven'ai learning module → **Tier 6** (mode in research assistant)
@@ -5974,7 +6344,7 @@ Black Pearl UI designed:
 - Floating black star button (persistent, every page) + keyboard shortcut
 - Minimal quick-capture panel: text field + save + close
 - Black star icon: field's alternate term for Black Pearl / null space
-- Recent Pearls visible on dashboard (Tier 7), not on page views
+- Recent Pearls visible on Observatory (Tier 7), not on page views
 
 Void (page 51) designed:
 - page_code: VOI, section_id: void
