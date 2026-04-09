@@ -12167,3 +12167,60 @@ TIMESTAMP: 2026-04-09 10:34
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\settings.json
 ---
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: CLOSE
+FILES_MODIFIED:
+  - ROT_REGISTRY.md — COMPLETE (new file, project root, 5 entries consolidated from retired sources)
+  - ROT_OPEN.md — COMPLETE (new file, project root, action queue with 1 open item: TRIA)
+  - RECURSION_REPAIR.md — COMPLETE (new file, project root, extracted from CLAUDE.md)
+  - ENTROPY_EXCAVATION.md — COMPLETE (moved from DESIGN/MISC/ to root, verified file gate added)
+  - CLAUDE.md — COMPLETE (mandatory reads rewrite, close audit, mid-session rot rule, root docs section, Recursion Repair extracted)
+  - PROTOCOL/SESSION_PROTOCOL.md — COMPLETE (rewritten to locked intent: log format + lifecycle + work-unit only)
+  - .claude/settings.json — COMPLETE (5 PreToolUse hooks chained: session open, rot open, ghost fix, recursion repair, close audit)
+  - hooks/session_open_gate.py — COMPLETE (new hook, blocks work before OPEN entry)
+  - hooks/rot_open_gate.py — COMPLETE (new hook, blocks work while open rot exists)
+  - hooks/close_audit_gate.py — COMPLETE (new hook, blocks CLOSE without audit marker)
+  - hooks/ghost_fix_gate.py — COMPLETE (new hook, warns on pending fix verification)
+  - .claude/plans/design-session-plan.md — COMPLETE (stale ENFORCEMENT.md reference fixed)
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — COMPLETE (stale ENFORCEMENT.md reference fixed)
+  - Retired/ARCPHASE_ROT_CLEANUP.md — COMPLETE (moved from DESIGN/MISC/)
+  - Retired/ENFORCEMENT.md — COMPLETE (moved from PROTOCOL/)
+  - Retired/DOCS_STAGE_TODO.md — COMPLETE (moved from DESIGN/MISC/)
+  - Retired/ROT_CONTAMINATION_REPORT.md — COMPLETE (moved from DESIGN/MISC/)
+  - Retired/SOT_BUILD_TODO.md — COMPLETE (moved from DESIGN/MISC/)
+  - DESIGN/MISC/ — DELETED (empty after moves, folder removed)
+  - PROTOCOL/SESSION_LOG.md — COMPLETE (OPEN + CLOSE entries)
+COMPLETED:
+  - ROT_REGISTRY.md consolidated from 5 source files: 57 failure modes, arcPhase family, full audit, pre-infection catches, design plan drift flags
+  - ROT_OPEN.md created as action queue (items deleted when fixed, not marked)
+  - RECURSION_REPAIR.md extracted as standalone root document
+  - ENTROPY_EXCAVATION.md moved to root with verified file three-gate (audit + completion + Sage approval)
+  - CLAUDE.md fully rewritten: 5 mandatory reads, confirmation gate, mid-session rot rule, close audit requirement, root document relationship section
+  - SESSION_PROTOCOL.md rewritten to locked intent (no more duplicated rules)
+  - 4 new mechanical gate hooks created and wired into settings.json
+  - Retired/ folder created, 5 files moved there
+  - DESIGN/MISC/ retired
+  - 3 stale references fixed (INTEGRATION DB SCHEMA, ENTROPY_EXCAVATION, design-session-plan)
+  - Close audit performed: all modified files scanned, no new rot detected
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Mechanical gate plan steps 5-6, 8-13 (.claude/plans/radiant-strolling-bentley.md):
+    Step 5: entropy_scan.py update (canonical data 32→51 page codes + --close-audit mode)
+    Step 6: pre-commit Check 8 (entropy scan quick mode on staged files)
+    Step 8: ci.yml expansion (add checks 5-8)
+    Step 9: phase_control.py verify command (verified file gate)
+    Steps 10-13: hook tests (unit + integration)
+  - Pipeline Contract 2: PCV → DTX ↔ SGR
+  - Pipeline Contracts 3-5
+  - PAGE_LAYOUTS.md rebuild (Sage-owned)
+  - Cross-tier: #13 TRIA name fix (in ROT_OPEN.md), #14 API folder rewrite
+UNCOMMITTED: NO (after this commit)
+FILES_THIS_SESSION:
+  - 19 files in commit 1939ec5
+CLOSE_AUDIT: performed — no new rot detected in modified files
+NEXT_ACTION: Continue mechanical gate plan — step 5 (entropy_scan.py update).
+  Direct new session to: .claude/plans/radiant-strolling-bentley.md, steps 5-13.
+---
