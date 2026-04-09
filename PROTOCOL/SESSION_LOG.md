@@ -11656,3 +11656,60 @@ TIMESTAMP: 2026-04-09 06:39
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
 ---
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - none yet
+IN_PROGRESS:
+  - Review CLAUDE.md + design build doc for pipeline contract open questions
+NOT_STARTED:
+  - Pipeline contracts (5 end-to-end + shared viz/computation architecture)
+  - Cross-tier: #13 TRIA name fix, #14 API folder rewrite, CONNECTS TO + seed affinity pass
+UNCOMMITTED: NO
+NEXT_ACTION: Compile full inventory of unanswered questions blocking pipeline contracts
+---
+
+---
+TIMESTAMP: 2026-04-09 07:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 07:10
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Pipeline_Contracts\PIPELINE CONTRACT 1 â€” INT TO LNV.md
+---
+
+---
+TIMESTAMP: 2026-04-09 07:10
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DESIGN/Systems/Pipeline_Contracts/PIPELINE CONTRACT 1 — INT TO LNV.md — COMPLETE (new file, full end-to-end contract)
+  - .claude/plans/design-session-plan.md — COMPLETE (Tier 6 research assistant questions struck through, Contract 1 checked off)
+COMPLETED:
+  - Pipeline Contract 1 written: INT → 5 Axis lenses → MTM → LNV. 6 stages, handoff contracts, failure propagation, empty states. Assembly of existing schema definitions, no new design.
+  - Tier 6 open questions formatting fix: 3 research assistant questions struck through with resolution notes (were resolved session 31, strikethroughs missing)
+  - Pipeline_Contracts folder created in DESIGN/Systems/
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Pipeline Contract 2: PCV → DTX ↔ SGR
+  - Pipeline Contract 3: Axis → Cosmology investigation flow
+  - Pipeline Contract 4: Cosmology → Nexus feedback loop
+  - Pipeline Contract 5: Null observation through full pipeline
+  - Shared viz architecture, computation architecture, performance budget
+  - Cross-tier: #13 TRIA name fix, #14 API folder rewrite, CONNECTS TO + seed affinity pass
+UNCOMMITTED: YES
+NEXT_ACTION: Audit schemas for Contract 2 (PCV → DTX ↔ SGR), identify open questions, write contract
+---

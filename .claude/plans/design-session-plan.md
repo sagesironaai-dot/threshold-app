@@ -5403,11 +5403,14 @@ all accessible from the same interface.
 
 ### Open questions (Tier 6)
 
-**Research assistant:**
-- What does the chat UI look like in practice? Sidebar? Modal? Inline?
-- Does the assistant have access to engine state? Can it "see" what
-  the current engine is showing?
-- How does Ven'ai mode switch? Button? Slash command? Contextual?
+**Research assistant — RESOLVED (session 31, answered in SYSTEM_ Research Assistant.md):**
+- ~~What does the chat UI look like in practice? Sidebar? Modal? Inline?~~ →
+  RESOLVED. Persistent floating panel, not sidebar/modal/inline.
+- ~~Does the assistant have access to engine state? Can it "see" what
+  the current engine is showing?~~ →
+  RESOLVED. Reads engine state summaries for page context; never writes.
+- ~~How does Ven'ai mode switch? Button? Slash command? Contextual?~~ →
+  RESOLVED. Contextual — no formal mode switch. Language integrated without toggle.
 
 **Resonance audio — RESOLVED (session 30):**
 - Original harmonics: clip-based, Sage-curated audio files per node (not synthesis)
@@ -5808,7 +5811,8 @@ wherever it refers to this page.
 
 **Full pipeline contracts (end-to-end documentation):**
 
-- [ ] INT → 5 Axis lenses → MTM → LNV full pipeline contract
+- [x] INT → 5 Axis lenses → MTM → LNV full pipeline contract
+      WRITTEN: DESIGN/Systems/Pipeline_Contracts/PIPELINE CONTRACT 1 — INT TO LNV.md (session 33)
 - [ ] PCV → DTX ↔ SGR pipeline contract (already mostly defined)
 - [ ] Axis → Cosmology investigation flow
 - [ ] Cosmology → Nexus feedback loop (findings re-entering PCV for grading)
