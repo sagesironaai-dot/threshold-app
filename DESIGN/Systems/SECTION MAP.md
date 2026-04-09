@@ -8,7 +8,7 @@ Source: individual page manifests (DESIGN/Domains/) + COMPOSITE ID SCHEMA.md
 PAGE_CODES — 51 sections
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-51 sections · 9 groups · 1 standalone
+51 sections · 9 groups · 2 standalone
 Source: individual page manifests (DESIGN/Domains/)
 
 | page | section_id          | page_code | name                 | group | category     |
@@ -63,7 +63,7 @@ Source: individual page manifests (DESIGN/Domains/)
 | 48   | drift_taxonomy      | DTX       | Drift Taxonomy       | 9     | Nexus        |
 | 49   | signal_grading      | SGR       | Signal Grading       | 9     | Nexus        |
 | 50   | pattern_convergence | PCV       | Pattern Convergence  | 9     | Nexus        |
-| 51   | void                | VOI       | Void                 | 9     | Nexus        |
+| 51   | void                | VOI       | Void                 | —     | standalone   |
 
 AX is the Axis root marker used in source mode stamps. It is not a section code.
 

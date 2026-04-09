@@ -13112,3 +13112,201 @@ UNCOMMITTED: NO (after this commit)
 CLOSE_AUDIT: performed — 271 HIGH (pre-existing domain file contamination, not session-introduced), --force after review
 NEXT_ACTION: Begin SOT (step 3) or address TRIA rot item in ROT_OPEN.md.
 ---
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - Mandatory reads confirmed (CLAUDE.md, RECURSION_REPAIR.md, ENTROPY_EXCAVATION.md, ROT_REGISTRY.md, ROT_OPEN.md, SESSION_PROTOCOL.md, GITHUB_PROTOCOL.md)
+IN_PROGRESS:
+  - TRIA name corruption scan (ROT_OPEN item, Entry 005)
+  - VOID-as-NEXUS-page audit (pre-SOT assessment)
+NOT_STARTED:
+  - Fixes from scan findings
+  - SOT (step 3)
+UNCOMMITTED: NO
+NEXT_ACTION: Run parallel scans for TRIA expansion errors and VOID/NEXUS classification across all project files.
+---
+
+---
+TIMESTAMP: 2026-04-09 13:06
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:/Users/sasir/Desktop/Aelarian/Archives/PROTOCOL/SESSION_LOG.md" << 'LOGEOF'
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - Mandatory reads confirmed (CLAUDE.md, RECURSION_REPAIR.md, ENTROPY_EXCAVATION.md, ROT_REGISTRY.md, ROT_OPEN.md, SESSION_PROTOCOL.md,...
+---
+
+---
+TIMESTAMP: 2026-04-09 13:34
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\plans\vectorized-hatching-oasis.md
+---
+
+---
+TIMESTAMP: 2026-04-09 13:38
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\SECTION MAP.md
+---
+
+---
+TIMESTAMP: 2026-04-09 13:38
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\SECTION MAP.md
+---
+
+---
+TIMESTAMP: 2026-04-09 13:39
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Domains\11_Void\Manifest_51_Void.txt
+---
+
+---
+TIMESTAMP: 2026-04-09 13:39
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Domains\11_Void\Domain_Void.txt
+---
+
+---
+TIMESTAMP: 2026-04-09 13:39
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 13:39
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 13:39
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 13:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 13:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 13:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\api\prompts\_Global_Identity.txt
+---
+
+---
+TIMESTAMP: 2026-04-09 13:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\api\prompts\GLOBAL_KNOWLEDGE_BASE.txt
+---
+
+---
+TIMESTAMP: 2026-04-09 13:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\api\prompts\GLOBAL_KNOWLEDGE_BASE.txt
+---
+
+---
+TIMESTAMP: 2026-04-09 13:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-09 13:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-09 13:41
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-09 13:41
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-09 13:41
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-09 13:41
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\entropy_scan.py
+---
+
+---
+TIMESTAMP: 2026-04-09 13:41
+TYPE: HOOK_BASH
+COMMAND: python3 -c "
+codes = {
+    'INT', 'THR', 'STR', 'INF', 'ECR', 'SNM', 'MTM', 'TPL', 'TRI', 'PRI',
+    'PAR', 'ORC', 'MOR', 'VEN', 'INV', 'VEC', 'ECH', 'LGL', 'ARC', 'KIN',
+    'LAR', 'VRT', 'CAE', 'SEE', 'SAC', 'RIT', 'BRT', 'MLY', 'GLY', 'GEN',
+    'DIV', 'REC', 'CNV', 'HCO', 'COS', 'CLM', 'NHM', 'R...
+---
+
+---
+TIMESTAMP: 2026-04-09 13:41
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py --summary 2>&1 | tail -30
+---
+
+---
+TIMESTAMP: 2026-04-09 13:42
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py 2>&1 | grep -i "VOI\|phantom" | head -20
+---
+
+---
+TIMESTAMP: 2026-04-09 13:42
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
+---
+
+---
+TIMESTAMP: 2026-04-09 13:42
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_OPEN.md
+---
+
+---
+TIMESTAMP: 2026-04-09 13:43
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\audits\void-promotion-audit-2026-04-09.md
+---
+
+---
+TIMESTAMP: 2026-04-09 13:56
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Domains\11_Void\Domain_Void.txt
+---
+
+---
+TIMESTAMP: 2026-04-09 13:56
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
+---

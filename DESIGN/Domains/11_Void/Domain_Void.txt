@@ -1,12 +1,12 @@
 DOMAIN: void · VOI · PAGE 51
-GROUP: Nexus SEEDS: DEFERRED ORIGIN AFFINITY: null THRESHOLD AFFINITY: DEFERRED PILLAR: DEFERRED
+GROUP: standalone SEEDS: DEFERRED ORIGIN AFFINITY: null THRESHOLD AFFINITY: DEFERRED PILLAR: DEFERRED
 PURPOSE: Absence as first-class data. The Void page aggregates all null observations across the archive — instances where expected patterns did not appear. Without this surface, the system is architecturally biased toward confirmation: it records what shows up but has no mechanism for recording what doesn't. Void makes the negative space of the research visible, structured, and queryable. It is the surface where "I looked for X and found nothing" becomes data with the same evidential weight as "I found X." Distinct from the dashboard coverage gap view: the dashboard shows where the researcher hasn't looked yet. Void shows where the researcher looked and found nothing. Coverage gaps are about attention distribution. Void is about observational absence. Both are signal. They are not the same signal.
 STRUCTURAL RULES:
 1. Null observations (observation_presence: null) are the primary input. Deposits with observation_presence: positive do not appear here.
 2. Aggregation is cross-archive — null observations from any page surface here. Void does not own them; it reads them.
 3. Absence patterns are not conclusions. A cluster of null observations around a tag set is a structural observation, not a finding. Void detects and displays. It does not interpret.
 4. Void engine design (detection types, classification, on-demand reads) is deferred to Tier 4. This page exists as a surface before the engine exists to compute on it.
-5. Void output is distinct from MTM Findings, PCV hypotheses, and SGR grades. Each Nexus system has its own record type and provenance chain.
+5. Void output is distinct from MTM Findings, PCV hypotheses, and SGR grades. Each analytical system (Void, PCV, SGR, DTX, MTM) has its own record type and provenance chain.
 6. The system must allow Sage to navigate null observations as sequences (via Thread Trace) and as aggregates (via Void). Both views are research tools. Neither subsumes the other.
 CONNECTS TO:
 DEFERRED — populated during dedicated seed affinity and CONNECTS TO pass when all schemas and manifests are complete and seed vocabulary is locked.

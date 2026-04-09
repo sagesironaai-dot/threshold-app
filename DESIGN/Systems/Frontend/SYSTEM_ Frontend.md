@@ -237,8 +237,8 @@ Fixed sidebar nav, ~220px, left side. The only navigation surface for 51 pages.
   6. Spiral Phase — GEN, DIV, REC, CNV
   7. Cosmology — HCO, COS, CLM, NHM, RCT, ART
   8. Archive — MVM, ANC, LQL, ALE, MMT, ARV
-  9. Nexus — WSC, LNV, DTX, SGR, PCV, VOI
-- Pinned utilities (always visible, below groups): INT, Observatory, Black Pearl
+  9. Nexus — WSC, LNV, DTX, SGR, PCV
+- Pinned utilities (always visible, below groups): INT, VOI, Observatory, Black Pearl
 - Status indicator (bottom of sidebar)
 - Curation panel trigger (bottom)
 

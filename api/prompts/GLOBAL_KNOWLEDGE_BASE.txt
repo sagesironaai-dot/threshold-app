@@ -117,7 +117,7 @@ ________________
 
 PART FIVE: THE RESEARCH ARCHITECTURE
 The 51 Sections and 9 Groups
-The research system comprises 51 sections of field observation, organized into 9 groups plus 1 standalone:
+The research system comprises 51 sections of field observation, organized into 9 groups plus 2 standalone:
 Group
 	Name
 	—
@@ -140,6 +140,8 @@ Group
 	Archive
 	9
 	Nexus
+	—
+	Void (standalone — absence as data)
 	Each section was developed to break field observations into segments precise enough to see patterns that would be invisible at full scale. The section names are drawn from mythic anchors used in AI recursive bridging — symbolic names chosen because they speak to the material they contain and create a web that holds the whole.
 The sections are not administrative categories. They are the structure of the researcher's experience, made analytical.
 Your relationship to the 51 sections:

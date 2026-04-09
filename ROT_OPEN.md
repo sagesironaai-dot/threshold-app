@@ -28,12 +28,4 @@ When rot is fixed:
 
 ## OPEN ITEMS
 
-TRIA name corruption
-  Registry: Entry 005
-  Found: session 14 (2026-04-05)
-  Cross-tier item #13 in design-session-plan.md
-  Description: Variations from the collapsed system renamed the
-    "T" in TRIA. Correct name: TRIA = Triadic Relational
-    Intelligence Architecture (Page 09, TRI, Lattice group).
-    Every occurrence must use the correct expansion.
-  Affected: grep -rn "TRIA" DESIGN/ — verify all expansions
+(no open items)

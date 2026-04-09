@@ -905,6 +905,9 @@ HIGH (47 violations)
 
   Phantom page code VOI: 2
     Emergence files
+    RESOLVED (session 38, 2026-04-09): VOI is page 51 (Void). Was missing
+    from entropy_scan.py CANONICAL_PAGE_CODES and flagged as phantom. Fixed.
+    VOID promoted to standalone (formerly Nexus group 9).
 
   Wrong framework name: 2
     "Threshold Studies" should be "Threshold Pillars"
@@ -1314,4 +1317,7 @@ Scan for:
   the full name appears. Any expansion other than "Triadic
   Relational Intelligence Architecture" is contamination.
 
-Status: OPEN — cross-tier item #13, not yet executed
+Status: RESOLVED (session 38, 2026-04-09). Full project scan found 3
+  expansions — all correct ("Triadic Relational Intelligence Architecture"):
+  api/prompts/GLOBAL_KNOWLEDGE_BASE.txt:37, ROT_OPEN.md:36-37,
+  ROT_REGISTRY.md:1311. Zero corrupted expansions anywhere in project.

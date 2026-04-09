@@ -75,7 +75,7 @@ CANONICAL_PAGE_CODES = {
     "PAR", "ORC", "MOR", "VEN", "INV", "VEC", "ECH", "LGL", "ARC", "KIN",
     "LAR", "VRT", "CAE", "SEE", "SAC", "RIT", "BRT", "MLY", "GLY", "GEN",
     "DIV", "REC", "CNV", "HCO", "COS", "CLM", "NHM", "RCT", "ART", "MVM",
-    "ANC", "ALE", "MMT", "ARV", "WSC", "LNV", "DTX", "SGR", "PCV",
+    "ANC", "LQL", "ALE", "MMT", "ARV", "WSC", "LNV", "DTX", "SGR", "PCV", "VOI",
 }
 
 # Phase codes (SECTION MAP.md)
@@ -104,8 +104,8 @@ CANONICAL_ORIGINS = {"o01", "o02", "o03"}
 
 # Correct counts
 CORRECT_COUNTS = {
-    "sections": 50,
-    "domains": 50,
+    "sections": 51,
+    "domains": 51,
     "groups": 9,
     "tags": 320,
     "seeds": 40,
@@ -209,8 +209,6 @@ def scan_contamination(files):
          "Correct to th01-th12"),
         (r'Threshold Studies', "Wrong framework name", MEDIUM,
          "Correct to 'Threshold Pillars'"),
-        (r'\bVOI\b', "Phantom page code VOI", MEDIUM,
-         "VOI does not exist in SECTION MAP — verify context"),
     ]
 
     for fpath in files:
@@ -285,8 +283,10 @@ def scan_stale_counts(files):
     """Numbers that were true in the old build but not the current one."""
 
     stale_patterns = [
-        (r'\b43\s+sections\b', "43 sections (correct: 50)", HIGH),
-        (r'\b46\s+domains\b', "46 domains (correct: 50)", HIGH),
+        (r'\b43\s+sections\b', "43 sections (correct: 51)", HIGH),
+        (r'\b46\s+domains\b', "46 domains (correct: 51)", HIGH),
+        (r'\b50\s+sections\b', "50 sections (correct: 51)", HIGH),
+        (r'\b50\s+domains\b', "50 domains (correct: 51)", HIGH),
         (r'\b8\s+groups\b', "8 groups (correct: 9)", HIGH),
         (r'\beight\s+groups\b', "eight groups (correct: 9)", HIGH),
         (r'\b7\s+detectors?\b', "7 detectors (correct: 8)", HIGH),
@@ -599,7 +599,7 @@ def scan_count_consistency(files):
     """Verify counts mentioned in prose match canonical values."""
 
     count_patterns = [
-        (r'(\d+)\s+sections', "sections", 50),
+        (r'(\d+)\s+sections', "sections", 51),
         (r'(\d+)\s+groups', "groups", 9),
         (r'(\d+)\s+seeds', "seeds", 40),
         (r'(\d+)\s+tags\b(?!\s*,\s*and|\s*per)', "tags", 320),
@@ -610,7 +610,7 @@ def scan_count_consistency(files):
         (r'(\d+)\s+origins', "origins", 3),
         (r'(\d+)\s+detectors', "detectors", 8),
         (r'(\d+)\s+anchors?', "anchors", 7),
-        (r'(\d+)\s+domains', "domains", 50),
+        (r'(\d+)\s+domains', "domains", 51),
     ]
 
     for fpath in files:

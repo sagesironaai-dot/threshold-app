@@ -1329,13 +1329,13 @@ This section defines the UI surface.
 
 ### VOID — PAGE 51
 
-- [x] DESIGNED. Page 51 in Nexus group. Absence as data surface.
+- [x] DESIGNED. Page 51, standalone. Absence as data surface.
       · `page_code: VOI`
       · `section_id: void`
-      · Extends Nexus group: WSC(46), LNV(47), DTX(48), SGR(49), PCV(50), VOI(51)
-      · Does NOT restructure Nexus numbering — just adds to it
+      · Promoted to standalone (session 38). Formerly Nexus group.
+      · Nexus retains WSC(46), LNV(47), DTX(48), SGR(49), PCV(50)
       · Needs at build time: Domain_Void.txt, Manifest_51_Void.txt,
-        SECTION MAP entry, schema slot in Nexus
+        SECTION MAP entry, schema slot
       · Aggregates all null observations across the archive
       · Shows where expected patterns didn't appear
       · Shows the full "negative space" of the research
@@ -1399,9 +1399,9 @@ Not tied to the type system. Retained as an open design item.
         6. Spiral Phase — GEN, DIV, REC, CNV
         7. Cosmology — HCO, COS, CLM, NHM, RCT, ART
         8. Archive — MVM, ANC, LQL, ALE, MMT, ARV
-        9. Nexus — WSC, LNV, DTX, SGR, PCV, VOI
+        9. Nexus — WSC, LNV, DTX, SGR, PCV
       · Pinned utilities (always visible, below groups):
-        INT (Gateway), Observatory, Black Pearl
+        INT (Gateway), VOI, Observatory, Black Pearl
       · Status indicator (bottom of sidebar, see G20)
       · Curation panel trigger (bottom, see G22)
 
@@ -6268,7 +6268,7 @@ Black Pearl UI designed:
 
 Void (page 51) designed:
 - page_code: VOI, section_id: void
-- Extends Nexus: WSC(46), LNV(47), DTX(48), SGR(49), PCV(50), VOI(51)
+- Promoted to standalone (session 38). Formerly Nexus extension.
 - No renumbering. Build-time artifacts: Domain_Void.txt, Manifest_51_Void.txt
 - Engine/visualization design deferred to Tier 4
 
