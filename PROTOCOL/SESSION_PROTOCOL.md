@@ -220,12 +220,16 @@ boundaries. These run mechanically — Claude does not invoke them.
   - Empty catch blocks / silent exception suppression (hard block)
   - Domain vocabulary in function names (hard block)
   - Hardcoded credentials in code (hard block)
+  - Contamination markers: arcPhase, old threshold IDs, old architecture
+    refs, wrong framework name (hard block)
+  - CDN resources without SRI integrity hashes (hard block)
   - Resource opens without finally/context manager (warn)
   - Unhandled promise rejections (warn)
   - Dead code / unreachable branches (warn)
   - Unverified imports not in manifests (warn)
   - Unsourced precision values in docs (warn)
   - INCOMPLETE/TODO/HACK markers (warn)
+  - Stale counts, version contamination, box-drawing (warn)
   - package.json without lockfile (warn)
 
 **PreToolUse (Bash)** — `hooks/bash_safety_gate.py`

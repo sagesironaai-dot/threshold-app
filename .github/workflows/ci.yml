@@ -1,8 +1,9 @@
 name: CI
 
-# Mirrors the 4 checks in hooks/pre-commit.
-# Catches anything that bypassed the local hook.
-# Expand this file when the build introduces a test runner.
+# Full pipeline per GITHUB_PROTOCOL.md §4.
+# Steps 1-4: build and test (when frontend/backend code exists)
+# Steps 5-8: integrity checks (always)
+# Catches anything that bypassed the local hooks.
 
 on:
   push:
@@ -11,6 +12,44 @@ on:
     branches: [main]
 
 jobs:
+  # ═══════════════════════════════════════════════════════════════
+  # BUILD AND TEST (frontend)
+  # ═══════════════════════════════════════════════════════════════
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      # STEP 1: Clean install from lockfile (GITHUB_PROTOCOL §2)
+      - name: Clean install (npm ci)
+        run: npm ci
+
+      # STEP 2: Full build
+      - name: Build
+        run: npm run build
+
+      # STEP 3: Full test suite
+      - name: Test suite
+        run: npx vitest run
+
+      # STEP 4: Vulnerability scan (GITHUB_PROTOCOL §2)
+      - name: Vulnerability scan
+        run: npm audit --audit-level=high
+        continue-on-error: false
+
+  # ═══════════════════════════════════════════════════════════════
+  # INTEGRITY CHECKS (always run)
+  # ═══════════════════════════════════════════════════════════════
   integrity-check:
     runs-on: ubuntu-latest
 
@@ -98,3 +137,92 @@ jobs:
           done
           if [ $BLOCKED -eq 1 ]; then exit 1; fi
           echo "Sensitive file check: clean"
+
+      # ---------------------------------------------------------------
+      # CHECK 5 — _REFERENCE_ONLY guard
+      # Hard block. No files from deleted reference directory.
+      # ---------------------------------------------------------------
+      - name: Reference-only guard
+        run: |
+          if git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -q "_REFERENCE_ONLY/"; then
+            echo "BLOCKED: _REFERENCE_ONLY/ files detected in commit."
+            exit 1
+          fi
+          echo "Reference-only guard: clean"
+
+      # ---------------------------------------------------------------
+      # CHECK 6 — Entropy scan (19 categories)
+      # Runs the full automated rot scanner.
+      # ---------------------------------------------------------------
+      - name: Entropy scan
+        run: |
+          python hooks/entropy_scan.py --summary
+          HIGH_COUNT=$(python hooks/entropy_scan.py --summary 2>&1 | grep "HIGH:" | awk '{print $2}')
+          echo "Entropy scan HIGH findings: $HIGH_COUNT"
+
+  # ═══════════════════════════════════════════════════════════════
+  # BUNDLE SIZE CHECK (activates when performance-budget.json exists)
+  # GITHUB_PROTOCOL.md §8: 10% regression threshold
+  # ═══════════════════════════════════════════════════════════════
+  bundle-size:
+    runs-on: ubuntu-latest
+    if: hashFiles('performance-budget.json') != ''
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install and build
+        run: npm ci && npm run build
+
+      - name: Check bundle size
+        run: |
+          BUDGET_FILE="../performance-budget.json"
+          if [ ! -f "$BUDGET_FILE" ]; then
+            echo "No performance-budget.json — skipping bundle size check."
+            exit 0
+          fi
+          BASELINE=$(cat "$BUDGET_FILE" | python3 -c "import sys,json; print(json.load(sys.stdin).get('maxBundleSize', 0))")
+          if [ "$BASELINE" = "0" ]; then
+            echo "No maxBundleSize in budget — skipping."
+            exit 0
+          fi
+          ACTUAL=$(du -sb build/ 2>/dev/null | awk '{print $1}' || echo "0")
+          THRESHOLD=$(echo "$BASELINE * 1.1" | bc | cut -d. -f1)
+          echo "Baseline: $BASELINE bytes, Actual: $ACTUAL bytes, Threshold (110%): $THRESHOLD bytes"
+          if [ "$ACTUAL" -gt "$THRESHOLD" ]; then
+            echo "BLOCKED: Bundle size regression. $ACTUAL > $THRESHOLD (110% of $BASELINE)"
+            exit 1
+          fi
+          echo "Bundle size: within budget"
+
+  # ═══════════════════════════════════════════════════════════════
+  # LIGHTHOUSE CI (activates when lighthouserc exists)
+  # GITHUB_PROTOCOL.md §8: Performance 85, Accessibility 90, Best Practices 90
+  # ═══════════════════════════════════════════════════════════════
+  lighthouse:
+    runs-on: ubuntu-latest
+    if: hashFiles('.lighthouserc.json') != ''
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+
+      - name: Run Lighthouse
+        run: lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}

@@ -91,6 +91,31 @@ def has_ghost_fix():
         return None
 
 
+REQUIRED_GITIGNORE = [
+    ".env", "*.env", "*.log", "node_modules/", "dist/", "build/",
+    ".DS_Store", "Thumbs.db", "desktop.ini", "npm-debug.log*",
+    "*.exe", "*.dmg", "*.pkg", "*.msi",
+]
+
+
+def check_gitignore():
+    """Verify .gitignore contains all required entries. Returns missing list."""
+    gitignore_path = os.path.join(PROJECT_ROOT, ".gitignore")
+    if not os.path.exists(gitignore_path):
+        return REQUIRED_GITIGNORE[:]
+    try:
+        with open(gitignore_path, "r", encoding="utf-8") as f:
+            content = f.read()
+    except IOError:
+        return REQUIRED_GITIGNORE[:]
+
+    missing = []
+    for entry in REQUIRED_GITIGNORE:
+        if entry not in content:
+            missing.append(entry)
+    return missing
+
+
 def main():
     lines = []
     lines.append("SESSION STATE SUMMARY (auto-injected by session_start hook)")
@@ -132,6 +157,16 @@ def main():
     if ghost:
         lines.append(f"  PENDING GHOST FIX: {ghost}")
         lines.append(f"  -> Verify fix before continuing")
+
+    # Gitignore completeness
+    gitignore_missing = check_gitignore()
+    if gitignore_missing:
+        lines.append(f"  GITIGNORE GAPS: {len(gitignore_missing)} required entries missing:")
+        for entry in gitignore_missing:
+            lines.append(f"    - {entry}")
+        lines.append(f"  -> Fix before any commit (GITHUB_PROTOCOL.md §1)")
+    else:
+        lines.append(f"  Gitignore: complete")
 
     lines.append("=" * 60)
 

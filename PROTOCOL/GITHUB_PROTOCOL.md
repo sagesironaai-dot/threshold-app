@@ -179,7 +179,11 @@ Update it.
 ## 4. GITHUB ACTIONS CI PIPELINE
 
 The CI pipeline file lives at `.github/workflows/ci.yml`.
-This file is PLANNED — written when the build phase begins.
+Written 2026-04-09. Contains build-and-test job (npm ci, build,
+vitest, npm audit), integrity checks (credential scan, domain vocab,
+lockfile, sensitive files, reference guard, entropy scan), bundle size
+check (activates when performance-budget.json exists), and Lighthouse
+CI (activates when .lighthouserc.json exists).
 
 ### Required Pipeline Steps (every push to main)
 
@@ -239,24 +243,15 @@ B2_APP_KEY = os.environ.get('B2_APP_KEY')
 If a variable is missing, the script must fail with a named error —
 not silently proceed with a None value.
 
-### Current Live Action — backup.py B2 Credentials (Priority — F32)
+### B2 Credentials — MIGRATED
 
-backup.py currently contains hardcoded B2_KEY_ID and B2_APP_KEY.
-These are committed to git history.
-
-**Migration procedure** (execute when directed by Sage):
-
-1. Create `.env` in project root with current B2 values
-2. Confirm `.env` is in .gitignore — verify with `git status` before
-   any staging
-3. Update backup.py: replace hardcoded values with `os.environ.get()`
-   calls with failure on None
-4. Commit backup.py change only — verify .env does not appear in
-   `git status` before committing
-5. Execute git history clean (procedure below)
-6. Rotate B2 credentials immediately after history clean —
-   treat the committed values as compromised regardless of
-   whether the repository is currently public
+backup.py B2 credentials migrated to .env (completed prior session).
+Current state verified 2026-04-09:
+- backup.py reads credentials via `os.environ.get("B2_KEY_ID")` and
+  `os.environ.get("B2_APP_KEY")` with failure on None
+- .env exists in project root with B2 values
+- .env is in .gitignore (lines 2-4)
+- Credentials rotated post-migration
 
 ### Git History Clean Procedure
 
@@ -394,8 +389,9 @@ it does not make the decision.
 
 ## 8. PERFORMANCE THRESHOLDS
 
-These thresholds are PLANNED — defined here as requirements, configured
-in CI when the first build is ready for performance baseline.
+These thresholds are defined here as requirements. CI jobs for bundle
+size and Lighthouse are wired in `.github/workflows/ci.yml` and activate
+when their config files exist (performance-budget.json, .lighthouserc.json).
 
 ### Lighthouse CI — App Shell
 
