@@ -202,10 +202,13 @@ def find_parent_spec(rel_path, state):
 
 def block(rel_path, reason, detail):
     log_phase_event(rel_path, "BLOCKED", detail)
-    print(f"\n  RECURSION REPAIR GATE — BLOCKED")
-    print(f"  File: {rel_path}")
-    print(f"  Reason: {reason}\n")
-    sys.exit(1)
+    msg = (
+        f"\n  RECURSION REPAIR GATE — BLOCKED\n"
+        f"  File: {rel_path}\n"
+        f"  Reason: {reason}\n"
+    )
+    sys.stderr.write(msg)
+    sys.exit(2)
 
 
 def main():
@@ -238,19 +241,22 @@ def main():
 
     if file_state is None:
         log_phase_event(rel_path, "BLOCKED", "No SPEC phase entry exists.")
-        print(f"\n{'='*60}")
-        print(f"  RECURSION REPAIR GATE — BLOCKED")
-        print(f"{'='*60}")
-        print(f"  File: {rel_path}")
-        print(f"  Reason: No SPEC exists for this file.")
-        print(f"")
-        print(f"  Before writing any file, you must:")
-        print(f"  1. Create a SPEC (goal, assumptions, risks,")
-        print(f"     invariants, test strategy, test files, files)")
-        print(f"  2. Get Sage's approval on the SPEC")
-        print(f"  3. Register via: python hooks/phase_control.py spec <file>")
-        print(f"{'='*60}\n")
-        sys.exit(1)
+        msg = (
+            f"\n{'='*60}\n"
+            f"  RECURSION REPAIR GATE — BLOCKED\n"
+            f"{'='*60}\n"
+            f"  File: {rel_path}\n"
+            f"  Reason: No SPEC exists for this file.\n"
+            f"\n"
+            f"  Before writing any file, you must:\n"
+            f"  1. Create a SPEC (goal, assumptions, risks,\n"
+            f"     invariants, test strategy, test files, files)\n"
+            f"  2. Get Sage's approval on the SPEC\n"
+            f"  3. Register via: python hooks/phase_control.py spec <file>\n"
+            f"{'='*60}\n"
+        )
+        sys.stderr.write(msg)
+        sys.exit(2)
 
     current_phase = file_state.get("phase", "")
 
@@ -364,4 +370,6 @@ if __name__ == "__main__":
             log_phase_event("HOOK_ERROR", "ERROR", str(e))
         except Exception:
             pass
-        sys.exit(0)
+        # Fail closed — if the gate can't determine whether to allow, block
+        sys.stderr.write(f"\n  RECURSION REPAIR GATE — ERROR\n  Hook crashed: {e}\n  Blocking write as a safety measure.\n")
+        sys.exit(2)

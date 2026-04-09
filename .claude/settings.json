@@ -1,4 +1,22 @@
 {
+  "permissions": {
+    "deny": [
+      "Bash(npm install *)",
+      "Bash(npm install)",
+      "Bash(git push --force *)",
+      "Bash(git push --force)",
+      "Bash(git push * --force)",
+      "Bash(git push * --force *)",
+      "Bash(git reset --hard *)",
+      "Bash(git reset --hard)",
+      "Bash(git checkout -- .)",
+      "Bash(git clean -f *)",
+      "Bash(git clean -f)",
+      "Bash(git clean -fd *)",
+      "Bash(git clean -fd)",
+      "Bash(rm -rf /*)"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -25,6 +43,15 @@
             "command": "python C:/Users/sasir/Desktop/Aelarian/Archives/hooks/close_audit_gate.py"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/sasir/Desktop/Aelarian/Archives/hooks/bash_safety_gate.py"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -34,6 +61,59 @@
           {
             "type": "command",
             "command": "python C:/Users/sasir/Desktop/Aelarian/Archives/hooks/session_log_hook.py"
+          },
+          {
+            "type": "command",
+            "command": "CLAUDE_HOOK_PHASE=post python C:/Users/sasir/Desktop/Aelarian/Archives/hooks/ghost_fix_gate.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/sasir/Desktop/Aelarian/Archives/hooks/session_log_hook.py"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/sasir/Desktop/Aelarian/Archives/hooks/session_start.py"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/sasir/Desktop/Aelarian/Archives/hooks/session_end.py"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/sasir/Desktop/Aelarian/Archives/hooks/user_prompt_context.py"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/sasir/Desktop/Aelarian/Archives/hooks/pre_compact.py"
           }
         ]
       }

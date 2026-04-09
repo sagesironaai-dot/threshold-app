@@ -4,9 +4,11 @@ ENTROPY EXCAVATION SCANNER
 Automated rot detection and drift prevention for the Aelarian Archives.
 
 Run from project root:
-  python hooks/entropy_scan.py              — full scan, all categories
-  python hooks/entropy_scan.py --summary    — counts only, no details
-  python hooks/entropy_scan.py --category 1 — run specific category only
+  python hooks/entropy_scan.py                       — full scan, all categories
+  python hooks/entropy_scan.py --summary             — counts only, no details
+  python hooks/entropy_scan.py --category 1          — run specific category only
+  python hooks/entropy_scan.py --close-audit         — session close audit (creates marker if clean)
+  python hooks/entropy_scan.py --close-audit --force — create marker even with findings (after Sage review)
 
 Categories:
   1  Contamination markers (known bad strings)
@@ -714,9 +716,13 @@ SCANNERS = {
 }
 
 
+CLOSE_AUDIT_MARKER = os.path.join(PROJECT_ROOT, ".claude", "close_audit_done.marker")
+
+
 def main():
     os.chdir(PROJECT_ROOT)
 
+    close_audit = "--close-audit" in sys.argv
     summary_only = "--summary" in sys.argv
     category_filter = None
     if "--category" in sys.argv:
@@ -733,6 +739,24 @@ def main():
         scanner_fn(files)
 
     print_report(summary_only)
+
+    if close_audit:
+        high_count = sum(1 for f in findings if f["severity"] == HIGH)
+        force = "--force" in sys.argv
+
+        if high_count > 0 and not force:
+            print(f"  CLOSE AUDIT: {high_count} HIGH findings — review with Sage before closing.")
+            print(f"  After review, run again with --close-audit --force to create marker.")
+        else:
+            os.makedirs(os.path.dirname(CLOSE_AUDIT_MARKER), exist_ok=True)
+            from datetime import datetime
+            with open(CLOSE_AUDIT_MARKER, "w", encoding="utf-8") as f:
+                f.write(f"Close audit passed: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write(f"Findings: {len(findings)} total, {high_count} HIGH\n")
+                if force and high_count > 0:
+                    f.write(f"Forced after Sage review (HIGH findings acknowledged)\n")
+            print(f"\n  CLOSE AUDIT MARKER CREATED: {CLOSE_AUDIT_MARKER}")
+            print(f"  You may now write TYPE: CLOSE to SESSION_LOG.md.")
 
 
 if __name__ == "__main__":

@@ -3,7 +3,9 @@
 CLOSE AUDIT GATE — PreToolUse hook for Write and Edit operations.
 
 Only fires when writing a TYPE: CLOSE entry to SESSION_LOG.md.
-Verifies that the session close audit was performed (marker file exists).
+Two checks must pass:
+  1. Session close audit marker exists (from entropy_scan.py --close-audit)
+  2. No uncommitted project files in git (prevents plan-file-not-committed glitch)
 
 The marker (.claude/close_audit_done.marker) is created by
 entropy_scan.py --close-audit and consumed (deleted) by this hook
@@ -11,10 +13,13 @@ after a successful pass.
 
 Enforces CLAUDE.md: "A session that closes without [audit] has not
 closed cleanly."
+Enforces SESSION_PROTOCOL.md §2: "Confirm all changes from this session
+are committed."
 """
 
 import json
 import os
+import subprocess
 import sys
 
 
@@ -42,6 +47,41 @@ def get_file_path_from_env():
         except (json.JSONDecodeError, TypeError):
             pass
     return ""
+
+
+IGNORE_PATTERNS = [
+    ".claude/close_audit_done.marker",
+    ".claude/pending_ghost_fix.marker",
+]
+
+
+def get_uncommitted_files():
+    """Run git status and return list of uncommitted/untracked project files."""
+    try:
+        result = subprocess.run(
+            ["git", "status", "--porcelain"],
+            capture_output=True, text=True, cwd=PROJECT_ROOT, timeout=10,
+        )
+        if result.returncode != 0:
+            return []  # git not available or not a repo — don't block
+
+        uncommitted = []
+        for line in result.stdout.strip().split("\n"):
+            if not line.strip():
+                continue
+            # git status --porcelain: first 2 chars are status, then space, then path
+            file_path = line[3:].strip().strip('"')
+            # Skip ignored patterns
+            skip = False
+            for pattern in IGNORE_PATTERNS:
+                if file_path == pattern or file_path.replace("\\", "/") == pattern:
+                    skip = True
+                    break
+            if not skip:
+                uncommitted.append(file_path)
+        return uncommitted
+    except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
+        return []  # git not available — don't block on infrastructure issues
 
 
 def is_close_entry_write():
@@ -85,30 +125,56 @@ def main():
     if not is_close_entry_write():
         sys.exit(0)
 
-    # This IS a TYPE: CLOSE write — check for audit marker
-    if os.path.exists(AUDIT_MARKER):
-        # Audit was performed — consume the marker and pass
-        try:
-            os.remove(AUDIT_MARKER)
-        except OSError:
-            pass
-        sys.exit(0)
+    # This IS a TYPE: CLOSE write — run both checks
 
-    # Block — audit not performed
-    print(f"\n{'='*60}")
-    print(f"  CLOSE AUDIT GATE — BLOCKED")
-    print(f"{'='*60}")
-    print(f"  Reason: Session close audit not performed.")
-    print(f"")
-    print(f"  Before writing TYPE: CLOSE, you must:")
-    print(f"  1. Run: python hooks/entropy_scan.py --close-audit")
-    print(f"  2. Report findings to Sage")
-    print(f"  3. Log any new rot in ROT_REGISTRY.md and ROT_OPEN.md")
-    print(f"")
-    print(f"  The audit creates a marker that this gate consumes.")
-    print(f"  No marker = no close.")
-    print(f"{'='*60}\n")
-    sys.exit(1)
+    # CHECK 1: Audit marker
+    if not os.path.exists(AUDIT_MARKER):
+        msg = (
+            f"\n{'='*60}\n"
+            f"  CLOSE AUDIT GATE — BLOCKED\n"
+            f"{'='*60}\n"
+            f"  Reason: Session close audit not performed.\n"
+            f"\n"
+            f"  Before writing TYPE: CLOSE, you must:\n"
+            f"  1. Run: python hooks/entropy_scan.py --close-audit\n"
+            f"  2. Report findings to Sage\n"
+            f"  3. Log any new rot in ROT_REGISTRY.md and ROT_OPEN.md\n"
+            f"\n"
+            f"  The audit creates a marker that this gate consumes.\n"
+            f"  No marker = no close.\n"
+            f"{'='*60}\n"
+        )
+        sys.stderr.write(msg)
+        sys.exit(2)
+
+    # CHECK 2: Git status — no uncommitted project files
+    uncommitted = get_uncommitted_files()
+    if uncommitted:
+        file_list = "\n".join(f"    {f}" for f in uncommitted[:20])
+        if len(uncommitted) > 20:
+            file_list += f"\n    ... and {len(uncommitted) - 20} more"
+        msg = (
+            f"\n{'='*60}\n"
+            f"  CLOSE AUDIT GATE — BLOCKED\n"
+            f"{'='*60}\n"
+            f"  Reason: Uncommitted files exist.\n"
+            f"\n"
+            f"  SESSION_PROTOCOL.md §2 requires all changes committed\n"
+            f"  before session close. Uncommitted files:\n"
+            f"\n{file_list}\n"
+            f"\n"
+            f"  Commit or explicitly exclude these files before closing.\n"
+            f"{'='*60}\n"
+        )
+        sys.stderr.write(msg)
+        sys.exit(2)
+
+    # Both checks passed — consume the audit marker and allow
+    try:
+        os.remove(AUDIT_MARKER)
+    except OSError:
+        pass
+    sys.exit(0)
 
 
 if __name__ == "__main__":

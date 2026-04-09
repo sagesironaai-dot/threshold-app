@@ -128,20 +128,23 @@ def main():
     if not has_open_rot():
         sys.exit(0)
 
-    # Block
-    print(f"\n{'='*60}")
-    print(f"  ROT OPEN GATE — BLOCKED")
-    print(f"{'='*60}")
-    print(f"  File: {rel_path}")
-    print(f"  Reason: Active rot items exist in ROT_OPEN.md.")
-    print(f"")
-    print(f"  Open rot must be addressed with Sage before any")
-    print(f"  other work begins. Read ROT_OPEN.md for details.")
-    print(f"")
-    print(f"  Allowed writes: ROT_OPEN.md, ROT_REGISTRY.md,")
-    print(f"  SESSION_LOG.md, ENTROPY_EXCAVATION.md, .claude/")
-    print(f"{'='*60}\n")
-    sys.exit(1)
+    # Block — exit 2 is Claude Code's blocking exit code
+    msg = (
+        f"\n{'='*60}\n"
+        f"  ROT OPEN GATE — BLOCKED\n"
+        f"{'='*60}\n"
+        f"  File: {rel_path}\n"
+        f"  Reason: Active rot items exist in ROT_OPEN.md.\n"
+        f"\n"
+        f"  Open rot must be addressed with Sage before any\n"
+        f"  other work begins. Read ROT_OPEN.md for details.\n"
+        f"\n"
+        f"  Allowed writes: ROT_OPEN.md, ROT_REGISTRY.md,\n"
+        f"  SESSION_LOG.md, ENTROPY_EXCAVATION.md, .claude/\n"
+        f"{'='*60}\n"
+    )
+    sys.stderr.write(msg)
+    sys.exit(2)
 
 
 if __name__ == "__main__":

@@ -115,17 +115,20 @@ def main():
     if session_opened_today():
         sys.exit(0)
 
-    # Block
-    print(f"\n{'='*60}")
-    print(f"  SESSION OPEN GATE — BLOCKED")
-    print(f"{'='*60}")
-    print(f"  File: {rel_path}")
-    print(f"  Reason: No TYPE: OPEN entry in SESSION_LOG.md for today.")
-    print(f"")
-    print(f"  Write a TYPE: OPEN entry to PROTOCOL/SESSION_LOG.md")
-    print(f"  before any other work begins.")
-    print(f"{'='*60}\n")
-    sys.exit(1)
+    # Block — exit 2 is Claude Code's blocking exit code
+    msg = (
+        f"\n{'='*60}\n"
+        f"  SESSION OPEN GATE — BLOCKED\n"
+        f"{'='*60}\n"
+        f"  File: {rel_path}\n"
+        f"  Reason: No TYPE: OPEN entry in SESSION_LOG.md for today.\n"
+        f"\n"
+        f"  Write a TYPE: OPEN entry to PROTOCOL/SESSION_LOG.md\n"
+        f"  before any other work begins.\n"
+        f"{'='*60}\n"
+    )
+    sys.stderr.write(msg)
+    sys.exit(2)
 
 
 if __name__ == "__main__":

@@ -21,3 +21,5 @@
 [2026-04-06 20:29:06] BLOCKED: backend/routes/rogue.py — No SPEC phase entry exists.
 [2026-04-06 20:29:35] BLOCKED: backend/models/test_repair.py — REPAIR complete, awaiting re-AUDIT.
 [2026-04-06 20:29:35] BLOCKED: backend/models/test_repair.py — File locked after AUDIT pass.
+[2026-04-09 11:06:08] BLOCKED: TEST_FILE.md — No SPEC phase entry exists.
+[2026-04-09 11:12:35] BLOCKED: TEST.md — No SPEC phase entry exists.
