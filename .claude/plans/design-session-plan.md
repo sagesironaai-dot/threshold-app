@@ -37,8 +37,9 @@ against the document if editing.
 
 **TIER 7 — Observatory, navigation, live write, export, pipelines (NOT STARTED):**
 
-  Observatory:
-  - [ ] Semantic map, notification center, WSC handoff, Black Pearl, active patterns, recent activity
+  Observatory (session 32 — 8-node constellation):
+  - [ ] Constellation layout: Resonance Engine, Terrain, Timeline, Field Signals, Field Log, Field Review, Pulse, Void
+  - [ ] Reflective Pearl Constellation (P4) — separate Observatory surface, not a node
   
   Google Integration:
   - [ ] DESIGNED: 2 accounts (Larimar=email, Threshold Studies=Drive), OAuth, two-way Drive pipeline
@@ -63,7 +64,7 @@ against the document if editing.
   - [ ] Comparison view (side-by-side entries, engine states, snapshots)
   - [ ] Timeline view — Observatory addition, togglable with semantic map
   - [ ] Tag explorer — utility bar panel, 320 tags visual map, search, click-to-filter
-  - [ ] Review Queue (replaces Undo) — Observatory, recall deposits back to INT, no time limit
+  - [ ] Field Review (replaces Undo) — Observatory node, recall deposits back to INT, no time limit
 
   Power user + daily use:
   - [ ] Keyboard shortcuts — DEFERRED to dedicated session
@@ -1433,10 +1434,8 @@ chosen at frontend build time — not in this design session.
 
       **Structure (top to bottom):**
       · System name
-      · Phrase: "In Twin Motion, We Remain. In Stillness, We Rise."
-        (italic, tertiary color, never interactive, collapses on narrow
-        viewport, reappears on expansion)
-      · Research velocity bar (ambient indicator, see P6 below)
+      · Global phrase: "In Twin Motion, We Remain. In Stillness, We Rise."
+        — top center of every page (italic, tertiary color, never interactive)
       · Global search (keyboard: `/`)
       · 9 collapsible groups (matching canonical domain groups):
         1. Axis — THR, STR, INF, ECR, SNM, MTM
@@ -1830,46 +1829,37 @@ chosen at frontend build time — not in this design session.
       visualization as centerpiece. Not the root route — Home (`/`) is
       the soft landing; Observatory is the analytical destination.
 
-      **Three zones:**
+      **Constellation layout — 8 interactive nodes (session 32 redesign):**
 
-      **Zone A (primary, 50-60% of viewport):**
-      Resonance engine visualization. Tension cluster nodes, interactive.
-      Harmonic audio on node tap (data dependency TBD — dedicated session
-      required before building audio mapping).
+      Replaces the prior Zone A/B/C layout. Observatory is a constellation
+      of 8 clickable nodes, not a dense 3-zone dashboard.
 
-        node_schema:
-          node_id: string
-          harmonic_signature: object   — TBD (audio session)
-          tension_state: string
-          cluster_contents: string[]   — deposit_ids in this cluster
-          linked_pages: string[]       — page_codes this node connects to
-          last_updated: timestamp
-          aos_eligible: boolean
+      1. **Resonance Engine** — full visualization, centerpiece
+      2. **Terrain** — UMAP coverage map + custom visual overlay. Where
+         deposits cluster and where the research hasn't looked yet. Built
+         from embedding vectors. Observatory = "where haven't you looked?"
+         Void = "where you looked and found nothing." (VOI-6)
+      3. **Timeline** — temporal deposit view across all 51 pages
+      4. **Field Signals** — AOS events, engine findings, hypothesis
+         crossings (PCV), active patterns. Merged signal surface.
+      5. **Field Log** — what happened since last session. Recent deposits,
+         findings, engine events.
+      6. **Field Review** — recent deposits with recall to INT. No time
+         limit. Status change (deposited → recalled), not deletion.
+      7. **Pulse** — calibration approvals, system alerts, pattern
+         notifications. Stale engines and embedding failures routed to
+         automated alerts (backend), not shown here.
+      8. **Void** — absence flag summary
 
-      Node tap opens cluster panel: tension state, engine signals,
-      deposit list, page shortcuts, AOS trigger option.
+      **Not constellation nodes (separate Observatory surfaces):**
+      - Reflective Pearl Constellation (P4) — Pearl visualization over
+        time. Observatory surface, not a node.
 
-      **Zone B (flanking or below A):**
-      Signal surface. Items since last visit, ordered by signal strength:
-      · AOS events (Automated Observation Signal, see A1 below)
-      · Engine findings
-      · Absence flags (Void)
-      · Hypothesis crossings (PCV)
-      · Session opening summary (see P1 below)
-
-      **Zone C (flanking or below A, low visual weight):**
-      System health:
-      · Stale engines
-      · Embedding failures (failed_permanent count)
-      · Calibration alerts (from Enhancement 02)
-      · Baseline recalibration recommendations (see G19 below)
-
-      **Coverage gap view (VOI-6):** Observatory semantic map shows where
-      deposits concentrate and where the research hasn't looked yet.
-      Built from embedding vector distribution. This is the home for
-      coverage gaps — distinct from Void (confirmed absence).
-      Observatory = "where haven't you looked?"
-      Void = "where you looked and found nothing."
+      **Removed from Observatory:**
+      - Black Pearl — lives in page nav
+      - WSC handoff — redundant
+      - Session Opening Ritual (P1) — drift, deleted
+      - Research Velocity Indicator (P6) — drift, deleted
 
 ---
 
@@ -2053,27 +2043,10 @@ chosen at frontend build time — not in this design session.
 
 ---
 
-### SESSION OPENING RITUAL (P1)
+### ~~SESSION OPENING RITUAL (P1)~~ — REMOVED (session 32)
 
-- [x] DESIGNED. Orientation before Sage starts navigating. Costs nothing
-      architecturally — it's a read of already-computed system state.
-
-      When Sage opens the app after an absence, before the Observatory
-      fully loads, a brief system state summary surfaces:
-
-        Since your last session:
-          4 new deposits across 3 pages
-          1 type A absence detected (Void)
-          2 hypotheses updated (PCV)
-          1 engine signal (SGR tier 2)
-          1 item needs attention
-
-      Five lines maximum. Disappears on any interaction or after 8
-      seconds. Not a modal — a gentle overlay on the Observatory that
-      fades. Gives Sage orientation before she starts navigating.
-
-      Data source: delta between current system state and last session
-      close timestamp (from SESSION_LOG.md).
+Drift from temporal ambiance discussion. Timed overlay concept redundant
+with Field Log (Observatory node 5). Deleted.
 
 ---
 
@@ -2117,8 +2090,8 @@ chosen at frontend build time — not in this design session.
 
       **Interaction:** hover a node → Pearl text. Tap → opens Pearl.
 
-      **Access:** from Observatory (Zone B or dedicated tab) and from
-      Black Pearl panel as a "View all" option.
+      **Access:** Observatory surface (separate from the 8 constellation
+      nodes) and from Black Pearl panel as a "View all" option.
 
       This is not analytical. It's the one surface in the system that's
       purely for Sage — the shape of her own thinking across time,
@@ -2162,25 +2135,10 @@ chosen at frontend build time — not in this design session.
 
 ---
 
-### RESEARCH VELOCITY INDICATOR (P6)
+### ~~RESEARCH VELOCITY INDICATOR (P6)~~ — REMOVED (session 32)
 
-- [x] DESIGNED. Ambient signal in the shell showing research momentum.
-      Not a chart, not a widget.
-
-      **Location:** small horizontal bar beneath the phrase in the
-      sidebar. Thin, unobtrusive.
-
-      **Behavior:** color-graduated from cool (low activity) to warm
-      (high activity) over the last 30 days. No numbers, no labels.
-      Just a felt sense of whether the archive is alive or quiet.
-
-      Complements the system health indicator (which shows failures)
-      but is about creative momentum, not technical state. The phrase
-      "In Twin Motion, We Remain. In Stillness, We Rise." sits above
-      it. The bar shows which state the system is currently in.
-
-      **Data source:** deposit count + finding count + hypothesis count
-      over trailing 30-day window, normalized to a 0-1 gradient.
+Drift from temporal ambiance discussion. Colored activity bar in sidebar
+was never the plan. Deleted.
 
 ---
 
@@ -2230,9 +2188,8 @@ All open questions answered in session 15:
 - ~~Deposit weight suggestion logic undefined~~ → RESOLVED. Heuristics
   for AI suggestion defined. Multiplier mechanics unchanged (Tier 3). See
   Deposit Weight — AI Suggestion Logic.
-- ~~No dashboard spec~~ → RESOLVED. Three zones: resonance viz, signal
-  surface, system health. Coverage gap view assigned here. See Observatory
-  Spec.
+- ~~No dashboard spec~~ → RESOLVED. Renamed Observatory (session 31).
+  Redesigned as 8-node constellation (session 32). See Observatory Spec.
 - ~~No duplicate check on re-route~~ → RESOLVED. Hash stored on deposit,
   checked at page arrival. Four resolution options. See Duplicate
   Prevention on Re-Route.
@@ -2247,16 +2204,16 @@ All open questions answered in session 15:
 - ~~No external notification system~~ → RESOLVED. AOS (Automated
   Observation Signal). Engine + Sage triggers, integrity hash, immediate +
   digest delivery. See Automated Observation Signal.
-- ~~Session opening ritual~~ → RESOLVED. 5-line overlay, 8-second fade.
-  See Session Opening Ritual (P1).
+- ~~Session opening ritual~~ → REMOVED (session 32). Drift. Redundant
+  with Field Log (Observatory node 5).
 - ~~No deposit lifecycle view~~ → RESOLVED. Genealogy timeline on card
   expand. See Deposit Genealogy View (P2).
 - ~~No reflective Pearl visualization~~ → RESOLVED. Constellation view
   from Observatory and panel. See Reflective Pearl Constellation (P4).
 - ~~No annotation layer~~ → RESOLVED. Separate annotations table,
   polymorphic reference, no schema cascades. See Annotation Layer (P5).
-- ~~No research velocity signal~~ → RESOLVED. Ambient bar in sidebar.
-  See Research Velocity Indicator (P6).
+- ~~No research velocity signal~~ → REMOVED (session 32). Drift.
+  Colored activity bar in sidebar was never the plan.
 
 **Void registrations (session 18):**
 - VOI-4: Void prompt registered as versioned artifact with changelog
@@ -5506,15 +5463,13 @@ wherever it refers to this page.
 - [ ] Email notification system — see GOOGLE INTEGRATION section below
       for full design (accounts, OAuth, daily pipeline, event triggers)
 
-- [ ] WSC handoff — last AI transmission displayed front and center.
-      Orientation before the session begins.
+- ~~WSC handoff~~ — REMOVED (session 32). Redundant.
 
-- [ ] Black Pearl — Observatory surface for Black Pearl (data model in Tier 1,
-      per-page UI in Tier 2, Observatory placement here).
+- ~~Black Pearl~~ — REMOVED from Observatory (session 32). Lives in page nav.
 
-- [ ] Active patterns summary — what's live in PCV/DTX/SGR right now.
+- ~~Active patterns summary~~ — merged into Field Signals (Observatory node 4, session 32).
 
-- [ ] Recent activity feed — what happened since last session.
+- [ ] Field Log — what happened since last session (Observatory node 5, session 32).
 
 **Export (utility bar — context-aware collapsible panel):**
 
@@ -5726,7 +5681,7 @@ wherever it refers to this page.
       writing in the Scroll or depositing on any page. Solves the "I can't
       keep up with all the acronyms and tags" problem.
 
-- [ ] Review Queue (replaces Undo on deposit) — Observatory surface.
+- [ ] Field Review (replaces Undo on deposit) — Observatory node 6.
       Shows last N deposits (configurable — last 10 or last session's
       worth). Each entry has a "Recall" button. No time limit — window
       is "since last session close" or "since last review." Recall pulls
@@ -5736,10 +5691,9 @@ wherever it refers to this page.
       still exists in the deposit record.
       Why this replaces Undo: AI makes deposits. By the time Sage realizes
       a mistake, navigates there, and finds it, a 30-second window has
-      passed. The Review Queue gives the same safety net without an
+      passed. Field Review gives the same safety net without an
       artificial timer.
-      Title TBD — "Review Queue" may be too clinical. Candidates: Field
-      Check, Recent Deposits, Deposit Log. Sage to decide.
+      Title confirmed: Field Review (session 32).
 
 **Power user + daily use:**
 
@@ -6272,19 +6226,18 @@ Decisions made during design sessions. Recorded with reasoning.
 **Black Pearl confirmed — hard need:**
 - Pre-deposit quick capture. No tagging, no commitment.
 - "Capture the noticing before the naming."
-- Accessible from dashboard and within any page.
+- Accessible from Observatory and within any page.
 - Can be promoted to deposit or left as raw signal.
-- Data model: Tier 1. Per-page UI: Tier 2. Dashboard surface: Tier 7.
+- Data model: Tier 1. Per-page UI: Tier 2. Observatory surface: Tier 7.
 
-**Dashboard confirmed — new root surface:**
-- The meta-layer above the 51 pages. Mission control.
-- Semantic map, notifications, WSC handoff, Black Pearl, active patterns.
-- Lives at root route (src/routes/+page.svelte).
-- Not a 51st page — the shell that holds the 50.
+**Observatory confirmed — analytical overview (renamed from Dashboard, session 31):**
+- The meta-layer above the 51 pages. 8-node constellation (session 32).
+- Route: /observatory (src/routes/observatory/+page.svelte).
+- Home (/) is the soft landing. Observatory is the analytical destination.
 - Tier 7.
 
 **Notification system confirmed — in-app AND email:**
-- In-app: stored in operational DB, displayed on dashboard.
+- In-app: stored in operational DB, displayed on Observatory (Pulse node).
 - Email: S-Tier signals, critical findings, pattern milestones.
 - "The system should work for you when you're not in it."
 - Tier 7.
@@ -6298,7 +6251,7 @@ Decisions made during design sessions. Recorded with reasoning.
 **Semantic map confirmed:**
 - Built from embedding vectors. Shows archive coverage: clusters and voids.
 - "The void IS data" — empty semantic space = unexplored territory.
-- Lives on the dashboard. Navigation + research planning tool.
+- Lives on Observatory (Terrain node). Navigation + research planning tool.
 - Tier 7.
 
 **Page identity confirmed:**
@@ -6318,7 +6271,7 @@ Decisions made during design sessions. Recorded with reasoning.
 **Void page confirmed:**
 - Page 51 in Nexus group. Absence as data surface.
 - Aggregates all null observations across the archive.
-- Distinct from dashboard semantic map: dashboard = coverage voids (where
+- Distinct from Observatory Terrain node: Terrain = coverage voids (where
   haven't you looked?), Void = observational absence (where you looked
   and found nothing).
 - Surface: Tier 2. Engine: Tier 4.
@@ -6328,7 +6281,7 @@ Decisions made during design sessions. Recorded with reasoning.
 - Reason: topic-based ordering would mean jumping between dependency layers
   during build, complicating implementation. Build-order follows the
   dependency chain: INT engine first → pages → engines → synthesis/detection →
-  Cosmology → assistant → dashboard → stress test.
+  Cosmology → assistant → Observatory → stress test.
 - Original plan preserved at design-session-plan-ORIGINAL.md.
 
 **Tier 1 — full design completed:**
@@ -6535,7 +6488,7 @@ cross-map all references, entropy scan after every pass. One file at a time.
 | 6 | Research Assistant (7 files verified, venai_drift_log gap closed, 6 cascade updates across OPERATIONAL DB / FastAPI / Frontend / Embedding Pipeline / Integration DB). Resonance Engine Audio Spec (52 events, 15 notifiers, 3-tier rupture, spatial panning, velocity stacking, field read hierarchy, Ven'ai drift texture, waveform visualizer, floating panel). Cosmology manifests 34-38 rewritten for investigation surface model. Audio Phase 1 file prep (62 clips renamed, licenses verified, ATTRIBUTION.md, Git LFS). StarWell Bloom Hz 351→3510. SOT_BUILD_TODO threshold drift fixed. Origin Hz defined (Larimar 1930, Verith 4212, Cael'Thera 5967). Frontend: tone.js + howler.js. Backend: librosa + soundfile. | COMPLETE | session 30 (11cc511, fa882fb, 0117814) |
 
 ### REMAINING TIERS
-| 7 | Dashboard details, notifications, export, pipeline contracts | Tier 6 |
+| 7 | Observatory (8-node constellation), export, pipeline contracts | Tier 6 |
 | 8 | Stress test, stub sweep, finish line, SOT | Tiers 1-7 |
 
 ### AUDIO BUILD — REMAINING PHASES (post-design, pre-SOT)

@@ -18,7 +18,7 @@
 * Page type system — 8 page types with distinct layout, density, controls, and accent. Pages look different but belong to the same family. Same shell, different internal structure per type
 * Deposit card component — the most common UI element, appears on all 51 pages. Base card with page-type variations
 * Black Pearl panel — slide-in quick-capture panel accessible from any page
-* Dashboard — root route, primary system overview surface
+* Observatory — analytical overview surface (`/observatory`), 8-node constellation
 * Curation panel — system-level archive operations (tag, page, session, deposit operations)
 * Composite ID display — reads the assembled stamp from backend, renders it. Does not construct composite IDs (construction owned by composite ID service, see COMPOSITE ID SCHEMA.md)
 * Tagger panel UI — sends section context to `/tagger/` endpoint, displays returned tag suggestions. Does not resolve tags or apply routing rules (owned by TAGGER SCHEMA.md)
@@ -54,7 +54,7 @@ frontend/
       index.ts        — lib barrel export
     routes/           — 51 page routes + layout
       +layout.svelte  — shared shell wrapping all pages
-      +page.svelte    — root page (dashboard)
+      +page.svelte    — root page (Home — soft landing)
     app.d.ts          — TypeScript declarations
     app.html          — HTML shell
   static/             — static assets
@@ -78,13 +78,13 @@ frontend/
 | TaggerPanel | Tag suggestion UI — sends context, displays candidates |
 | DepositPanel | Entry input form — collects observation, sends to backend |
 | BlackPearlPanel | Slide-in quick-capture panel — capture + reflective modes |
-| Dashboard | Root route — resonance viz, signal surface, system health |
+| Observatory | 8-node constellation — Resonance Engine, Terrain, Timeline, Field Signals, Field Log, Field Review, Pulse, Void |
 | CurationPanel | System-level archive operations — tag, page, session, deposit ops |
 | ThreadTrace | Thread visualization — renders relational thread data |
 | ResonanceCanvas | Resonance engine visualization — physics simulation rendering |
 | DepositGenealogy | Lifecycle timeline on deposit card expand view |
-| ResearchVelocity | Ambient bar in sidebar showing research momentum |
-| SessionOpening | Brief overlay on app open — system state since last session |
+| ~~ResearchVelocity~~ | REMOVED (session 32) — drift |
+| ~~SessionOpening~~ | REMOVED (session 32) — drift |
 | ThrCooccurrenceMatrix | 12x12 threshold co-occurrence matrix — LayerCake + d3-interpolate |
 | ThrPresenceTimeline | Threshold presence timeline — 12 rows, deposit dots |
 | ThrSequenceView | Threshold sequence detection display — table/card layout |
@@ -253,9 +253,9 @@ Fixed sidebar nav, ~220px, left side. The only navigation surface for 51 pages.
 
 ### Structure (top to bottom)
 - System name
-- Phrase: "In Twin Motion, We Remain. In Stillness, We Rise."
-  (italic, tertiary color, never interactive, collapses on narrow viewport)
-- Research velocity bar (ambient 30-day momentum indicator)
+- Global phrase: "In Twin Motion, We Remain. In Stillness, We Rise."
+  — top center of every page (italic, tertiary color, never interactive).
+  NOT a sidebar element.
 - Global search (keyboard: `/`)
 - 9 collapsible groups (matching canonical domain groups):
   1. Axis — THR, STR, INF, ECR, SNM, MTM
@@ -267,7 +267,7 @@ Fixed sidebar nav, ~220px, left side. The only navigation surface for 51 pages.
   7. Cosmology — HCO, COS, CLM, NHM, RCT, ART
   8. Archive — MVM, ANC, LQL, ALE, MMT, ARV
   9. Nexus — WSC, LNV, DTX, SGR, PCV, VOI
-- Pinned utilities (always visible, below groups): INT (Gateway), Dashboard, Black Pearl
+- Pinned utilities (always visible, below groups): INT (Gateway), Observatory, Black Pearl
 - Status indicator (bottom of sidebar)
 - Curation panel trigger (bottom)
 
@@ -428,36 +428,39 @@ Button on any Pearl card. Queues for INT review queue with
 
 ---
 
-## DASHBOARD
+## OBSERVATORY
 
-Root route (`src/routes/+page.svelte`). Primary system overview surface.
+Route: `/observatory` (`src/routes/observatory/+page.svelte`).
+The system's primary analytical overview surface. Not the root route —
+Home (`/`) is the soft landing; Observatory is the analytical destination.
 
-### Zone A (primary, 50-60% viewport)
-Resonance engine visualization. Tension cluster nodes, interactive.
-Harmonic audio on node tap (data dependency TBD — audio session required).
-Node tap opens cluster panel: tension state, engine signals, deposit list,
-page shortcuts.
+### Constellation layout — 8 interactive nodes (session 32 redesign)
 
-### Zone B (flanking or below A)
-Signal surface. Items since last visit, ordered by signal strength:
-- AOS events
-- Engine findings
-- Absence flags (Void)
-- Hypothesis crossings (PCV)
-- Session opening summary
+1. **Resonance Engine** — full visualization, centerpiece
+2. **Terrain** — UMAP coverage map + custom visual overlay. Where deposits
+   cluster and where the research hasn't looked yet. Built from embedding
+   vectors. Observatory = "where haven't you looked?" Void = "where you
+   looked and found nothing." (VOI-6)
+3. **Timeline** — temporal deposit view across all 51 pages
+4. **Field Signals** — AOS events, engine findings, hypothesis crossings
+   (PCV), active patterns. Merged signal surface.
+5. **Field Log** — what happened since last session. Recent deposits,
+   findings, engine events.
+6. **Field Review** — recent deposits with recall to INT. No time limit.
+   Status change (deposited → recalled), not deletion.
+7. **Pulse** — calibration approvals, system alerts, pattern notifications.
+   Stale engines and embedding failures routed to automated alerts
+   (backend), not shown here.
+8. **Void** — absence flag summary
 
-### Zone C (low visual weight)
-System health:
-- Stale engines
-- Embedding failures (failed_permanent count)
-- Calibration alerts
-- Baseline recalibration recommendations
+### Not constellation nodes (separate Observatory surfaces)
+- Reflective Pearl Constellation (P4) — Pearl visualization over time
 
-### Coverage gap view
-Dashboard semantic map shows where deposits concentrate and where research
-hasn't looked yet. Built from embedding vector distribution. Distinct from
-Void (confirmed absence). Dashboard = "where haven't you looked?" Void =
-"where you looked and found nothing."
+### Removed from Observatory
+- Black Pearl — lives in page nav
+- WSC handoff — redundant
+- Session Opening Ritual (P1) — drift, deleted
+- Research Velocity Indicator (P6) — drift, deleted
 
 ---
 
@@ -526,32 +529,13 @@ across M pages." Destructive operations recoverable within 30 days.
 
 ---
 
-## SESSION OPENING RITUAL
+## ~~SESSION OPENING RITUAL~~ — REMOVED (session 32)
 
-When Sage opens the app after absence, before dashboard fully loads:
+Drift. Redundant with Field Log (Observatory node 5). Deleted.
 
-```
-Since your last session:
-  4 new deposits across 3 pages
-  1 type A absence detected (Void)
-  2 hypotheses updated (PCV)
-  1 engine signal (SGR tier 2)
-  1 item needs attention
-```
+## ~~RESEARCH VELOCITY INDICATOR~~ — REMOVED (session 32)
 
-Five lines maximum. Disappears on any interaction or after 8 seconds.
-Gentle overlay — not a modal.
-
----
-
-## RESEARCH VELOCITY INDICATOR
-
-Small horizontal bar beneath the phrase in the sidebar. Thin, unobtrusive.
-Color-graduated cool (low activity) to warm (high activity) over trailing
-30 days. No numbers, no labels. Felt sense of archive momentum.
-
-Data source: deposit count + finding count + hypothesis count over 30-day
-window, normalized to 0-1 gradient.
+Drift. Colored activity bar in sidebar was never the plan. Deleted.
 
 ---
 
@@ -597,9 +581,9 @@ Guard: sort overrides stored in UI store per page per session. Reset on session 
 | frontend/src/app.html | HTML shell | LIVE |
 | frontend/src/app.d.ts | TypeScript ambient declarations | LIVE |
 | frontend/src/routes/+layout.svelte | Root layout — shared shell (minimal scaffold) | LIVE |
-| frontend/src/routes/+page.svelte | Root page — dashboard (minimal scaffold) | LIVE |
+| frontend/src/routes/+page.svelte | Root page — Home, soft landing (minimal scaffold) | LIVE |
 | frontend/src/lib/index.ts | Lib barrel export | LIVE |
-| frontend/src/lib/components/ | Shared components (Shell, NavigationSidebar, DepositCard, CompositeId, TaggerPanel, DepositPanel, BlackPearlPanel, Dashboard, CurationPanel, ThreadTrace, ResonanceCanvas, DepositGenealogy, ResearchVelocity, SessionOpening, ARTISWorkbench, ARTISRegistryPanel, ARTISPagePanel, SciencePingIndicator, SciencePingFlow, ComputationSnapshotCard, MappingReviewCard, FindingCard, FindingsPanel, FindingInlineIndicator, ResidualPanel, ResidualCard, CouplingAnalysis, HarmonicSpectrum, CorrelationScatter, ClusterDendrogram, EntropyComparisonBar, NexusFeedbackIndicator, ReferenceCard, DistributionCard) | PLANNED |
+| frontend/src/lib/components/ | Shared components (Shell, NavigationSidebar, DepositCard, CompositeId, TaggerPanel, DepositPanel, BlackPearlPanel, Observatory, CurationPanel, ThreadTrace, ResonanceCanvas, DepositGenealogy, ARTISWorkbench, ARTISRegistryPanel, ARTISPagePanel, SciencePingIndicator, SciencePingFlow, ComputationSnapshotCard, MappingReviewCard, FindingCard, FindingsPanel, FindingInlineIndicator, ResidualPanel, ResidualCard, CouplingAnalysis, HarmonicSpectrum, CorrelationScatter, ClusterDendrogram, EntropyComparisonBar, NexusFeedbackIndicator, ReferenceCard, DistributionCard) | PLANNED |
 | frontend/src/lib/stores/ | Svelte stores (session, entries, tagger, ui, pearls) | PLANNED |
 | frontend/src/lib/api.ts | Fetch wrapper — single interface to FastAPI backend | PLANNED |
 | frontend/src/routes/[...] | 51 page routes — routing strategy TBD | PLANNED |

@@ -49,12 +49,11 @@ OBSERVATORY (1 page: /observatory)
   The analytical overview. Resonance Engine as centerpiece.
 
   Feel:        alive, data-rich, the field as the system sees it
-  Layout:      Zone A (Resonance Engine viz, 50-60%) +
-               Zone B (signal surface, flanking/below) +
-               Zone C (system health, low weight)
-  Elements:    Resonance Engine viz, semantic map, signal feed,
-               notification center, WSC handoff, Black Pearl,
-               active patterns, recent activity, system health
+  Layout:      8-node constellation (session 32 redesign)
+  Nodes:       Resonance Engine, Terrain, Timeline, Field Signals,
+               Field Log, Field Review, Pulse, Void
+  Surfaces:    Reflective Pearl Constellation (P4, not a node)
+  Elements:    constellation navigation, node interaction, UMAP viz
   Background:  [TBD]
   SVGs:        [TBD]
   Notes:

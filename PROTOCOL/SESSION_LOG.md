@@ -11328,4 +11328,240 @@ NEXT_ACTION: Sage sketching Observatory constellation (9 nodes) and Home page la
   feel of how 9 nodes coexist. SYSTEM_ Frontend.md needs Observatory rename pass.
   Reflective Pearl Constellation (P4) confirmed as 9th node — design its node behavior.
   Background image CSS tuning walkthrough when Sage is ready (memory saved for future session).
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: OPEN
+FILES_MODIFIED:
+  - none yet
+COMPLETED:
+  - none yet
+IN_PROGRESS:
+  - Session orientation — CLAUDE.md, SESSION_PROTOCOL.md, ENFORCEMENT.md, GITHUB_PROTOCOL.md read
+  - Design build plan reviewed — Tiers 1-6 complete, Tier 7 partially designed, Tier 8 not started
+NOT_STARTED:
+  - Observatory constellation layout design (Sage sketching, review this session)
+  - Observatory zone cleanup — 10 superseded Zone A/B/C references across 3 files
+    (PAGE_LAYOUTS.md, SYSTEM_ Frontend.md, design-session-plan.md) must be replaced
+    when constellation layout is finalized. Flagged as cascade item, first priority this session.
+  - Reflective Pearl Constellation (P4) cleanup — design-session-plan.md:2120 references
+    "Observatory (Zone B or dedicated tab)" — double stale (zone language + wrong placement).
+    P4 is an Observatory surface (Pearl visualization over time), NOT one of the 8 constellation
+    nodes. Black Pearl removed from Observatory — lives in page nav. Update all references.
+  - HARD BLOCK — Research Velocity Indicator (P6): drift. Born from temporal ambiance
+    discussion, concretized into a colored activity bar in sidebar nav. Never the plan.
+    Remove from all design specs. 4 removals across 2 files:
+      · design-session-plan.md: lines 1439, 2165-2184 (full section), 2259
+      · SYSTEM_ Frontend.md: line 258
+  - HARD BLOCK — Session Opening Ritual (P1): drift. Same session as P6. Timed overlay
+    concept is redundant with Observatory recent activity feed. Remove from all design specs.
+    3 removals in 1 file:
+      · design-session-plan.md: lines 1858, 2056-2077 (full section), 2251
+  - HARD BLOCK — Phrase placement ("In Twin Motion, We Remain. In Stillness, We Rise."):
+    incorrectly placed in sidebar. Sage's intent: top center of every page. 3 references
+    across 2 files placing it in sidebar need correction:
+      · design-session-plan.md: lines 1436, 2179
+      · SYSTEM_ Frontend.md: line 256
+  - Remaining Tier 7 undesigned items: comparison view, session statistics, ambient sound
+    state, search results surface, pipeline contracts, Review Queue title
+  - SYSTEM_ Frontend.md Observatory rename pass (Dashboard → Observatory)
+  - Cross-tier: #13 TRIA name fix, #14 API folder rewrite, CONNECTS TO + seed affinity pass
+UNCOMMITTED: NO
+NEXT_ACTION: Sage reviewing notes and sketching Observatory constellation. Zone A/B/C
+  language traced — 10 refs in 3 files are superseded drift from pre-constellation layout.
+  ARTIS/page-type zone labels (34 refs, 5 files) assessed case-by-case during master layout.
+  First priority: finalize constellation design, then cascade-clean the 3 affected files.
+---
+---
+
+---
+TIMESTAMP: 2026-04-09 05:57
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:59
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:59
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:59
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:59
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:59
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 05:59
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 06:00
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\PAGE_LAYOUTS.md
+---
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - .claude/plans/design-session-plan.md — COMPLETE (Observatory constellation replaces Zone A/B/C, P1 + P6 removed, phrase placement corrected, P4 reference fixed)
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — COMPLETE (Dashboard → Observatory throughout, Zone A/B/C → 8-node constellation, P1 + P6 sections removed, phrase corrected, component table updated, file inventory updated)
+  - DESIGN/Systems/PAGE_LAYOUTS.md — COMPLETE (Observatory layout updated to 8-node constellation)
+COMPLETED:
+  - Observatory Zone A/B/C cleanup: 10 superseded references replaced across 3 files with 8-node constellation layout
+  - Session Opening Ritual (P1) removed: drift from temporal ambiance discussion, redundant with Field Log
+  - Research Velocity Indicator (P6) removed: drift, colored activity bar in sidebar was never the plan
+  - Phrase placement corrected: "In Twin Motion, We Remain. In Stillness, We Rise." moved from sidebar to top center of every page
+  - Reflective Pearl Constellation (P4) reference fixed: "Zone B or dedicated tab" → "Observatory surface, not a node"
+  - Dashboard → Observatory rename pass on SYSTEM_ Frontend.md: route, pinned nav, component table, file inventory, WHAT THIS SYSTEM OWNS
+  - 8-node constellation written: Resonance Engine, Terrain, Timeline, Field Signals, Field Log, Field Review, Pulse, Void
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Remaining Tier 7 undesigned items: comparison view, session statistics, ambient sound state, search results surface, pipeline contracts
+  - Cross-tier: #13 TRIA name fix, #14 API folder rewrite, CONNECTS TO + seed affinity pass
+UNCOMMITTED: YES
+NEXT_ACTION: Commit cleanup pass. Continue Tier 7 pre-prep with Sage.
+---
+
+---
+TIMESTAMP: 2026-04-09 06:03
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 06:03
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 06:03
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 06:03
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 06:04
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 06:04
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 06:04
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 06:04
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 06:04
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 06:04
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
 ---
