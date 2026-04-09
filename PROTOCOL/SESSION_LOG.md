@@ -11272,3 +11272,60 @@ TIMESTAMP: 2026-04-09 04:18
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
 ---
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: CLOSE
+FILES_MODIFIED:
+  - .claude/plans/design-session-plan.md — COMPLETE (Tier 7 design: 10+ items designed, all open questions resolved, Observatory rename, bookkeeping)
+  - .claude/settings.json — COMPLETE (removed Bash from PostToolUse hook matcher — race condition fix)
+  - DESIGN/Systems/PAGE_LAYOUTS.md — COMPLETE (new file, master page layout reference stubbed for all 53 surfaces)
+  - PROTOCOL/SESSION_LOG.md — COMPLETE (OPEN + CLOSE entries)
+COMPLETED:
+  - Hook race condition diagnosed and fixed: PostToolUse Bash matcher caused orphaned HOOK_BASH entries after every session close commit. Removed Bash from matcher. Write|Edit still fire HOOK_WRITE.
+  - Session Seeds: full design — auto-capture research sessions, manual import dev sessions, dual embedding (per-turn + per-chunk), PostgreSQL storage with participant tagging, Google Drive + B2 backup, swarm RAG utility
+  - Author's Scroll: full design — tiptap editor, 3-panel workspace (reference + scroll + AI), spell check, draft persistence in SQLite, reference upload for Pillar reconstruction, Deposit to INT with footnote + legacy ref + parse mode
+  - Dashboard renamed Observatory. Home/Observatory/Resonance Engine naming split established to prevent conflation drift. Route: /observatory. Home = / (soft landing). Resonance Engine = component on Observatory, not a nav item.
+  - Export panel: utility bar, context-aware, collapsible, scope/format selectors, Google Drive integration
+  - Google Integration: full pipeline — Larimar (gmail.send) + Threshold Studies (drive read/write), two-way OAuth, daily 11:11 PM cron (snapshot + Session Seeds + exports → Drive, summary email with charts via Larimar), event-triggered emails (S-Tier, PCV convergence, recalibration, backup failure), three-layer backup (PG + Drive + B2)
+  - Page sorting: per-group defaults with per-page override (alphabetical | chronological | manual)
+  - Entry editing: utility bar panel, edit button in expanded deposit card, auto-timestamp + footnote non-negotiable, revision history
+  - Bookmarks: hover-to-bookmark on cards + utility bar collected viewer
+  - Tag explorer: utility bar panel, 320-tag visual map by seed/layer, interactive, search within
+  - Review Queue: replaces Undo on deposit — Observatory surface, recall deposits to INT, no time limit
+  - Timeline: Observatory addition, togglable with semantic map
+  - Mobile research companion: expanded from read-only to read/ask/converse — deferred to dedicated session
+  - Keyboard shortcuts: deferred to dedicated session
+  - All 7 Tier 7 open questions resolved (exports include charts, UMAP + custom viz, interactive page viz, all-page snapshots, computation on-demand + on-deposit, 5-turn chunks with sliding window, dev import copy/paste + upload)
+  - PAGE_LAYOUTS.md created: master reference for all 53 surfaces (Home + Observatory + 51 pages), page types, per-page tables, group sub-rhythms, audio state section
+  - Tier 5 housekeeping: 4 Cosmology page checkboxes updated (HCO/COS/CLM/NHM confirmed session 20)
+  - Tier 6 housekeeping: 9 RA design questions verified against 6 companion specs + SYSTEM_ file, all checked off
+  - Agenda tracker: 11 items checked off (#2,4,5,6,7,8,9,10,11,12,15)
+  - Observatory full audit: all sources cross-referenced, Reflective Pearl Constellation (P4) identified as missing from node list, 9-node constellation proposed
+  - Utility bar confirmed NOT finalized — still in notebook sketch phase
+  - Observatory redesigned as constellation view (9 clickable nodes) instead of dense 3-zone layout
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Observatory constellation layout — Sage sketching 9 nodes
+  - Home page design — Sage sketching soft landing
+  - SYSTEM_ Frontend.md Observatory rename pass (Dashboard → Observatory in routes, components, nav)
+  - Comparison view design
+  - Session statistics design
+  - Ambient sound state per page design
+  - Page relationship viz design (interactive — decided, not designed)
+  - Pipeline contracts (5 end-to-end + shared viz/computation architecture)
+  - Review Queue title (Sage to name)
+  - Keyboard shortcuts — dedicated session
+  - Mobile research companion — dedicated session
+  - Cross-tier: #13 TRIA name fix, #14 API folder rewrite, CONNECTS TO + seed affinity pass
+UNCOMMITTED: NO (after this commit)
+FILES_THIS_SESSION:
+  - 4 files across 4 commits (0fa2525, f6769a3, 0973253, 7f2be76)
+  - 4 memories saved (.claude/memory/)
+NEXT_ACTION: Sage sketching Observatory constellation (9 nodes) and Home page layout.
+  Next session: review sketches, design Observatory constellation placement, walk the
+  feel of how 9 nodes coexist. SYSTEM_ Frontend.md needs Observatory rename pass.
+  Reflective Pearl Constellation (P4) confirmed as 9th node — design its node behavior.
+  Background image CSS tuning walkthrough when Sage is ready (memory saved for future session).
+---
