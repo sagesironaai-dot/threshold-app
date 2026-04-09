@@ -5493,7 +5493,8 @@ wherever it refers to this page.
 - [ ] Semantic map — archive coverage visualization. Clusters, gaps, voids.
       Built from embedding vectors. Shows where deposits concentrate and
       where the research hasn't looked yet. The void IS data.
-      (2D projection: t-SNE/UMAP or custom visualization?)
+      UMAP engine for 768→2D projection + custom visual layer (group colors,
+      page labels, interactive hover/click, archive structure overlay).
 
 - [ ] Notification center — patterns detected, findings graded, drift events.
       In-app notifications stored in operational DB, displayed on Observatory.
@@ -5537,7 +5538,8 @@ wherever it refers to this page.
       section below for full Drive architecture.
 
       **Open questions (carried forward):**
-      - Do exports include computed views (charts) or just raw data?
+      - ~~Do exports include computed views (charts) or just raw data?~~ →
+        RESOLVED. Both — charts rendered as images alongside raw data.
       - What's exportable? Deposits, findings, visualizations, full pages?
 
 **Page relationship visualization:**
@@ -5959,13 +5961,31 @@ B2 is the cold backup. PostgreSQL is the hot data.
 - ~~Email: what triggers an email vs. in-app only?~~ → RESOLVED.
   Daily summary + 4 event triggers. See above.
 - ~~Session Seeds: Google Drive auto-dump~~ → RESOLVED. Part of daily pipeline.
-- Do exports include computed views (charts) or just raw data?
-- Semantic map: 2D projection (t-SNE/UMAP) or custom visualization?
-- Page relationship viz: is this a static map or interactive navigation?
-- Does every session close snapshot ALL pages or only pages with new data?
-- Do Cosmology computations run on-demand or on deposit?
-- Session Seeds: chunk size for contextual embeddings — 5 turns? 10? topic-based?
-- Session Seeds: dev session import format — copy/paste? file upload? both?
+- ~~Do exports include computed views (charts) or just raw data?~~ → RESOLVED.
+  Both. Exports include charts (rendered as images) alongside raw data.
+- ~~Semantic map: 2D projection (t-SNE/UMAP) or custom visualization?~~ → RESOLVED.
+  UMAP engine + custom visual layer. UMAP does the 768→2D projection
+  (finds clusters, preserves global structure). Custom design on top:
+  group colors, page labels, interactive hover, click-to-navigate,
+  archive structure overlaid. Algorithm finds patterns, design makes
+  it readable.
+- ~~Page relationship viz: static map or interactive navigation?~~ → RESOLVED.
+  Interactive. Click/hover to navigate between pages, see deposit flow.
+- ~~Session close snapshot: ALL pages or only pages with new data?~~ → RESOLVED.
+  All pages. Every snapshot captures the full archive state regardless
+  of which pages had activity.
+- ~~Cosmology computations: on-demand or on deposit?~~ → RESOLVED.
+  Both. Computations run on deposit (new data triggers recomputation)
+  AND on-demand (Sage or AI can trigger a computation run manually).
+- ~~Session Seeds: chunk size for contextual embeddings?~~ → RESOLVED.
+  5 turns per chunk. Recommended upgrade path: sliding window with
+  2-turn overlap (turns 1-5, 4-8, 7-11) so topics that cross chunk
+  boundaries aren't split. V1 can start with fixed 5-turn blocks,
+  upgrade to sliding window if retrieval feels choppy.
+- ~~Session Seeds: dev session import format?~~ → RESOLVED.
+  Both. Copy/paste AND file upload on the Session Seeds page.
+
+**All Tier 7 open questions are now RESOLVED.**
 
 ---
 
