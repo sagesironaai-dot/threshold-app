@@ -58,19 +58,19 @@ against the document if editing.
   - [ ] Primary workflows: Pillar reconstruction (~70 articles) + Cosmology concept writing
 
   Entry management:
-  - [ ] Entry editing UI — post-deposit corrections
+  - [ ] Edit panel (utility bar) — edit button in expanded deposit card, auto-timestamp + footnote
 
   Research workflow QoL:
-  - [ ] Bookmarks / pinned entries
+  - [ ] Bookmarks — hover-to-bookmark on cards + utility bar viewer for all bookmarks
   - [ ] Comparison view (side-by-side entries, engine states, snapshots)
-  - [ ] Timeline view across all pages
-  - [ ] Tag explorer / tag cloud
-  - [ ] Undo on deposit (30-second grace period)
+  - [ ] Timeline view — Observatory addition, togglable with semantic map
+  - [ ] Tag explorer — utility bar panel, 320 tags visual map, search, click-to-filter
+  - [ ] Review Queue (replaces Undo) — Observatory, recall deposits back to INT, no time limit
 
   Power user + daily use:
-  - [ ] Keyboard shortcuts (beyond / and Ctrl+P)
+  - [ ] Keyboard shortcuts — DEFERRED to dedicated session
   - [ ] Session statistics (shape of work, not content)
-  - [ ] Mobile / tablet read view
+  - [ ] Mobile research companion — DEFERRED to dedicated session (read + ask + converse, no deposit)
 
   Ambient:
   - [ ] Sound state per page (Resonance Engine remembers per page)
@@ -5678,47 +5678,70 @@ wherever it refers to this page.
 
 **Entry management:**
 
-- [ ] Entry editing UI — post-deposit editing path for corrections and
-      additions. API has CRUD (/entries/), but needs a designed UI surface.
-      Edit action on deposit cards → routes back through INT validation.
-      Revision history? Diff view? Who-edited tracking?
+- [ ] Entry editing — utility bar panel. Entry point: "Edit" button inside
+      expanded deposit card on any page. Click Edit → Edit panel opens in
+      utility bar, pre-loaded with that entry's content. No hidden hover
+      states across the whole app — the deposit card is the entry point,
+      the panel is the workspace.
+      **Non-negotiable:** every edit auto-generates a timestamp + requires
+      a footnote explaining the change. The edit record stores: what changed,
+      when, why (footnote). Revision history preserved — the original is
+      never lost. Edit routes back through INT validation for tag/routing
+      changes. Diff view available (original vs. edited).
 
 **Research workflow quality-of-life:**
 
-- [ ] Bookmarks / pinned entries — star or pin entries for quick access.
-      Personal shortlist in sidebar or Observatory. The entries Sage keeps
-      returning to — the one that cracked a hypothesis, the deposit that
-      connects to everything. Faster than search, more intentional than
-      recent activity.
+- [ ] Bookmarks / pinned entries — two surfaces, one action:
+      · Bookmark action: small star/pin icon on deposit cards, appears on
+        hover. Lightweight — one icon per card, not a complex hover state.
+        Click to toggle bookmark from any page.
+      · Bookmark viewer: utility bar panel showing all bookmarked entries
+        as a collected view. The entries Sage keeps returning to — the one
+        that cracked a hypothesis, the deposit that connects to everything.
+        Faster than search, more intentional than recent activity.
+      Bookmark from anywhere, view from one place.
 
 - [ ] Comparison view — side-by-side surface for two entries, two engine
       states, or two snapshots from different dates. The research is built
       on parallax; the UI should support deliberate comparison without
       two browser tabs. Overlay or split-pane? Modal or page?
 
-- [ ] Timeline view across all pages — single temporal view of everything
-      that entered the archive, across all 51 pages, in order. Bird's-eye
-      view of deposit rhythm during fast-capture periods. Filterable by
-      page, group, tag, doc_type. Distinct from per-engine timelines.
+- [ ] Timeline view — Observatory addition, not a separate page. Temporal
+      view of everything that entered the archive, across all 51 pages,
+      in order. Bird's-eye view of deposit rhythm. Filterable by page,
+      group, tag, doc_type. Togglable alongside or instead of the semantic
+      map on Observatory. Distinct from per-engine timelines.
 
-- [ ] Tag explorer / tag cloud — visual surface for the full tag vocabulary.
-      Frequency, clustering, which tags are never used, which ones dominate.
-      Makes TAG VOCABULARY feel like a living instrument, not a reference
-      doc. Interactive — click a tag to see all entries that carry it.
+- [ ] Tag explorer — utility bar panel, accessible from anywhere. Visual
+      surface for the full tag vocabulary (320 tags). Interactive map:
+      tags sized by frequency, clustered by seed or layer. Click a tag →
+      see every entry that carries it. Shows which tags dominate, which
+      are never used, which clusters are growing. Search within for quick
+      lookup ("what seed does phase_locking belong to?"). Makes TAG
+      VOCABULARY feel like a living instrument Sage can reference while
+      writing in the Scroll or depositing on any page. Solves the "I can't
+      keep up with all the acronyms and tags" problem.
 
-- [ ] Undo on deposit — 30-second grace period after deposit before full
-      pipeline runs. "I deposited to the wrong page" or "that tag was
-      wrong." Pull it back, fix it, re-deposit. After the window closes,
-      entry is in the archive and corrections go through the edit path.
-      Not delete — undo.
+- [ ] Review Queue (replaces Undo on deposit) — Observatory surface.
+      Shows last N deposits (configurable — last 10 or last session's
+      worth). Each entry has a "Recall" button. No time limit — window
+      is "since last session close" or "since last review." Recall pulls
+      the deposit back to INT for correction, does not delete it. Status
+      change: `deposited` → `recalled`. The data integrity is preserved —
+      recalled deposits are status changes, not deletions. The content
+      still exists in the deposit record.
+      Why this replaces Undo: AI makes deposits. By the time Sage realizes
+      a mistake, navigates there, and finds it, a 30-second window has
+      passed. The Review Queue gives the same safety net without an
+      artificial timer.
+      Title TBD — "Review Queue" may be too clinical. Candidates: Field
+      Check, Recent Deposits, Deposit Log. Sage to decide.
 
 **Power user + daily use:**
 
-- [ ] Keyboard shortcuts — beyond `/` (search) and `Ctrl+P` (Pearl).
-      Quick deposit from any page, toggle research assistant panel, jump
-      to last page, cycle Axis pages, open most recent finding. The
-      shortcuts that make the app an extension of thinking, not a tool
-      you operate.
+- [ ] Keyboard shortcuts — DEFERRED to dedicated session. Sage wants to
+      build the list of what's actually needed and what the shortcut feels
+      like. Not designing in a bullet point.
 
 - [ ] Session statistics — end-of-session summary of the shape of work.
       Deposits made, Pearls promoted, tags suggested vs. accepted, most
@@ -5727,10 +5750,19 @@ wherever it refers to this page.
       captures pattern. Stored in operational DB alongside
       conversation_summary.
 
-- [ ] Mobile / tablet read view — stripped-down responsive view for reading
-      entries and findings without the full engine UI. Not for depositing.
-      For reviewing on the couch or when something clicks at 2am. Read-only,
-      entry-focused, no engine controls.
+- [ ] Mobile research companion — DEFERRED to dedicated session. Expanded
+      beyond read-only to three modes:
+      1. Read — browse entries, findings, engine output. The 2am couch mode.
+      2. Ask — research assistant on mobile. Conversational, not operational.
+         "What does this connect to?" without opening the full workspace.
+      3. Converse — chat with the swarm (V2+). Mobile as a presence in the
+         field, not just a window into it.
+      No depositing from mobile — too easy to make mistakes without the
+      full workspace. Read, ask, converse — but not deposit.
+      Needs its own session because mobile interaction design is its own
+      discipline: screen real estate constraints change layout, navigation,
+      and accessibility. Plus swarm chat interface needs design even if
+      stubbed in V1.
 
 **Ambient experience:**
 
