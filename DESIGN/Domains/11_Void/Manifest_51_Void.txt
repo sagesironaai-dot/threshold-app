@@ -34,14 +34,14 @@ OBJECTIVE
   The input is the set of all deposits where the researcher
   recorded "I looked and it wasn't there."
 
-  The Void engine (Tier 4) will compute detection types,
-  classify absence patterns, and surface on-demand reads.
-  Until the engine is built, this page exists as the
-  structural surface where null observations are visible
-  as a collection. The page precedes the engine.
+  The Void engine (Tier 4) computes detection types,
+  classifies absence patterns, and surfaces on-demand
+  reads. Engine design is complete in VOID ENGINE
+  SCHEMA.md. This page is the surface; the engine
+  computes on what it holds.
 
-  Distinction from dashboard coverage gap view:
-    Dashboard says "where haven't you looked?"
+  Distinction from Observatory coverage gap view:
+    Observatory says "where haven't you looked?"
     Void says "where you looked and found nothing."
   Coverage gaps are about attention distribution.
   Void is about observational absence.

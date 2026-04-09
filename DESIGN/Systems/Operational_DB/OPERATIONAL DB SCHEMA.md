@@ -236,10 +236,10 @@ TABLE: pearls
                          swarm-visible Pearls as context.
 
   promoted_via         — text, nullable
-                         enum: 'panel' | 'dashboard' | null
+                         enum: 'panel' | null
                          Where promotion was triggered. Null until
-                         promotion. Panel = Black Pearl slide-in
-                         panel. Dashboard = Pearl list on dashboard.
+                         promotion. Panel = Black Pearl panel in
+                         page nav.
 
   Pearls are PRE-ARCHIVE. They do not live in PostgreSQL until
   promoted. This preserves the key invariant: "nothing enters

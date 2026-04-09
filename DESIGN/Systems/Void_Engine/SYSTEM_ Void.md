@@ -24,7 +24,7 @@
 * Null observation production — owned by individual pages. Void reads computed null signals from engines; it does not produce the underlying observations.
 * Engine computation — owned by individual engine services (Tier 3). Void reads computed absence signals; it does not trigger or own computation.
 * PCV hypothesis creation and status management — owned by PCV. Void sends absence hypotheses to PCV; PCV owns the pattern record and status.
-* Coverage gap detection — lives on Dashboard semantic map. "Where haven't you looked?" is structurally distinct from "where you looked and found nothing." Coverage gap data never enters Void's compute step.
+* Coverage gap detection — lives on Observatory semantic map. "Where haven't you looked?" is structurally distinct from "where you looked and found nothing." Coverage gap data never enters Void's compute step.
 * MTM synthesis — owned by MTM. Void's Claude tool reads MTM findings but does not produce or modify them.
 * Routing authority — owned by SOT
 * Witness Scroll — WSC is sovereign. Void provides session-close pulse check data for the wsc_write_payload; it has no other relationship to WSC.
@@ -47,7 +47,7 @@ Nexus-level Claude tool that reads across all Nexus outputs (PCV, DTX, SGR, MTM,
 
 "Looked and didn't find" (confirmed absence) and "never looked" (coverage gap) are opposite in evidential value. Confirmed absence is evidence. Coverage gaps are ignorance.
 
-Void owns confirmed absence. Dashboard owns coverage gaps (built from embedding vector distribution on the semantic map). The examination floor filter enforces the boundary at Void's input. Coverage gap data never enters Void's compute step. This is spatial separation, not just labeling.
+Void owns confirmed absence. Observatory owns coverage gaps (built from embedding vector distribution on the semantic map). The examination floor filter enforces the boundary at Void's input. Coverage gap data never enters Void's compute step. This is spatial separation, not just labeling.
 
 ---
 

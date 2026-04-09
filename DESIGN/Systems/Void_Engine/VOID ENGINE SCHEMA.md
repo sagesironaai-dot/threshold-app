@@ -32,7 +32,7 @@ Type E reactivation flow, four visualizations, stores, failure modes.
 - Engine computation — owned by individual engine services (Tier 3). Void reads computed null signals (times_examined, times_observed, examination ratios); it does not trigger or own engine computation.
 - PCV hypothesis creation — owned by PCV. Void sends absence hypotheses (types A, D) to PCV via the PCV API. PCV owns the pattern record.
 - PCV hypothesis status management — owned by PCV. Reactivation restores a PCV hypothesis to active; PCV owns the status field.
-- Coverage gap detection — lives on Dashboard. "Where haven't you looked?" is structurally distinct from "where you looked and found nothing." Coverage gap data never enters Void's compute step.
+- Coverage gap detection — lives on Observatory. "Where haven't you looked?" is structurally distinct from "where you looked and found nothing." Coverage gap data never enters Void's compute step.
 - MTM synthesis — owned by MTM. Void's Claude tool reads MTM findings but does not produce or modify them.
 - Routing authority — owned by SOT
 - WSC — Witness Scroll is sovereign. Void has no relationship to it beyond providing session-close pulse check data in the wsc_write_payload.
@@ -93,7 +93,7 @@ examination ratio, engine source, pattern identifier, time window.
 
 Any absence signal where times_examined < VOID_EXAMINATION_FLOOR does not
 enter Void's compute step. Routed nowhere, or optionally surfaces in the
-Dashboard coverage gap view (separate from Void — spatial separation, not just
+Observatory coverage gap view (separate from Void — spatial separation, not just
 labeling).
 
 An engine that examined a pattern twice and didn't find it is not the same
@@ -542,7 +542,7 @@ masquerading as evidence.
 
 **Guard:** examination floor filter is the first step in the data layer. No
 signal below threshold enters the compute step. Coverage gaps route to
-Dashboard, never to Void.
+Observatory, never to Void.
 
 ### 2. Type E fed back to PCV
 
@@ -598,7 +598,7 @@ as SNM and parsing partner prompts. Prompt version travels with every output.
 **VOI-5:** void_provenance flag on PCV hypothesis record — implemented in PCV
 SCHEMA (Tier 4 Part 1).
 
-**VOI-6:** Coverage gap view lives on Dashboard, not Void. Spatial separation
+**VOI-6:** Coverage gap view lives on Observatory, not Void. Spatial separation
 enforced by examination floor filter.
 
 **VOI-7:** PCV entry filter — types A, D enter PCV; B, C stay on Void

@@ -28,7 +28,7 @@
 * Routing authority — owned by SOT. INT never guesses routing.
 * MTM synthesis cycle — MTM reads across Axis lens pages at session close and produces Findings independently. INT does not trigger or feed MTM directly.
 * Research assistant — the INT parsing partner is NOT the research assistant (Tier 6). The research assistant owns RAG, mode switching, and Cosmology integration. The parsing partner is scoped to batch processing collaboration.
-* Black Pearl capture UI — owned by Tier 2 (per-page) and Tier 7 (dashboard). INT owns the promotion path only.
+* Black Pearl capture UI — owned by Tier 2 (page nav, left side). INT owns the promotion path only.
 
 ---
 

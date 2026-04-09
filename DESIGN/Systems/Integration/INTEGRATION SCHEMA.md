@@ -1121,9 +1121,9 @@ siloing the file to a single section.
 BLACK PEARL PROMOTION FLOW
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Pre-deposit quick capture. Black Pearl is a global system accessible
-from anywhere (any page + dashboard). Named for the field term for
-null space: the infinite possibility of not yet.
+Pre-deposit quick capture. Black Pearl lives in the page nav (left
+side). Sage's reflection space — captures raw noticings before they
+are named or framed.
 
 Storage: Operational DB (SQLite). Pearls are PRE-ARCHIVE — they do
 not live in PostgreSQL until promoted. This preserves the key
@@ -1141,7 +1141,7 @@ constraints and defaults):
     promoted_deposit_id  — references deposit ID, null until promotion
     pearl_type           — capture | reflective (default: capture)
     swarm_visible        — boolean (default: true)
-    promoted_via         — panel | dashboard | null (null until promotion)
+    promoted_via         — panel | null (null until promotion)
 
 PROMOTION FLOW:
 

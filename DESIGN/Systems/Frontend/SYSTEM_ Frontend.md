@@ -254,7 +254,7 @@ Fixed sidebar nav, ~220px, left side. The only navigation surface for 51 pages.
 - `/` — focus global search
 - `G` + `[number]` — jump to group (G1 = Axis, G9 = Nexus)
 - `[` and `]` — prev/next page within current group
-- `Ctrl+Shift+P` — open Black Pearl panel
+- Black Pearl panel shortcut — deferred to Tier 7 (keyboard shortcuts session)
 
 ---
 
@@ -344,8 +344,8 @@ deposit weight (heaviest first). Catalog feel.
 
 ## BLACK PEARL PANEL
 
-Slide-in panel from right (~380px). Triggered by `Ctrl+Shift+P` or black
-star button. Page visible behind (overlay, does not push content).
+Slide-in panel from left (page nav). Page visible behind (overlay, does
+not push content). Keyboard shortcut deferred to Tier 7.
 
 ### Context auto-capture
 page_id and instance_context pre-populated silently on open.
