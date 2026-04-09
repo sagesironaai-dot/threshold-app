@@ -1321,3 +1321,248 @@ Status: RESOLVED (session 38, 2026-04-09). Full project scan found 3
   expansions — all correct ("Triadic Relational Intelligence Architecture"):
   api/prompts/GLOBAL_KNOWLEDGE_BASE.txt:37, ROT_OPEN.md:36-37,
   ROT_REGISTRY.md:1311. Zero corrupted expansions anywhere in project.
+
+
+
+══════════════════════════════════════════════════════════════════
+ROT ENTRY 006 — TIER 2 TRUTH CHECK: UNAUTHORIZED CONTENT
+══════════════════════════════════════════════════════════════════
+
+Discovered: 2026-04-09 (session 40)
+Source: Tier 2 design doc audit, Step 1 Truth Check
+Status: OPEN — spec corrections deferred to Batch 3
+
+Context:
+  During the Tier 2 Truth Check (methodology Step 1), Sage
+  reviewed the contents of SYSTEM_ Frontend.md (VERIFIED) and
+  design-session-plan.md Tier 2 section (lines 1289-2166). Sage
+  identified multiple items she did not author, did not approve,
+  and in some cases that directly contradict her data integrity
+  boundaries.
+
+  The entropy scan verification (2026-04-07) found 0 rot pattern
+  findings in SYSTEM_ Frontend.md — but the scan was never
+  designed to detect unauthorized content. It checks for
+  mechanical rot (phantom refs, stale counts, wrong IDs), not
+  for design decisions Sage never made.
+
+  Origin of contamination: session 18 (Tier 2 quality pass,
+  2026-04-06) generated sub-rhythms and curation panel as gap
+  resolutions. Session 26 copied them into SYSTEM_ Frontend.md
+  rewrite. Session 33 removed the type system but explicitly
+  retained sub-rhythms.
+
+Systemic finding:
+  Entropy scan verification (ENTROPY_EXCAVATION.md VERIFIED
+  list) does not constitute content approval. A file can pass
+  all 15 scanner categories and still contain unauthorized
+  design decisions, hallucinated systems, or content that
+  contradicts the researcher's architectural authority.
+  Content-level review by Sage is a separate gate from
+  mechanical verification. This gap affects all SYSTEM_
+  overview files on the VERIFIED list — they make design
+  decisions, unlike SCHEMA files which define data structures.
+
+Infected files:
+  DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — VERIFIED,
+    contains all 6 contamination items identified below
+  .claude/plans/design-session-plan.md — Tier 2 section
+    (lines 1289-2166), contains same contamination
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ROT TERM: Sub-rhythms — type system extension
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Caught: session 40 (2026-04-09)
+Corrects: Entry 005, page type system rot term — which
+  explicitly said "Domain group sub-rhythms are NOT type
+  system rot — retained." That judgment was wrong.
+
+What it introduced:
+  - Pre-assigned layout patterns per domain group:
+    Lattice (single-column, cross-refs), Filament (two-column
+    compact), Lineage (single-column wide, timeline marker),
+    Alchemy (two-column, stage badge), Spiral Phase (horizontal
+    timeline), Archive (single-column full width, catalog feel)
+  - Framed as "concrete layout contracts per domain group"
+  - Only covered 6 of 9 groups (missing Axis, Cosmology, Nexus)
+  - Term "sub-rhythm" never used by Sage in session
+
+Why it is contamination:
+  - Page layouts are Sage's architectural decision. No session
+    has authority to pre-decide what pages look like
+  - Direct extension of the type system — applies category-level
+    layout decisions to groups of pages instead of individual
+    pages. Same structural error the type system made
+  - Sage is building page layouts separately (PAGE_LAYOUTS.md)
+  - The gap it claimed to resolve ("sub-rhythms are vibes not
+    specs") framed Sage's unfinished design work as a deficiency
+    to be fixed, rather than an open design decision she owns
+
+Infected locations:
+  design-session-plan.md: lines 1359, 1575-1611, 2083
+  SYSTEM_ Frontend.md: SUB-RHYTHM LAYOUT SPECS section,
+    PER-PAGE LAYOUT section (references sub-rhythms)
+
+Cleanup required:
+  Remove sub-rhythm sections from SYSTEM_ Frontend.md.
+  Categorize as DEAD in Tier 2 audit artifact.
+  PAGE_LAYOUTS.md remains Sage's file — she builds it.
+
+Status: OPEN
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ROT TERM: Curation panel — hallucinated destructive operations
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Caught: session 40 (2026-04-09)
+
+What it introduced:
+  - A slide-in panel for archive-wide destructive operations:
+    tag deprecation across corpus, tag merge, tag rename with
+    cascade, page archive, deposit re-route off page, session
+    collapse-context flagging, bulk deposit re-route, bulk
+    deposit decline, embedding re-queue, instance management
+  - 30-day recovery window on destructive operations
+
+Why it is contamination:
+  - Sage never authored this system
+  - Violates data integrity boundaries — bulk destructive
+    operations on archive data contradict the project's first
+    constraint ("will this protect the data cleanly, or will
+    it break it?")
+  - Originated from a misunderstood conversation: Sage discussed
+    collapsed sessions as signal (specific field entries that
+    are still valid data, not compromised). A prior Claude
+    hallucinated this into a dirty session failsafe protocol
+    and built an entire destructive operations surface around
+    the misunderstood concept
+  - The collapse-context concept is the only piece Sage
+    recognizes from the original conversation, and even that
+    was misapplied — it was about specific entries, not a
+    system-wide session flagging operation
+
+Infected locations:
+  design-session-plan.md: lines 1863-1903, 2108-2110
+  SYSTEM_ Frontend.md: CURATION PANEL section,
+    Shared Components table (CurationPanel entry)
+
+Cleanup required:
+  Remove curation panel section from SYSTEM_ Frontend.md.
+  Remove CurationPanel from components table.
+  Categorize as DEAD in Tier 2 audit artifact.
+  Instance management (create, close, set active) may be
+  a valid operation needing a home — Sage decides where.
+
+Status: OPEN
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ROT TERM: Error states standalone — belongs in Pulse
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Caught: session 40 (2026-04-09)
+
+What it introduced:
+  - Persistent sidebar status indicator with 4 priority states:
+    "Needs attention" > "Running" > "Recalibration due" >
+    "All clear"
+  - System status panel sliding in from sidebar
+  - Page-level deposit card left-edge color indicators
+
+Why it is contamination:
+  - These functions belong in Pulse (Observatory node 8:
+    calibration approvals, system alerts, pattern notifications)
+  - Creating a standalone sidebar system duplicates what Pulse
+    already owns
+  - Sage: "error states is drift. all of those things function
+    as Pulse in Observatory and that is where they should be"
+
+Infected locations:
+  design-session-plan.md: lines 1829-1851, 2106-2107
+  SYSTEM_ Frontend.md: UI ERROR STATES section
+
+Cleanup required:
+  Remove UI ERROR STATES section from SYSTEM_ Frontend.md.
+  Error state visibility is a Pulse responsibility.
+  Categorize as DRIFT in Tier 2 audit artifact.
+
+Status: OPEN
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ROT TERM: Reflective Pearl Constellation — drift
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Caught: session 40 (2026-04-09)
+
+What it introduced:
+  - Visualization of reflective Pearls as spatial nodes,
+    proximity by temporal closeness and shared tags
+  - Labeled "P4" — described as separate Observatory surface
+  - Framed as "not analytical, purely for Sage"
+
+Why it is contamination:
+  - Sage identified this as drift
+
+Infected locations:
+  design-session-plan.md: lines 1990-2006, 2118-2119
+  SYSTEM_ Frontend.md: Observatory section ("Not constellation
+    nodes" subsection)
+
+Cleanup required:
+  Remove from SYSTEM_ Frontend.md Observatory section.
+  Categorize as DRIFT in Tier 2 audit artifact.
+
+Status: OPEN
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ROT TERM: Black Pearl panel direction — wrong in specs
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Caught: session 40 (2026-04-09)
+
+What both specs claim:
+  - "Slide-in panel from right, ~380px"
+  - design-session-plan.md line 1525
+  - SYSTEM_ Frontend.md BLACK PEARL PANEL section
+
+What Sage says:
+  - Black Pearl is in the left side nav bar
+  - Panel opens left side
+
+Sage's report of current state overrides any prior
+understanding (CLAUDE.md behavioral rule).
+
+Cleanup required:
+  Correct panel direction to left in SYSTEM_ Frontend.md.
+
+Status: OPEN
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ROT TERM: Observatory node order — wrong in specs
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Caught: session 40 (2026-04-09)
+
+What both specs claim (order 1-8):
+  1. Resonance Engine  2. Terrain  3. Timeline
+  4. Field Signals  5. Field Log  6. Field Review
+  7. Pulse  8. Void
+
+Sage's correct order:
+  1. Field Review  2. Field Log  3. Field Signals
+  4. Terrain  5. Timeline  6. Resonance Engine
+  7. Void  8. Pulse
+
+Sage's report of current state overrides any prior
+understanding (CLAUDE.md behavioral rule).
+
+Cleanup required:
+  Correct node order in SYSTEM_ Frontend.md.
+
+Status: OPEN
