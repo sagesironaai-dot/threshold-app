@@ -13310,3 +13310,84 @@ TIMESTAMP: 2026-04-09 13:56
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
 ---
+
+---
+TIMESTAMP: 2026-04-09 13:57
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && git commit -m "$(cat <<'EOF'
+VOID promoted to standalone, TRIA rot closed, entropy_scan.py 6 bugs fixed
+
+VOID (page 51, VOI) restructured from Nexus group 9 to standalone status
+across all 9 files declaring group membership. Domain files moved to
+DESI...
+---
+
+---
+TIMESTAMP: 2026-04-09 14:22
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\plans\vectorized-hatching-oasis.md
+---
+
+---
+TIMESTAMP: 2026-04-09 14:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\plans\vectorized-hatching-oasis.md
+---
+
+---
+TIMESTAMP: 2026-04-09 14:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\.claude\plans\vectorized-hatching-oasis.md
+---
+
+---
+TIMESTAMP: 2026-04-09 14:31
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py --close-audit --force --summary 2>&1
+---
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: CLOSE
+FILES_MODIFIED:
+  - DESIGN/Systems/SECTION MAP.md — COMPLETE (VOID promoted to standalone: group — , line 66; "2 standalone" line 11)
+  - DESIGN/Domains/11_Void/Manifest_51_Void.txt — COMPLETE (moved from 10_Nexus/, header updated to standalone)
+  - DESIGN/Domains/11_Void/Domain_Void.txt — COMPLETE (moved from 10_Nexus/, GROUP: standalone, line 9 "Each Nexus system" reworded)
+  - DESIGN/Domains/10_Nexus/Manifest_51_Void.txt — DELETED (moved to 11_Void/)
+  - DESIGN/Domains/10_Nexus/Domain_Void.txt — DELETED (moved to 11_Void/)
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — COMPLETE (VOI removed from Nexus listing, added to pinned utilities)
+  - .claude/plans/design-session-plan.md — COMPLETE (3 Nexus group claims updated to standalone, VOI added to pinned)
+  - api/prompts/_Global_Identity.txt — COMPLETE ("Integration and Void as standalone pages")
+  - api/prompts/GLOBAL_KNOWLEDGE_BASE.txt — COMPLETE ("2 standalone", Void entry added to group table)
+  - hooks/entropy_scan.py — COMPLETE (6 bugs fixed: VOI+LQL added to page codes, counts 50→51, VOI phantom rule removed, stale patterns updated)
+  - ROT_REGISTRY.md — COMPLETE (VOI phantom resolved, TRIA rot resolved)
+  - ROT_OPEN.md — COMPLETE (TRIA entry removed, zero open rot items)
+  - .claude/audits/void-promotion-audit-2026-04-09.md — COMPLETE (audit artifact)
+COMPLETED:
+  - VOID standalone promotion across 9 files (SECTION MAP, manifests, domain files, frontend spec, design plan, API prompts, entropy scanner)
+  - entropy_scan.py 6 bugs fixed (VOI + LQL missing from page codes, sections/domains counts wrong at 50, VOI falsely flagged as phantom, stale count messages)
+  - TRIA rot item closed (all 3 expansions verified correct across project)
+  - Domain files physically relocated to DESIGN/Domains/11_Void/
+  - Design document audit and extraction plan created (Tier 1-8, 6 sessions, truth check gate)
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Design doc tier-by-tier audit (Session A: Tiers 1-2, next session)
+  - SOT (step 3) — blocked on design doc cleanup
+UNCOMMITTED: NO (after this commit)
+CLOSE_AUDIT: performed — 386 findings (pre-existing baseline, no new findings from this session), --force after review
+NEXT_ACTION: Session A of design doc audit — Tiers 1-2 deep analysis and cross-reference against verified specs.
+---
+
+---
+TIMESTAMP: 2026-04-09 14:32
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:/Users/sasir/Desktop/Aelarian/Archives/PROTOCOL/SESSION_LOG.md" << 'LOGEOF'
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: CLOSE
+FILES_MODIFIED:
+  - DESIGN/Systems/SECTION MAP.md â€” COMPLETE (VOID promoted to standalone: group â€” , line 66; "2 standalone" line 11)
+  - DESIGN/Domains/11_Void/Manifest_5...
+---
