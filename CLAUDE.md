@@ -142,9 +142,12 @@ When something is genuinely good, say so — once, without decoration.
 See ROT_REGISTRY.md for the complete failure mode watchlist (57 confirmed
 patterns) and all logged rot/drift events. See RECURSION_REPAIR.md for
 the gate system (SPEC → BUILD → AUDIT → PASS). See ENTROPY_EXCAVATION.md
-for the audit process and verified file list. See PROTOCOL/SESSION_PROTOCOL.md
-for session open, close, and interrupt procedures. See PROTOCOL/GITHUB_PROTOCOL.md
-for infrastructure and backup enforcement.
+for the audit process (19 scanner categories) and verified file list.
+See PROTOCOL/SESSION_PROTOCOL.md for session open, close, interrupt
+procedures, and session lifecycle hooks. See PROTOCOL/GITHUB_PROTOCOL.md
+for infrastructure, backup enforcement, and permission deny rules.
+See `.claude/settings.json` for the mechanical hook configuration
+(13 hooks across 6 event types) and 14 permission deny rules.
 
 ---
 
@@ -226,7 +229,10 @@ Read it. Every session. No exceptions.
 
 Four phases: SPEC → BUILD → AUDIT → PASS. All phases must pass before
 first output reaches disk. No phase may be skipped, reordered, or
-combined. Hooks enforce this mechanically. Claude cannot bypass the gates.
+combined. Hooks enforce this mechanically — `recursion_repair_gate.py`
+blocks writes with exit code 2 at every phase boundary. See
+RECURSION_REPAIR.md §ENFORCEMENT for the full list of checks.
+Claude cannot bypass the gates.
 
 This is not a guideline. Sage is not asking. The gate system exists
 because prior sessions reported files as clean when they were not.

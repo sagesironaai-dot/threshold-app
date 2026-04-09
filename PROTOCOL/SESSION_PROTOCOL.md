@@ -107,14 +107,17 @@ these mechanical steps:
 
 Run when a session ends cleanly. All steps required.
 
-1. Run the session close audit defined in CLAUDE.md (ROT REGISTRY —
-   SESSION CLOSE AUDIT section). This includes: scanning for open rot,
-   running verification commands, checking against the 57-pattern
-   watchlist, reporting findings to Sage, and logging any new rot in
-   ROT_REGISTRY.md and ROT_OPEN.md. The audit must complete before
-   the CLOSE entry is written.
+1. Run the session close audit: `python hooks/entropy_scan.py --close-audit`
+   This runs all 19 scanner categories and creates a marker file if clean.
+   If HIGH findings exist, review with Sage, then re-run with `--force`
+   to create the marker after review. The audit must complete before
+   the CLOSE entry is written. Log any new rot in ROT_REGISTRY.md and
+   ROT_OPEN.md.
 2. Confirm all changes from this session are committed — run git status,
-   name any uncommitted files
+   name any uncommitted files.
+   **Mechanically enforced:** `close_audit_gate.py` blocks the TYPE: CLOSE
+   write if uncommitted project files exist (git status check) or if the
+   audit marker is missing. Both checks must pass.
 3. Confirm no INCOMPLETE blocks exist in any file written this session
    without a named record in SESSION_LOG.md
 4. Push to GitHub — confirm push succeeded
@@ -156,6 +159,12 @@ This is the recovery procedure. Run before any new work.
 Run after every patch, correction, or fix — no exceptions.
 "Fixed" is not a state. Confirmed present is a state.
 
+**Mechanically enforced:** `ghost_fix_gate.py` runs on both PostToolUse
+(writes a pending marker after every Edit) and PreToolUse (blocks the
+next Write/Edit until the marker is cleared). The marker is cleared when
+a `TYPE: GHOST_FIX` entry is written to SESSION_LOG.md. This is a hard
+block (exit 2) — not a warning.
+
 1. Identify the specific file and location the fix was applied to
 2. Read that file
 3. Locate the specific line or section the fix targets
@@ -191,6 +200,44 @@ attempt a second fix until the absence is acknowledged by Sage.
 Restatement is not a summary. It is a direct read of current confirmed
 state from SESSION_LOG.md and CLAUDE.md. Not paraphrased. Not recalled.
 Read and restated.
+
+---
+
+## 6. SESSION LIFECYCLE HOOKS
+
+Hooks configured in `.claude/settings.json` that fire at session lifecycle
+boundaries. These run mechanically — Claude does not invoke them.
+
+**SessionStart** — `hooks/session_start.py`
+  Fires when a session begins. Reads SESSION_LOG.md, ROT_OPEN.md, and
+  phase_state.json. Outputs a status summary injected into Claude's
+  context: last session state (clean close vs interrupted), open rot
+  count, active phase tracking, pending ghost fixes.
+
+**SessionEnd** — `hooks/session_end.py`
+  Fires when a session terminates. Logs a warning to
+  `.claude/session_end_warning.log` if the session ends with uncommitted
+  changes or without a TYPE: CLOSE entry. Cannot block — safety net only.
+
+**UserPromptSubmit** — `hooks/user_prompt_context.py`
+  Fires before Claude processes each user message. Injects a compact
+  status line: work unit count, open rot count, active phases, in-progress
+  items. After 3 work units, adds long session restatement reminder.
+
+**PreCompact** — `hooks/pre_compact.py`
+  Fires before context compaction (when conversation approaches context
+  limit). Writes a COMPACT_CHECKPOINT entry to SESSION_LOG.md with
+  current state (work units, phases, open rot). Addresses F08 (long
+  session degradation).
+
+**PostToolUse (Bash)** — `hooks/session_log_hook.py`
+  Captures Python and file-writing Bash commands in SESSION_LOG.md as
+  HOOK_BASH entries.
+
+**Known limitation:** Cascade detection via DEPENDENCY_MAP.json is
+  INACTIVE. The session_log_hook.py CASCADE_ALERT system works but
+  DEPENDENCY_MAP.json needs to be populated during the core files
+  phase. Until then, cascade detection is behavioral only.
 
 ---
 

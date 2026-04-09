@@ -39,6 +39,21 @@ PHASE_LOG_FILE = os.path.join(PROJECT_ROOT, ".claude", "phase_log.txt")
 SPECS_DIR = os.path.join(PROJECT_ROOT, ".claude", "specs")
 AUDITS_DIR = os.path.join(PROJECT_ROOT, ".claude", "audits")
 
+# ── SPEC required sections (must match phase_control.py) ─────────────────────
+
+SPEC_REQUIRED_SECTIONS = [
+    "## Goal",
+    "## Assumptions",
+    "### Edge cases",
+    "### Invalid inputs",
+    "### Race conditions",
+    "### State corruption scenarios",
+    "## Invariants",
+    "## Test strategy",
+    "## Test files",
+    "## Files",
+]
+
 # ── Exempt paths ──────────────────────────────────────────────────────────────
 
 EXEMPT_PREFIXES = [
@@ -145,6 +160,41 @@ def parse_file_list(spec_content, section_header):
                     files.append(file_path)
 
     return files
+
+
+def validate_spec_structure(spec_content):
+    """Verify SPEC contains all required sections with content."""
+    lines = spec_content.split("\n")
+    missing = []
+    empty = []
+
+    for section in SPEC_REQUIRED_SECTIONS:
+        found = False
+        has_content = False
+        for i, line in enumerate(lines):
+            if line.strip() == section:
+                found = True
+                for j in range(i + 1, len(lines)):
+                    stripped = lines[j].strip()
+                    if stripped.startswith("#"):
+                        break
+                    if stripped:
+                        has_content = True
+                        break
+                break
+        if not found:
+            missing.append(section)
+        elif not has_content:
+            empty.append(section)
+
+    if missing or empty:
+        problems = []
+        if missing:
+            problems.append(f"Missing: {', '.join(missing)}")
+        if empty:
+            problems.append(f"Empty: {', '.join(empty)}")
+        return False, "; ".join(problems)
+    return True, ""
 
 
 def get_audit_path(rel_path):
@@ -277,6 +327,15 @@ def main():
                 spec_content = f.read()
             test_files = parse_file_list(spec_content, "## Test files")
             all_files = parse_file_list(spec_content, "## Files")
+
+        # Re-validate SPEC structure (don't trust phase_state alone)
+        spec_valid, spec_problems = validate_spec_structure(spec_content)
+        if not spec_valid:
+            block(
+                rel_path,
+                f"SPEC structure incomplete: {spec_problems}",
+                "SPEC failed re-validation during BUILD.",
+            )
 
         # Check SPEC was not modified after approval
         stored_hash = file_state.get("spec_hash", "")

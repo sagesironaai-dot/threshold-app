@@ -76,6 +76,35 @@ wherever possible.
 - Force push to `main` requires explicit instruction from Sage.
   It is never a default action.
 
+### Destructive Command Deny Rules
+
+The following Bash commands are mechanically blocked by permission deny
+rules in `.claude/settings.json`. These are the hardest enforcement layer
+— they cannot be overridden by hooks, by Claude, or by any session
+instruction. Attempting to run them results in immediate denial.
+
+```
+npm install (all variants)      — use npm ci instead
+git push --force (all variants) — rewriting history requires Sage approval
+git reset --hard (all variants) — destructive operation
+git checkout -- .               — destructive operation
+git clean -f (all variants)     — destructive operation
+rm -rf /*                       — filesystem destruction
+```
+
+Additionally, `hooks/bash_safety_gate.py` (PreToolUse on Bash) provides
+soft and hard blocks for:
+
+| Command | Action | Reason |
+|---|---|---|
+| `git commit --no-verify` | Hard block (exit 2) | Hooks must not be skipped |
+| `git commit --no-gpg-sign` | Hard block (exit 2) | Do not bypass signing |
+| `npm install` (fallthrough) | Hard block (exit 2) | npm ci only |
+| Inline credentials | Hard block (exit 2) | Credentials in .env only |
+| `git add .` / `git add -A` | Soft warning | Review staged files first |
+| `git push` to main/master | Soft warning | Confirm intent |
+| Non-standard tag names | Soft warning | Convention: v[YYYY-MM-DD]-[name] |
+
 ---
 
 ## 2. DEPENDENCY MANAGEMENT

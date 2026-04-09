@@ -110,11 +110,15 @@ def handle_pre_tool_use(rel_path):
     except IOError:
         marker_content = "(unknown file)"
 
-    # WARNING only — does not block
-    print(f"\n  GHOST FIX WARNING: Verification pending for: {marker_content}")
-    print(f"  Confirm the fix is present before continuing.")
-    print(f"  Write TYPE: GHOST_FIX to SESSION_LOG.md to clear.\n")
-    sys.exit(0)  # exit 0 = warning, not block
+    # Hard block — ghost fix must be verified before next write
+    msg = (
+        f"\n  GHOST FIX GATE — BLOCKED\n"
+        f"  Verification pending for: {marker_content}\n"
+        f"  Confirm the fix is present, then write TYPE: GHOST_FIX\n"
+        f"  to SESSION_LOG.md to clear this gate.\n"
+    )
+    sys.stderr.write(msg)
+    sys.exit(2)
 
 
 def handle_post_tool_use(rel_path):

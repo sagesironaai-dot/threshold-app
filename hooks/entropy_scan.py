@@ -21,6 +21,15 @@ Categories:
   8  BUILD FLAG status
   9  Temporary markers
   10 Formatting corruption
+  11 Version contamination
+  12 Cross-file count consistency
+  13 Gitignore completeness
+  14 Credential patterns in code
+  15 Import/library verification
+  16 Error handling patterns
+  17 Performance assertions
+  18 Domain vocabulary in code
+  19 SRI hash validation
 
 Sources: Entropy Excavation audit checklist, ARCPHASE_ROT_CLEANUP,
 ROT_CONTAMINATION_REPORT, TAG VOCABULARY (verified), SECTION MAP.
@@ -28,6 +37,7 @@ ROT_CONTAMINATION_REPORT, TAG VOCABULARY (verified), SECTION MAP.
 This scanner does NOT pass through Claude. Run it directly.
 """
 
+import json
 import os
 import re
 import sys
@@ -564,9 +574,21 @@ def scan_version_contamination(files):
                     context = line.lower()
                     if "http" in context or "localhost" in context:
                         continue
-                    add_finding(11, MEDIUM, fpath, i,
-                                f"Version contamination: V{version}",
-                                "Everything in this rebuild is V1 — verify this isn't old-build drift")
+                    # v0.x pre-release versioning
+                    if version.startswith("0."):
+                        add_finding(11, MEDIUM, fpath, i,
+                                    f"Pre-release version: v{version}",
+                                    "Everything in this rebuild is V1 — no pre-release versioning")
+                    else:
+                        add_finding(11, MEDIUM, fpath, i,
+                                    f"Version contamination: V{version}",
+                                    "Everything in this rebuild is V1 — verify this isn't old-build drift")
+
+            # "Updated for vX" or "version: X" patterns
+            if re.search(r'[Uu]pdated\s+(?:for|to)\s+[Vv]\d', line):
+                add_finding(11, MEDIUM, fpath, i,
+                            "Version update reference in prose",
+                            "Everything in this rebuild is V1 — remove version update language")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -617,6 +639,301 @@ def scan_count_consistency(files):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# CATEGORY 13: GITIGNORE COMPLETENESS
+# ══════════════════════════════════════════════════════════════════════════════
+
+REQUIRED_GITIGNORE = [
+    ".env", "*.env", "*.log", "node_modules/", "dist/", "build/",
+    ".DS_Store", "Thumbs.db", "desktop.ini", "npm-debug.log*",
+    "*.exe", "*.dmg", "*.pkg", "*.msi",
+]
+
+
+def scan_gitignore(files):
+    """Verify .gitignore contains all required entries per GITHUB_PROTOCOL.md §1."""
+    gitignore_path = os.path.join(PROJECT_ROOT, ".gitignore")
+    if not os.path.exists(gitignore_path):
+        add_finding(13, HIGH, gitignore_path, 0,
+                    ".gitignore file missing",
+                    "Create .gitignore with required entries per GITHUB_PROTOCOL.md §1")
+        return
+
+    lines, content = read_file(gitignore_path)
+    if not content:
+        return
+
+    for entry in REQUIRED_GITIGNORE:
+        # Check if the entry or a pattern covering it exists
+        if entry not in content:
+            add_finding(13, HIGH, gitignore_path, 0,
+                        f"Missing .gitignore entry: {entry}",
+                        f"Add '{entry}' per GITHUB_PROTOCOL.md §1")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CATEGORY 14: CREDENTIAL PATTERNS IN CODE
+# ══════════════════════════════════════════════════════════════════════════════
+
+def scan_credentials(files):
+    """Detect hardcoded credentials in source files."""
+    cred_patterns = [
+        (r'(?:API_KEY|APIKEY|api_key)\s*[=:]\s*["\'][A-Za-z0-9_\-]{8,}', "Possible API key"),
+        (r'(?:SECRET|secret|SECRET_KEY|secret_key)\s*[=:]\s*["\'][A-Za-z0-9_\-]{8,}', "Possible secret"),
+        (r'(?:PASSWORD|password|passwd|PASSWD)\s*[=:]\s*["\'][^"\']{4,}', "Possible password"),
+        (r'(?:TOKEN|token|AUTH_TOKEN|auth_token)\s*[=:]\s*["\'][A-Za-z0-9_\-]{8,}', "Possible token"),
+        (r'(?:B2_KEY_ID|B2_APP_KEY)\s*[=:]\s*["\'][^"\']{8,}', "Backblaze credential"),
+        (r'sk-[A-Za-z0-9]{20,}', "Possible API key (sk- prefix)"),
+    ]
+
+    for fpath in files:
+        if not fpath.endswith((".py", ".js", ".ts", ".svelte", ".json", ".env.example")):
+            continue
+        # Skip .env files (they're supposed to have credentials)
+        if os.path.basename(fpath).startswith(".env"):
+            continue
+        lines, content = read_file(fpath)
+        if not lines:
+            continue
+        for i, line in enumerate(lines, 1):
+            # Skip comments
+            stripped = line.strip()
+            if stripped.startswith("#") or stripped.startswith("//"):
+                continue
+            for pattern, desc in cred_patterns:
+                if re.search(pattern, line):
+                    add_finding(14, HIGH, fpath, i,
+                                f"Credential pattern: {desc}",
+                                "Move to .env — GITHUB_PROTOCOL.md §5")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CATEGORY 15: IMPORT/LIBRARY VERIFICATION
+# ══════════════════════════════════════════════════════════════════════════════
+
+PYTHON_STDLIB = {
+    "os", "sys", "re", "json", "datetime", "hashlib", "subprocess",
+    "pathlib", "collections", "typing", "enum", "abc", "functools",
+    "itertools", "math", "random", "string", "io", "copy", "time",
+    "logging", "unittest", "dataclasses", "contextlib", "textwrap",
+    "uuid", "base64", "urllib", "http", "socket", "sqlite3", "csv",
+    "shutil", "tempfile", "glob", "fnmatch", "struct", "importlib",
+    "asyncio", "concurrent", "multiprocessing", "threading",
+}
+
+
+def scan_imports(files):
+    """Verify imported libraries exist in package manifests or stdlib."""
+    # Load package.json dependencies if available
+    pkg_json = os.path.join(PROJECT_ROOT, "frontend", "package.json")
+    js_deps = set()
+    if os.path.exists(pkg_json):
+        try:
+            with open(pkg_json, "r", encoding="utf-8") as f:
+                pkg = json.load(f)
+            js_deps.update(pkg.get("dependencies", {}).keys())
+            js_deps.update(pkg.get("devDependencies", {}).keys())
+        except (json.JSONDecodeError, IOError):
+            pass
+
+    # Load requirements.txt if available
+    req_txt = os.path.join(PROJECT_ROOT, "backend", "requirements.txt")
+    py_deps = set()
+    if os.path.exists(req_txt):
+        try:
+            with open(req_txt, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith("#"):
+                        pkg_name = re.split(r'[>=<!\[]', line)[0].strip()
+                        py_deps.add(pkg_name.lower())
+        except IOError:
+            pass
+
+    for fpath in files:
+        lines, content = read_file(fpath)
+        if not lines:
+            continue
+
+        if fpath.endswith(".py"):
+            for i, line in enumerate(lines, 1):
+                # Python imports
+                match = re.match(r'^(?:from|import)\s+(\w+)', line.strip())
+                if match:
+                    mod = match.group(1)
+                    if mod not in PYTHON_STDLIB and mod.lower() not in py_deps:
+                        # Check if it's a local import (relative path)
+                        if not os.path.exists(os.path.join(os.path.dirname(fpath), mod)):
+                            add_finding(15, MEDIUM, fpath, i,
+                                        f"Unverified import: {mod}",
+                                        f"Verify '{mod}' exists in requirements.txt or is stdlib")
+
+        elif fpath.endswith((".js", ".ts", ".svelte")):
+            for i, line in enumerate(lines, 1):
+                # JS/TS imports from packages (not relative paths)
+                match = re.match(r'''^\s*import\s+.*?from\s+['"]([^./][^'"]*?)['"]''', line)
+                if match:
+                    pkg = match.group(1).split("/")[0]  # @scope/pkg → @scope
+                    if pkg.startswith("@"):
+                        pkg = "/".join(match.group(1).split("/")[:2])
+                    if pkg not in js_deps and pkg != "$app":  # $app is SvelteKit builtin
+                        add_finding(15, MEDIUM, fpath, i,
+                                    f"Unverified import: {pkg}",
+                                    f"Verify '{pkg}' exists in package.json")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CATEGORY 16: ERROR HANDLING PATTERNS
+# ══════════════════════════════════════════════════════════════════════════════
+
+def scan_error_handling(files):
+    """Detect empty catch blocks and error swallowing patterns."""
+    for fpath in files:
+        if not fpath.endswith((".py", ".js", ".ts", ".svelte")):
+            continue
+        lines, content = read_file(fpath)
+        if not lines:
+            continue
+
+        for i, line in enumerate(lines, 1):
+            stripped = line.strip()
+
+            # Python: bare except
+            if fpath.endswith(".py"):
+                if stripped == "except:" or stripped == "except Exception:":
+                    # Check if next non-empty line is just pass
+                    for j in range(i, min(i + 3, len(lines))):
+                        next_line = lines[j].strip()
+                        if next_line == "pass":
+                            add_finding(16, HIGH, fpath, i,
+                                        "Empty except block (catch and suppress)",
+                                        "Handle the exception or re-raise — CLAUDE.md Code Contract Rules")
+                            break
+                        elif next_line and not next_line.startswith("#"):
+                            break
+
+            # JS/TS: empty catch
+            if fpath.endswith((".js", ".ts", ".svelte")):
+                if re.search(r'catch\s*\([^)]*\)\s*\{\s*\}', stripped):
+                    add_finding(16, HIGH, fpath, i,
+                                "Empty catch block",
+                                "Handle the error or re-throw — CLAUDE.md Code Contract Rules")
+                # catch with only console.log
+                if re.search(r'catch\s*\([^)]*\)\s*\{', stripped):
+                    # Check next lines for console.log only
+                    for j in range(i, min(i + 3, len(lines))):
+                        next_line = lines[j].strip()
+                        if re.match(r'^console\.(log|warn|error)\(', next_line):
+                            if j + 1 < len(lines) and lines[j + 1].strip() == "}":
+                                add_finding(16, MEDIUM, fpath, i,
+                                            "Catch block only logs error (does not handle or re-throw)",
+                                            "Log AND re-throw, or handle the error properly")
+                                break
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CATEGORY 17: PERFORMANCE ASSERTIONS
+# ══════════════════════════════════════════════════════════════════════════════
+
+def scan_performance_assertions(files):
+    """Verify test files contain timing assertions for critical paths."""
+    test_files_found = False
+    has_timing = False
+
+    for fpath in files:
+        if not fpath.endswith((".test.ts", ".test.js", ".spec.ts", ".spec.js", "_test.py", "test_*.py")):
+            continue
+        test_files_found = True
+        lines, content = read_file(fpath)
+        if not content:
+            continue
+        # Check for timing-related patterns
+        if re.search(r'timeout|performance|timing|duration|elapsed|benchmark|measure', content, re.IGNORECASE):
+            has_timing = True
+
+    # Only flag if test files exist but none have timing assertions
+    if test_files_found and not has_timing:
+        add_finding(17, MEDIUM, os.path.join(PROJECT_ROOT, "frontend"), 0,
+                    "No performance/timing assertions found in test files",
+                    "GITHUB_PROTOCOL.md §8 requires timing assertions for critical paths")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CATEGORY 18: DOMAIN VOCABULARY IN CODE
+# ══════════════════════════════════════════════════════════════════════════════
+
+DOMAIN_TERMS = {
+    "aetherroot", "solenne", "vireth", "threshold_pillar", "lumora",
+    "hearth_song", "starwell", "noirune", "tahl_veyra", "orrin",
+    "esh_vala", "shai_mara", "thren_alae", "metamorphosis_synthesis",
+    "black_pearl", "elarian_anchor", "resonance_engine", "thread_trace",
+    "daily_nexus", "emergence_detector", "signal_grading", "drift_taxonomy",
+    "pattern_convergence", "witness_scroll",
+}
+
+
+def scan_domain_vocabulary(files):
+    """Detect domain-specific terms in function/method names."""
+    for fpath in files:
+        if not fpath.endswith((".py", ".js", ".ts", ".svelte")):
+            continue
+        lines, content = read_file(fpath)
+        if not lines:
+            continue
+
+        for i, line in enumerate(lines, 1):
+            # Python function definitions
+            fn_match = re.match(r'\s*def\s+(\w+)', line)
+            # JS/TS function definitions
+            if not fn_match:
+                fn_match = re.match(r'\s*(?:export\s+)?(?:async\s+)?function\s+(\w+)', line)
+            if not fn_match:
+                fn_match = re.match(r'\s*(?:const|let|var)\s+(\w+)\s*=\s*(?:async\s+)?\(', line)
+
+            if fn_match:
+                name = fn_match.group(1).lower()
+                for term in DOMAIN_TERMS:
+                    if term in name:
+                        add_finding(18, MEDIUM, fpath, i,
+                                    f"Domain vocabulary in function name: {fn_match.group(1)} (contains '{term}')",
+                                    "CLAUDE.md: Function names use plain technical language only")
+                        break
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CATEGORY 19: SRI HASH VALIDATION
+# ══════════════════════════════════════════════════════════════════════════════
+
+def scan_sri_hashes(files):
+    """Verify CDN-loaded resources have SRI integrity attributes."""
+    for fpath in files:
+        if not fpath.endswith((".html", ".svelte")):
+            continue
+        lines, content = read_file(fpath)
+        if not lines:
+            continue
+
+        for i, line in enumerate(lines, 1):
+            # Script tags with external src
+            if re.search(r'<script\s[^>]*src\s*=\s*["\']https?://', line):
+                if 'integrity=' not in line:
+                    # Check next few lines for integrity attribute
+                    context = " ".join(lines[i-1:min(i+3, len(lines))])
+                    if 'integrity=' not in context:
+                        add_finding(19, HIGH, fpath, i,
+                                    "CDN script without SRI hash",
+                                    "Add integrity attribute — GITHUB_PROTOCOL.md §3")
+
+            # Link tags with external href
+            if re.search(r'<link\s[^>]*href\s*=\s*["\']https?://', line):
+                if 'integrity=' not in line:
+                    context = " ".join(lines[i-1:min(i+3, len(lines))])
+                    if 'integrity=' not in context:
+                        add_finding(19, HIGH, fpath, i,
+                                    "CDN stylesheet without SRI hash",
+                                    "Add integrity attribute — GITHUB_PROTOCOL.md §3")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # REPORTING
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -633,6 +950,13 @@ CATEGORY_NAMES = {
     10: "Formatting Corruption",
     11: "Version Contamination",
     12: "Cross-File Count Consistency",
+    13: "Gitignore Completeness",
+    14: "Credential Patterns",
+    15: "Import/Library Verification",
+    16: "Error Handling Patterns",
+    17: "Performance Assertions",
+    18: "Domain Vocabulary in Code",
+    19: "SRI Hash Validation",
 }
 
 
@@ -713,6 +1037,13 @@ SCANNERS = {
     10: scan_formatting,
     11: scan_version_contamination,
     12: scan_count_consistency,
+    13: scan_gitignore,
+    14: scan_credentials,
+    15: scan_imports,
+    16: scan_error_handling,
+    17: scan_performance_assertions,
+    18: scan_domain_vocabulary,
+    19: scan_sri_hashes,
 }
 
 

@@ -84,6 +84,31 @@ def get_uncommitted_files():
         return []  # git not available — don't block on infrastructure issues
 
 
+def check_verified_additions(entropy_path):
+    """Check if ENTROPY_EXCAVATION.md has uncommitted changes with new VERIFIED entries."""
+    try:
+        # Check if ENTROPY_EXCAVATION.md has been modified in git
+        result = subprocess.run(
+            ["git", "diff", "--name-only", "HEAD", "--", "ENTROPY_EXCAVATION.md"],
+            capture_output=True, text=True, cwd=PROJECT_ROOT, timeout=10,
+        )
+        if not result.stdout.strip():
+            return None  # File not modified this session
+
+        # Check if new "Verified:" lines were added
+        diff_result = subprocess.run(
+            ["git", "diff", "HEAD", "--", "ENTROPY_EXCAVATION.md"],
+            capture_output=True, text=True, cwd=PROJECT_ROOT, timeout=10,
+        )
+        added_lines = [l for l in diff_result.stdout.split("\n") if l.startswith("+") and "Verified:" in l]
+        if not added_lines:
+            return None  # No new VERIFIED entries
+
+        return f"{len(added_lines)} new VERIFIED entry/entries detected"
+    except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
+        return None
+
+
 def is_close_entry_write():
     """Check if the current Write/Edit contains TYPE: CLOSE."""
     tool_input = os.environ.get("CLAUDE_TOOL_INPUT", "")
@@ -169,7 +194,19 @@ def main():
         sys.stderr.write(msg)
         sys.exit(2)
 
-    # Both checks passed — consume the audit marker and allow
+    # CHECK 3: Verified list gate — if ENTROPY_EXCAVATION.md was modified,
+    # check for new VERIFIED entries without Sage approval marker
+    entropy_path = os.path.join(PROJECT_ROOT, "ENTROPY_EXCAVATION.md")
+    verified_warning = check_verified_additions(entropy_path)
+    if verified_warning:
+        # Warn but don't block — Sage can approve verbally
+        sys.stdout.write(
+            f"\n  VERIFIED LIST WARNING: {verified_warning}\n"
+            f"  ENTROPY_EXCAVATION.md requires Sage's explicit approval\n"
+            f"  for every VERIFIED addition. Confirm before closing.\n"
+        )
+
+    # All checks passed — consume the audit marker and allow
     try:
         os.remove(AUDIT_MARKER)
     except OSError:

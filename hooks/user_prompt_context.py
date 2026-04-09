@@ -75,10 +75,34 @@ def get_active_phases():
         return []
 
 
+def check_in_progress_items():
+    """Check SESSION_LOG for IN_PROGRESS items not yet completed."""
+    if not os.path.exists(SESSION_LOG):
+        return []
+    try:
+        with open(SESSION_LOG, "r", encoding="utf-8") as f:
+            content = f.read()
+        # Find IN_PROGRESS lines in the most recent entry block
+        items = re.findall(r"IN_PROGRESS:\s*\n((?:\s+-\s+.+\n)*)", content)
+        if not items:
+            return []
+        # Get the last IN_PROGRESS block
+        last_block = items[-1]
+        in_progress = []
+        for line in last_block.strip().split("\n"):
+            stripped = line.strip()
+            if stripped.startswith("- ") and stripped != "- none":
+                in_progress.append(stripped[2:])
+        return in_progress
+    except IOError:
+        return []
+
+
 def main():
     work_units = count_work_units_today()
     rot_count = count_open_rot()
     phases = get_active_phases()
+    in_progress = check_in_progress_items()
 
     parts = []
     parts.append(f"work_units={work_units}")
@@ -92,9 +116,12 @@ def main():
             phase_summary += f" +{len(phases)-3}"
         parts.append(f"phases=[{phase_summary}]")
 
+    if in_progress:
+        parts.append(f"IN_PROGRESS={len(in_progress)} — finish current task before starting next")
+
     # Long session reminder
     if work_units >= 3:
-        parts.append("LONG_SESSION: restate rules per SESSION_PROTOCOL.md section 5")
+        parts.append("LONG_SESSION: restate current build phase, file state boundaries, and current task before proceeding")
 
     status = " | ".join(parts)
     print(f"[session: {status}]")

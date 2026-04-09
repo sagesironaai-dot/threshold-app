@@ -83,10 +83,29 @@ After REPAIR, re-run AUDIT. The cycle continues until PASS.
 
 ## ENFORCEMENT
 
-These phases are enforced by hooks in settings.json. A PreToolUse
-hook blocks Write and Edit operations until phase requirements are
-met. Phase state is tracked mechanically. Claude cannot self-certify
-completion of a phase — the hooks verify it.
+Two scripts enforce these phases mechanically:
+
+**`hooks/recursion_repair_gate.py`** — PreToolUse hook on Write/Edit.
+  Blocks writes with exit code 2 (Claude Code's blocking exit code)
+  unless phase requirements are met. Checks performed:
+  - No SPEC exists → blocked
+  - SPEC pending approval → blocked
+  - SPEC approved (BUILD phase): re-validates SPEC structure (all 10
+    required sections present with content), verifies SPEC hash unchanged,
+    enforces file list scope (only SPEC-listed files writable), enforces
+    test-first ordering (test files must exist before implementation)
+  - BUILD complete → blocked until AUDIT runs
+  - AUDIT passed → file locked
+  - AUDIT failed (REPAIR phase): only files named in AUDIT Fixes writable
+  - REPAIR complete → blocked until AUDIT re-runs
+  - Hook crash → blocked (fail closed, not fail open)
+
+**`hooks/phase_control.py`** — CLI for managing phase transitions.
+  Validates SPEC completeness on approve, BUILD completeness on
+  build_done, AUDIT document structure on audit_pass/audit_fail.
+  Phase state stored in `.claude/phase_state.json`.
+
+Claude cannot self-certify completion of a phase — the hooks verify it.
 
 ---
 

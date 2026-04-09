@@ -91,6 +91,47 @@ def main():
         )
         sys.exit(0)
 
+    # B7: npm ci lockfile check — verify package-lock.json exists and is tracked
+    if re.search(r'\bnpm\s+ci\b', command):
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        lockfile = os.path.join(project_root, "package-lock.json")
+        if not os.path.exists(lockfile):
+            print(
+                "\n  BASH SAFETY WARNING: package-lock.json not found.\n"
+                "  npm ci requires a lockfile. GITHUB_PROTOCOL.md §2.\n"
+            )
+        sys.exit(0)
+
+    # B9: Credential patterns in Bash commands
+    cred_patterns = [
+        r'(?:API_KEY|APIKEY|api_key)\s*=\s*["\'][^"\']{8,}',
+        r'(?:SECRET|secret)\s*=\s*["\'][^"\']{8,}',
+        r'(?:PASSWORD|password|passwd)\s*=\s*["\'][^"\']{4,}',
+        r'(?:TOKEN|token)\s*=\s*["\'][^"\']{8,}',
+        r'(?:B2_KEY_ID|B2_APP_KEY)\s*=\s*["\'][^"\']{8,}',
+    ]
+    for pattern in cred_patterns:
+        if re.search(pattern, command):
+            sys.stderr.write(
+                "\n  BASH SAFETY GATE — BLOCKED\n"
+                "  Command appears to contain a hardcoded credential.\n"
+                "  GITHUB_PROTOCOL.md §5: Credentials in .env only.\n"
+            )
+            sys.exit(2)
+
+    # B10: git tag naming convention
+    tag_match = re.search(r'git\s+tag\s+(?:-a\s+)?["\']?([^\s"\']+)', command)
+    if tag_match:
+        tag_name = tag_match.group(1)
+        if tag_name not in ('-d', '-l', '--list', '--delete'):
+            if not re.match(r'^v\d{4}-\d{2}-\d{2}-.+$', tag_name):
+                print(
+                    f"\n  BASH SAFETY WARNING: Tag '{tag_name}' doesn't match convention.\n"
+                    "  Expected: v[YYYY-MM-DD]-[milestone-name]\n"
+                    "  GITHUB_PROTOCOL.md §7.\n"
+                )
+        sys.exit(0)
+
     sys.exit(0)
 
 
