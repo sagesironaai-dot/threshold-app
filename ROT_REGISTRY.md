@@ -1330,7 +1330,6 @@ ROT ENTRY 006 — TIER 2 TRUTH CHECK: UNAUTHORIZED CONTENT
 
 Discovered: 2026-04-09 (session 40)
 Source: Tier 2 design doc audit, Step 1 Truth Check
-Status: OPEN — spec corrections deferred to Batch 3
 
 Context:
   During the Tier 2 Truth Check (methodology Step 1), Sage
@@ -1410,8 +1409,6 @@ Cleanup required:
   Categorize as DEAD in Tier 2 audit artifact.
   PAGE_LAYOUTS.md remains Sage's file — she builds it.
 
-Status: OPEN
-
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ROT TERM: Curation panel — hallucinated destructive operations
@@ -1456,8 +1453,6 @@ Cleanup required:
   Instance management (create, close, set active) may be
   a valid operation needing a home — Sage decides where.
 
-Status: OPEN
-
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ROT TERM: Error states standalone — belongs in Pulse
@@ -1489,8 +1484,6 @@ Cleanup required:
   Error state visibility is a Pulse responsibility.
   Categorize as DRIFT in Tier 2 audit artifact.
 
-Status: OPEN
-
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ROT TERM: Reflective Pearl Constellation — drift
@@ -1516,8 +1509,6 @@ Cleanup required:
   Remove from SYSTEM_ Frontend.md Observatory section.
   Categorize as DRIFT in Tier 2 audit artifact.
 
-Status: OPEN
-
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ROT TERM: Black Pearl panel direction — wrong in specs
@@ -1539,8 +1530,6 @@ understanding (CLAUDE.md behavioral rule).
 
 Cleanup required:
   Correct panel direction to left in SYSTEM_ Frontend.md.
-
-Status: OPEN
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1565,4 +1554,30 @@ understanding (CLAUDE.md behavioral rule).
 Cleanup required:
   Correct node order in SYSTEM_ Frontend.md.
 
-Status: OPEN
+
+══════════════════════════════════════════════════════════════════
+ROT ENTRY 007 — OPEN/CLOSED STATUS LANGUAGE IN REGISTRY
+══════════════════════════════════════════════════════════════════
+
+Discovered: 2026-04-09 (session 45)
+Source: Session open review of Entry 006
+
+What it introduced:
+  - "Status: OPEN" on 7 lines inside ROT_REGISTRY.md:
+    Entry 006 header and each of the 6 rot terms in that entry
+
+Why it is a gate violation:
+  - The registry is a permanent watchlist and record.
+    It is not an action queue.
+  - Open/closed status belongs in ROT_OPEN.md only.
+  - "Status: OPEN" inside the registry implies the registry
+    tracks resolution state — it does not. That is ROT_OPEN.md's
+    job. Mixing the two roles corrupts both documents.
+
+Correction:
+  All 7 "Status: OPEN" lines removed from Entry 006.
+  ROT_OPEN.md remains the sole authority for action queue status.
+
+Scan for:
+  grep -n "Status: OPEN\|Status: CLOSED" ROT_REGISTRY.md
+  Should return zero matches outside this entry's description.
