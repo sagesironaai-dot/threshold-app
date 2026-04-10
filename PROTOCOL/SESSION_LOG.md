@@ -15880,3 +15880,64 @@ TIMESTAMP: 2026-04-10 09:34
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
 ---
+
+---
+TIMESTAMP: 2026-04-10 09:34
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && git add "DESIGN/Systems/Engine_Computation/ENGINE COMPUTATION SCHEMA.md" "DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md" ".claude/plans/design-session-plan.md" "PROTOCOL/SESSION_LOG.md" && git commit -m "$(cat <<'EOF'
+Session 46: Item 17 locked ...
+---
+
+---
+TIMESTAMP: 2026-04-10 09:43
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-10 09:43
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-10 09:43
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-10 09:44
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-10
+TYPE: WORK_UNIT
+SESSION: 46
+TASK: Items 10 + 16 locked — Deposit Weight and Genealogy View canonical
+FILES_MODIFIED:
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — deposit list sort
+    behavior section added: null deposit_weight sorts to bottom
+  - .claude/plans/design-session-plan.md — Item 10 and Item 16 sections
+    replaced with clean references; Items 10 and 16 added to VERIFICATION LOG
+  - PROTOCOL/SESSION_LOG.md — this entry
+COMPLETED:
+  - Full scan across all DESIGN files for both concepts
+  - Item 10: canonical source confirmed as TAGGER SCHEMA.md
+    (DEPOSIT_WEIGHT ASSESSMENT PROMPT). Field correctly defined in
+    INTEGRATION DB SCHEMA.md. Null weight sort-to-bottom added to
+    SYSTEM_ Frontend.md (was only in design-session-plan.md).
+    All engine schemas using multiplier constants verified consistent.
+  - Item 16: spec confirmed complete in SYSTEM_ Frontend.md.
+    No dedicated table needed — read-only assembled view.
+    DepositGenealogy component already listed in Frontend file plan.
+  - Both VERIFICATION LOG entries written with canonical file references
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Next section items from Sage's extraction list
+UNCOMMITTED: YES
+NEXT_ACTION: Commit. Sage to provide next section item.
+---

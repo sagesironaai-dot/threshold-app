@@ -86,6 +86,39 @@ of truth for what is confirmed complete.
       SCHEMA.md, SYSTEM_ Integration DB.md, PIPELINE CONTRACT 1 — INT TO LNV.md,
       SYSTEM_ Frontend.md, Manifest_35_Coupling_Oscillation.txt
 
+  Item 10 — Deposit Weight AI Suggestion Logic: LOCKED
+    Approved: 2026-04-10
+    Scope: AI suggestion logic for deposit_weight (high | standard | low).
+      Canonical source: TAGGER SCHEMA.md — DEPOSIT_WEIGHT ASSESSMENT PROMPT.
+      Three assessment factors in priority order: (1) doc_type —
+      observations/analyses/hypotheses trend higher than entries/transcripts;
+      (2) content specificity — named patterns, detail, specific references;
+      (3) confidence level — clear > raw. Default to standard when ambiguous.
+      Sage overrides freely. Multiplier constants (2.0/1.0/0.5) in engine
+      schemas. Null weight sorts to bottom (edge case — always populated).
+    Canonical files:
+      DESIGN/Systems/Tagger/TAGGER SCHEMA.md — DEPOSIT_WEIGHT ASSESSMENT PROMPT
+      DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — field definition
+    Updated: DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — null weight
+      sort-to-bottom added to deposit list sort behavior section
+    Verified consistent: INTEGRATION SCHEMA.md, Manifest_01_Integration.txt,
+      all engine schemas using multiplier constants
+
+  Item 16 — Deposit Genealogy View: LOCKED
+    Approved: 2026-04-10
+    Scope: Read-only lifecycle timeline on deposit card expand view. No
+      dedicated table — assembled from existing tables (deposits, batch
+      records, engine state, PCV, MTM). Component: DepositGenealogy.
+      Stages (in order): Pearl capture (if applicable) → INT review →
+      deposit creation → page routing → engine indexing → pattern
+      contribution → finding contribution → hypothesis contribution.
+      Future stages grayed out. Click any stage navigates to its context.
+      Visible only in expanded view, never on card face.
+    Canonical files:
+      DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — component, expanded
+        card spec, component list
+    Verified consistent: design-session-plan.md spec matched SYSTEM_ Frontend
+
   Item 17 — Annotation Layer: LOCKED
     Approved: 2026-04-10
     Scope: Researcher marginalia on any analytical object. One table
@@ -1707,24 +1740,13 @@ This section defines the UI surface.
 
 ### DEPOSIT WEIGHT — AI SUGGESTION LOGIC
 
-- [x] DESIGNED. The deposit_weight enum (high | standard | low) and
-      multiplier constants (2.0 / 1.0 / 0.5) are defined in Tiers 1
-      and 3. What was undefined: how the AI tagger decides which weight
-      to suggest during batch processing.
-
-      **Suggestion heuristics (AI applies, Sage overrides):**
-      · high: doc_type is hypothesis or analysis + confidence is clear +
-        content is specific (names patterns, references prior observations)
-      · standard: default for all other deposits
-      · low: doc_type is entry or transcript + content is fragmentary
-        or context-free
-
-      These are heuristics, not rules. The tagger applies them and Sage
-      overrides freely. The calibration tracking (Enhancement 02) covers
-      weight suggestion accuracy alongside confidence and type accuracy.
-
-      **Null handling in sort:** deposits with null weight (edge case —
-      weight should always be populated) sort to bottom, not randomly.
+- [x] COMPLETE. AI suggestion logic defined in TAGGER SCHEMA.md
+      (DEPOSIT_WEIGHT ASSESSMENT PROMPT section). Field definition in
+      INTEGRATION DB SCHEMA.md (deposit_weight — enum: high | standard |
+      low, NOT NULL, AI-suggested via tagger, Sage overrides freely).
+      Multiplier constants (2.0 / 1.0 / 0.5) in engine schemas (Tier 3).
+      Null weight sort-to-bottom added to SYSTEM_ Frontend.md deposit card.
+      Full spec: DESIGN/Systems/Tagger/TAGGER SCHEMA.md
 
 ---
 
@@ -1823,31 +1845,15 @@ This section defines the UI surface.
 
 ### DEPOSIT GENEALOGY VIEW (P2)
 
-- [x] DESIGNED. Every deposit has a lifecycle: Black Pearl → capture →
-      INT batch → page routing → engine processing → findings → PCV
-      hypotheses. Currently no surface shows this chain for a single
-      deposit.
-
-      **Location:** on deposit card expand view, at the bottom of the
-      expanded card. Compact, linear timeline.
-
-      **Shows:** every stage the deposit has passed through, with
-      timestamps. Stages it hasn't reached yet shown as future nodes,
-      grayed out.
-
-      **Stages (in order):**
-      Pearl capture (if applicable) → INT review → deposit creation →
-      page routing → engine indexing → pattern contribution → finding
-      contribution → hypothesis contribution
-
-      **Click any stage:** navigates to the context of that stage
-      (the batch it was processed in, the finding it contributed to,
-      the hypothesis it informed).
-
-      Surfaces quietly — only in expanded view, never on the card face.
-      Makes the deposit's analytical contribution legible: Sage can see
-      at a glance whether a deposit is being used by the engines or
-      sitting unprocessed.
+- [x] COMPLETE. Read-only assembled view on deposit card expand. No
+      dedicated table — reads from existing tables (deposits, batch
+      records, engine state, PCV, MTM). Component: DepositGenealogy.
+      Stages: Pearl capture (if applicable) → INT review → deposit
+      creation → page routing → engine indexing → pattern contribution
+      → finding contribution → hypothesis contribution. Future stages
+      grayed out. Click any stage navigates to its context. Visible
+      only in expanded view, never on card face.
+      Full spec: DESIGN/Systems/Frontend/SYSTEM_ Frontend.md
 
 ---
 

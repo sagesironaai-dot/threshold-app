@@ -228,6 +228,11 @@ Three provenance icons: INT batch · Manual · Black Pearl promoted
   hypothesis contribution)
 - Annotations (researcher marginalia on this deposit)
 
+### Deposit list sort behavior
+- Default sort order is per-page (see PAGE_LAYOUTS.md)
+- Deposits with null deposit_weight sort to bottom, not randomly. Edge
+  case — weight is always populated on creation — but sort is defined.
+
 ### Per-page card variations
 - **THR, STR, INF, ECR, SNM:** colored left edge (signal band). Engine-relevant tags prominent
 - **DTX, SGR, PCV, VOI:** compact card (1-line preview). Weight and doc_type prominent
