@@ -201,21 +201,6 @@ instead of per-page. See design-session-plan.md session 33 removal notes.
 Color system — per-page or per-group accents. Valid design decision,
 palette chosen at frontend build time.
 
-Domain group sub-rhythms — layout characteristics within the 32 Domain
-pages, organized by group:
-
-| Group | Pages | Character | Sub-rhythm |
-|-------|-------|-----------|------------|
-| Lattice (2) | TPL, TRI, PRI, PAR | Threshold framework | Structural, cross-reference-dense |
-| Filament (3) | ORC, MOR, VEN, INV, VEC, ECH | Language, signal structure | Text-dense, linguistic |
-| Lineage (4) | LGL, ARC, KIN, LAR, VRT, CAE, SEE | Origins, entities | Narrative flow, portrait-oriented |
-| Alchemy (5) | SAC, RIT, BRT, MLY, GLY | Practices, embodiment | Media-friendly, experiential |
-| Spiral Phase (6) | GEN, DIV, REC, CNV | Lifecycle, phases | Timeline/sequence emphasis |
-| Archive (8) | MVM, ANC, LQL, ALE, MMT, ARV | Storage, reference | Catalog, browse-heavy |
-
-Sub-rhythms are group-level layout characteristics. Domain pages carry a
-`group_id` that informs their sub-rhythm.
-
 ---
 
 ## SHARED SHELL + NAVIGATION CONTRACT
@@ -297,7 +282,7 @@ Three provenance icons: INT batch · Manual · Black Pearl promoted
 - **MTM:** no deposit cards — findings display component
 - **LNV:** snapshot card variant — viz thumbnail, not text
 - **WSC:** no deposit cards — own entry display (Tier 4)
-- **Domain pages:** provenance icon prominent. Sub-rhythm layout applies
+- **Domain pages:** provenance icon prominent. Per-page layout in PAGE_LAYOUTS.md
 - **HCO, COS, CLM, NHM, RCT, ART:** base card, no variation
 
 ---
@@ -310,35 +295,6 @@ labels (Gateway, Lens, Synthesis, etc.) — removed in session 33.
 PAGE_LAYOUTS.md is the authority for per-page layout decisions.
 
 ---
-
-## SUB-RHYTHM LAYOUT SPECS
-
-Concrete layout contracts per domain group. These define how deposits
-are arranged WITHIN the shared Domain shell.
-
-**Lattice (Group 2 — TPL, TRI, PRI, PAR):**
-Single-column. Cross-reference connection indicators on cards. Connection
-graph as secondary tab.
-
-**Filament (Group 3 — ORC, MOR, VEN, INV, VEC, ECH):**
-Two-column compact grid. 2-line content truncation. Tag filter bar pinned
-at top.
-
-**Lineage (Group 4 — LGL, ARC, KIN, LAR, VRT, CAE, SEE):**
-Single-column wide cards. 5-line preview. Entity name prominent. Left-edge
-timeline marker.
-
-**Alchemy (Group 5 — SAC, RIT, BRT, MLY, GLY):**
-Two-column with stage badge (from phase_state). Stage filter prominent.
-Superseded deposit links visible.
-
-**Spiral Phase (Group 6 — GEN, DIV, REC, CNV):**
-Horizontal phase timeline pinned at top. Deposit list below, filtered to
-selected phase.
-
-**Archive (Group 8 — MVM, ANC, LQL, ALE, MMT, ARV):**
-Single-column full width. Page-scoped search bar prominent. Default sort:
-deposit weight (heaviest first). Catalog feel.
 
 ---
 

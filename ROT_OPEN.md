@@ -28,7 +28,6 @@ When rot is fixed:
 
 ## OPEN ITEMS
 
-- **Sub-rhythms** (Registry 006) — 2026-04-09 session 40. Type system extension: pre-assigned layout patterns per domain group. Unauthorized. Affects: SYSTEM_ Frontend.md, design-session-plan.md.
 - **Curation panel** (Registry 006) — 2026-04-09 session 40. Hallucinated destructive operations surface from misunderstood collapsed-session conversation. Violates data integrity boundaries. Affects: SYSTEM_ Frontend.md, design-session-plan.md.
 - **Error states standalone** (Registry 006) — 2026-04-09 session 40. Belongs in Pulse (Observatory node 8), not standalone sidebar system. Affects: SYSTEM_ Frontend.md, design-session-plan.md.
 - **Reflective Pearl Constellation** (Registry 006) — 2026-04-09 session 40. Drift. Not a confirmed design item. Affects: SYSTEM_ Frontend.md, design-session-plan.md.

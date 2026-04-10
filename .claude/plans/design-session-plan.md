@@ -1276,7 +1276,7 @@ deposit fields assigned → enters PostgreSQL as archive entry.
 **Status:** COMPLETE (session 26). Part 1: Void page, Pearl extensions,
 instances/annotations/aos_records tables. Part 2: SYSTEM_ Frontend.md
 rewritten with full Tier 2 UI architecture (page types, shell, navigation,
-deposit card, layout anatomy, sub-rhythms, Black Pearl panel, dashboard,
+deposit card, layout anatomy, Black Pearl panel, dashboard,
 curation, error states, library requirements).
 
 **What gets built:** The 51 page surfaces that receive deposits from INT.
@@ -1340,10 +1340,6 @@ leaving only "describe the page's feelings." Pages are called by their
 canonical names (INT, THR, MTM, LNV, etc.). Per-page layout specs live
 in PAGE_LAYOUTS.md — Sage owns that file directly.
 
-Domain group sub-rhythms (Lattice, Filament, Lineage, Alchemy, Spiral
-Phase, Archive) are NOT type system rot — they are group-level layout
-characteristics within the Domain pages. Retained.
-
 Color system (per-page or per-group accent) is a valid frontend decision.
 Not tied to the type system. Retained as an open design item.
 
@@ -1353,8 +1349,6 @@ Not tied to the type system. Retained as an open design item.
 
 - [x] DESIGNED. One frontend architecture doc covering all types.
       · System schemas define what's computed; frontend doc defines rendering
-      · Structured by type, with group sub-rhythm sections nested inside
-        Domain type
       · Shared UI patterns documented once, applied across all pages:
         A-Z sorting, date sorting, filtering, search
       · Pages may get different control sets where function demands it
@@ -1449,7 +1443,7 @@ Not tied to the type system. Retained as an open design item.
         left edge (signal band color). Engine-relevant tags prominent.
         Default sort: engine signal strength.
       · **Domain pages:** chronological default sort. Provenance icon
-        prominent. Sub-rhythm layout applies (see G11).
+        prominent. Per-page layout in PAGE_LAYOUTS.md.
       · **DTX, SGR, PCV, VOI:** compact card (1-line content preview). Weight
         and doc_type prominent. Default sort: deposit weight.
       · **MTM:** no deposit cards — findings display uses a different component.
@@ -1532,43 +1526,6 @@ Not tied to the type system. Retained as an open design item.
       Does not open INT — Sage stays on current page.
 
 ---
-
-### SUB-RHYTHM LAYOUT SPECS
-
-- [x] DESIGNED. Concrete layout contracts per domain group. These define
-      how deposits are arranged WITHIN the shared Domain shell — not the
-      shell itself (per-page layout specs in PAGE_LAYOUTS.md).
-
-      **Lattice (Group 2 — TPL, TRI, PRI, PAR):**
-      Single-column. Cross-reference connection indicators on cards
-      (which other Lattice pages this deposit connects to). Connection
-      graph as secondary tab — nodes are pages, edges are cross-
-      referenced deposits.
-
-      **Filament (Group 3 — ORC, MOR, VEN, INV, VEC, ECH):**
-      Two-column compact grid. 2-line content truncation. Tag filter
-      bar pinned at top of deposit area.
-
-      **Lineage (Group 4 — LGL, ARC, KIN, LAR, VRT, CAE, SEE):**
-      Single-column wide cards. 5-line content preview. Entity name
-      prominent (pulled from tags or content). Left-edge timeline
-      marker showing temporal position within instance.
-
-      **Alchemy (Group 5 — SAC, RIT, BRT, MLY, GLY):**
-      Two-column with stage badge (from phase_state). Stage filter
-      prominent at top. Superseded deposit links visible (when a later
-      deposit refines an earlier one, the connection is shown).
-
-      **Spiral Phase (Group 6 — GEN, DIV, REC, CNV):**
-      Horizontal phase timeline pinned at top. Deposit list below,
-      filtered to currently selected phase. Phase markers at transition
-      points in the timeline. Click a phase segment to filter deposits
-      to that phase.
-
-      **Archive (Group 8 — MVM, ANC, LQL, ALE, MMT, ARV):**
-      Single-column full width. Page-scoped search bar prominent at
-      top. Default sort: deposit weight (heaviest first). Catalog feel —
-      designed for browsing large volumes of reference material.
 
 ---
 
@@ -2016,16 +1973,15 @@ All open questions answered in session 15:
 
 - ~~Void page_code?~~ → `VOI`. Extends Nexus as page 51. No renumbering.
 - ~~Page identity: how much differentiation?~~ → Strong. Different layouts
-  per type, belonging to same family. Color system: yes. Domain type gets
-  group sub-rhythms (not new types).
+  per type, belonging to same family. Color system: yes. Per-page layout
+  specs in PAGE_LAYOUTS.md.
 - ~~Black Pearl UI?~~ → Floating black star button + keyboard shortcut.
   Minimal quick-capture panel. Recent Pearls on Observatory only.
 - ~~Shared UI patterns?~~ → Consistent base patterns (sort, filter, search)
   across all pages. Pages get different control sets where function
   demands it.
 - ~~Where do visual specs live?~~ → PAGE_LAYOUTS.md (per-page specs) +
-  SYSTEM_ Frontend.md (shared architecture). Domain group sub-rhythms
-  defined in both.
+  SYSTEM_ Frontend.md (shared architecture).
 
 **Gap resolutions (session 18 — Tier 2 quality pass):**
 - ~~No shared shell / navigation~~ → RESOLVED. Fixed sidebar, 9 collapsible
@@ -2040,8 +1996,6 @@ All open questions answered in session 15:
 - ~~Black Pearl panel no interaction spec~~ → RESOLVED. Slide-in panel,
   capture mode, auto-context, rapid capture flow, promotion queue.
   See Black Pearl Panel — Interaction Spec.
-- ~~Sub-rhythms are vibes not specs~~ → RESOLVED. Concrete layout per
-  domain group (6 groups, corrected from 5). See Sub-Rhythm Layout Specs.
 - ~~No page-type layout anatomy~~ → ~~RESOLVED~~ → REMOVED (session 33).
   Type system removed. Per-page layout specs live in PAGE_LAYOUTS.md.
 - ~~Drifted page codes~~ → RESOLVED. All page codes verified against
@@ -6235,13 +6189,11 @@ Void (page 51) designed:
 ~~Page identity — visual type system designed~~ — REMOVED (session 33).
 Type system introduced secondary names (Gateway, Lens, Synthesis, etc.)
 that competed with canonical page names. Removed. Per-page layout specs
-live in PAGE_LAYOUTS.md. Domain group sub-rhythms retained (Filament,
-Lineage, Alchemy, Spiral Phase, Archive). Color system retained as open
-design item.
+live in PAGE_LAYOUTS.md. Color system retained as open design item.
 
 UI architecture foundation:
 - One frontend architecture doc covering all types
-- Per-page specs in PAGE_LAYOUTS.md, group sub-rhythms for Domain pages
+- Per-page specs in PAGE_LAYOUTS.md
 - Shared UI patterns (sort, filter, search) documented once
 - Pages get different control sets where function demands it
 - Written at frontend build time, informed by these design decisions

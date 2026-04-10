@@ -14306,3 +14306,116 @@ TASK: Tier 1 integrity sweep â€” F1-F8 fixes applied across all affected fi
 FILES_MODIFIED:
   - .claude/plans/design-build-spec.md â€” F1 (source_format enum),...
 ---
+
+---
+TIMESTAMP: 2026-04-09 20:30
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:30
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:30
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:31
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:31
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:31
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:31
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:32
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:32
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:32
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:35
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:36
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:36
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:36
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_OPEN.md
+---
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: WORK_UNIT
+SESSION: 42
+TASK: ROT_OPEN item 1 — Sub-rhythms removed
+FILES_MODIFIED:
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — removed Domain group sub-rhythms table + description, SUB-RHYTHM LAYOUT SPECS section (full), inline reference on Domain pages card variation
+  - .claude/plans/design-session-plan.md — removed SUB-RHYTHM LAYOUT SPECS section (full), all inline references across Tier 2 (9 locations)
+  - ROT_OPEN.md — sub-rhythms entry deleted
+COMPLETED:
+  - Sub-rhythms fully excised from all active design files. Never existed.
+  - Remaining references: SESSION_LOG.md (historical), ROT_REGISTRY.md (permanent record), design-build-spec.md (DEAD marker — intentional)
+STATUS: Complete
+---
+
+---
+TIMESTAMP: 2026-04-09 20:37
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SESSION_LOG.md" << 'EOF'
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: WORK_UNIT
+SESSION: 42
+TASK: ROT_OPEN item 1 â€” Sub-rhythms removed
+FILES_MODIFIED:
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md â€” removed Domain group sub-rhythms table + descrip...
+---
