@@ -15389,3 +15389,87 @@ TASK: LNV audit Passes 1â€“3 â€” Observatory corrections + thread_trac
 FILES_MODIFIED:
   - DESIGN/Systems/Liber_Novus/LNV SCHEMA.md...
 ---
+
+---
+TIMESTAMP: 2026-04-09 23:57
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Liber_Novus\LNV SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-09 23:57
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Liber_Novus\LNV SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-09 23:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Liber_Novus\LNV SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-09 23:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Liber_Novus\LNV SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-09 23:58
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Liber_Novus\LNV SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-09 23:59
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Liber_Novus\LNV SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-09 23:59
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Liber_Novus\SYSTEM_ LNV.md
+---
+
+---
+TIMESTAMP: 2026-04-09 23:59
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Liber_Novus\SYSTEM_ LNV.md
+---
+
+---
+TIMESTAMP: 2026-04-09 23:59
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Liber_Novus\SYSTEM_ LNV.md
+---
+
+---
+TIMESTAMP: 2026-04-10 00:15
+TYPE: WORK_UNIT
+SESSION: 45
+TASK: LNV audit Pass 5 — emergence_finding and archive_record missing callers added
+FILES_MODIFIED:
+  - DESIGN/Systems/Liber_Novus/LNV SCHEMA.md — entry_type enum: added emergence_finding and archive_record (now 9 types); source_system values: added emr, arv; expansion history note updated; emergence_finding content shape added; archive_record content shape added; receive contract enum updated; two caller rows added to "Who calls receive" table
+  - DESIGN/Systems/Liber_Novus/SYSTEM_ LNV.md — Emergence and Archive production added to DOES NOT OWN; both routing paths added to routing decisions; "Seven"→"Nine" entry types; emergence_finding and archive_record added to session-close policy (Outside session close bucket)
+COMPLETED:
+  - Pass 5 cross-file verification: 10 of 13 files clean; 2 blocking findings resolved
+  - Emergence confirmed caller per SYSTEM_ Emergence.md NEXUS FEED (emergence_finding, source_system: emr)
+  - Archive confirmed caller per Domain_Archives.txt CONNECTS TO + SYSTEM_ Archive.md "sealed records arriving on LNV" + ARCHIVE SCHEMA.md type='archive_record' (archive_record, source_system: arv)
+  - LNV SCHEMA.md now has 9 entry_types, 9 callers in receive contract
+STATUS: Complete
+---
+
+---
+TIMESTAMP: 2026-04-10 00:00
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SESSION_LOG.md" << 'EOF'
+
+---
+TIMESTAMP: 2026-04-10 00:15
+TYPE: WORK_UNIT
+SESSION: 45
+TASK: LNV audit Pass 5 â€” emergence_finding and archive_record missing callers added
+FILES_MODIFIED:
+  - DESIGN/Systems/Liber_Novus/LNV SCHEMA.md â€” entry...
+---

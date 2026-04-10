@@ -69,8 +69,8 @@ Architectural description in SYSTEM_ LNV.md.
 | Field | Type | Description |
 | --- | --- | --- |
 | lnv_entry_id | auto | Primary key |
-| entry_type | enum | `mtm_finding`, `engine_snapshot`, `wsc_entry`, `void_output`, `cosmology_finding`, `rct_residual`, `thread_trace`. Determines which content shape is expected. |
-| source_system | string | Which system produced this. Values: mtm, thr, str, inf, ecr, snm, wsc, void, pcv, dtx, sgr, hco, cos, clm, nhm, rct, ttr. |
+| entry_type | enum | `mtm_finding`, `engine_snapshot`, `wsc_entry`, `void_output`, `cosmology_finding`, `rct_residual`, `thread_trace`, `emergence_finding`, `archive_record`. Determines which content shape is expected. |
+| source_system | string | Which system produced this. Values: mtm, thr, str, inf, ecr, snm, wsc, void, pcv, dtx, sgr, hco, cos, clm, nhm, rct, ttr, emr, arv. |
 | source_page | string / null | Which page this originated from (page_code). Null for cross-page outputs like MTM. |
 | session_ref | string / null | Which session produced this. |
 | prompt_version | string / null | For AI-authored types (wsc, void, mtm). Null for engine_snapshot. |
@@ -85,10 +85,11 @@ Content shapes defined below. The lnv_entries table and receive contract
 accommodate new types without structural changes — add the enum value and
 define the content shape.
 
-LNV content audit (session 45) identified `thread_trace` as a missing caller.
-Thread Trace was always a confirmed LNV caller (per SYSTEM_ Thread Trace.md and
-THREAD TRACE SCHEMA.md NEXUS FEED section) but was absent from the receive
-contract, enum, and content shapes. Added as the seventh entry_type.
+LNV content audit (session 45) identified `thread_trace`, `emergence_finding`,
+and `archive_record` as missing callers. All three were confirmed LNV callers
+in their own system docs (NEXUS FEED sections) and domain files but were absent
+from the receive contract, enum, and content shapes. Added as the seventh,
+eighth, and ninth entry_types respectively.
 
 ---
 
@@ -247,6 +248,50 @@ annotation_types lists the annotation categories present in the thread (not
 the annotation text — that stays in the thread_annotations table). LNV holds
 the category summary so annotation types display distinctly in the gallery card.
 
+### emergence_finding
+
+Automatic on significant tag commit (proactive nudge) or on-demand detection
+run. Carries the Emergence finding with full provenance intact.
+
+```json
+{
+  "finding_id":               "string — references emergence_findings table",
+  "detector_type":            "cluster | bridge | high_influence | cross_category | drift | void_zone | npa_spike | null_cluster",
+  "severity":                 "string — per-detector severity criteria (see EMERGENCE SCHEMA.md)",
+  "involved_tags":            "string[] — tag IDs involved in the finding",
+  "detection_config_version": "string — version of detector config at detection time"
+}
+```
+
+source_system: emr.
+source_page: null (Emergence is a cross-cutting analysis layer, not page-scoped).
+prompt_version: null (detection is algorithmic, not AI-authored).
+
+### archive_record
+
+Automatic on retirement — triggered by INT post-retirement sequence after
+authentication threshold is met and the Archives page deposit is confirmed.
+Carries the sealed record with provenance intact.
+
+```json
+{
+  "arc_id":            "string — ARC stamp id",
+  "retired_at":        "timestamp — retirement timestamp, frozen at seal time",
+  "title":             "string — from root_entries.title",
+  "doc_type":          "string — mirrors root_entries.doc_type at retirement time",
+  "source_origin":     "string — source overview from provenance_summary",
+  "confirmed_routing": "string[] — confirmed_targets from retirement"
+}
+```
+
+source_system: arv.
+source_page: ARV (Archives page, page 45).
+prompt_version: null (not AI-authored).
+
+arc_id and retired_at are frozen at retirement time and never updated.
+LNV holds the sealed record as a permanent provenance anchor — it does not
+modify or re-derive any field after receipt.
+
 ---
 
 ## RECEIVE CONTRACT
@@ -259,7 +304,7 @@ Universal receive endpoint. All callers use this endpoint. No bespoke pipes.
 
 ```json
 {
-  "entry_type":     "mtm_finding | engine_snapshot | wsc_entry | void_output | cosmology_finding | rct_residual | thread_trace",
+  "entry_type":     "mtm_finding | engine_snapshot | wsc_entry | void_output | cosmology_finding | rct_residual | thread_trace | emergence_finding | archive_record",
   "source_system":  "string",
   "source_page":    "page_code | null",
   "session_ref":    "string | null",
@@ -315,6 +360,8 @@ Type-shape mismatch is a hard failure, not a warning.
 | Cosmology page service | cosmology_finding | Sage-triggered from finding card (confirmed findings only) |
 | RCT residual service | rct_residual | Automatic on residual creation |
 | Thread Trace | thread_trace | Sage-triggered at session close (Daily Nexus Routine) |
+| Emergence service | emergence_finding | Automatic on significant tag commit; on-demand detection run |
+| Integration post-retirement | archive_record | Automatic on retirement after authentication threshold met |
 
 ---
 

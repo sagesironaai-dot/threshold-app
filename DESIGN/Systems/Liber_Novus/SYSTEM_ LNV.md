@@ -24,7 +24,9 @@
 * WSC entry production — owned by WSC. LNV receives entries after WSC write path completes. LNV does not produce or modify WSC entries.
 * Void analytical output — owned by Void. LNV receives outputs after Void session-close or on-demand analysis completes.
 * Thread Trace sequence and visualization production — owned by Thread Trace. LNV receives processed outputs after Sage triggers deposit at session close. LNV does not build or own threads.
-* Routing decisions — DNR routes MTM Findings. WSC routes its own entries. Void routes its own outputs. Engine visualization capture routes snapshots. Thread Trace routes its own outputs. LNV does not pull from any system — it receives.
+* Emergence finding production — owned by Emergence service. LNV receives findings after detection completes. LNV does not run detectors or own the emergence_findings table.
+* Archive sealed record production — owned by Archive (ARV). LNV receives sealed records via INT post-retirement sequence after authentication threshold is met. LNV does not seal, authenticate, or modify archive records.
+* Routing decisions — DNR routes MTM Findings. WSC routes its own entries. Void routes its own outputs. Engine visualization capture routes snapshots. Thread Trace routes its own outputs. Emergence routes findings. INT post-retirement sequence routes archive records. LNV does not pull from any system — it receives.
 * Content interpretation — LNV holds content in structural juxtaposition. It does not synthesize, interpret, editorialize, or draw conclusions across types. Juxtaposition is the method.
 * Visualization rendering — owned by frontend Svelte components. LNV stores the data and template_ref; the component renders from stored data at display time.
 * Deduplication — owned by callers. MTM deduplicates via content fingerprinting before Findings reach DNR. Other callers are responsible for not sending duplicates. LNV writes every receive call.
@@ -45,7 +47,7 @@ These are both first-class roles. The read contract exists because LNV is the si
 
 ## THE SINGLE-TABLE ARCHITECTURE
 
-One table. Seven entry types. All types share the same provenance fields (source_system, source_page, session_ref, prompt_version, sage_note). The content field is type-specific jsonb — each entry_type has a defined content shape.
+One table. Nine entry types. All types share the same provenance fields (source_system, source_page, session_ref, prompt_version, sage_note). The content field is type-specific jsonb — each entry_type has a defined content shape.
 
 **Why one table:** The gallery treats all types uniformly. Filtering by type is a query parameter, not a table join. PCV's read path (entry_type=mtm_finding) is a single filtered query. Adding a new entry_type requires adding an enum value and defining a content shape — no schema migration, no new tables, no new endpoints.
 
@@ -80,6 +82,8 @@ Engine snapshots are Sage-triggered only. Session close does not automatically s
 - Void on-demand read outputs (Sage-triggered, entry_type: void_output)
 - Cosmology findings (Sage-triggered on confirmed findings, entry_type: cosmology_finding)
 - RCT residuals (automatic on residual creation, entry_type: rct_residual)
+- Emergence findings (automatic on significant tag commit or on-demand, entry_type: emergence_finding)
+- Archive sealed records (automatic on retirement via INT post-retirement sequence, entry_type: archive_record)
 
 ---
 
