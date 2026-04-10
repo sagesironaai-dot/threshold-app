@@ -1,7 +1,6 @@
 # Design Build Plan
 # Aelarian Archives — Pre-SOT Design Sessions
 # Reorganized: 2026-04-05 (session 15)
-# Original topic-based plan preserved at: design-session-plan-ORIGINAL.md
 # Status: ACTIVE — updated each session
 
 ---
@@ -5946,7 +5945,6 @@ Decisions made during design sessions. Recorded with reasoning.
   during build, complicating implementation. Build-order follows the
   dependency chain: INT engine first → pages → engines → synthesis/detection →
   Cosmology → assistant → Observatory → stress test.
-- Original plan preserved at design-session-plan-ORIGINAL.md.
 
 **Tier 1 — full design completed:**
 

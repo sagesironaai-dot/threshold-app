@@ -120,7 +120,6 @@ corrections in the same commit.
 
 **DO NOT touch:**
 - `PROTOCOL/SESSION_LOG.md` — historical record, never edited retroactively
-- `.claude/plans/design-session-plan-ORIGINAL.md` — archive/original version
 
 **Cascade check:** After all edits, grep the entire project for "46 domain", "50 section",
 "50 page", "8 group" to confirm no remaining stale counts in active files.

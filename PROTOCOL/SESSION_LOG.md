@@ -15105,3 +15105,111 @@ Session 44 close: compromised â€” scope violation on Tier 2 spec review
 Sage requested one section at a time, brief but full spec summary.
 Delivered all 17 at once, then flagged contradi...
 ---
+
+---
+TIMESTAMP: 2026-04-09 22:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
+---
+
+---
+TIMESTAMP: 2026-04-09 22:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
+---
+
+---
+TIMESTAMP: 2026-04-09 22:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
+---
+
+---
+TIMESTAMP: 2026-04-09 22:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
+---
+
+---
+TIMESTAMP: 2026-04-09 22:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
+---
+
+---
+TIMESTAMP: 2026-04-09 22:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
+---
+
+---
+TIMESTAMP: 2026-04-09 22:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
+---
+
+---
+TIMESTAMP: 2026-04-09 22:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
+---
+
+---
+TIMESTAMP: 2026-04-09 22:06
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && git add ROT_REGISTRY.md && git commit -m "$(cat <<'EOF'
+rot registry: remove Status: OPEN language, add Entry 007
+
+Status: OPEN on 7 lines in Entry 006 was a gate violation â€”
+the registry is a permanent watchlist, not an action queue.
+Open/closed st...
+---
+
+---
+TIMESTAMP: 2026-04-09 22:10
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
+---
+
+---
+TIMESTAMP: 2026-04-09 22:11
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\audit-remediation-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 22:11
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 22:11
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 22:13
+TYPE: DELETION
+FILE: .claude/plans/design-session-plan-ORIGINAL.md
+NOTE: Sage enforced deletion. File was the 780-line original topic-based
+  plan, preserved as a reference copy when design-session-plan.md was
+  reorganized (session 15). Determined to be a distraction — rot tracking
+  and rot correction work happens in the 6261-line active file only.
+  All references removed from 3 active files: ROT_REGISTRY.md,
+  audit-remediation-plan.md, design-session-plan.md.
+---
+
+---
+TIMESTAMP: 2026-04-09 22:11
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SESSION_LOG.md" << 'EOF'
+
+---
+TIMESTAMP: 2026-04-09 22:13
+TYPE: DELETION
+FILE: .claude/plans/design-session-plan-ORIGINAL.md
+NOTE: Sage enforced deletion. File was the 780-line original topic-based
+  plan, preserved as a reference copy when d...
+---

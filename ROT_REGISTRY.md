@@ -1160,8 +1160,7 @@ What is actually true:
 Cleanup: Type system removed from design-session-plan.md,
 SYSTEM_ Frontend.md, LNV SCHEMA.md, SYSTEM_ Research
 Assistant.md, PATTERN CONVERGENCE SCHEMA.md. Legacy
-contamination notes placed in PAGE_LAYOUTS.md and
-design-session-plan-ORIGINAL.md.
+contamination notes placed in PAGE_LAYOUTS.md.
 
 Scan for:
   grep -rn "Gateway.*Lens.*Synthesis\|page.*type.*system" DESIGN/
