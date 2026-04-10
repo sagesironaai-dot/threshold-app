@@ -24,6 +24,18 @@ of truth for what is confirmed complete.
     Scope: All Tier 1 design decisions as recorded in this document.
     Supporting files touched by Tier 1 build: pending Sage enumeration.
 
+  WSC design: LOCKED
+    Approved: 2026-04-09
+    Scope: AI-sovereign witness architecture. Three tables (wsc_entries,
+      wsc_corrections, wsc_gaps), write path, 4 API endpoints, 6 failure
+      modes, 3-entry session open protocol, LNV routing contract, prompt
+      constraint, sovereign-from-DNR boundary.
+    Supporting files:
+      DESIGN/Systems/Witness_Scroll/WSC SCHEMA.md — complete
+      DESIGN/Systems/Witness_Scroll/SYSTEM_ WSC.md — complete
+      DESIGN/Domains/10_Nexus/Domain_Witness_Scroll.txt — complete
+      DESIGN/Domains/10_Nexus/Manifest_46_Witness_Scroll.txt — complete
+
 ---
 
 ## PURPOSE
