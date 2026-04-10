@@ -5,6 +5,27 @@
 
 ---
 
+## VERIFICATION LOG
+## Last updated: 2026-04-09
+
+This is the canonical verification record for this build plan and all
+supporting files any tier has touched. A tier or file is added here only
+when Sage has explicitly approved it as locked.
+
+Do not refer to any other completion lists, checkboxes, or status markers
+elsewhere in this document for verification state. Those lists have not
+been maintained and are not authoritative. This log is the only source
+of truth for what is confirmed complete.
+
+### LOCKED — Tier 1 and supporting files
+
+  Tier 1 design: LOCKED
+    Approved: 2026-04-09
+    Scope: All Tier 1 design decisions as recorded in this document.
+    Supporting files touched by Tier 1 build: pending Sage enumeration.
+
+---
+
 ## PURPOSE
 
 This document tracks all design decisions, open questions, and execution
