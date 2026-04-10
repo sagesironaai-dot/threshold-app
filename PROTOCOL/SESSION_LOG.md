@@ -14419,3 +14419,130 @@ TASK: ROT_OPEN item 1 â€” Sub-rhythms removed
 FILES_MODIFIED:
   - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md â€” removed Domain group sub-rhythms table + descrip...
 ---
+
+---
+TIMESTAMP: 2026-04-09 20:39
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:39
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:39
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:39
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:40
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:41
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:41
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:41
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:41
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:41
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:42
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_OPEN.md
+---
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: WORK_UNIT
+SESSION: 42
+TASK: ROT_OPEN item 2 — Curation panel removed
+FILES_MODIFIED:
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — removed WHAT THIS SYSTEM OWNS entry, components table row, sidebar nav trigger, full CURATION PANEL section, CurationPanel from FILES components list
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md — fixed instances write authority (removed "via curation panel" contamination, 2 locations)
+  - .claude/plans/design-session-plan.md — removed SYSTEM-LEVEL CURATION OPERATIONS section, resolved question entry, 5 inline references
+  - ROT_OPEN.md — curation panel entry deleted
+COMPLETED:
+  - Curation panel fully excised from all active design files. Never existed.
+  - Instance creation write path corrected: "Sage (manual)" — UI surface TBD at build time
+  - Remaining references: SESSION_LOG.md (historical), ROT_REGISTRY.md (permanent record), design-build-spec.md (DEAD marker)
+STATUS: Complete
+---
+
+---
+TIMESTAMP: 2026-04-09 20:42
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SESSION_LOG.md" << 'EOF'
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: WORK_UNIT
+SESSION: 42
+TASK: ROT_OPEN item 2 â€” Curation panel removed
+FILES_MODIFIED:
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md â€” removed WHAT THIS SYSTEM OWNS entry, componen...
+---

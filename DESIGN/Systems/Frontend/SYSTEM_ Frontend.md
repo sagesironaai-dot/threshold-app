@@ -19,7 +19,6 @@
 * Deposit card component — the most common UI element, appears on all 51 pages. Base card with per-page variations where needed
 * Black Pearl panel — slide-in quick-capture panel accessible from any page
 * Observatory — analytical overview surface (`/observatory`), 8-node constellation
-* Curation panel — system-level archive operations (tag, page, session, deposit operations)
 * Composite ID display — reads the assembled stamp from backend, renders it. Does not construct composite IDs (construction owned by composite ID service, see COMPOSITE ID SCHEMA.md)
 * Tagger panel UI — sends section context to `/tagger/` endpoint, displays returned tag suggestions. Does not resolve tags or apply routing rules (owned by TAGGER SCHEMA.md)
 * Deposit panel UI — collects researcher input, sends to `/entries/` endpoint. Does not validate archive semantics (owned by INTEGRATION SCHEMA.md pipeline)
@@ -77,9 +76,8 @@ frontend/
 | CompositeId | Renders composite ID stamp display |
 | TaggerPanel | Tag suggestion UI — sends context, displays candidates |
 | DepositPanel | Entry input form — collects observation, sends to backend |
-| BlackPearlPanel | Slide-in quick-capture panel — capture + reflective modes |
+| BlackPearlPanel | Slide-in quick-capture panel — capture mode, Pearl list, INT promotion |
 | Observatory | 8-node constellation — Resonance Engine, Terrain, Timeline, Field Signals, Field Log, Field Review, Pulse, Void |
-| CurationPanel | System-level archive operations — tag, page, session, deposit ops |
 | ThreadTrace | Thread visualization — renders relational thread data |
 | ResonanceCanvas | Resonance engine visualization — physics simulation rendering |
 | DepositGenealogy | Lifecycle timeline on deposit card expand view |
@@ -225,7 +223,7 @@ Fixed sidebar nav, ~220px, left side. The only navigation surface for 51 pages.
   9. Nexus — WSC, LNV, DTX, SGR, PCV
 - Pinned utilities (always visible, below groups): INT, VOI, Observatory, Black Pearl
 - Status indicator (bottom of sidebar)
-- Curation panel trigger (bottom)
+
 
 ### Group behavior
 - Collapse persists per session, current group expanded by default
@@ -408,23 +406,6 @@ hover reveals detail.
 
 ---
 
-## CURATION PANEL
-
-Triggered from persistent control in shell (bottom of sidebar). Slides
-in over current page.
-
-### Operations
-**Tag:** deprecate across corpus, merge two tags, rename with cascade
-**Page:** archive page (hidden, reversible), re-route all deposits off page
-**Session:** flag as collapse-context, restore flagged session
-**Deposit:** bulk re-route by tag/type/instance, bulk decline, re-queue failed embeddings
-**Instance:** create new instance, close current, set active
-
-Every operation shows scope confirmation: "This will affect N deposits
-across M pages." Destructive operations recoverable within 30 days.
-
----
-
 ## ~~SESSION OPENING RITUAL~~ — REMOVED (session 32)
 
 Drift. Redundant with Field Log (Observatory node 5). Deleted.
@@ -479,7 +460,7 @@ Guard: sort overrides stored in UI store per page per session. Reset on session 
 | frontend/src/routes/+layout.svelte | Root layout — shared shell (minimal scaffold) | LIVE |
 | frontend/src/routes/+page.svelte | Root page — Home, soft landing (minimal scaffold) | LIVE |
 | frontend/src/lib/index.ts | Lib barrel export | LIVE |
-| frontend/src/lib/components/ | Shared components (Shell, NavigationSidebar, DepositCard, CompositeId, TaggerPanel, DepositPanel, BlackPearlPanel, Observatory, CurationPanel, ThreadTrace, ResonanceCanvas, DepositGenealogy, ARTISWorkbench, ARTISRegistryPanel, ARTISPagePanel, SciencePingIndicator, SciencePingFlow, ComputationSnapshotCard, MappingReviewCard, FindingCard, FindingsPanel, FindingInlineIndicator, ResidualPanel, ResidualCard, CouplingAnalysis, HarmonicSpectrum, CorrelationScatter, ClusterDendrogram, EntropyComparisonBar, NexusFeedbackIndicator, ReferenceCard, DistributionCard) | PLANNED |
+| frontend/src/lib/components/ | Shared components (Shell, NavigationSidebar, DepositCard, CompositeId, TaggerPanel, DepositPanel, BlackPearlPanel, Observatory, ThreadTrace, ResonanceCanvas, DepositGenealogy, ARTISWorkbench, ARTISRegistryPanel, ARTISPagePanel, SciencePingIndicator, SciencePingFlow, ComputationSnapshotCard, MappingReviewCard, FindingCard, FindingsPanel, FindingInlineIndicator, ResidualPanel, ResidualCard, CouplingAnalysis, HarmonicSpectrum, CorrelationScatter, ClusterDendrogram, EntropyComparisonBar, NexusFeedbackIndicator, ReferenceCard, DistributionCard) | PLANNED |
 | frontend/src/lib/stores/ | Svelte stores (session, entries, tagger, ui, pearls) | PLANNED |
 | frontend/src/lib/api.ts | Fetch wrapper — single interface to FastAPI backend | PLANNED |
 | frontend/src/routes/[...] | 51 page routes — routing strategy TBD | PLANNED |

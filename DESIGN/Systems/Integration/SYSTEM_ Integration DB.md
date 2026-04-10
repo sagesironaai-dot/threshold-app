@@ -67,7 +67,7 @@ Each table lists who decides what is written and what the FastAPI service layer 
 | patterns | PCV | record creation, status transitions |
 | emergence_findings | Emergence | record creation, detection config version write |
 | prompt_versions | INT | version creation on prompt bump (sage_directed, calibration_triggered, manual), active flag toggle |
-| instances | Sage (via curation panel) | instance creation, date_range_to close, active flag toggle |
+| instances | Sage (manual) | instance creation, date_range_to close, active flag toggle |
 | annotations | Sage (via any analytical surface) | annotation creation on any annotated object |
 | aos_records | AOS service | record creation on engine trigger or Sage manual trigger, delivery tracking |
 | embeddings | Embedding pipeline | vector write with metadata after INT retirement (async) |
@@ -117,7 +117,7 @@ The service layer never initiates a write based on its own judgment. Every write
 
 **prompt_versions** — version-tracked AI prompts. One record per prompt version per prompt_type (parsing_partner, snm). Stores full prompt text, changelog entry (what changed and why), trigger_type (sage_directed, calibration_triggered, manual), and active flag. Referenced by parse_version on chunk_parse objects. Only one version per prompt_type is active at a time.
 
-**instances** — phase period lookup registry. One per phase period. Sage creates manually via curation panel. One active at a time. Feeds instance_context on deposit records. date_range_to nullable (open instance = current period). Instances are research-level decisions about phase boundaries — not auto-generated from deposit data.
+**instances** — phase period lookup registry. One per phase period. Sage creates manually. One active at a time. Feeds instance_context on deposit records. date_range_to nullable (open instance = current period). Instances are research-level decisions about phase boundaries — not auto-generated from deposit data.
 
 **annotations** — polymorphic researcher marginalia. One per annotation on any analytical object (deposit, finding, hypothesis, void_output, engine_snapshot). Polymorphic reference via annotated_type + annotated_id. Zero changes to existing schemas — annotations reference objects, objects do not reference annotations. Exportable per page as research commentary layer.
 

@@ -1218,8 +1218,8 @@ All open questions from the original plan have been answered in session 15:
   promotion from Pearl's `created_at`. See Universal metadata fields and
   Black Pearl promotion flow.
 - ~~Instance registry write path undefined~~ → RESOLVED. Sage manual
-  creation via curation panel, one active instance at a time, prospective
-  transitions. See Tier 2 Instance Context section.
+  creation, one active instance at a time, prospective transitions.
+  See Tier 2 Instance Context section.
 - ~~Type E reactivation flow unspecified~~ → RESOLVED. Sage-triggered
   from Void page, researcher_deprioritised only, PCV hypothesis restored
   to active, Void record preserved with reactivation timestamp.
@@ -1277,7 +1277,7 @@ deposit fields assigned → enters PostgreSQL as archive entry.
 instances/annotations/aos_records tables. Part 2: SYSTEM_ Frontend.md
 rewritten with full Tier 2 UI architecture (page types, shell, navigation,
 deposit card, layout anatomy, Black Pearl panel, dashboard,
-curation, error states, library requirements).
+error states, library requirements).
 
 **What gets built:** The 51 page surfaces that receive deposits from INT.
 Black Pearl UI (accessible from any page + Observatory). Page identity
@@ -1381,7 +1381,6 @@ Not tied to the type system. Retained as an open design item.
       · Pinned utilities (always visible, below groups):
         INT (Gateway), VOI, Observatory, Black Pearl
       · Status indicator (bottom of sidebar, see G20)
-      · Curation panel trigger (bottom, see G22)
 
       **Group behavior:**
       · Collapse persists per session, current group expanded by default
@@ -1594,11 +1593,9 @@ IDENTITY removal note above).
       cannot determine when a phase period begins or ends without Sage's
       judgment.
 
-      **Creation surface:** Curation panel (Tier 2, system-level curation
-      operations). Instance management section alongside tag, page,
-      session, and deposit operations. Fields: label, phase_state,
+      **Creation:** Sage creates manually. Fields: label, phase_state,
       date_range start. Date_range end is nullable — an open instance
-      has no end date yet.
+      has no end date yet. UI surface TBD at frontend build time.
 
       **Active instance:** One instance is marked `active: true` at any
       time. New deposits on INT auto-populate `instance_context` from
@@ -1705,9 +1702,8 @@ IDENTITY removal note above).
       · Options: keep_both | keep_original | keep_incoming | merge
       · Merge: Sage selects which fields to keep from each
 
-      **When this fires:** re-routing from curation panel (G22), partial
-      routing retry after failure, or any operation that sends a deposit
-      to a page it might already be on.
+      **When this fires:** partial routing retry after failure, or any
+      operation that sends a deposit to a page it might already be on.
 
 ---
 
@@ -1777,48 +1773,6 @@ IDENTITY removal note above).
       LNV. Do not design or build until Tier 4 session occurs.
 
 ---
-
-### SYSTEM-LEVEL CURATION OPERATIONS
-
-- [x] DESIGNED. Structured surface for archive-wide operations that
-      would otherwise be improvised.
-
-      **Access:** curation panel, triggered from persistent control in
-      shell (bottom of sidebar near status indicator). Panel slides in
-      over current page — no mode switch, no navigation away.
-
-      **Operations:**
-
-      **Tag operations:**
-      · Deprecate across corpus (tag removed from all deposits, logged)
-      · Merge two tags (all deposits with tag A receive tag B, A retired)
-      · Rename with cascade (all references updated atomically)
-
-      **Page operations:**
-      · Archive page (hidden from nav, reversible)
-      · Re-route all deposits off page (triggers duplicate check per
-        deposit on target pages — batch hash check for efficiency)
-
-      **Session operations:**
-      · Flag as collapse-context: marks session with
-        `session_flag: collapse_context`. Flag travels with deposits
-        into engine computation as metadata — engines and Void can
-        read it. Does NOT exclude deposits from computation. Collapse
-        sessions are signal, not failure.
-      · Restore flagged session (remove flag)
-
-      **Deposit operations:**
-      · Bulk re-route by tag / type / instance
-      · Bulk decline (with reason)
-      · Re-queue all failed embeddings
-
-      Every operation shows scope confirmation before execution:
-      "This will affect N deposits across M pages."
-      All destructive operations recoverable within 30 days, then
-      cold archive.
-
-      Curation operations are AOS-eligible (default off, Sage opts in
-      per operation type).
 
 ---
 
@@ -2020,9 +1974,6 @@ All open questions answered in session 15:
   Recalibration Trigger.
 - ~~No UI error states~~ → RESOLVED. Persistent sidebar indicator, four
   states, system status panel, card-level indicators. See UI Error States.
-- ~~No curation operations surface~~ → RESOLVED. Curation panel with tag,
-  page, session, and deposit operations. Collapse-context flag (not
-  corruption). See System-Level Curation Operations.
 - ~~No external notification system~~ → RESOLVED. AOS (Automated
   Observation Signal). Engine + Sage triggers, integrity hash, immediate +
   digest delivery. See Automated Observation Signal.
