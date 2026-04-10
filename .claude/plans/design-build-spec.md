@@ -409,8 +409,8 @@ Full mechanical spec in VOID ENGINE SCHEMA.md.
 The following sections are pending Sage review. They will be added to
 this document as each passes audit:
 
-- UI Architecture Foundation
-- Shared Shell + Navigation Contract
+- ~~UI Architecture Foundation~~ — removed, deferred to master layout doc
+- ~~Shared Shell + Navigation Contract~~ — removed, deferred to master layout doc
 - Deposit Card Component
 - Page Load + Empty State
 - Black Pearl Panel Interaction Spec

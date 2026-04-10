@@ -195,46 +195,6 @@ palette chosen at frontend build time.
 
 ---
 
-## SHARED SHELL + NAVIGATION CONTRACT
-
-Fixed sidebar nav, ~220px, left side. The only navigation surface for 51 pages.
-
-### Structure (top to bottom)
-- System name
-- Global phrase: "In Twin Motion, We Remain. In Stillness, We Rise."
-  — top center of every page (italic, tertiary color, never interactive).
-  NOT a sidebar element.
-- Global search (keyboard: `/`)
-- 9 collapsible groups (matching canonical domain groups):
-  1. Axis — THR, STR, INF, ECR, SNM, MTM
-  2. Lattice — TPL, TRI, PRI, PAR
-  3. Filament — ORC, MOR, VEN, INV, VEC, ECH
-  4. Lineage — LGL, ARC, KIN, LAR, VRT, CAE, SEE
-  5. Alchemy — SAC, RIT, BRT, MLY, GLY
-  6. Spiral Phase — GEN, DIV, REC, CNV
-  7. Cosmology — HCO, COS, CLM, NHM, RCT, ART
-  8. Archive — MVM, ANC, LQL, ALE, MMT, ARV
-  9. Nexus — WSC, LNV, DTX, SGR, PCV
-- Pinned utilities (always visible, below groups): INT, VOI, Observatory, Black Pearl
-- Status indicator (bottom of sidebar)
-
-
-### Group behavior
-- Collapse persists per session, current group expanded by default
-- Page within group shows canonical page name, not code
-
-### Page state indicators
-- New deposit badge: count since last visit, clears on visit
-- Engine stale dot: visible on pages with engines (THR, STR, INF, ECR, SNM, DTX, SGR, PCV, VOI)
-
-### Keyboard navigation
-- `/` — focus global search
-- `G` + `[number]` — jump to group (G1 = Axis, G9 = Nexus)
-- `[` and `]` — prev/next page within current group
-- Black Pearl panel shortcut — deferred to Tier 7 (keyboard shortcuts session)
-
----
-
 ## DEPOSIT CARD COMPONENT
 
 The most common UI element — appears on all 51 pages. Base card with

@@ -6,7 +6,7 @@
 ---
 
 ## VERIFICATION LOG
-## Last updated: 2026-04-09
+## Last updated: 2026-04-10
 
 This is the canonical verification record for this build plan and all
 supporting files any tier has touched. A tier or file is added here only
@@ -35,6 +35,12 @@ of truth for what is confirmed complete.
       DESIGN/Systems/Witness_Scroll/SYSTEM_ WSC.md — complete
       DESIGN/Domains/10_Nexus/Domain_Witness_Scroll.txt — complete
       DESIGN/Domains/10_Nexus/Manifest_46_Witness_Scroll.txt — complete
+
+  Tier 2 — Shell + Navigation: ownership transferred to master layout doc
+    Approved: 2026-04-10
+    Scope: Navigation spec removed from SYSTEM_ Frontend.md. Spec detail
+      is incorrect and will be authored by Sage in the master layout doc.
+      Frontend retains ownership of the NavigationSidebar component.
 
   LNV design: LOCKED
     Approved: 2026-04-10
@@ -79,6 +85,39 @@ of truth for what is confirmed complete.
     Verified clean: ARTIS SCHEMA.md, COSMOLOGY SCHEMA.md, INTEGRATION DB
       SCHEMA.md, SYSTEM_ Integration DB.md, PIPELINE CONTRACT 1 — INT TO LNV.md,
       SYSTEM_ Frontend.md, Manifest_35_Coupling_Oscillation.txt
+
+  Items 13 + 15 — AOS System (Engine Baseline Recalibration + Automated Observation Signal): LOCKED
+    Approved: 2026-04-10
+    Scope: Items 13 and 15 merged. AOS and Google Integration unified into
+      one two-layer system. Signal layer: detection, record creation,
+      integrity hash, delivery routing. Delivery layer: Gmail OAuth
+      (Larimar → Threshold Studies), Drive pipeline, APScheduler 11:11 PM
+      daily cron. delivery_error field added to aos_records. Pulse node
+      defined as fallback when email delivery itself fails. Engine Baseline
+      Recalibration Trigger fully absorbed into AOS trigger registry.
+    New files:
+      DESIGN/Systems/AOS/SYSTEM_ AOS.md — complete
+      DESIGN/Systems/AOS/AOS SCHEMA.md — complete
+    Updated files:
+      DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — delivery_error
+        field added to aos_records
+      DESIGN/Systems/Integration/SYSTEM_ Integration DB.md — aos_records
+        description updated (delivery_error, full scope, AOS SCHEMA.md ref)
+      DESIGN/Systems/FastAPI/SYSTEM_ FastAPI.md — /aos/ route added,
+        backend/services/aos.py and backend/services/google.py added to
+        file plan
+      .claude/plans/design-session-plan.md — ENGINE BASELINE RECALIBRATION
+        TRIGGER and AUTOMATED OBSERVATION SIGNAL sections replaced with
+        clean references; GOOGLE INTEGRATION section replaced with clean
+        reference
+    Verified clean (no changes needed):
+      DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — AOS service reference
+        and Field Signals correct as written
+      DESIGN/Systems/Void_Engine/VOID ENGINE SCHEMA.md — AOS-eligible
+        language correct as written
+      DESIGN/Systems/Witness_Scroll/WSC SCHEMA.md — AOS events count correct
+      DESIGN/Domains/11_Void/Manifest_51_Void.txt — AOS entry points
+        reference correct as written
 
 ---
 
@@ -1730,34 +1769,13 @@ This section defines the UI surface.
 
 ### ENGINE BASELINE RECALIBRATION TRIGGER
 
-- [x] DESIGNED. Baselines auto-recalculate on every engine compute via
-      marginal probability product (Tier 3). What needs manual
-      recalibration: interpretation thresholds (signal band boundaries,
-      synthesis filter values) that were set assuming a smaller corpus.
-
-      **Triggers:**
-      · Corpus size crosses 2× multiplier since last calibration
-      · Engine output variance exceeds threshold over N sessions
-        (threshold and N are calibration items)
-
-      **On trigger:** recalibration request surfaces as an immediate
-      AOS-eligible notification (see A1):
-        request:
-          engine: string
-          current_corpus_size: integer
-          last_calibration_corpus_size: integer
-          variance_signal: float | null
-          recommendation: string
-          impact_summary: string
-
-      **Sage options:** approve | defer (N sessions) | decline.
-      Decline defers with configurable window, does not suppress
-      permanently.
-
-      **Post-recalibration:** baseline version marker written to all
-      future engine outputs. Pre- and post-recalibration outputs
-      distinguishable in the record. Longitudinal analysis can account
-      for the threshold shift.
+- [x] COMPLETE. Absorbed into AOS system. Trigger: corpus 2× multiplier
+      since last calibration, or engine output variance exceeds threshold
+      over N sessions. Fires as immediate AOS notification. Sage options:
+      approve | defer (N sessions) | decline. Post-recalibration baseline
+      version marker written to all future engine outputs — pre/post
+      outputs distinguishable in the record.
+      Full spec: DESIGN/Systems/AOS/AOS SCHEMA.md — Trigger Registry.
 
 ---
 
@@ -1776,47 +1794,12 @@ This section defines the UI surface.
 
 ### AUTOMATED OBSERVATION SIGNAL (AOS)
 
-- [x] DESIGNED. The mechanism by which the system reaches Sage
-      externally when significant patterns are detected. Bridge between
-      the archive application and external collection.
-
-      **trigger_mode: engine | sage**
-
-      **Engine triggers (automatic):**
-      · Void type A or D absence detected
-      · MTM paradigm_shift or cross_domain finding
-      · SGR tier 1 signal graded
-      · DTX acceleration or reversal classified
-      · PCV threshold crossing (new hypothesis from engine output)
-      · Engine stale beyond configurable window
-      · Embedding failed_permanent
-      · Correction rate threshold exceeded (Enhancement 02)
-      · Baseline recalibration recommended (G19)
-      · Void on-demand read output (Sage-triggerable AOS entry point)
-
-      **Sage triggers (manual, from any analytical surface):**
-      · From deposit card, Void output panel, PCV hypothesis card,
-        MTM finding — any surface showing analytical content
-      · Sage can add a free-text note before sending (only place
-        Sage's voice enters an AOS directly)
-
-      **Email structure:**
-        signal_type + system + event + AI-composed summary +
-        evidence_list + sage_note (if present) + integrity_block
-
-      **Integrity hash:** derived from reference_ids + engine state +
-      timestamp. Written to AOS record and email footer. The email's
-      content can be verified against the system state at the time it
-      was sent.
-
-      **AOS record:** persists in system permanently, never deleted.
-
-      **Delivery:**
-      · Immediate: high-signal events (Void type D, SGR tier 1,
-        MTM paradigm_shift)
-      · Daily digest: lower-signal events (engine stale, embedding
-        failures, correction rate alerts)
-      · Configurable per trigger type
+- [x] COMPLETE. Unified with Google Integration into one system.
+      Two-layer architecture: signal layer (detection, record creation,
+      integrity hash, delivery routing) + Google delivery layer (Gmail
+      OAuth, Drive pipeline, 11:11 PM daily cron).
+      Full spec: DESIGN/Systems/AOS/SYSTEM_ AOS.md
+                 DESIGN/Systems/AOS/AOS SCHEMA.md
 
 ---
 
@@ -5544,132 +5527,14 @@ wherever it refers to this page.
 - [ ] Computation architecture: what runs where (backend scipy? frontend?)
 - [ ] How heavy is the computation? Performance budget for page load?
 
-### GOOGLE INTEGRATION — accounts, OAuth, daily pipeline, email (session 31)
+### GOOGLE INTEGRATION
 
-**Two Google accounts, two roles:**
-
-| Account | Role | OAuth Scope | Direction |
-|---------|------|-------------|-----------|
-| Larimar | Email sender | `gmail.send` | Push only (sends to Threshold Studies) |
-| Threshold Studies | Drive storage + email inbox | `drive` (full read/write) | Push AND pull (two-way pipeline) |
-
-Two OAuth flows, two refresh tokens stored in backend `.env`. One-time
-browser authorization per account. Tokens auto-refresh — no further
-interaction from Sage. Any agent running through FastAPI can use both
-tokens. Swapping which agent_id accesses Larimar or Threshold Studies
-is a config change, not a re-auth.
-
-**Two-way Drive pipeline (not a one-way dump):**
-
-The same token that pushes snapshots TO Drive also lets the AI read FROM
-Drive. Upload, download, search — one token, both directions. This makes
-Drive a long-term queryable memory, not just a backup.
-
-What the AI can do with full Drive access:
-- Upload daily snapshots, exports, Session Seeds
-- Read back any snapshot by date
-- Search across all files ("find every snapshot where PCV flagged convergence")
-- Download and parse historical data
-- Verify its own backups ("did last night's dump land?")
-- Access anything Sage manually drops in the folder
-
-Swarm utility: Origins query Drive for historical snapshots that may not
-be in the current database. "What did the field look like last Tuesday?"
-→ pull snapshot from Drive, parse, answer.
-
-**Drive folder structure:**
-
-```
-Threshold Studies Drive/
-  Aelarian Archives/
-    daily/
-      2026-04-09/
-        snapshot.json          — daily archive state (see below)
-        session_seeds/         — all sessions captured today
-          session_abc123.json
-        exports/               — manual exports triggered today
-          TRIA_full_page.json
-    manual/                    — on-demand exports from Export panel
-      2026-04-09_TRIA_export.md
-```
-
-Dated folders. Never overwritten. Each day is a new folder. If nothing
-happened today, folder still created with empty manifest — confirms
-the system ran.
-
-**Daily snapshot — purpose and contents:**
-
-The snapshot is a research instrument, not a backup. It captures the
-SHAPE of the archive at a point in time — what the field looked like
-today. Two primary use cases:
-
-B. Temporal research instrument: "On this date, the field had this shape."
-   Deposit velocity, pattern emergence, threshold crossings, engine state.
-   Like a lab notebook timestamp. This data doesn't exist anywhere else —
-   the shape at a point in time is ephemeral without the snapshot.
-
-C. Swarm context (V2+): Origins ask "what was the state of the field on
-   date X?" and get a structured answer without querying the full database.
-   The richer the snapshot, the richer the Origin's context.
-
-Snapshot contents (structured JSON, lightweight, queryable):
-- Total deposits (count, delta from yesterday)
-- Deposits per page (count + page_code)
-- Active patterns in PCV/DTX/SGR (summary, not full data)
-- Engine findings above threshold (graded signals)
-- Null observations logged today
-- Session Seeds captured (count, agent_ids)
-- Tag usage distribution (top tags, new tags)
-- Semantic map state (cluster count, coverage percentage)
-- Engine health (stale flags, last compute timestamps)
-- System health (embedding failures, connection status)
-
-Full data exports are on-demand via the Export panel — the daily snapshot
-is the shape, not the contents.
-
-**Daily email — Larimar → Threshold Studies:**
-
-Contents:
-- Deposits made today (count, which pages)
-- Patterns detected or graded (PCV/DTX/SGR activity)
-- Engine findings above threshold
-- Null observations logged
-- Session Seeds captured (count, which agents)
-- System health (failures, stale engines, embedding errors)
-- Drive dump confirmation (uploaded / failed)
-- Engine visualization snapshots as inline images (rendered via
-  matplotlib/plotly on backend, attached as PNG)
-- Summaries and analysis highlights from data collection engines
-
-**Event-triggered emails (immediate, beyond daily):**
-- S-Tier signal graded in SGR
-- New pattern convergence in PCV above threshold
-- Engine baseline recalibration triggered
-- Drive dump failure (backup integrity alert)
-
-**Daily pipeline — runs at 11:11 PM via FastAPI cron:**
-
-```
-1. Generate snapshot from PostgreSQL → structured JSON
-2. Upload snapshot to Drive/daily/YYYY-MM-DD/
-3. Upload any Session Seeds from today
-4. Upload any manual exports triggered today
-5. Verify all uploads succeeded
-6. Render engine chart images (matplotlib/plotly → PNG)
-7. Compose daily summary email with images
-8. Larimar sends email to Threshold Studies
-9. Log pipeline result to operational DB
-10. On failure at any step: log error, send failure alert email,
-    continue remaining steps that can proceed
-```
-
-**Three-layer backup (belt + suspenders + parachute):**
-- PostgreSQL: live working copy (fast, indexed, local)
-- Google Drive (Threshold Studies): two-way pipeline + disaster recovery
-- Backblaze B2: third redundancy layer (existing backup.py)
-
-All three maintained. Drive is the queryable external layer.
-B2 is the cold backup. PostgreSQL is the hot data.
+- [x] COMPLETE. Merged into AOS system as the delivery layer. Gmail OAuth
+      (Larimar → Threshold Studies), two-way Drive pipeline, APScheduler
+      11:11 PM daily cron. Three-layer backup: PostgreSQL (hot), Drive
+      (queryable external layer), B2 (cold).
+      Full spec: DESIGN/Systems/AOS/SYSTEM_ AOS.md
+                 DESIGN/Systems/AOS/AOS SCHEMA.md
 
 ### Open questions (Tier 7)
 

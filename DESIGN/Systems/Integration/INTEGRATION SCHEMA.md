@@ -578,13 +578,15 @@ RESPONSE — success:
       status: created
       routing_confirmed: string[]   — pages successfully notified
       embedding_status: queued | skipped
+      duplicate_flagged: boolean    — true if content_hash matched
+                                      an existing deposit
       created_at: timestamp
     }
 
 RESPONSE — failure:
 
     {
-      error_code: duplicate | validation_failed | routing_failed
+      error_code: validation_failed | routing_failed
                   | embedding_queued_failed
       failed_at_step: string        — which pipeline step failed
       deposit_id: string | null     — null if failed before record
@@ -601,10 +603,10 @@ their applicable doc_types, null for others — schema-enforced, not
 caller-optional.
 
 Sage-facing surfaces:
-  Success: routing_confirmed, embedding_status → surface on deposit
-  confirmation card.
+  Success: routing_confirmed, embedding_status, duplicate_flagged →
+  surface on deposit confirmation card. If duplicate_flagged = true:
+  "This content already exists at [location]. Resolve below."
   Failure — plain language translations required:
-    duplicate → "This content already exists"
     validation_failed → "Missing required fields"
     routing_failed → "Couldn't reach target page"
     embedding_queued_failed → "Saved but search indexing delayed"
@@ -617,7 +619,9 @@ DEPOSIT ATOMICITY BOUNDARY
 The boundary sits after record creation, before embedding and routing.
 
   Step 1: validate              — fails → 400, nothing created
-  Step 2: duplicate check       — fails → 409, nothing created
+  Step 2: duplicate check       — warns if hash match found →
+                                  duplicate_flagged = true written
+                                  to deposit record. Does not block.
   Step 3: create deposit record — fails → 500, nothing created
   ─────── ATOMICITY BOUNDARY ────────────────────────────────
   Step 4: assign stamp          — fails → deposit exists,
@@ -1174,9 +1178,23 @@ intentional (observation relevant to both THR and ECR). Detection
 surfaces: "This content already exists at [location]. Deposit anyway?"
 Sage decides. Not a hard block.
 
-Where it fires: on deposit creation in INT gateway (step 2 of the
-atomicity boundary). Checks against all existing deposits in
-PostgreSQL.
+Where it fires:
+
+  INT GATEWAY (step 2 of the atomicity boundary): checks content_hash
+  against all existing deposits in PostgreSQL at creation time.
+  Match → duplicate_flagged = true written to deposit record.
+  Deposit is created. Resolution prompt surfaces to Sage.
+
+  RE-ROUTE (step 6, page arrival): when a deposit is routed or
+  re-routed to a page, content_hash is checked against deposits
+  already on that page. Match → duplicate_flagged = true on the
+  incoming deposit. Fires on: partial routing retry after failure,
+  or any operation sending a deposit to a page it might already be on.
+
+Resolution (both cases — Sage decides, never auto-resolved):
+  Both deposits shown side-by-side before any action.
+  Options: keep_both | keep_original | keep_incoming | merge.
+  Merge: Sage selects which fields to take from each.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

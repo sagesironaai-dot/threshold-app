@@ -1006,6 +1006,14 @@ This table is the database materialization of that record.
                          (warn, not block — see INTEGRATION SCHEMA.md
                          DUPLICATE DETECTION section).
 
+  duplicate_flagged    — boolean, default false
+                         Set true when content_hash matches an
+                         existing deposit (INT gateway warn) or when
+                         deposit arrives on a page it is already on
+                         (re-route check). Surfaces resolution prompt
+                         for Sage. Resolution options: keep_both |
+                         keep_original | keep_incoming | merge.
+
   embedding_status     — enum: queued | processing | complete |
                                 failed | retry_queued |
                                 failed_permanent
@@ -1382,9 +1390,15 @@ one place for integrity hash enforcement and delivery rules.
                          embedding failures, correction rate alerts).
                          Configurable per trigger type.
 
+  delivery_error       — text, nullable
+                         Error message if email delivery failed.
+                         Null on successful delivery or pending delivery.
+                         Record persists regardless of delivery outcome.
+
   delivered_at         — timestamp, nullable
                          When the AOS was delivered (email sent).
-                         Null if pending delivery or delivery failed.
+                         Null if pending delivery, queued for digest,
+                         or delivery failed.
 
   created_at           — timestamp, NOT NULL
 
