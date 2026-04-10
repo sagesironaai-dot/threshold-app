@@ -121,7 +121,7 @@ The service layer never initiates a write based on its own judgment. Every write
 
 **annotations** — polymorphic researcher marginalia. One per annotation on any analytical object (deposit, finding, hypothesis, void_output, engine_snapshot). Polymorphic reference via annotated_type + annotated_id. Zero changes to existing schemas — annotations reference objects, objects do not reference annotations. Exportable per page as research commentary layer.
 
-**aos_records** — Automated Observation Signal records. One per signal event. Triggered by engines (Emergence, MTM, SGR, DTX, PCV, Void) or by Sage manually. Write authority: dedicated AOS service (not individual triggering systems). Carries integrity_hash for email verification. Persistent — never deleted.
+**aos_records** — Automated Observation Signal records. One per signal event. Triggered by engines (Emergence, MTM, SGR, DTX, PCV, Void, Engine Computation, Embedding Pipeline) or by Sage manually from any analytical surface. Write authority: dedicated AOS service (not individual triggering systems). Carries integrity_hash for email verification. Carries delivery_error (nullable) if Gmail delivery failed — record persists regardless of delivery outcome. Permanent — never deleted. Full spec: DESIGN/Systems/AOS/AOS SCHEMA.md.
 
 **system_counters** — single-record table. Holds arc_seq (global counter, never decrements) and arc_seq_checkpoint (crash-safe retirement guard, cleared at retirement step 12).
 

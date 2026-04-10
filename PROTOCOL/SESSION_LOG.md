@@ -15722,3 +15722,105 @@ TIMESTAMP: 2026-04-10 08:36
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
 ---
+
+---
+TIMESTAMP: 2026-04-10 09:07
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\AOS\SYSTEM_ AOS.md
+---
+
+---
+TIMESTAMP: 2026-04-10 09:09
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\AOS\AOS SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-10
+TYPE: WORK_UNIT
+SESSION: 46
+TASK: Items 13 + 15 — AOS system written, audited, and locked
+FILES_MODIFIED:
+  - DESIGN/Systems/AOS/SYSTEM_ AOS.md — NEW. Two-layer architecture,
+    trigger registry, delivery spec, Observatory integration, FastAPI
+    integration, Drive pipeline, failure handling, storage summary.
+  - DESIGN/Systems/AOS/AOS SCHEMA.md — NEW. aos_records table (PostgreSQL),
+    daily_pipeline_log table (SQLite), trigger registry, delivery pipeline
+    steps, OAuth config, email structures, failure handling summary.
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — delivery_error
+    field added to aos_records table.
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md — aos_records
+    description updated with full scope, delivery_error, and AOS SCHEMA.md
+    reference.
+  - DESIGN/Systems/FastAPI/SYSTEM_ FastAPI.md — /aos/ route added to route
+    table; backend/services/aos.py and backend/services/google.py added to
+    file plan.
+  - .claude/plans/design-session-plan.md — ENGINE BASELINE RECALIBRATION
+    TRIGGER and AUTOMATED OBSERVATION SIGNAL sections replaced with clean
+    references; GOOGLE INTEGRATION section replaced with clean reference;
+    Items 13 + 15 added to VERIFICATION LOG.
+  - PROTOCOL/SESSION_LOG.md — this entry
+COMPLETED:
+  - Items 13 and 15 merged — AOS and Google Integration unified into one
+    system with clean ownership boundary and two-layer architecture
+  - SPEC reviewed and self-audited before BUILD: 3 corrections applied
+    (Void on-demand read moved to Sage triggers; delivery_error field added;
+    Pulse node defined as failure fallback)
+  - BUILD: SYSTEM_ AOS.md and AOS SCHEMA.md written from confirmed SPEC
+  - AUDIT: 4 files updated, 4 files verified clean with no changes needed
+  - VERIFICATION LOG updated with full scope record
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Next section items from Sage's extraction list
+UNCOMMITTED: YES
+NEXT_ACTION: Commit. Sage to provide next section item.
+---
+
+---
+TIMESTAMP: 2026-04-10 09:10
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-10 09:10
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\SYSTEM_ Integration DB.md
+---
+
+---
+TIMESTAMP: 2026-04-10 09:12
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\FastAPI\SYSTEM_ FastAPI.md
+---
+
+---
+TIMESTAMP: 2026-04-10 09:13
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\FastAPI\SYSTEM_ FastAPI.md
+---
+
+---
+TIMESTAMP: 2026-04-10 09:14
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-10 09:14
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-10 09:15
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-10 09:16
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
