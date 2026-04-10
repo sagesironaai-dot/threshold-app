@@ -15513,3 +15513,65 @@ TASK: ROT 008 cleared â€” V1-V5 build phase trajectory removed
 FILES_MODIFIED:
   - .claude/plans/design-session-plan.md â€” removed V1-V5 trajectory section...
 ---
+
+---
+TIMESTAMP: 2026-04-10 07:22
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_OPEN.md
+---
+
+---
+TIMESTAMP: 2026-04-10 00:30
+TYPE: CLOSE
+SESSION: 45
+FILES_MODIFIED:
+  - DESIGN/Systems/Liber_Novus/LNV SCHEMA.md — Dashboard→Observatory (4 corrections); thread_trace, emergence_finding, archive_record added as 7th-9th entry_types with full content shapes, callers, source_system values (ttr, emr, arv); receive contract enum and caller table updated; expansion history note added
+  - DESIGN/Systems/Liber_Novus/SYSTEM_ LNV.md — Dashboard→Observatory (3 corrections); DOES NOT OWN updated for all 3 new callers; routing decisions updated; Six→Nine entry types; session-close policy updated
+  - ROT_REGISTRY.md — Entry 007 (open/closed status in registry = gate violation); Entry 008 (V1-V5 trajectory, hallucination); Entry 009 (Linvara, hallucinated page name). Entry 006 "Status: OPEN" lines removed.
+  - ROT_OPEN.md — Registry 008 and 009 entries deleted (both resolved)
+  - .claude/plans/design-session-plan.md — VERIFICATION LOG added at top (Tier 1 + WSC locked); RESEARCHER NOTE rot removed (lines 5806-5807); design-session-plan-ORIGINAL.md references removed; V1-V5 trajectory block removed (lines 213-230)
+  - .claude/plans/design-session-plan-ORIGINAL.md — DELETED (780-line duplicate; rot tracking in 6261-line file only)
+  - .claude/plans/lnv-correction-plan.md — CREATED (5-pass LNV audit plan)
+  - .claude/plans/audit-remediation-plan.md — design-session-plan-ORIGINAL.md reference removed
+  - PROTOCOL/SESSION_LOG.md — ongoing session record
+COMPLETED:
+  - Mandatory reads: all 5 root documents confirmed
+  - Registry cleanup: Entry 006 "Status: OPEN" removed (gate violation); Entries 007-009 added
+  - design-session-plan-ORIGINAL.md deleted, all references cleaned
+  - Verification LOG created at top of design-session-plan.md (Tier 1 and WSC locked)
+  - RESEARCHER NOTE rot removed from design-session-plan.md
+  - WSC audit (4 files): CLEAN. WSC added to Verification LOG.
+  - LNV audit — 5 passes complete:
+      Pass 1 (LNV SCHEMA.md): Dashboard→Observatory (line 321), thread_trace missing
+      Pass 2 (SYSTEM_ LNV.md): Dashboard→Observatory (lines 13, 39)
+      Pass 3 (Domain + Manifest): Dashboard→Observatory (structural rule 1), "thread trace/emergence" language assessed (calibration, no action)
+      Pass 4 (Pipeline Contract, 703 lines): CLEAN
+      Pass 5 (13 cross-ref files): 10 clean; emergence_finding and archive_record confirmed missing callers
+  - All corrections applied: 4 Dashboard→Observatory; 3 missing callers (thread_trace, emergence_finding, archive_record) added with full content shapes
+  - ROT 008 cleared: V1-V5 trajectory removed from design-session-plan.md
+  - ROT 009 closed: Linvara confirmed never in any project file; LNV audit confirmed Liber Novus correct throughout
+ROT_AUDIT:
+  - ROT_OPEN at close: 1 item (Registry 006 — systemic, pre-SOT gate, not actionable this session)
+  - No new rot found in files written this session
+VERIFIED_GATE_NOTE:
+  - LNV SCHEMA.md and SYSTEM_ LNV.md passed adversarial 5-pass audit (gate a) and are complete (gate b). Gate (c) — Sage explicit approval — not yet given. Not added to VERIFIED list.
+IN_PROGRESS:
+  - Tier 2 unmangle: LNV complete. Remaining Tier 2 items in design-session-plan.md not yet addressed.
+NOT_STARTED:
+  - Registry 006 systemic SYSTEM_ file content review (pre-SOT gate)
+  - SOT (step 3), core files (step 4), app running (step 5)
+UNCOMMITTED: YES (SESSION_LOG.md, ROT_OPEN.md — close entries)
+---
+
+---
+TIMESTAMP: 2026-04-10 07:23
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SESSION_LOG.md" << 'EOF'
+
+---
+TIMESTAMP: 2026-04-10 00:30
+TYPE: CLOSE
+SESSION: 45
+FILES_MODIFIED:
+  - DESIGN/Systems/Liber_Novus/LNV SCHEMA.md â€” Dashboardâ†’Observatory (4 corrections); thread_trace, emergence_finding, archive_record added ...
+---
