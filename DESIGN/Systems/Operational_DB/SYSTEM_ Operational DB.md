@@ -42,7 +42,7 @@
 * Pearls — pre-archive signal captures. Status lifecycle:
   active → promoted → archived. Promoted pearls route through INT
   gateway as deposits. promoted_deposit_id links back after promotion.
-  type (capture | reflective), swarm_visible flag
+  promoted_via records the panel path
 * Operational state — key-value store for transient UI state (current
   section, active filters). Ephemeral by design
 * Startup recovery — on FastAPI startup, verify tables exist, create

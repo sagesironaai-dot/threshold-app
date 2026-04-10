@@ -356,7 +356,7 @@ The Integration page is a collaborative workstation with two panels.
 - File upload area (drag-drop or button) with title, note, date fields
 - Review queue showing deposits as they come in from parsing
 - Per-deposit controls: approve, correct routing/tags, skip (come back
-  later), decline (no deposit)
+  later)
 - Progress indicator (chunk 47/180, deposits approved/pending/total)
 - Sage's own tags and notes added here alongside deposits
 - All deposit metadata fields (doc_type, source_format, etc.) visible
@@ -652,11 +652,11 @@ Per-deposit record (in review queue):
   - chunk_id (links to source chunk)
   - suggested_tags, suggested_doc_type, suggested_source_format
   - suggested_page_target
-  - status: `pending_review | approved | corrected | skipped | declined | deposited`
+  - status: `pending | confirmed | skipped | deferred`
   - sage_notes (annotations added during review)
 
 **Session persistence:**
-Everything persists in operational DB. Session dies? Next session:
+Everything persists in PostgreSQL. Session dies? Next session:
 "Doc X, AI parsed through chunk 47, Sage reviewed through chunk 42,
 5 deposits in review queue, chunks 1-41 fully deposited."
 
@@ -678,7 +678,7 @@ designed in Composite ID schema.
       parse_failed → parsing       — Sage triggers retry (manual or auto)
       parsed → review              — chunk enters review queue
       review → complete            — Sage approves all deposits from chunk
-      review → partial             — some approved, some declined/skipped
+      review → partial             — some approved, some skipped
       review → parse_failed        — Sage rejects entire parse, triggers re-parse
       partial → complete           — remaining skipped deposits resolved
 
@@ -739,7 +739,7 @@ designed in Composite ID schema.
       │ Suggested routing: [Page A] [Page B]  (editable) │
       │ Chunk: #N of M  |  Session: [date]               │
       │                                                  │
-      │ [APPROVE] [EDIT] [SKIP] [DECLINE]                │
+      │ [APPROVE] [EDIT] [SKIP]                          │
       └─────────────────────────────────────────────────┘
 
       parse_flags from the chunk surface ABOVE the first deposit card in
@@ -789,32 +789,16 @@ designed in Composite ID schema.
       forced decisions). But a skip from 8 months ago may no longer be
       relevant without being wrong. After a configurable window (default:
       90 days), a staleness indicator appears on the skip. Sage sees the
-      deposit is old and can re-queue, decline, or let it sit. Staleness
+      deposit is old and can re-queue or let it sit. Staleness
       is informational, not an expiry. No automatic action taken.
 
         SKIP_STALENESS_WINDOW_DAYS = 90    — named constant, configurable
-
-      **Decline behavior:**
-
-      Decline does NOT delete. It archives with status declined.
-
-        declined:
-          declined_at: timestamp
-          decline_reason: string | null — free text, not coded values
-          recoverable: true             — can be reinstated within 30 days
-          archived_after: 30 days       — moves to cold archive
-
-      The distinction: declined means "this shouldn't be a deposit." It's
-      a curatorial judgment, not a deletion. The content still exists in
-      the chunk's parse record — the chunk is the source, the deposit is
-      the derived artifact. Declining the deposit doesn't touch the source
-      chunk.
 
       **Flag display values (plain language, not raw tokens):**
       · ambiguous → "Ambiguous boundary"
       · needs_context → "Needs more context"
       · cross_page → "Routes to multiple pages"
-      · skip_reason and decline_reason → free text fields
+      · skip_reason → free text field
 
 ---
 
@@ -1182,7 +1166,7 @@ All open questions from the original plan have been answered in session 15:
   3-attempt retry strategy, failed_permanent state, metadata-enriched
   embedding. See Embedding Pipeline section.
 - ~~No review queue interaction spec~~ → RESOLVED. Card layout, editable
-  fields, skip/decline state flows, doc_type mapping from simplified
+  fields, skip state flows, doc_type mapping from simplified
   parse enum. See Review Queue Interaction Spec section.
 - ~~Simplified parse type → doc_type mapping~~ → RESOLVED. Four simplified
   types map to doc_type defaults with full enum always available.
@@ -1268,9 +1252,9 @@ Document upload → root stamp → AI chunks (5-8 pages) → rolling buffer
 (3-5 ahead) → per-chunk: pending → parsing (AI produces chunk_parse
 object with suggested_deposits + parse_flags) → parsed → review (deposits
 appear as review cards with doc_type mapping dropdown) → Sage approves/
-edits/skips/declines per deposit → corrections enter correction_context
+edits/skips per deposit → corrections enter correction_context
 → active_rules distilled and carried into subsequent chunk prompts →
-approved deposits through INT gateway with child stamps → operational DB
+approved deposits through INT gateway with child stamps → PostgreSQL
 tracks chunk status + correction context across sessions.
 
 **Batch failure flow:**
@@ -1313,10 +1297,10 @@ should be established here so every subsequent tier builds consistently.
 Data model defined in Tier 1 (operational DB, Pearl record, promotion flow).
 This section defines the UI surface.
 
-- [x] DESIGNED. Floating button + keyboard shortcut (Option A with B).
-      · Persistent black star button in corner of every page
+- [x] DESIGNED.
+      · Black Pearl panel slides in from page nav (left side)
       · Click opens a minimal quick-capture panel: text field + save + close
-      · Keyboard shortcut (e.g., Ctrl+P) opens same panel for speed
+      · Keyboard shortcut: deferred to Tier 7 (dedicated session)
       · No tagging required, no commitment to the archive
       · Captures raw noticings before they're named or framed
       · Can be promoted to formal deposit when ready (triggers INT flow)
@@ -1534,41 +1518,18 @@ Not tied to the type system. Retained as an open design item.
       · Optional doc_type (defaults to `entry`)
       · [Save] [Close]
 
-      **Reflective mode (one-tap toggle):**
-      · Free-form text only. No tags, no doc_type, no routing, no
-        length constraint.
-      · `pearl_type: reflective` on Pearl record
-      · `swarm_visible: boolean` — default true for reflective Pearls
-      · Per-Pearl opt-out toggle visible when saving (Sage can mark
-        individual reflective Pearls as swarm-private)
-      · Reflective Pearls are phenomenological data — felt, unresolved,
-        non-analytical thought. They exist first for Sage; swarm reads
-        them as context alongside Nexus outputs.
-
       **Post-save behavior:** panel stays open. Inline confirmation
       fades after 2s. Text area clears for rapid capture. No navigation
       away. Sage can capture 5 Pearls in 30 seconds without leaving
       her current page.
 
       **Recent Pearls:** last 5 visible below input, read-only,
-      expandable inline. Both capture and reflective Pearls shown,
-      distinguished by type badge.
+      expandable inline.
 
       **Promotion to INT:** available from panel via button on any
       Pearl card. Queues Pearl for INT review (enters review queue as
       a pending deposit with `provenance.source: black_pearl_promoted`).
       Does not open INT — Sage stays on current page.
-
-      **Pearl record additions (extending Tier 1 schema):**
-
-        pearl_type: capture | reflective
-        swarm_visible: boolean          — default true for reflective,
-                                          always true for capture
-        promoted_via: panel | observatory  — where promotion was triggered
-
-      **Reflective archive:** accessible from Black Pearl panel ("View
-      all" link) and from Observatory. Ordered by date. Reflective Pearls
-      only. Distinct from skip queue and from deposit archive.
 
 ---
 
@@ -2077,8 +2038,8 @@ All open questions answered in session 15:
   virtualized list, sort defaults per page, anchor behavior. See Page Load
   + Empty State Behavior.
 - ~~Black Pearl panel no interaction spec~~ → RESOLVED. Slide-in panel,
-  capture + reflective modes, auto-context, rapid capture flow, promotion
-  queue. See Black Pearl Panel — Interaction Spec.
+  capture mode, auto-context, rapid capture flow, promotion queue.
+  See Black Pearl Panel — Interaction Spec.
 - ~~Sub-rhythms are vibes not specs~~ → RESOLVED. Concrete layout per
   domain group (6 groups, corrected from 5). See Sub-Rhythm Layout Specs.
 - ~~No page-type layout anatomy~~ → ~~RESOLVED~~ → REMOVED (session 33).
@@ -2142,12 +2103,11 @@ Deposit created in INT (Tier 1) → routed to target page(s) →
   if clean: deposit card rendered per page's card variant →
   deposit visible and searchable on page via virtualized list.
 
-**Black Pearl capture (with two modes + promotion):**
-Black star button or Ctrl+Shift+P → slide-in panel from right →
-  mode: capture (tags, doc_type, quick) or reflective (free-form,
-    swarm-visible, no pipeline commitment) →
-  saved to operational DB with pearl_type + page_context →
-  recent Pearls visible in panel (last 5) and on Observatory →
+**Black Pearl capture (with promotion):**
+Black Pearl panel from page nav (left side) → slide-in panel →
+  capture mode (optional tags, doc_type) →
+  saved to SQLite operational DB with page_context →
+  recent Pearls visible in panel (last 5) →
   promotion: queued for INT review queue with
     provenance.source: black_pearl_promoted.
 

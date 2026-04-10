@@ -14059,3 +14059,250 @@ FILES_MODIFIED:
   - .claude/plans/design-build-spec.md â€” CREATED (committed in 7454b69)
   - DESIGN/Sy...
 ---
+
+---
+TIMESTAMP: 2026-04-09 19:26
+TYPE: HOOK_BASH
+COMMAND: cd “C:/Users/sasir/Desktop/Aelarian/Archives” && git add “PROTOCOL/SESSION_LOG.md” “.claude/plans/design-doc-audit-plan.md” && git commit -m “$(cat <<'EOF'
+Session 41 close: compromised â€” modified files open for further audit
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+EO...
+---
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: OPEN
+FILES_MODIFIED:
+  - none
+COMPLETED:
+  - none
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - design-session-plan.md Tier 1 review (ROT_OPEN items must be addressed first)
+UNCOMMITTED: NO
+NEXT_ACTION: Address 7 open ROT_OPEN items with Sage, then proceed to Tier 1 review
+---
+
+---
+TIMESTAMP: 2026-04-09 20:11
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-build-spec.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:12
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-build-spec.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:12
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-build-spec.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:12
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-build-spec.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:13
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-build-spec.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:13
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:13
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:14
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:14
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Integration\INTEGRATION DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:14
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Operational_DB\OPERATIONAL DB SCHEMA.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:15
+TYPE: COMPACT_CHECKPOINT
+WORK_UNITS_TODAY: 6
+PHASE_STATE: DESIGN/Systems/Tagger/SYSTEM_ Tagger.md=audit_pass, DESIGN/Systems/TAG VOCABULARY.md=audit_pass, DESIGN/Systems/Composite_ID/COMPOSITE ID SCHEMA.md=audit_pass
+OPEN_ROT: YES
+NOTE: Context compaction occurred. Re-read CLAUDE.md mandatory rules.
+---
+
+---
+TIMESTAMP: 2026-04-09 20:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Operational_DB\SYSTEM_ Operational DB.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:18
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\DESIGN\Systems\Frontend\SYSTEM_ Frontend.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:19
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:20
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:20
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:20
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:21
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:21
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:21
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:22
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:22
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:22
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:22
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:23
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09 20:24
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: WORK_UNIT
+SESSION: 42
+TASK: Tier 1 integrity sweep — F1-F8 fixes applied across all affected files
+FILES_MODIFIED:
+  - .claude/plans/design-build-spec.md — F1 (source_format enum), F2 (atomicity step order), F4 (pearl_type/swarm_visible removed), F5 (notes field added)
+  - DESIGN/Systems/Integration/INTEGRATION SCHEMA.md — F4 (pearl_type/swarm_visible removed), F6 (chunk_size corrected to range 5-8 max 8)
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — F6 (chunk_size corrected in root_entries and PRE-STEP, 2 locations)
+  - DESIGN/Systems/Operational_DB/OPERATIONAL DB SCHEMA.md — F4 (pearl_type and swarm_visible blocks removed, Pearl record is 7 fields)
+  - DESIGN/Systems/Operational_DB/SYSTEM_ Operational DB.md — F4 (pearl_type/swarm_visible removed from Pearls bullet)
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — F4 (Reflective mode section removed, Recent Pearls type badge removed)
+  - .claude/plans/design-session-plan.md — F3 (DECLINE removed from 8 locations in Tier 1), F4 (reflective Pearl references removed from Tier 2 section), F7 (operational DB → PostgreSQL for batch persistence, 2 locations), F8 (Pearl location corrected to page nav left side)
+COMPLETED:
+  - F1: source_format enum corrected — canonical 7-value enum is digital|handwritten|scan|image|audio|file|json
+  - F2: atomicity boundary step order corrected — embed (step 5) before route (step 6)
+  - F3: DECLINE fully removed from Tier 1 design — not a valid DB status. Deposit status enum is pending|confirmed|skipped|deferred
+  - F4: pearl_type and swarm_visible drift eliminated across all 7 affected files — Black Pearl is capture only, no reflective type
+  - F5: notes field added to design-build-spec.md deposit shape — universal metadata, every deposit regardless of doc_type
+  - F6: chunk_size corrected to range 5-8, max 8, default 8 in both INTEGRATION SCHEMA.md and INTEGRATION DB SCHEMA.md
+  - F7: batch session persistence correctly attributed to PostgreSQL (not SQLite operational DB) in design-session-plan.md
+  - F8: Pearl location corrected to page nav left side in design-session-plan.md
+STATUS: Complete. All F1-F8 fixes verified applied. No pearl_type or swarm_visible references remain in DESIGN/ or .claude/plans/.
+---
+
+---
+TIMESTAMP: 2026-04-09 20:24
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SESSION_LOG.md" << 'EOF'
+
+---
+TIMESTAMP: 2026-04-09
+TYPE: WORK_UNIT
+SESSION: 42
+TASK: Tier 1 integrity sweep â€” F1-F8 fixes applied across all affected files
+FILES_MODIFIED:
+  - .claude/plans/design-build-spec.md â€” F1 (source_format enum),...
+---

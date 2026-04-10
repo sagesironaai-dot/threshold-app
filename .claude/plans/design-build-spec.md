@@ -62,13 +62,16 @@ all downstream systems read from.
 - doc_type — 9-value enum: entry | observation | analysis | hypothesis |
   discussion | transcript | glyph | media | reference
   (database field only, not in stamp — per COMPOSITE ID SCHEMA)
-- source_format — 7-value enum: text | markdown | json | image | audio |
-  video | document
+- source_format — 7-value enum: digital | handwritten | scan | image |
+  audio | file | json
 - source_type — field | generated (non-nullable)
 
 **Conditional fields (observation/analysis/hypothesis doc_types only):**
 - observation_presence — positive | null (NOT observation_type)
 - confidence — clear | emerging | raw (researcher-assigned)
+
+**Universal metadata:**
+- notes — optional freeform text, available on every deposit regardless of doc_type
 
 **Weight and provenance:**
 - deposit_weight — high | standard | low (AI-suggested, Sage override)
@@ -200,15 +203,13 @@ Black Pearl is Sage's reflection space. Lives in page nav, left side.
 Captures raw noticings before they are named or framed. Pre-archive —
 Pearls live in SQLite operational DB until promoted through INT.
 
-**Pearl record (9 fields):**
+**Pearl record (7 fields):**
 - pearl_id — text, primary key
 - content — text, not null
 - created_at — timestamp
 - page_context — which page Sage was on, nullable
 - status — active | promoted | archived
 - promoted_deposit_id — references deposit ID, null until promotion
-- pearl_type — capture | reflective (default: capture)
-- swarm_visible — boolean (default: true, per-Pearl opt-out for reflective)
 - promoted_via — panel | null (null until promotion)
 
 **Promotion:** Pearl promoted from panel → enters INT gateway → receives
@@ -250,8 +251,8 @@ retry_safe
 
 **Below boundary (deposit exists, downstream recoverable async):**
 4. Assign composite ID stamp (stamp pending queue on failure)
-5. Route to target pages
-6. Queue embedding (embedding retry queue on failure)
+5. Queue embedding (embedding retry queue on failure)
+6. Route to target pages (routing_status: partial | failed on failure)
 
 **Spec authority:** INTEGRATION SCHEMA.md (atomicity section)
 

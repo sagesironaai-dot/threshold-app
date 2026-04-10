@@ -199,8 +199,8 @@ DROPPED FIELDS (session 15 — recorded for audit trail):
 PRE-STEP — BEFORE INTAKE BEGINS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-chunk_size — integer. Max: 10. No exceptions. Received from Sage or
-system default (10) applied. Referenced throughout intake and all
+chunk_size — integer. Range: 5-8. Max: 8. No exceptions. Received from
+Sage or system default (8) applied. Referenced throughout intake and all
 manifest sessions. Determines total_chunks and page range per session.
 
 Set once. Does not change after intake begins.
@@ -1139,8 +1139,6 @@ constraints and defaults):
     page_context         — which page Sage was on when captured, nullable
     status               — active | promoted | archived
     promoted_deposit_id  — references deposit ID, null until promotion
-    pearl_type           — capture | reflective (default: capture)
-    swarm_visible        — boolean (default: true)
     promoted_via         — panel | null (null until promotion)
 
 PROMOTION FLOW:

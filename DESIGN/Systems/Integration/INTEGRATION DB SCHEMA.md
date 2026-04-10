@@ -217,11 +217,11 @@ TABLE: root_entries
   file_asset_ref     — references file_assets.id
                        (null if not large file)
 
-  chunk_size         — integer (max 10)
+  chunk_size         — integer (range 5-8, max 8)
                        Received from user or system default
-                       (10) in the pre-step before intake
+                       (8) in the pre-step before intake
                        sequence begins. Referenced throughout
-                       intake. Max: 10. No exceptions.
+                       intake. Range: 5-8. Max: 8. No exceptions.
 
   total_chunks       — integer
                        LARGE FILE: computed at upload as
@@ -434,10 +434,10 @@ TABLE: root_entries
 
 
   PRE-STEP — executes before intake sequence begins:
-    Receive chunk_size from user or apply system default (10).
-    Max: 10. No exceptions. This value is held and referenced
-    throughout the intake sequence. Not part of the numbered
-    steps.
+    Receive chunk_size from user or apply system default (8).
+    Range: 5-8. Max: 8. No exceptions. This value is held and
+    referenced throughout the intake sequence. Not part of the
+    numbered steps.
 
 
   INTAKE SEQUENCE — fires when a new source document is

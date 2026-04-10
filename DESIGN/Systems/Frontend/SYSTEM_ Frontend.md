@@ -356,19 +356,12 @@ page_id and instance_context pre-populated silently on open.
 - Optional doc_type (defaults to `entry`)
 - [Save] [Close]
 
-### Reflective mode (one-tap toggle)
-- Free-form text only. No tags, no doc_type, no routing, no length constraint
-- `pearl_type: reflective` on Pearl record
-- `swarm_visible: boolean` — default true, per-Pearl opt-out toggle
-- Phenomenological data — felt, unresolved, non-analytical thought
-
 ### Post-save behavior
 Panel stays open. Inline confirmation fades after 2s. Text area clears.
 Rapid capture — 5 Pearls in 30 seconds without leaving current page.
 
 ### Recent Pearls
-Last 5 visible below input. Both capture and reflective, distinguished
-by type badge. Read-only, expandable inline.
+Last 5 visible below input. Read-only, expandable inline.
 
 ### Promotion to INT
 Button on any Pearl card. Queues for INT review queue with
