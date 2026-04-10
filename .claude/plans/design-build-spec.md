@@ -429,8 +429,8 @@ this document as each passes audit:
 - Session Schema
 - Instance Context
 - Deposit Weight AI Suggestion
-- Observatory Spec
-- Duplicate Prevention on Re-Route
+- ~~Observatory Spec~~ — audited clean 2026-04-10, no file changes needed
+- ~~Duplicate Prevention on Re-Route~~ — corrected 2026-04-10 (INTEGRATION SCHEMA + DB SCHEMA updated, duplicate_flagged field added)
 - Engine Baseline Recalibration
 - AOS (Automated Observation Signal)
 - Deposit Genealogy View
