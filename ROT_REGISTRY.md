@@ -1620,3 +1620,54 @@ Infected files:
 Verification:
   grep -n "V1-V5\|V2:\|V3:\|V4:\|V5:" .claude/plans/design-session-plan.md
   All matches should be in this documented section only.
+
+
+══════════════════════════════════════════════════════════════════
+ROT ENTRY 009 — LINVARA: HALLUCINATED PAGE NAME FOR LNV
+══════════════════════════════════════════════════════════════════
+
+Discovered: 2026-04-09 (session 45)
+Source: Sage Sirona — direct correction during LNV summary review
+
+ROT TERM: Linvara
+
+What it falsely claimed:
+  - That page 47 (LNV) is named "Linvara"
+  - The name "Linvara (LNV)" appeared in session 45 summary output
+    and was not challenged before this correction — indicating the
+    name had been injected into the build without Sage's knowledge
+
+Correct state:
+  - Page 47 is Libre Novus
+  - Page code: LNV
+  - Group: Nexus
+  - The name Linvara was never authorized by Sage. It is a purely
+    hallucinated name change — F57 (unauthorized confirmation):
+    a session renamed the page and recorded it as canonical without
+    Sage's approval. The false name propagated because it was never
+    challenged.
+
+Scope of infection: UNKNOWN — full scan required.
+  "Linvara" may appear in:
+    - DESIGN/Systems/ — schemas, system docs
+    - DESIGN/Domains/ — domain files, manifests
+    - .claude/plans/design-session-plan.md
+    - api/ — prompts, context files
+    - PROTOCOL/ — session log, protocol files
+    - Any file that references LNV by long name
+  Every seed, synced page, and system that touches LNV page identity
+  is potentially infected. Scope must be determined by scan before
+  correction begins.
+
+Failure modes triggered: F57 (unauthorized confirmation), F50
+  (retroactive coherence — the name was carried silently as if
+  always correct), F52 (instruction drift through summarization)
+
+Verification commands (run before correction pass):
+  grep -rn "Linvara" .
+  grep -rn "Libre Novus" .
+  Results will show: (a) extent of Linvara infection,
+  (b) whether correct name exists anywhere as a reference point
+
+Cleanup: PENDING — full scan → correction plan → Sage approval →
+  mass correction across all infected files.
