@@ -16072,3 +16072,49 @@ NOT_STARTED:
 UNCOMMITTED: YES
 NEXT_ACTION: Commit and push. Assess session close.
 ---
+
+---
+TIMESTAMP: 2026-04-10
+TYPE: CLOSE
+SESSION: 46
+FILES_MODIFIED:
+  - DESIGN/Systems/Integration/INTEGRATION SCHEMA.md — COMPLETE
+  - DESIGN/Systems/Witness_Scroll/WSC SCHEMA.md — COMPLETE
+  - DESIGN/Systems/AOS/SYSTEM_ AOS.md — NEW, COMPLETE
+  - DESIGN/Systems/AOS/AOS SCHEMA.md — NEW, COMPLETE
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — COMPLETE
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md — COMPLETE
+  - DESIGN/Systems/FastAPI/SYSTEM_ FastAPI.md — COMPLETE
+  - DESIGN/Systems/Engine_Computation/ENGINE COMPUTATION SCHEMA.md — COMPLETE
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — COMPLETE
+  - .claude/plans/design-session-plan.md — COMPLETE
+  - PROTOCOL/SESSION_LOG.md — this entry
+COMPLETED:
+  - Items 8 + 9: Session Schema and Instance Context locked. Definition A
+    corrected to Definition B in INTEGRATION SCHEMA.md (2 locations) and
+    WSC SCHEMA.md. Full scan of DESIGN/ confirmed clean.
+  - Items 13 + 15: AOS system written and locked. Two-layer architecture
+    (signal + delivery). SYSTEM_ AOS.md and AOS SCHEMA.md created. delivery_error
+    field added. Four files updated. Three files verified clean with no changes.
+  - Item 17: Annotation Layer locked. "annotation" → "note" bug corrected in
+    ENGINE COMPUTATION SCHEMA.md and INTEGRATION DB SCHEMA.md. Full scan clean.
+  - Items 10 + 16: Deposit Weight and Genealogy View locked. Null weight
+    sort-to-bottom added to SYSTEM_ Frontend.md. Both canonical sources confirmed.
+  - Item 5: Deposit Card Component locked. Six changes to SYSTEM_ Frontend.md.
+    LNV rot removed. Media card added. Engine signal and annotations corrected.
+CLOSE_AUDIT:
+  - ROT_OPEN.md: one item open (006 systemic — entropy scan ≠ content approval).
+    Pre-SOT gate. No action at session close.
+  - Calibration item flagged: "notes" field in SYSTEM_ Frontend.md deposit
+    metadata list — may need updating depending on deposits table schema.
+    Not blocking. Next session.
+  - No new rot introduced in any file modified this session.
+  - No files added to VERIFIED list (three gates not met).
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Remaining extraction list items (if any)
+  - SOT (step 3), core files (step 4), app running (step 5)
+UNCOMMITTED: NO — all committed and pushed (d1959ca)
+NEXT_ACTION: Next session — assess remaining items or proceed to next build phase.
+---
