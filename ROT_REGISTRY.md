@@ -1580,3 +1580,43 @@ Correction:
 Scan for:
   grep -n "Status: OPEN\|Status: CLOSED" ROT_REGISTRY.md
   Should return zero matches outside this entry's description.
+
+
+══════════════════════════════════════════════════════════════════
+ROT ENTRY 008 — V1-V5 BUILD PHASE TRAJECTORY
+══════════════════════════════════════════════════════════════════
+
+Discovered: 2026-04-09 (session 45)
+Source: design-session-plan.md lines 201-218, "V1-V5 trajectory" block
+
+ROT TERM: V1-V5 build phase trajectory
+
+What it introduced:
+  A five-phase version roadmap for the app/research system:
+    V1: Single researcher + single AI. Full pipeline.
+    V2: Swarm. Origins as analytical nodes with parallax.
+    V3: Automated computation. Recursive loop without manual steps.
+    V4: Proactive system. Assistant surfaces findings. Email.
+    V5: Transmissible. Archive exports as research package.
+
+  Framed as a trajectory Sage should build toward: "Every V1 decision
+  asks: does this close a door V2-V5 needs open?"
+
+Why it is pure hallucination:
+  - No build version for the app, the field, the code, or the data
+    was ever integrated or authorized by Sage
+  - CLAUDE.md states: "Everything here is v1. No legacy versioning.
+    No legacy files." The V1 in that rule means first-draft-through-
+    final-form, not a version numbered product release
+  - V2-V5 were never discussed, planned, or approved as build phases
+  - The framing ("build for where this is going") silently encoded
+    future architecture decisions as design constraints on V1 without
+    Sage's knowledge or approval — this is F57 (unauthorized
+    confirmation) and F53 (plausible interpolation)
+
+Infected files:
+  .claude/plans/design-session-plan.md — lines 201-218
+
+Verification:
+  grep -n "V1-V5\|V2:\|V3:\|V4:\|V5:" .claude/plans/design-session-plan.md
+  All matches should be in this documented section only.

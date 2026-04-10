@@ -29,3 +29,4 @@ When rot is fixed:
 ## OPEN ITEMS
 
 - **SYSTEMIC: Entropy scan does not equal content approval** (Registry 006) — 2026-04-09 session 40. Verified status means rot-pattern-clean, not Sage-approved content. All SYSTEM_ overview files on VERIFIED list need content-level review before SOT.
+- **V1-V5 build phase trajectory — pure hallucination** (Registry 008) — 2026-04-09 session 45. design-session-plan.md lines 201-218. Five-phase version roadmap never authorized by Sage. Remove the block.
