@@ -114,7 +114,7 @@ must remain stable and unmodified after assignment.
 | hypothesis_statement | text | The structurally testable claim this pattern record represents. Written as observation, not conclusion. No significance language. No outcome language. |
 | mtm_provenance | boolean | True if this pattern record was generated from or incorporates an MTM Finding. When true, mtm_finding_ref is required. |
 | mtm_finding_ref | foreign key / null | References findings.id in MTM schema. Null if mtm_provenance is false. |
-| void_provenance | boolean | True if this hypothesis originated from Void absence detection (types A or D). When true, void_finding_ref is required. |
+| void_provenance | boolean | True if this hypothesis originated from Void absence detection (types A or D always; types B or C via threshold exception). When true, void_finding_ref is required. |
 | void_finding_ref | string / null | References Void absence record. Null if void_provenance is false. |
 | cosmology_provenance | boolean | True if this hypothesis originated from a Cosmology finding marked nexus_eligible. When true, cosmology_finding_ref is required. |
 | cosmology_finding_ref | foreign key / null | References cosmology_findings.finding_id. Null if cosmology_provenance is false. |
@@ -130,7 +130,7 @@ systems check these flags to prevent circular confirmation.
 | Flag | Source | Ref field | Protection |
 | --- | --- | --- | --- |
 | mtm_provenance | MTM Finding | mtm_finding_ref | Not independent corroboration of MTM synthesis |
-| void_provenance | Void absence detection (types A, D) | void_finding_ref | Not independent corroboration of absence pattern |
+| void_provenance | Void absence detection (types A, D always; B, C threshold exception) | void_finding_ref | Not independent corroboration of absence pattern |
 | cosmology_provenance | Cosmology finding (nexus_eligible) | cosmology_finding_ref | Not independent corroboration of the computation that generated it |
 
 ---

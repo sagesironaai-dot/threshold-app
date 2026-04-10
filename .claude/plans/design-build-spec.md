@@ -360,6 +360,7 @@ nav, left side. Panel opens from left side.
 ### 2.2 VOID — PAGE 51
 
 page_code: VOI. section_id: void. Standalone page 51.
+Promoted from Nexus group. Nexus retains WSC, LNV, DTX, SGR, PCV (46–50).
 
 Aggregates all null observations across the archive — where the
 researcher looked and found nothing. Without this surface, the system
@@ -401,6 +402,17 @@ Type E reactivation: researcher_deprioritised hypotheses reactivatable
 from Void's page. Field silence hypotheses are not.
 
 Full mechanical spec in VOID ENGINE SCHEMA.md.
+
+**VOI registrations (session 18):**
+- VOI-4: Void prompt is a versioned artifact with changelog triggers
+- VOI-5: void_provenance flag formally registered on PCV hypothesis record
+- VOI-6: coverage gap view assigned to Observatory semantic map
+- VOI-7: PCV entry filter + secondary thresholds for absence types B and C registered
+- Void on-demand reads are AOS-eligible entry points
+
+**Cross-system:**
+- void_output is an annotatable type (Annotation Layer)
+- Void's Claude analytical layer is distinct from WSC's Claude tool
 
 ---
 
