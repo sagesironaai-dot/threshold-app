@@ -39,7 +39,7 @@ Architectural description in SYSTEM_ LNV.md.
 ## STRUCTURAL RULES
 
 1. LNV is both a display surface (gallery) and a data source. PCV reads
-   mtm_finding entries from LNV as pre-processed input. Dashboard reads
+   mtm_finding entries from LNV as pre-processed input. Observatory reads
    recent entries for signal surface. These are first-class read paths,
    not secondary uses.
 
@@ -69,8 +69,8 @@ Architectural description in SYSTEM_ LNV.md.
 | Field | Type | Description |
 | --- | --- | --- |
 | lnv_entry_id | auto | Primary key |
-| entry_type | enum | `mtm_finding`, `engine_snapshot`, `wsc_entry`, `void_output`, `cosmology_finding`, `rct_residual`. Determines which content shape is expected. |
-| source_system | string | Which system produced this. Values: mtm, thr, str, inf, ecr, snm, wsc, void, pcv, dtx, sgr, hco, cos, clm, nhm, rct. |
+| entry_type | enum | `mtm_finding`, `engine_snapshot`, `wsc_entry`, `void_output`, `cosmology_finding`, `rct_residual`, `thread_trace`. Determines which content shape is expected. |
+| source_system | string | Which system produced this. Values: mtm, thr, str, inf, ecr, snm, wsc, void, pcv, dtx, sgr, hco, cos, clm, nhm, rct, ttr. |
 | source_page | string / null | Which page this originated from (page_code). Null for cross-page outputs like MTM. |
 | session_ref | string / null | Which session produced this. |
 | prompt_version | string / null | For AI-authored types (wsc, void, mtm). Null for engine_snapshot. |
@@ -84,6 +84,11 @@ Tier 5 added two entry_type values: `cosmology_finding` and `rct_residual`.
 Content shapes defined below. The lnv_entries table and receive contract
 accommodate new types without structural changes — add the enum value and
 define the content shape.
+
+LNV content audit (session 45) identified `thread_trace` as a missing caller.
+Thread Trace was always a confirmed LNV caller (per SYSTEM_ Thread Trace.md and
+THREAD TRACE SCHEMA.md NEXUS FEED section) but was absent from the receive
+contract, enum, and content shapes. Added as the seventh entry_type.
 
 ---
 
@@ -215,6 +220,33 @@ accumulation_count is a snapshot at route time — sealed in the LNV entry, not
 a live counter. Shows how many residuals existed on this algorithm_component
 when this one was created.
 
+### thread_trace
+
+Sage-triggered at session close as part of the Daily Nexus Routine. Carries
+the processed Thread Trace output — sequence trace or structural visualization
+— with full provenance intact.
+
+```json
+{
+  "thread_id":          "string | null — null if unsaved thread",
+  "thread_name":        "string | null — null if unsaved",
+  "thread_type":        "temporal | relational | cluster | emergence",
+  "seed":               "object — { type, id, threadTypes }",
+  "entry_ids":          "string[] — entries in the thread at deposit time",
+  "routing_snapshot":   "object — dominant routing dimensions and distributions",
+  "annotation_types":   "string[] — note | observation | question types present",
+  "visualization_type": "sequence | graph"
+}
+```
+
+source_system: ttr.
+source_page: null (Thread Trace is a cross-cutting system, not page-scoped).
+prompt_version: null (not AI-authored — algorithmic thread building).
+
+annotation_types lists the annotation categories present in the thread (not
+the annotation text — that stays in the thread_annotations table). LNV holds
+the category summary so annotation types display distinctly in the gallery card.
+
 ---
 
 ## RECEIVE CONTRACT
@@ -227,7 +259,7 @@ Universal receive endpoint. All callers use this endpoint. No bespoke pipes.
 
 ```json
 {
-  "entry_type":     "mtm_finding | engine_snapshot | wsc_entry | void_output | cosmology_finding | rct_residual",
+  "entry_type":     "mtm_finding | engine_snapshot | wsc_entry | void_output | cosmology_finding | rct_residual | thread_trace",
   "source_system":  "string",
   "source_page":    "page_code | null",
   "session_ref":    "string | null",
@@ -282,6 +314,7 @@ Type-shape mismatch is a hard failure, not a warning.
 | Void on-demand | void_output | Sage-triggered |
 | Cosmology page service | cosmology_finding | Sage-triggered from finding card (confirmed findings only) |
 | RCT residual service | rct_residual | Automatic on residual creation |
+| Thread Trace | thread_trace | Sage-triggered at session close (Daily Nexus Routine) |
 
 ---
 
@@ -321,7 +354,7 @@ Query endpoint for all consumers.
 | LNV page | All types, chronological | Gallery display |
 | PCV | entry_type=mtm_finding | Pre-processed input for hypothesis detection |
 | PCV | entry_type=cosmology_finding, nexus_eligible filter | Cosmology findings entering Nexus pipeline |
-| Dashboard | Recent entries, all types | Signal surface |
+| Observatory | Recent entries, all types | Signal surface |
 | RCT | entry_type=rct_residual, source_page=RCT | Residual accumulation tracking |
 | Any system | Filtered as needed | Query LNV's consolidated output |
 
