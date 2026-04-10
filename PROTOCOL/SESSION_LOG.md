@@ -14895,3 +14895,56 @@ TASK: Tier 2 dead sections removed â€” Page Identity type system, Page-Type
 FILES_MODIFIED:
   ...
 ---
+
+---
+TIMESTAMP: 2026-04-09 21:08
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && git add "DESIGN/Systems/Frontend/SYSTEM_ Frontend.md" .claude/plans/design-session-plan.md PROTOCOL/SESSION_LOG.md && git commit -m "$(cat <<'EOF'
+Session 42: Tier 2 dead sections removed (4 items)
+
+Page Identity type system, Page-Type Layout Anatomy,...
+---
+
+---
+TIMESTAMP: 2026-04-09 21:10
+TYPE: CLOSE
+SESSION: 42
+FILES_MODIFIED:
+  - .claude/plans/design-build-spec.md — COMPLETE (F1-F5 fixes: source_format, atomicity order, pearl fields, notes field)
+  - DESIGN/Systems/Integration/INTEGRATION SCHEMA.md — COMPLETE (F4+F6: pearl fields removed, chunk_size corrected)
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — COMPLETE (F6: chunk_size corrected, 2 locations)
+  - DESIGN/Systems/Operational_DB/OPERATIONAL DB SCHEMA.md — COMPLETE (F4: pearl_type+swarm_visible removed, 7-field record)
+  - DESIGN/Systems/Operational_DB/SYSTEM_ Operational DB.md — COMPLETE (F4: pearl fields removed)
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — COMPLETE (F4+F8: reflective mode removed, Pearl location fixed; ROT items 1-6: sub-rhythms, curation panel, error states, reflective constellation, Observatory order all fixed; dead sections removed)
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md — COMPLETE (curation panel contamination removed from instances write path)
+  - .claude/plans/design-session-plan.md — COMPLETE (F3+F4+F7+F8: DECLINE removed, pearl drift removed, batch DB corrected, Pearl location fixed; ROT items 1-6 cleared; 4 dead Tier 2 sections removed)
+  - ROT_OPEN.md — IN_PROGRESS (6 of 7 items resolved; 1 standing systemic item remains by design)
+  - PROTOCOL/SESSION_LOG.md — IN_PROGRESS (this close entry)
+COMPLETED:
+  - Tier 1 integrity sweep: F1-F8 all applied across 7 files
+  - ROT_OPEN items 1-6 resolved (sub-rhythms, curation panel, UI error states, Reflective Pearl Constellation, Black Pearl direction, Observatory node order)
+  - ROT_OPEN item 7 (systemic) confirmed standing open by design
+  - Tier 2 confirmed-dead sections removed: Page Identity type system, Page-Type Layout Anatomy, Session Opening Ritual, Research Velocity Indicator
+  - Void correctly described as standalone page 51 throughout
+IN_PROGRESS:
+  - Tier 2 content audit — 17 live sections, known to be infected. Not started this session.
+NOT_STARTED:
+  - Tier 2 content audit (17 sections)
+  - design-build-spec.md Tier 2 sections 2.3-2.18 population
+UNCOMMITTED: NO
+NEXT_ACTION: Tier 2 content audit — work through 17 live sections one at a time. Each section: summarize, Sage confirms, trace against specs, fix what's wrong, add to design-build-spec.md when clean.
+---
+
+---
+TIMESTAMP: 2026-04-09 21:10
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SESSION_LOG.md" << 'EOF'
+
+---
+TIMESTAMP: 2026-04-09 21:10
+TYPE: CLOSE
+SESSION: 42
+FILES_MODIFIED:
+  - .claude/plans/design-build-spec.md â€” COMPLETE (F1-F5 fixes: source_format, atomicity order, pearl fields, notes field)
+  - DESIGN/Systems/...
+---
