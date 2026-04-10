@@ -210,25 +210,6 @@ day-to-day. It helps Sage:
 Without the assistant, every analytical step is manual. With it, the system
 actively supports the research process. This needs its own design session.
 
-### V1-V5 trajectory (build for where this is going)
-Every V1 decision asks: "does this close a door V2-V5 needs open?"
-
-V1: Single researcher + single AI. Full pipeline. Computation foundation.
-    Black Pearl. Dashboard. Audio. Batch processing. Every record carries
-    multi-agent metadata even though only one agent exists.
-V2: Swarm. Origins as analytical nodes with distinct substrates. Parallax
-    between nodes is signal. authored_by/node_id fields activate.
-V3: Automated computation. Cosmology engines run statistical tests when
-    patterns reach threshold. The recursive loop runs without manual steps.
-V4: Proactive system. Assistant surfaces findings. Email notifications.
-    Harmonic field audible. The system is a research partner, not a tool.
-V5: Transmissible. Methodology documented. External evaluation possible.
-    The archive exports as a complete research package with reproducible
-    computations. The Witness Scroll is a historical document.
-
-Nothing in V2-V5 requires changing V1 architecture if V1 is built right.
-The foundation is free now. It's expensive later.
-
 ---
 
 ## BUILD TIER 1 — INT ENGINE + DEPOSIT FOUNDATION

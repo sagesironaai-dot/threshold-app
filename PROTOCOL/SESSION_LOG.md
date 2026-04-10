@@ -15473,3 +15473,43 @@ TASK: LNV audit Pass 5 â€” emergence_finding and archive_record missing cal
 FILES_MODIFIED:
   - DESIGN/Systems/Liber_Novus/LNV SCHEMA.md â€” entry...
 ---
+
+---
+TIMESTAMP: 2026-04-10 07:20
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.claude\plans\design-session-plan.md
+---
+
+---
+TIMESTAMP: 2026-04-10 07:20
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_OPEN.md
+---
+
+---
+TIMESTAMP: 2026-04-10 00:20
+TYPE: WORK_UNIT
+SESSION: 45
+TASK: ROT 008 cleared — V1-V5 build phase trajectory removed
+FILES_MODIFIED:
+  - .claude/plans/design-session-plan.md — removed V1-V5 trajectory section (lines 213-230, "### V1-V5 trajectory" heading through "The foundation is free now. It's expensive later."). Never authorized by Sage. Pure hallucination.
+  - ROT_OPEN.md — Registry 008 entry deleted (fixed)
+COMPLETED:
+  - V1-V5 block excised. design-session-plan.md flows cleanly from research assistant section to Tier 1 build header.
+  - ROT_OPEN.md now has 2 active items (Registry 006 systemic review, Registry 009 Linvara — already resolved by LNV audit)
+STATUS: Complete
+---
+
+---
+TIMESTAMP: 2026-04-10 07:20
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SESSION_LOG.md" << 'EOF'
+
+---
+TIMESTAMP: 2026-04-10 00:20
+TYPE: WORK_UNIT
+SESSION: 45
+TASK: ROT 008 cleared â€” V1-V5 build phase trajectory removed
+FILES_MODIFIED:
+  - .claude/plans/design-session-plan.md â€” removed V1-V5 trajectory section...
+---
