@@ -334,6 +334,8 @@ provenance.source: black_pearl_promoted → standard deposit flow
 | --- | --- | --- |
 | SYSTEM_ Frontend | DESIGN/Systems/Frontend/SYSTEM_ Frontend.md | Yes (content review in progress — ROT ENTRY 006) |
 | OPERATIONAL DB SCHEMA | DESIGN/Systems/Operational_DB/OPERATIONAL DB SCHEMA.md | Yes |
+| SYSTEM_ Black Pearl | DESIGN/Systems/Black_Pearl/SYSTEM_ Black Pearl.md | Yes |
+| BLACK PEARL SCHEMA | DESIGN/Systems/Black_Pearl/BLACK PEARL SCHEMA.md | Yes |
 | SECTION MAP | DESIGN/Systems/SECTION MAP.md | Yes (on disk) |
 | VOID ENGINE SCHEMA | DESIGN/Systems/Void_Engine/VOID ENGINE SCHEMA.md | No |
 | SYSTEM_ Void | DESIGN/Systems/Void_Engine/SYSTEM_ Void.md | No |
@@ -491,6 +493,43 @@ push content. page_id and instance_context auto-populated silently on open.
 
 ---
 
+### 2.8 PIPELINE SEGMENT — TIER 2 END-TO-END FLOWS
+
+**Status:** LOCKED
+**Audited:** Session 47. Black Pearl flow corrected against locked spec.
+
+---
+
+**Deposit landing (with deposit card + duplicate check):**
+Deposit created in INT (Tier 1) → routed to target page(s) →
+  duplicate hash checked on page arrival →
+  if duplicate: flagged, Sage resolves (keep_both | keep_original |
+    keep_incoming | merge) →
+  if clean: deposit card rendered per page's card variant →
+  deposit visible and searchable on page via virtualized list.
+
+**Black Pearl capture (with promotion):**
+Black Pearl panel from page nav (left side) → slide-in panel →
+  label (required) + content entered →
+  saved to SQLite operational DB with page_context →
+  Pearl list visible below input (keyword search or last 5 active) →
+  promotion: button on Pearl card → queued for INT review queue with
+  provenance.source: black_pearl_promoted. Sage stays on current page.
+
+**Navigation flow:**
+Sidebar nav → 9 collapsible groups → page list → page state indicators
+  (new deposit badge, engine stale dot) → keyboard: /, G+N, [, ] →
+  global search anchors to deposit card with 300ms highlight.
+
+**AOS flow:**
+Engine trigger fires (or Sage triggers from analytical surface) →
+  AOS record created with integrity hash →
+  delivery: immediate (high-signal) or daily digest (lower-signal) →
+  email: signal_type + event + AI summary + evidence + integrity block →
+  AOS record persists permanently.
+
+---
+
 ### 2.3–2.18 REMAINING SECTIONS (review in progress)
 
 The following sections are pending Sage review. They will be added to
@@ -510,14 +549,18 @@ this document as each passes audit:
 - AOS (Automated Observation Signal)
 - Deposit Genealogy View
 - Annotation Layer
-- WSC HOLDING note
-- Pipeline Segment (Tier 2)
+- ~~WSC HOLDING note~~ — recorded below, held for Tier 4
+- ~~Pipeline Segment (Tier 2)~~ — locked 2026-04-14 (section 2.8)
 
 **Already categorized — do not transfer:**
 - DEAD: Sub-rhythms, Curation panel, Reflective Pearl Constellation,
   Page Identity type system, Page-Type Layout Anatomy, Session Opening
   Ritual, Research Velocity Indicator
 - DRIFT: UI Error States (belongs in Pulse)
+- HOLD: WSC Design — held for Tier 4 by architecture. WSC depends on
+  DNR (Daily Nexus Routine), designed alongside LNV in Tier 4 session.
+  Do not design or build until Tier 4. Full WSC schemas exist in
+  DESIGN/Systems/Witness_Scroll/ — Tier 4 session will finalize design.
 
 ---
 ---

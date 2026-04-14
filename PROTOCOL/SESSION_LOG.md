@@ -16313,6 +16313,32 @@ NEXT_ACTION: Commit all session 47 changes, then proceed to WSC
 TIMESTAMP: 2026-04-14
 TYPE: WORK_UNIT
 SESSION: 47
+TASK: Tier 2 completion — specs table, Pipeline Segment, WSC HOLDING
+FILES_MODIFIED:
+  - .claude/plans/design-build-spec.md — COMPLETE
+COMPLETED:
+  - Tier 2 specs table: SYSTEM_ Black Pearl and BLACK PEARL SCHEMA added.
+  - Section 2.8 PIPELINE SEGMENT written and locked. Black Pearl flow
+    corrected (label + content, no tags/doc_type, keyword search).
+    Deposit landing, navigation, AOS flows extracted unchanged.
+  - WSC HOLDING note: struck from pending list. Recorded in HOLD
+    category — held for Tier 4 by architecture (depends on DNR).
+  - Pipeline Segment: struck from pending list.
+  - Ghost fixes confirmed: lines 338, 496, 552, 560.
+  - TIER 2 EXTRACTION COMPLETE. All items either locked, struck, or
+    categorized (DEAD/DRIFT/HOLD).
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Session close
+UNCOMMITTED: YES
+NEXT_ACTION: Commit and push, then close session.
+---
+
+---
+TIMESTAMP: 2026-04-14
+TYPE: WORK_UNIT
+SESSION: 47
 TASK: Black Pearl lock — File 3 of 3 (design-build-spec.md)
 FILES_MODIFIED:
   - .claude/plans/design-build-spec.md — COMPLETE
