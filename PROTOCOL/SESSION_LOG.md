@@ -16984,3 +16984,59 @@ UNCOMMITTED: YES (all 5 files above)
 NEXT_ACTION: Session 52 — open, then 3.11 ECR: give plain-language summary FIRST,
   wait for Sage confirmation, audit spec files, THEN write section. Do not skip summary step.
 ---
+---
+TIMESTAMP: 2026-04-14 15:40
+TYPE: CLOSE
+SESSION: 52
+NOTE: No OPEN or WORK_UNIT entries were written for session 52 — context
+  compressed early. This CLOSE captures the full session record.
+FILES_MODIFIED:
+  - DESIGN/Domains/02_Axis/Domain_Infinite_Intricacy.txt — COMPLETE (CONNECTS TO + SIGNAL PROFILE fixed)
+  - DESIGN/Domains/02_Axis/Domain_Threshold.txt — COMPLETE (SIGNAL PROFILE fixed, s20 added)
+  - DESIGN/Domains/02_Axis/Domain_StarRoot.txt — COMPLETE (CONNECTS TO + SIGNAL PROFILE fixed)
+  - DESIGN/Domains/02_Axis/Domain_Metamorphosis.txt — COMPLETE (SIGNAL PROFILE fixed, s12/s19 added)
+  - DESIGN/Domains/02_Axis/Domain_Sat_Nam.txt — COMPLETE (CONNECTS TO fixed)
+  - DESIGN/Domains/02_Axis/Manifest_04_Infinite_Intricacy.txt — COMPLETE (CONNECTS TO fixed)
+  - DESIGN/Domains/02_Axis/Manifest_06_Sat_Nam.txt — COMPLETE (CONNECTS TO fixed; OBJECTIVE reworded — TRIA/PRIA/PARA drift removed)
+  - DESIGN/Systems/Echo_Recall_Engine/ECHO RECALL ENGINE SCHEMA.md — COMPLETE (PLANNED → NOT STARTED)
+  - DESIGN/Systems/Echo_Recall_Engine/SYSTEM_ Echo Recall Engine.md — COMPLETE (PLANNED → NOT STARTED)
+  - DESIGN/Systems/Infinite_Intricacy_Engine/INFINITE INTRICACY ENGINE SCHEMA.md — COMPLETE (OWNS list fixed; PLANNED → NOT STARTED)
+  - DESIGN/Systems/Infinite_Intricacy_Engine/SYSTEM_ Infinite Intricacy Engine.md — COMPLETE (PLANNED → NOT STARTED)
+  - DESIGN/Systems/Sat_Nam_Engine/SAT NAM ENGINE SCHEMA.md — COMPLETE (pillar drift fully removed; pattern_category implemented throughout; PLANNED → NOT STARTED)
+  - DESIGN/Systems/Sat_Nam_Engine/SYSTEM_ Sat Nam Engine.md — COMPLETE (matching updates; PLANNED → NOT STARTED)
+  - DESIGN/Systems/Engine_Computation/ENGINE COMPUTATION SCHEMA.md — COMPLETE (d3-force line: ECR constellation added; PLANNED → NOT STARTED)
+  - DESIGN/Systems/Engine_Computation/SYSTEM_ Engine Computation.md — COMPLETE (PLANNED → NOT STARTED)
+  - DESIGN/Systems/Pipeline_Contracts/PIPELINE CONTRACT 1 — INT TO LNV.md — COMPLETE (4 SNM references updated: index row, compute row, pattern_id example, visualization row)
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — COMPLETE (SnmBipartiteGraph description updated)
+  - .claude/plans/design-build-spec.md — COMPLETE (sections 3.11, 3.12, 3.13 written and locked; d3-force 3.8 fix applied; completed list updated)
+  - PROTOCOL/SESSION_LOG.md — this entry
+COMPLETED:
+  - 3.11 ECR Engine — Echo Recall Lens — LOCKED
+  - 3.12 INF Engine — Infinite Intricacy Lens — LOCKED
+  - 3.13 SNM Engine — Sat Nam Lens — LOCKED (pillar drift identified and removed;
+    pattern_category classification implemented: ancient_philosophy /
+    triadic_architecture / celestial / uncategorized; hybrid A+B approach confirmed)
+  - SEEDS/SIGNAL PROFILE systemic fix across all Axis domain files (THR, STR, INF, MTM)
+  - CONNECTS TO deposit-path drift fixed: Manifest_04, Domain_INF, Domain_STR, Domain_SNM,
+    Manifest_06 — all corrected to Draws from → INT (01) only
+  - PLANNED → NOT STARTED applied system-wide (ECR, INF, SNM, Engine Computation schemas
+    and SYSTEM_ files, Frontend SYSTEM_)
+  - Full SNM integrity audit: Pipeline Contract + Engine Computation + Frontend all updated
+  - Manifest_06 OBJECTIVE reworded: framework-echo drift removed, SNM positioned as
+    pattern tracker parallel to INF
+  - 4 commits pushed (83f5c09, f9e41d3, cc96501, f1e34cd, 72b72f7). 132/132 tests passing.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - 3.14 STR Engine — StarRoot Lens
+  - 3.15 Ven'ai Service
+  - 3.16 Pipeline Segment (Tier 3)
+CLOSE AUDIT: Global search for triadic_frame, TRIA/PRIA.*SNM, snm_s1_pillar, gravitational
+  zones — clean. Only intentional reference remaining: DOES NOT OWN clarification in
+  SAT NAM ENGINE SCHEMA.md ("SNM's own taxonomy, not framework pillars"). 132/132 tests
+  passing across all commits.
+UNCOMMITTED: NO — all changes pushed to origin/main
+NEXT_ACTION: Session 53 — open clean. Begin 3.14 STR Engine (StarRoot, page 03).
+  Source: design-session-plan.md lines 2568–2615.
+  Spec files: DESIGN/Systems/StarRoot_Engine/ (STR SCHEMA + SYSTEM_ StarRoot Engine).
+---
