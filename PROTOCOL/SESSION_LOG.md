@@ -16630,3 +16630,141 @@ CLOSE AUDIT: entropy_scan.py --close-audit run. 430 findings total — all pre-e
 UNCOMMITTED: NO
 NEXT_ACTION: Session 49 — open session, resume Tier 3 at item 3.5.
 ---
+TIMESTAMP: 2026-04-14
+TYPE: OPEN
+SESSION: 49
+RESUMING_FROM: Session 48 CLOSE. Session 49 context compressed mid-V1-V5
+  purge before OPEN could be written. OPEN and WORK_UNITs written retroactively
+  at session close to preserve the record.
+PRIOR_STATE:
+  - design-build-spec.md: 3.1–3.4 locked. Tier 3 items 3.5–3.16 not started.
+  - V1-V5 rot (ROT ENTRY 008) declared by Sage mid-session. Full purge required
+    across all DESIGN/ files before continuing Tier 3.
+FOCUS: ROT ENTRY 008 full purge + Tier 3 items 3.5 and 3.6.
+---
+TIMESTAMP: 2026-04-14
+TYPE: WORK_UNIT
+SESSION: 49
+TASK: Tier 3 — 3.5 Null Observation Flow — file audit + gaps closed + build spec write
+FILES_MODIFIED:
+  - .claude/plans/design-build-spec.md — section 3.5 written
+  - DESIGN/Systems/Tagger/TAGGER SCHEMA.md — observation_presence added to
+    OWNS section, Claude API response shape, detection prompt, validation rules,
+    deposit integration sequence
+  - DESIGN/Systems/Tagger/SYSTEM_ Tagger.md — observation_presence and
+    deposit_weight added to OWNS; pipeline steps 4 and 8 updated
+  - DESIGN/Systems/Integration/INTEGRATION SCHEMA.md — observation_presence
+    field description updated; review card layout and editable fields updated
+  - DESIGN/Systems/Engine_Computation/ENGINE COMPUTATION SCHEMA.md — NULL
+    OBSERVATION FLOW step 1 updated (tagger-detected, Sage-confirmed)
+COMPLETED:
+  - Two-counter mechanic (times_observed / times_examined) confirmed clean in
+    ENGINE COMPUTATION SCHEMA.md.
+  - null_contribution sub-object shape confirmed complete and consistent.
+  - Tagger-assisted observation_presence detection fully specified (Option B):
+    tagger detects absence language, suggests null, Sage confirms or overrides.
+    Only fires for observation/analysis/hypothesis doc_types.
+  - Pre-commit audit caught missing observation_presence in SYSTEM_ Tagger.md
+    and pre-existing deposit_weight gap. Both fixed before commit.
+  - 3.5 locked. Committed as 6127c93.
+COMMITTED: YES
+---
+TIMESTAMP: 2026-04-14
+TYPE: WORK_UNIT
+SESSION: 49
+TASK: ROT ENTRY 008 — V1-V5 full system purge (all three categories)
+FILES_MODIFIED:
+  Category 3 (behavioral qualifiers) — 5 files:
+  - DESIGN/Systems/ARTIS/SYSTEM_ ARTIS.md
+  - DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT ARCHIVE ACCESS.md
+  - DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT EMBEDDING SCOPE.md
+  - DESIGN/Systems/Research_Assistant/SYSTEM_ Research Assistant.md (2 instances)
+  Category 1 (file headers — ## XXX · V1 / ## V1) — 32 files:
+  - All 31 DESIGN/Systems/ schema and SYSTEM_ files with V1 headers cleared
+  - DESIGN/Systems/Tagger/TAGGER SCHEMA.md (plain text header format)
+  Category 2 (file table status cells — | V1 | → | COMPLETE |) — 10 files:
+  - SYSTEM_ Engine Computation, Infinite Intricacy Engine, Venai Service,
+    Embedding Pipeline, Threshold Engine, Echo Recall Engine, StarRoot Engine,
+    Tagger, Sat Nam Engine, Swarm, Operational DB, Research Assistant (7 rows)
+  Additional behavioral qualifiers found and fixed:
+  - DESIGN/Systems/FastAPI/SYSTEM_ FastAPI.md
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md
+  - DESIGN/Systems/Infinite_Intricacy_Engine/SYSTEM_ Infinite Intricacy Engine.md
+  - .claude/plans/design-build-spec.md (line 181)
+  - .claude/plans/infrastructure-build-plan.md (line 619)
+  ROT_REGISTRY.md — ENTRY 008 expanded with full infected file list
+  ROT_OPEN.md — design-session-plan.md pending decision added
+  .claude/plans/design-session-plan.md — ROT 008 warning added to
+    verification log (DO NOT USE V1-V5 notice for future sessions)
+  Memory: feedback_v2_definition.md retired; MEMORY.md entry removed
+COMPLETED:
+  - grep -rn "V[1-5]" DESIGN/ → No matches found. DESIGN/ fully clean.
+  - design-session-plan.md retains historical contamination (30+ instances)
+    as session record. Warning note added at top. Will be retired once all
+    tier specs land in design-build-spec.md. Logged in ROT_OPEN.md.
+  - Committed as 0c29c41 (54 files, 155 deletions) and bb19489 (warning note).
+COMMITTED: YES
+---
+TIMESTAMP: 2026-04-14
+TYPE: WORK_UNIT
+SESSION: 49
+TASK: Tier 3 — 3.6 Engine State Snapshots + MTM Drift Tracking — file audit +
+  Option B decision + trigger_source gap + build spec write
+FILES_MODIFIED:
+  - DESIGN/Systems/Engine_Computation/ENGINE COMPUTATION SCHEMA.md —
+    visualization snapshot trigger updated to Option B (auto on signal delta
+    + Sage on demand); trigger_source field added to visualization_snapshots
+    table; note field description updated; captured_at description corrected
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — visualization_snapshots
+    table updated: Option B language, write authority, trigger_source field,
+    note field description
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md — visualization_snapshots
+    inline description updated with trigger_source
+  - DESIGN/Systems/Engine_Computation/SYSTEM_ Engine Computation.md —
+    OWNS list and LNV section updated for Option B
+  - DESIGN/Systems/Liber_Novus/SYSTEM_ LNV.md — engine snapshot policy and
+    session-close policy updated for Option B
+  - DESIGN/Systems/Echo_Recall_Engine/SYSTEM_ Echo Recall Engine.md — LNV section updated
+  - DESIGN/Systems/StarRoot_Engine/SYSTEM_ StarRoot Engine.md — LNV section updated
+  - DESIGN/Systems/Sat_Nam_Engine/SYSTEM_ Sat Nam Engine.md — LNV section updated
+  - DESIGN/Systems/Threshold_Engine/SYSTEM_ Threshold Engine.md — LNV section updated
+  - DESIGN/Systems/Infinite_Intricacy_Engine/SYSTEM_ Infinite Intricacy Engine.md — LNV section updated
+  - .claude/plans/design-build-spec.md — section 3.6 written; completed list updated
+COMPLETED:
+  - Computation snapshots confirmed: automatic, every run, PostgreSQL,
+    mtm_read_at drift tracking. Clean.
+  - MTM drift tracking confirmed: current snapshot vs. previous mtm_read_at
+    snapshot. Three outputs: new / shifted / stable. Clean.
+  - Visualization snapshots: Option B confirmed by Sage. Auto-trigger fires on
+    significant signal delta (new strong pattern, band change, new pattern type).
+    Comparison logic in engine_base.py.
+  - Blocking gap caught: trigger_source field absent from visualization_snapshots.
+    Added: enum 'auto' | 'sage'. note field description updated for both paths.
+  - 11-file cascade audit performed. All "Sage-triggered only" language corrected.
+  - 3.6 locked. Committed as 716a19f.
+  - PROTOCOL/SESSION_LOG.md — OPEN + 3 WORK_UNITs + CLOSE (this entry)
+COMMITTED: YES
+---
+TIMESTAMP: 2026-04-14
+TYPE: CLOSE
+SESSION: 49
+FILES_MODIFIED:
+  - See WORK_UNIT entries above. 70+ files across V1-V5 purge and 3.5–3.6.
+  - PROTOCOL/SESSION_LOG.md — this entry
+COMPLETED:
+  - ROT ENTRY 008 V1-V5 purge: DESIGN/ fully clean. design-session-plan.md
+    warning written. ROT_REGISTRY expanded. ROT_OPEN updated.
+  - Tier 3 items 3.5 and 3.6 locked and pushed.
+  - Memory housekeeping: feedback_v2_definition.md retired.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Tier 3 items 3.7–3.16
+CLOSE AUDIT: No new rot introduced. V1-V5 confirmed absent from all DESIGN/
+  files (grep -rn "V[1-5]" DESIGN/ → No matches). design-build-spec.md active,
+  no stubs. All commits pushed. Session closed at clean boundary (3.6 locked).
+  design-session-plan.md contamination documented in ROT_OPEN.md — pending Sage
+  decision, not blocking.
+UNCOMMITTED: YES (this entry)
+NEXT_ACTION: Session 50 — open session, resume Tier 3 at item 3.7.
+---
