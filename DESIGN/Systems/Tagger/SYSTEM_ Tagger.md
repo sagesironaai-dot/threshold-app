@@ -14,6 +14,8 @@
 * Elarian Anchor detection logic — prompt block that identifies the psychological state of self present in the entry. Returns one of seven anchor codes or null. Composite ID owns the field definition and its states; the tagger owns how it detects them
 * phase_state suggestion — AI-suggested ontological threshold state per entry. One of 12 canonical threshold names or null. TAG VOCABULARY.md is the canonical source for threshold names and IDs
 * doc_type suggestion — AI-suggested content classification per entry. Sage can override
+* deposit_weight suggestion — AI-assessed weight tier (high | standard | low) per entry. Sage can override
+* observation_presence suggestion — conditional on doc_type being observation, analysis, or hypothesis. Tagger detects absence language and suggests positive or null. Sage confirms or overrides
 * clearResult() sequencing — tagger result is cleared only after createEntry() confirms success. Never before
 * Seed affinity weighting — section-specific seed weighting for tag suggestions. Canonical source for seed affinity data is a blocking decision (SECTION MAP vs domain files — unresolved)
 
@@ -34,11 +36,11 @@
 1. Sage opens a section panel and begins a deposit
 2. Tagger panel sends entry text + section_id to FastAPI /tagger/ endpoint
 3. FastAPI /tagger/ route calls Claude API with: entry text, section context, tag vocabulary summary, seed affinity weights, threshold names, Elarian Anchor prompt block
-4. Claude API returns: tag suggestions (with seed_id, layer_id, threshold_id, pillar_id routing per tag), phase_state, elarianAnchor, doc_type
+4. Claude API returns: tag suggestions (with seed_id, layer_id, threshold_id, pillar_id routing per tag), phase_state, elarianAnchor, doc_type, deposit_weight, observation_presence
 5. FastAPI /tagger/ route validates response shape and returns to frontend
 6. Tagger panel displays suggestions in the UI
 7. Sage reviews — accepts, rejects, or modifies each suggestion
-8. On deposit confirm: accepted tags, phase_state, elarianAnchor, doc_type travel with the entry to createEntry()
+8. On deposit confirm: accepted tags, phase_state, elarianAnchor, doc_type, deposit_weight, observation_presence travel with the entry to createEntry()
 9. createEntry() confirms success → clearResult() fires → tagger store is cleared
 
 ---

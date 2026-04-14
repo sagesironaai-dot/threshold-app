@@ -17,6 +17,10 @@ OWNERSHIP BOUNDARIES
     phase_state suggestion — one of 12 threshold names or null
     doc_type suggestion — AI-suggested, Sage can override
     deposit_weight suggestion — AI-assessed, Sage can override
+    observation_presence suggestion — conditional on doc_type being
+      observation, analysis, or hypothesis. Tagger detects absence
+      language in content and suggests positive or null. Sage confirms
+      or overrides.
     clearResult() sequencing — fires only after createEntry()
       confirms success
     Seed affinity weighting — section-specific seed weights
@@ -94,6 +98,16 @@ CLAUDE API RESPONSE
                        should count in engine computations.
                        Based on doc_type, content specificity,
                        and confidence level.
+    observation_presence: string | null
+                       Conditional on doc_type. When doc_type is
+                       observation, analysis, or hypothesis:
+                       "positive" if presence was observed, null
+                       if absence was examined ("I looked for X,
+                       it wasn't there"). Returns null when
+                       doc_type does not warrant this field.
+                       Defaults to "positive" when doc_type
+                       warrants it but no clear absence language
+                       is detected.
     section_context:   boolean
                        true if seed affinity weighting was
                        applied, false if section was missing
@@ -106,6 +120,10 @@ CLAUDE API RESPONSE
   (not one of 12 threshold names) are replaced with null.
   Invalid elarianAnchor values are replaced with null.
   Invalid doc_type values are replaced with "entry" (default).
+  Invalid observation_presence values (not "positive" or null) are
+  replaced with null. If doc_type is not observation, analysis, or
+  hypothesis, observation_presence is forced to null regardless of
+  tagger output.
 
 
 TAGGER PROMPT BLOCKS
@@ -198,6 +216,33 @@ TAGGER PROMPT BLOCKS
   doc_type enum defined in INTEGRATION SCHEMA.md.
 
 
+  OBSERVATION_PRESENCE DETECTION PROMPT
+
+  Only applies when doc_type is observation, analysis, or hypothesis.
+  Return null for all other doc_types.
+
+  Detect whether the content records something that was present or
+  something that was examined but absent.
+
+    positive — the researcher observed or found what is described.
+               Content records presence, confirmation, or encounter
+               with the signal or pattern.
+
+    null     — the researcher looked for something and found it absent.
+               Absence language includes: "did not observe," "was not
+               present," "absent," "no sign of," "expected but not
+               found," "looked for X, it wasn't there," or any phrasing
+               that records a deliberate search with a negative result.
+
+  Return "positive" when the content is an observation of presence.
+  Return null when the content clearly records an examined absence.
+  Default to "positive" when the content is ambiguous — positive
+  observation is the common case. Absence must be clearly indicated
+  in the language to return null.
+
+  observation_presence field defined in INTEGRATION SCHEMA.md.
+
+
   DEPOSIT_WEIGHT ASSESSMENT PROMPT
 
   Assess how much this deposit should count in downstream
@@ -268,7 +313,8 @@ SEQUENCES
 
   1. Sage confirms deposit.
   2. Accepted tags, phase_state, elarianAnchor, doc_type,
-     deposit_weight travel with entry data to createEntry().
+     deposit_weight, observation_presence travel with entry data
+     to createEntry().
   3. createEntry() writes to PostgreSQL via FastAPI
      POST /entries/.
   4. createEntry() confirms success.

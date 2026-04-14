@@ -760,6 +760,7 @@ this document as each passes audit:
 - ~~3.2 Deposit Weight Mechanics~~ — locked 2026-04-14
 - ~~3.3 Compute Trigger — Hybrid~~ — locked 2026-04-14
 - ~~3.4 Baseline Computation~~ — locked 2026-04-14
+- ~~3.5 Null Observation Flow~~ — locked 2026-04-14
 
 ---
 
@@ -966,6 +967,60 @@ SIGNAL CLASSIFICATION, ENGINE RESULT OBJECT, PATTERN RELIABILITY
 CONSTANTS). All five engine schemas (insufficient_data definition, low_sample
 in JSON shapes). METAMORPHOSIS SCHEMA.md (low_sample handling note in
 ENGINE OUTPUT READ SPEC).
+
+---
+
+### 3.5 NULL OBSERVATION FLOW
+
+Null observations — "I looked for X and it wasn't there" — are
+first-class data. Not gaps, not missing data. Active evidence of
+absence that sharpens baselines and prevents confirmation bias by
+construction.
+
+**How a null enters the system:**
+Deposit carries `observation_presence: null` — tagger-detected from
+absence language in content, Sage confirms or overrides. Only appears
+on `observation`, `analysis`, and `hypothesis` doc_types. Routes to
+the target page via tags and pages fields identically to a positive
+observation.
+
+**Two counters per pattern element:**
+- `times_observed` — weighted count of deposits where this element
+  is present. Positive observations only.
+- `times_examined` — weighted count of deposits that could have
+  contained this element. Positive + null both count.
+
+Rate = `times_observed / times_examined`. The gap between the two
+counters is the null count. Without it, the denominator only includes
+cases where the element was found — confirmation bias by construction.
+
+**Null targeting:** tags declare what was examined. A deposit tagged
+`th01` with `observation_presence: null` means "th01 was examined,
+result: absent." Complex absences ("expected th01 and th05 together,
+only saw th01") use the deposit's `notes` field. No dedicated
+null_target field — resolved to notes in ENGINE COMPUTATION SCHEMA.md.
+
+**How nulls sharpen baselines:** a null for `th01` increases
+`times_examined` without increasing `times_observed`. This pushes
+`th01`'s marginal rate down — genuine co-occurrences stand out more
+against the adjusted baseline. Nulls make the math more honest.
+
+**null_contribution sub-object** travels in every pattern result:
+```
+null_contribution:
+  null_count:        integer  — null observations touching this pattern
+  null_weighted:     float    — weighted sum of null deposit_weights
+  positive_count:    integer  — positive observations touching this pattern
+  positive_weighted: float    — weighted sum of positive deposit_weights
+```
+Nexus and Cosmology read it directly — no special-case logic needed
+to distinguish null-sourced from positive-sourced patterns.
+
+**Spec authority:** ENGINE COMPUTATION SCHEMA.md (NULL OBSERVATION
+FLOW, two-counter mechanics, null_contribution shape). TAGGER
+SCHEMA.md (OBSERVATION_PRESENCE DETECTION PROMPT, response shape,
+validation rules). INTEGRATION SCHEMA.md (RESEARCHER OBSERVATION
+FIELDS, review card layout, editable fields).
 
 ---
 

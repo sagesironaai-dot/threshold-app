@@ -339,8 +339,8 @@ identically at the mechanical level.
 
   FLOW
 
-  1. Sage deposits with observation_presence: null, routed to
-     target page via tags and pages fields
+  1. Deposit carries observation_presence: null (tagger-detected,
+     Sage-confirmed), routed to target page via tags and pages fields
   2. Engine indexes the deposit identically to positive
      observations — same step 1 (INDEX)
   3. At compute (step 2): null increments times_examined WITHOUT

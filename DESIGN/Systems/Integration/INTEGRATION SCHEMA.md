@@ -126,6 +126,10 @@ material.
                          which is a methodology field (real_time |
                          retrospective). Different tables, different
                          semantics — different names.
+                         AI-suggested via tagger when doc_type is
+                         observation, analysis, or hypothesis — tagger
+                         detects absence language and suggests positive
+                         or null. Sage confirms or overrides.
 
   confidence           — clear | emerging | raw
                          About the OBSERVATION, not the observer.
@@ -1007,6 +1011,10 @@ REVIEW CARD LAYOUT:
   │ Content (full text of suggested deposit)         │
   │                                                  │
   │ doc_type: [dropdown — pre-populated via mapping] │
+  │ observation_presence: [positive / null]          │
+  │   (conditional — only when doc_type is           │
+  │    observation, analysis, or hypothesis.         │
+  │    Tagger-suggested, Sage confirms or overrides) │
   │ Suggested tags: [tag] [tag] [tag]  (editable)    │
   │ Suggested routing: [Page A] [Page B]  (editable) │
   │ Chunk: #N of M  |  Session: [date]               │
@@ -1024,8 +1032,9 @@ table (see INT Parsing Partner section). Sage confirms or changes
 before approving. Full doc_type enum always available in dropdown —
 the mapping pre-selects, it doesn't constrain.
 
-Editable fields during review: content, tags, doc_type, routing. All
-four editable before approve. Edit is inline — no modal, no separate
+Editable fields during review: content, tags, doc_type,
+observation_presence (when applicable), routing. All editable before
+approve. Edit is inline — no modal, no separate
 form. Any edit fires a correction event that enters correction_context
 for the session.
 
