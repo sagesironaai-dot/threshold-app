@@ -16577,3 +16577,56 @@ COMPLETED:
 UNCOMMITTED: YES
 NEXT_ACTION: Continue with 3.5 (next Tier 3 item).
 ---
+TIMESTAMP: 2026-04-14
+TYPE: CLOSE
+SESSION: 48
+FILES_MODIFIED:
+  - .claude/plans/design-build-spec.md — COMPLETE (3.1–3.4 written; completed list added)
+  - .claude/plans/design-session-plan.md — COMPLETE (null_target drift corrected)
+  - DESIGN/Systems/Engine_Computation/ENGINE COMPUTATION SCHEMA.md — COMPLETE
+  - DESIGN/Systems/Engine_Computation/SYSTEM_ Engine Computation.md — COMPLETE
+  - DESIGN/Systems/Threshold_Engine/THRESHOLD ENGINE SCHEMA.md — COMPLETE
+  - DESIGN/Systems/Echo_Recall_Engine/ECHO RECALL ENGINE SCHEMA.md — COMPLETE
+  - DESIGN/Systems/Infinite_Intricacy_Engine/INFINITE INTRICACY ENGINE SCHEMA.md — COMPLETE
+  - DESIGN/Systems/StarRoot_Engine/STARROOT ENGINE SCHEMA.md — COMPLETE
+  - DESIGN/Systems/Sat_Nam_Engine/SAT NAM ENGINE SCHEMA.md — COMPLETE
+  - DESIGN/Systems/Metamorphosis/METAMORPHOSIS SCHEMA.md — COMPLETE
+  - DESIGN/Systems/Resonance_Engine/RESONANCE ENGINE PHYSICS SPEC.md — COMPLETE
+  - DESIGN/Systems/Resonance_Engine/SYSTEM_ Resonance Engine.md — COMPLETE
+  - DESIGN/Systems/Tagger/TAGGER SCHEMA.md — COMPLETE
+  - PROTOCOL/SESSION_LOG.md — COMPLETE (OPEN + 4 WORK_UNITs + CLOSE)
+  - .claude/audits/deposit-weight-3.2-audit-2026-04-14.md — COMPLETE (NEW)
+  - .claude/audits/compute-trigger-3.3-audit-2026-04-14.md — COMPLETE (NEW)
+  - .claude/audits/baseline-computation-3.4-audit-2026-04-14.md — COMPLETE (NEW)
+COMPLETED:
+  - Tier 3 items 3.1–3.4 fully audited, gaps closed, build spec written, locked
+  - 3.1: Four-step contract confirmed clean across ENGINE COMPUTATION SCHEMA.md
+    and three supporting DB schemas. Null_target drift in session plan corrected.
+  - 3.2: Deposit weight mechanics. tagWeight gap resolved (source undefined in
+    Resonance Engine activity formula). Two-layer weight system documented.
+    Tagger sync payload transformation fully specified (weight, originId, timestamp).
+    originId = authored_by agent identity (Larimar→o01, Verith→o02, Cael'Thera→o03).
+  - 3.3: Hybrid compute trigger. stale_warning field added to engine result object
+    (was referenced in failure mode 4 but absent from shape). MTM freshness
+    guarantee and stale_warning handling documented in METAMORPHOSIS SCHEMA.md.
+  - 3.4: Baseline computation. Two calibration gaps addressed:
+    MIN_PATTERN_DEPOSIT_COUNT → low_sample: boolean (thin-sample patterns).
+    MIN_ELEMENT_COUNT → extended insufficient_data trigger (near-zero elements).
+    Both constants PLANNED (values set at build time). low_sample added to all
+    five engine JSON shapes. MTM handling for low_sample documented.
+  - All three audit artifacts written and committed.
+  - Build spec sections 3.1–3.4 written with completed/locked list.
+  - Session compressed twice — closed cleanly at logical boundary after 3.4.
+  - All 17 files committed and pushed (commit e4174be).
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Tier 3 items 3.5–3.16
+CLOSE AUDIT: entropy_scan.py --close-audit run. 430 findings total — all pre-existing.
+  HIGH findings are contamination markers (old architecture refs in CLAUDE.md,
+  PROTOCOL_TODO.md) and phantom file reference false positives (scanner extracts
+  partial names from longer file references). Zero findings introduced by session 48
+  changes. Marker created with --force after review.
+UNCOMMITTED: NO
+NEXT_ACTION: Session 49 — open session, resume Tier 3 at item 3.5.
+---
