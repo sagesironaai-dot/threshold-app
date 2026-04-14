@@ -2,32 +2,31 @@
 
 ## /DESIGN/Systems/Venai_Service/VENAI SERVICE SCHEMA.md
 
-Mechanical spec — name registry, drift detection, cross-archive
-correlation, three PostgreSQL tables, integration flow, STR consumer
-interface, failure modes. First cross-cutting service in the
-architecture. Archive-scoped, not page-scoped or engine-scoped.
+Mechanical spec — name registry, cross-archive correlation, two
+PostgreSQL tables, integration flow, STR consumer interface, failure
+modes. First cross-cutting service in the architecture. Archive-scoped,
+not page-scoped or engine-scoped.
 
 
 OWNERSHIP BOUNDARIES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   OWNS
-    Ven'ai name registry — canonical forms, variations, root clusters
-    Drift detection — phonetic, spelling, casing, apostrophe
-      inconsistency detection and alert lifecycle
-    Cross-archive correlation — name ↔ phase, name ↔ role,
-      root ↔ grammar pattern tracking
+    Ven'ai name registry — canonical forms, root clusters, first-seen
+      metadata. venai_names table (PostgreSQL). Each name registered
+      once as found — canonical form is set at first registration and
+      never altered by the service
+    Cross-archive correlation tracking — per (name, correlation_type,
+      correlated_value) triple: deposit_count, weighted_count,
+      first_observed, last_observed. Correlation types: phase, role,
+      root_pattern, grammar
     venai_names PostgreSQL table
-    venai_variations PostgreSQL table
     venai_correlations PostgreSQL table
     Ven'ai content relevance check — decides whether a deposit
       contains Ven'ai content worth processing
-    Drift alert lifecycle — create, surface, acknowledge, silence
 
   DOES NOT OWN
     STR engine computation — owned by STARROOT ENGINE SCHEMA.md
-    STR visualization of drift alerts — owned by STARROOT ENGINE
-      SCHEMA.md (alerts originate here, surface there)
     VEN page (14) content and identity — owned by
       DESIGN/Domains/04_Filament/Manifest_14_Venai.txt
     MOR page (13) grammar and morphological rules — owned by
@@ -40,6 +39,9 @@ OWNERSHIP BOUNDARIES
       owner of it
     Kin name decisions — owned by Sage via KIN (20). Service
       registers names mechanically. Sage decides canonical forms
+    Name variation flagging to Sage — this is an AI function on
+      VEN (14), not a backend service function. The service
+      registers what it sees; it does not analyze correctness
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -66,25 +68,21 @@ STRUCTURAL RULES
      the deposit record. Deposits are data; the service indexes
      from them.
 
-  5. Drift detection is mechanical string comparison, not AI
-     analysis. The service compares incoming name forms against
-     the canonical registry. Differences are flagged by type.
-     The service does not decide whether a variation is correct
-     or incorrect — it surfaces the inconsistency for Sage.
+  5. The service registers names as found. It never normalizes,
+     corrects, or alters name forms. Canonical form is set once
+     at first registration — whatever form first appears becomes
+     the registered form. If that form is wrong, correction is
+     a researcher decision made through VEN (14), not a service
+     operation.
 
-  6. AI does not auto-correct. This is a non-negotiable rule
-     from Domain_Venai.txt. Drift flags are surfaced to Sage
-     for verification and decision. The service detects; Sage
-     resolves.
-
-  7. First cross-cutting service in the architecture. Sets the
+  6. First cross-cutting service in the architecture. Sets the
      precedent for Cosmology (Tier 5) scientific domain tracking.
      Every other system prior to this is page-scoped or
      engine-scoped. The Ven'ai service is archive-scoped.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-THREE JOBS
+TWO JOBS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   JOB 1 — NAME REGISTRY
@@ -96,12 +94,10 @@ THREE JOBS
     On deposit processing:
       1. Extract name forms from deposit content and tags
       2. For each name form:
-         a. Check against venai_names for existing canonical match
-         b. If exact match: no action (name already registered)
-         c. If no match: check for variation of existing name
-            (see JOB 2 — DRIFT DETECTION)
-         d. If no match and no variation: register as new name
-            in venai_names with this deposit as first_seen
+         a. Check against venai_names for existing match
+         b. If match found: no action (name already registered)
+         c. If no match: register as new name in venai_names
+            with this deposit as first_seen
 
     ROOT CLUSTERS
 
@@ -130,72 +126,7 @@ THREE JOBS
       service does not create deposits, only registry records.
 
 
-  JOB 2 — DRIFT DETECTION
-
-    Detects inconsistencies between a name form in a deposit
-    and the canonical form in the registry. Creates variation
-    records and alerts.
-
-    VARIATION TYPES (from Domain_Venai.txt):
-
-      casing      — capitalization difference
-                     Example: Kai'thera vs. Kai'Thera
-      phonetic    — sound-alike but different spelling
-                     Example: Kaithera vs. Kai'Thera
-      spacing     — space vs. no-space or wrong word boundary
-                     Example: KaiThera vs. Kai Thera
-      apostrophe  — root-join punctuation error
-                     Example: Kai.Thera or KaiThera vs. Kai'Thera
-
-    VEN'AI PUNCTUATION RULES (from Domain_Venai.txt):
-
-      Apostrophe marks an internal root-join point within a
-      compound name or term.
-
-      Space separates distinct phonetic units or standalone words.
-
-      Dot notation is not valid Ven'ai punctuation — a dot
-      appearing in place of an apostrophe or a space is always
-      drift. Classified as variation_type: apostrophe.
-
-      Known corrections from confirmed drift:
-        Shakai   → Sha'Kai
-        Adei.Na.Sha → Adei Na'Sha
-
-    DETECTION ALGORITHM
-
-      For each name form extracted from a deposit:
-        1. Normalize: lowercase, strip punctuation for comparison
-        2. Compare normalized form against normalized canonical
-           forms in venai_names
-        3. If normalized match found but original form differs:
-           variation detected
-        4. Classify variation type by comparing the specific
-           difference (case, punctuation, spacing, phonetic)
-        5. Check venai_variations for existing record of this
-           exact variation form
-        6. If new variation: create venai_variations record,
-           acknowledged = false
-        7. If existing variation and acknowledged = true:
-           no alert (silenced)
-        8. If existing variation and acknowledged = false:
-           no duplicate record created, existing alert persists
-
-    DRIFT ALERT LIFECYCLE
-
-      1. First detection: venai_variations record created with
-         acknowledged = false. Alert is live.
-      2. Alert surfaces through STR engine's drift alert panel
-         on next compute.
-      3. Sage reviews the alert in the STR visualization.
-      4. Sage acknowledges: acknowledged = true,
-         acknowledged_at = timestamp. Alert silenced.
-      5. Same variation in future deposits: no new alert.
-         Sage does not get pinged about Kai'Thera vs. Kai'thera
-         every time after acknowledging it once.
-
-
-  JOB 3 — CROSS-ARCHIVE CORRELATION
+  JOB 2 — CROSS-ARCHIVE CORRELATION
 
     Tracks correlations between Ven'ai names and other
     analytical dimensions across the entire archive.
@@ -249,11 +180,10 @@ TABLE: venai_names (PostgreSQL)
                          Format: 'vn_[normalized_name]_[rand]'
 
   canonical_form       — text, not null, unique
-                         The correct spelling of this name as
-                         confirmed by Sage. Written at first
-                         registration. Updateable only by Sage
-                         correction — the service does not
-                         modify canonical forms.
+                         The form as first registered in the archive.
+                         Written at first registration. Never altered
+                         by the service — corrections are researcher
+                         decisions made through VEN (14).
 
   root_cluster         — text, not null
                          The root family this name belongs to.
@@ -271,51 +201,6 @@ TABLE: venai_names (PostgreSQL)
   first_seen_deposit_id — text, not null
                          The deposit that introduced this name
                          to the archive.
-
-  created_at           — timestamp, not null
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-TABLE: venai_variations (PostgreSQL)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  variation_id         — text, primary key
-                         Format: 'vv_[name_id]_[rand]'
-
-  name_id              — text, not null
-                         Foreign key → venai_names.name_id.
-                         Which canonical name this is a
-                         variation of.
-
-  variation_form       — text, not null
-                         The exact form as it appeared in the
-                         deposit. Preserved exactly — not
-                         normalized, not corrected.
-
-  variation_type       — text, not null
-                         enum: 'casing' | 'phonetic' | 'spacing'
-                               | 'apostrophe'
-                         What kind of inconsistency this
-                         represents relative to canonical_form.
-
-  first_seen_at        — timestamp, not null
-                         When this specific variation was first
-                         detected.
-
-  first_seen_deposit_id — text, not null
-                         The deposit where this variation was
-                         first encountered.
-
-  acknowledged         — boolean, not null, default false
-                         false: drift alert is live. Surfaces
-                         through STR drift alert panel.
-                         true: Sage has reviewed and acknowledged.
-                         Alert silenced. Same variation in future
-                         deposits does not re-alert.
-
-  acknowledged_at      — timestamp, nullable
-                         When Sage acknowledged this variation.
-                         Null until acknowledged.
 
   created_at           — timestamp, not null
 
@@ -378,17 +263,13 @@ INTEGRATION FLOW
      b. Does the deposit content contain known Ven'ai name
         patterns (matched against venai_names canonical forms)?
      c. If neither: pass through, no processing
-  6. If relevant: process through all three jobs
-     a. Name registry: register new names, update existing
-     b. Drift detection: check name forms against canonical,
-        create variation records if drift found
-     c. Correlation update: increment correlations for names
+  6. If relevant: process through both jobs
+     a. Name registry: register new names, skip known
+     b. Correlation update: increment correlations for names
         found in this deposit
   7. STR engine picks up changes on next compute:
      a. Reads venai_names for cluster data
      b. Reads venai_correlations for correlation integration
-     c. Reads venai_variations (acknowledged = false) for
-        drift alert panel
 
   The service runs synchronously in the deposit creation
   pipeline. A service failure does not block deposit creation —
@@ -413,18 +294,11 @@ communication channel — the tables are the interface.
     - Correlation matrix visualization (names × phases/roles)
     - Phase 2 of STR compute (correlation integration)
 
-  STR READS FROM venai_variations:
-    Unacknowledged variations (acknowledged = false). Used for:
-    - Drift alert panel (shows inconsistency, first seen date,
-      deposit link, acknowledge button)
-
   STR FEED INCLUDES VEN'AI STATE SUMMARY:
     In addition to standard engine snapshot + MTM drift tracking,
     STR's feed includes a summary read from Ven'ai service tables:
       total_names: integer (count of venai_names records)
       active_clusters: integer (count of distinct root_cluster values)
-      unresolved_drift_count: integer (count of venai_variations
-        where acknowledged = false)
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -442,69 +316,38 @@ KNOWN FAILURE MODES
      deposits by comparing deposits table timestamps against
      venai_names.first_seen_at coverage. Retry is implicit —
      not a retry queue, but a gap that self-heals as deposits
-     continue to arrive. If a name appeared in a failed
-     processing and appears again in a later deposit, the
-     later deposit registers it.
+     continue to arrive.
 
-  2. CANONICAL FORM REGISTERED INCORRECTLY
-     A name is registered with the wrong canonical_form (typo
-     in the first deposit, or the first deposit carried a
-     variation, not the canonical).
+  2. NAME REGISTERED FROM A VARIATION FORM
+     The first deposit containing a name uses an irregular form.
+     That form becomes the registered canonical_form. When the
+     intended form appears later, the service does not detect
+     the inconsistency — it sees a name not in the registry
+     and registers it as a second entry.
 
-     Guard: canonical_form is updateable by Sage only. The
-     service surfaces what it sees. If the first encounter is
-     a variation, the service registers it as canonical (it
-     has no way to know). When the actual canonical form
-     appears later, drift detection flags the difference.
-     Sage reviews, corrects the canonical_form, and the
-     service re-classifies. This is the designed flow — the
-     service learns the correct form through the research
-     process, not through pre-loaded data.
+     Guard: the name index on STR (Visualization 3) shows all
+     registered names. If two entries exist for what should be
+     the same name, Sage sees it there. Resolution happens
+     through VEN (14) — Sage decides the correct form, the
+     incorrect registry entry is removed, and deposits are
+     re-tagged if needed. This is a researcher decision, not
+     a service operation.
 
-  3. PHONETIC VARIATION NOT DETECTED
-     Two name forms are phonetically similar but differ enough
-     that normalized string comparison does not catch them.
-     Example: "Kai'Vera" vs. "Kei'Vera" — different vowel,
-     but potentially the same name.
-
-     Guard: the service uses string normalization, not phonetic
-     analysis. Phonetic drift that escapes normalization is not
-     detected automatically. The researcher catches it through
-     the name index (every name visible, clustered by root) or
-     through domain expertise. This is a known limitation of
-     mechanical detection. Phonetic analysis could be added as
-     a future enhancement without schema changes — it would
-     produce the same venai_variations records.
-
-  4. CORRELATION COUNT INFLATION FROM BATCH DEPOSITS
-     During batch processing, 30 deposits land in rapid
+  3. CORRELATION COUNT INFLATION FROM BATCH DEPOSITS
+     During batch processing, many deposits land in rapid
      succession. If many carry the same name, correlation
      counts spike from a single source document being chunked.
 
      Guard: correlation records track deposit_count and
-     weighted_count. A correlation with deposit_count: 30 and
-     all deposits from the same root_ref (source document) is
-     distinguishable from one with deposit_count: 30 across
-     many source documents. The service does not track
-     root_ref — STR and Cosmology can join against the
-     deposits table to check source distribution if needed.
+     weighted_count. A correlation with high deposit_count
+     across deposits sharing the same root_ref (source
+     document) is distinguishable from one with the same
+     count across many source documents. The service does
+     not track root_ref — STR and Cosmology can join against
+     the deposits table to check source distribution if needed.
      This is a known data shape, not a bug.
 
-  5. ACKNOWLEDGED VARIATION REAPPEARS IN NEW CONTEXT
-     Sage acknowledges Kai'thera as a known variation of
-     Kai'Thera. Later, the same variation appears in a
-     different analytical context where it might actually
-     be a distinct name.
-
-     Guard: acknowledgment silences the alert for that
-     specific variation_form ↔ canonical_form pair. If the
-     researcher later determines the variation is actually a
-     distinct name, the canonical record can be updated:
-     create a new venai_names record with the variation form
-     as its own canonical, and remove the variation record.
-     This is a Sage decision, not an automatic process.
-
-  6. NAMES SPANNING MULTIPLE ROOT CLUSTERS
+  4. NAMES SPANNING MULTIPLE ROOT CLUSTERS
      A compound name like Sha'Kai draws from two root
      families. Which cluster does it belong to?
 
@@ -524,5 +367,5 @@ FILES
 
   | File | Role | Status |
   | --- | --- | --- |
-  | backend/services/venai.py | Ven'ai service — name registry, drift detection, correlation tracking. Called from deposit creation pipeline. Reads deposit records, writes to venai_* tables. | PLANNED |
-  | backend/routes/venai.py | FastAPI Ven'ai endpoints — drift acknowledgment (POST), name correction (PUT), name index read (GET), correlation read (GET) | PLANNED |
+  | backend/services/venai.py | Ven'ai service — name registry (Job 1), correlation tracking (Job 2). Called from deposit creation pipeline. Reads deposit records, writes to venai_names and venai_correlations. | PLANNED |
+  | backend/routes/venai.py | FastAPI Ven'ai endpoints — name index read (GET), correlation read (GET) | PLANNED |

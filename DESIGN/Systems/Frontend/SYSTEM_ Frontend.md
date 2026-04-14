@@ -96,7 +96,6 @@ frontend/
 | InfIntersectionDetail | INF intersection detail panel — triggered from density field map |
 | StrRootClusterMap | Force-directed root cluster map — d3-force + d3-hierarchy + d3-zoom |
 | StrCorrelationMatrix | Name correlation matrix — filterable by phase/role/root_pattern/grammar |
-| StrDriftAlertPanel | Ven'ai drift alert panel — acknowledge action, alert count badge |
 | StrNameIndex | Ven'ai name index — grouped by root family, searchable, sortable |
 | SnmBipartiteGraph | Bipartite force-directed graph — field patterns, traditions, tradition nodes colored by pattern_category, uncategorized cluster explicit |
 | SnmTemporalCorrespondence | Temporal correspondence view — strength over time, prompt version boundaries |

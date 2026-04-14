@@ -321,7 +321,7 @@ visual weight does the filtering.
 | Engine | Visualizations |
 |--------|---------------|
 | THR | Co-occurrence matrix (12x12), Presence timeline, Sequence view |
-| STR | Root cluster map (force-directed), Correlation matrix (filterable by type), Drift alert panel, Name index |
+| STR | Root cluster map (force-directed), Correlation matrix (filterable by type), Name index |
 | INF | Density field map (d3-contour), Emergence timeline, Intersection detail |
 | ECR | Correlation matrix (19x19, d3-zoom), Signal constellation (d3-force, stateful drift), Presence timeline, Sequence view |
 | SNM | Bipartite force-directed graph (field patterns ↔ traditions, tradition nodes colored by pattern_category, uncategorized cluster explicit), Temporal correspondence view |
@@ -697,7 +697,7 @@ Frontend components referenced but not owned by this contract:
 | File | Owner schema |
 |------|-------------|
 | ThrCooccurrenceMatrix.svelte, ThrPresenceTimeline.svelte, ThrSequenceView.svelte | THR |
-| StrRootClusterMap.svelte, StrCorrelationMatrix.svelte, StrDriftAlertPanel.svelte, StrNameIndex.svelte | STR |
+| StrRootClusterMap.svelte, StrCorrelationMatrix.svelte, StrNameIndex.svelte | STR |
 | InfDensityFieldMap.svelte, InfEmergenceTimeline.svelte, InfIntersectionDetail.svelte | INF |
 | EcrCorrelationMatrix.svelte, EcrSignalConstellation.svelte, EcrPresenceTimeline.svelte, EcrSequenceView.svelte | ECR |
 | SnmBipartiteGraph.svelte, SnmTemporalCorrespondence.svelte | SNM |

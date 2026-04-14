@@ -165,7 +165,7 @@ Guard: vector and metadata are written in a single INSERT within one transaction
 | backend/services/engine_inf.py | INF engine — domain layers, bridge resolution, emergence timeline | PLANNED |
 | backend/services/engine_str.py | STR engine — root clusters, Ven'ai service integration | PLANNED |
 | backend/services/engine_snm.py | SNM engine — two-stream, Claude API structural analysis | PLANNED |
-| backend/services/venai.py | Ven'ai service — name registry, drift detection, correlation tracking | PLANNED |
+| backend/services/venai.py | Ven'ai service — name registry, correlation tracking | PLANNED |
 | backend/services/mtm.py | MTM synthesis — engine output reading, two-pass Claude API, Selection Function, Finding production, fingerprinting, dedup | PLANNED |
 | backend/services/convergence.py | PCV service — pattern creation, hypothesis_id assignment, provenance validation, status transitions | PLANNED |
 | backend/services/drift.py | DTX service — drift event creation, classification, trajectory updates, Bayesian receipt, outcome validation, vector history | PLANNED |

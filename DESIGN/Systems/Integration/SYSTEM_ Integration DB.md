@@ -74,8 +74,7 @@ Each table lists who decides what is written and what the FastAPI service layer 
 | engine_snapshots | Engine computation (THR, STR, INF, ECR, SNM) | snapshot write after computation; MTM writes mtm_read_at on consumption |
 | visualization_snapshots | Sage (via frontend capture action) | snapshot capture; lnv_routed updated by LNV routing (Tier 4) |
 | snm_claude_snapshots | SNM engine | Claude API response storage; engine_snapshot_id linked when engine consumes |
-| venai_names | Ven'ai service | name registration, canonical_form update (Sage correction only) |
-| venai_variations | Ven'ai service creates; Sage acknowledges | drift record creation; acknowledged flag set by Sage via STR drift panel |
+| venai_names | Ven'ai service | name registration (form set at first registration, never altered by service) |
 | venai_correlations | Ven'ai service | correlation record creation and increment on each correlated deposit |
 | inf_domain_layers | Application config; INF engine writes first_observed | seed data at startup, domain addition by Sage decision |
 | inf_layer_bridge | Application config | seed data at startup, mapping updates when domains or layers change |
@@ -144,8 +143,6 @@ The service layer never initiates a write based on its own judgment. Every write
 **snm_claude_snapshots** — immutable Claude structural analysis snapshots for the SNM engine. One per Claude API call (per-deposit or batch). Carries prompt_version, prompt_text (defensive copy), analysis_mode, response (jsonb), and engine_snapshot_id link. Never overwritten. See SAT NAM ENGINE SCHEMA.md.
 
 **venai_names** — canonical Ven'ai name registry. Archive-wide. One per unique name. Carries canonical_form (unique), root_cluster, first_seen provenance. Written by Ven'ai service, read by STR engine. See VENAI SERVICE SCHEMA.md.
-
-**venai_variations** — drift detection records. One per detected inconsistency between a name form and its canonical. Carries variation_type (casing/phonetic/spacing/apostrophe), acknowledged flag with lifecycle. Written by Ven'ai service, acknowledged by Sage via STR drift panel. See VENAI SERVICE SCHEMA.md.
 
 **venai_correlations** — cross-archive name correlations. Name ↔ phase, name ↔ role, root ↔ grammar. Carries deposit_count and weighted_count, incremented on each correlated deposit. Written by Ven'ai service, read by STR engine Phase 2. See VENAI SERVICE SCHEMA.md.
 

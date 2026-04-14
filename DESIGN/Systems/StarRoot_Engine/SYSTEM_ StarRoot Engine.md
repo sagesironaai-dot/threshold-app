@@ -2,7 +2,7 @@
 
 ## /DESIGN/Systems/StarRoot_Engine/
 
-### Page 03 · root cluster analysis · Ven'ai correlation integration · drift alert panel
+### Page 03 · root cluster analysis · Ven'ai correlation integration · name index
 
 ---
 
@@ -14,11 +14,11 @@
 * STR correlation integration — reads venai_correlations table to
   compute correlation rates per (name, correlated_value) pair against
   marginal product baseline. Signal band classification applied
-* Four visualizations: root cluster map (force-directed), correlation
-  matrix, drift alert panel, name index
+* Three visualizations: root cluster map (force-directed), correlation
+  matrix, name index
 * STR pattern_id format and generation
 * STR-specific snapshot_data JSON structure including venai_state_summary
-  (total_names, active_clusters, unresolved_drift_count)
+  (total_names, active_clusters)
 * STR failure modes
 
 ## WHAT THIS SYSTEM DOES NOT OWN
@@ -28,10 +28,9 @@
   deposit weight constants, signal classification, null observation
   flow, snapshot writes, and stale flag mechanics. STR implements
   its lens within that contract
-* Ven'ai name registry, drift detection, and correlation tracking —
-  owned by Ven'ai Service. STR reads from venai_names,
-  venai_variations, and venai_correlations. STR never writes to
-  Ven'ai tables
+* Ven'ai name registry and correlation tracking —
+  owned by Ven'ai Service. STR reads from venai_names and
+  venai_correlations. STR never writes to Ven'ai tables
 * Database table definitions — owned by INTEGRATION DB SCHEMA.md
   and OPERATIONAL DB SCHEMA.md
 * Tag vocabulary and root cluster definitions — owned by
@@ -83,5 +82,4 @@ Auto-triggered on signal delta or Sage-triggered on demand.
 | backend/services/engine_str.py | STR computation — root cluster analysis, correlation integration, Ven'ai state summary | PLANNED |
 | frontend/src/lib/components/StrRootClusterMap.svelte | Force-directed graph, node size = presence_rate, edges = co-occurrence — d3-force + d3-hierarchy + d3-zoom | PLANNED |
 | frontend/src/lib/components/StrCorrelationMatrix.svelte | Names × dimensions, filterable by correlation type — d3-interpolate + d3-zoom | PLANNED |
-| frontend/src/lib/components/StrDriftAlertPanel.svelte | Unacknowledged variations from Ven'ai service, acknowledge action | PLANNED |
 | frontend/src/lib/components/StrNameIndex.svelte | Ven'ai names grouped by root, searchable, sortable | PLANNED |

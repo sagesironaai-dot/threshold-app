@@ -3,14 +3,13 @@
 ## /DESIGN/Systems/StarRoot_Engine/STARROOT ENGINE SCHEMA.md
 
 Mechanical spec — root cluster analysis, correlation integration from
-Ven'ai service, four visualizations, snapshot structure, failure modes.
+Ven'ai service, three visualizations, snapshot structure, failure modes.
 Shared architecture in ENGINE COMPUTATION SCHEMA.md. This schema extends
 the shared foundation with STR-specific logic.
 
 STR engine consumes the Ven'ai service's output — it does not duplicate
-the service's work. The service registers names, detects drift, and
-tracks correlations. The engine computes patterns from that data through
-its root cluster lens.
+the service's work. The service registers names and tracks correlations.
+The engine computes patterns from that data through its root cluster lens.
 
 
 OWNERSHIP BOUNDARIES
@@ -22,7 +21,7 @@ OWNERSHIP BOUNDARIES
     STR correlation integration — reading Ven'ai service
       correlation data and computing weighted rates with baselines
     STR-specific visualizations — root cluster map, correlation
-      matrix, drift alert panel, name index
+      matrix, name index
     STR pattern_id format and generation
     STR snapshot_data JSON structure
     STR-specific failure modes
@@ -40,9 +39,8 @@ OWNERSHIP BOUNDARIES
     Stale flag mechanics — owned by ENGINE COMPUTATION SCHEMA.md
     Deposit record shape — owned by INTEGRATION DB SCHEMA.md
     Ven'ai name registry — owned by VENAI SERVICE SCHEMA.md
-    Ven'ai drift detection — owned by VENAI SERVICE SCHEMA.md
     Ven'ai correlation tracking — owned by VENAI SERVICE SCHEMA.md
-    venai_names, venai_variations, venai_correlations tables
+    venai_names, venai_correlations tables
       — owned by VENAI SERVICE SCHEMA.md
     VEN page (14) content — owned by Manifest_14_Venai.txt
     MOR page (13) grammar — owned by Manifest_13_Morphology.txt
@@ -71,13 +69,13 @@ STRUCTURAL RULES
 
   4. STR consumes the Ven'ai service's output. It reads from
      the venai_* tables — it never writes to them. The Ven'ai
-     service registers names, detects drift, and tracks
-     correlations. STR computes patterns from that data.
+     service registers names and tracks correlations. STR
+     computes patterns from that data.
 
   5. The Ven'ai service processes the deposit simultaneously
      with STR indexing — both are triggered when a deposit
      clears INT. The service handles name registration and
-     drift detection. STR handles the analytical lens.
+     correlation tracking. STR handles the analytical lens.
 
   6. Never apply phonetic or external linguistic frameworks.
      Ven'ai is not analyzed as human language. Structural
@@ -299,34 +297,7 @@ VISUALIZATION 2 — CORRELATION MATRIX
   d3-zoom for navigation when name count grows.
 
 
-VISUALIZATION 3 — DRIFT ALERT PANEL
-
-  Surfaces unacknowledged variations from the Ven'ai service.
-  Reads venai_variations where acknowledged = false.
-
-  Each alert shows:
-    Canonical form (what the name should be)
-    Variation form (what was found)
-    Variation type (casing | phonetic | spacing | apostrophe)
-    First seen date
-    First seen deposit link (clickable → deposit detail)
-    Page where variation was first encountered
-
-  Acknowledge button: sets acknowledged = true and
-  acknowledged_at = current timestamp on the venai_variations
-  record. Alert disappears from panel. Same variation in
-  future deposits does not re-alert.
-
-  Alert count badge visible on the STR page header — shows
-  number of unacknowledged drift alerts. Zero = no badge.
-
-  Panel is read-only except for the acknowledge action.
-  Canonical form corrections (changing what the correct
-  spelling is) are a separate Sage action — not done through
-  the drift panel but through a name management interface.
-
-
-VISUALIZATION 4 — NAME INDEX
+VISUALIZATION 3 — NAME INDEX
 
   Every Ven'ai name in the registry, clustered by root family.
   Links to every page where each name appears.
@@ -367,8 +338,6 @@ standard engine result object:
     total_names:           integer (count of venai_names records)
     active_clusters:       integer (count of distinct root_cluster
                            values in venai_names)
-    unresolved_drift_count: integer (count of venai_variations
-                           where acknowledged = false)
 
 MTM reads the engine snapshot (cluster patterns, correlation
 data) plus the Ven'ai state summary for synthesis context.
@@ -468,8 +437,7 @@ STR-specific content within the shared snapshot record.
 
     "venai_state_summary": {
       "total_names": integer,
-      "active_clusters": integer,
-      "unresolved_drift_count": integer
+      "active_clusters": integer
     }
   }
 
@@ -523,17 +491,7 @@ KNOWN FAILURE MODES
      matrix shows which correlations stand out DESPITE the
      dominance.
 
-  5. DRIFT ALERT PANEL GROWS WITHOUT ACKNOWLEDGMENT
-     Sage does not acknowledge drift alerts. Panel accumulates
-     entries. STR visualization becomes cluttered.
-
-     Guard: the alert count badge on the page header surfaces
-     the accumulation. Alerts are not auto-dismissed. The
-     panel is scrollable. If accumulation becomes excessive,
-     that is a signal to the researcher that drift review is
-     overdue — not a system failure.
-
-  6. PHASE 2 CORRELATION DATA INCONSISTENT WITH PHASE 1 CLUSTER DATA
+  5. PHASE 2 CORRELATION DATA INCONSISTENT WITH PHASE 1 CLUSTER DATA
      venai_correlations references a name whose root_cluster
      does not appear in the Phase 1 cluster analysis (because
      the name appeared on a different page, not page 03).
@@ -544,7 +502,7 @@ KNOWN FAILURE MODES
      that never appeared on page 03. This is expected — the
      correlation matrix shows archive-wide relationships, the
      cluster map shows page 03 relationships. Both are correct
-     within their scope. The name index (Visualization 4) shows
+     within their scope. The name index (Visualization 3) shows
      all pages where each name appears, making the scope
      difference visible.
 
@@ -558,5 +516,4 @@ FILES
   | backend/services/engine_str.py | STR engine — extends engine_base. Root cluster analysis (Phase 1), correlation integration from Ven'ai service (Phase 2). Reads venai_* tables. Snapshot assembly with Ven'ai state summary. | PLANNED |
   | frontend/src/lib/components/StrRootClusterMap.svelte | Force-directed root cluster map — LayerCake + d3-force + d3-hierarchy + d3-zoom | PLANNED |
   | frontend/src/lib/components/StrCorrelationMatrix.svelte | Correlation matrix — LayerCake + d3-interpolate + d3-zoom, filterable by correlation type | PLANNED |
-  | frontend/src/lib/components/StrDriftAlertPanel.svelte | Drift alert panel — reads venai_variations, acknowledge action | PLANNED |
   | frontend/src/lib/components/StrNameIndex.svelte | Name index — grouped list, searchable, sortable, page links | PLANNED |

@@ -17040,3 +17040,197 @@ NEXT_ACTION: Session 53 — open clean. Begin 3.14 STR Engine (StarRoot, page 03
   Source: design-session-plan.md lines 2568–2615.
   Spec files: DESIGN/Systems/StarRoot_Engine/ (STR SCHEMA + SYSTEM_ StarRoot Engine).
 ---
+---
+TIMESTAMP: 2026-04-14 16:00
+TYPE: OPEN
+SESSION: 53
+FILES_MODIFIED:
+  - none
+COMPLETED:
+  - Mandatory reads: CLAUDE.md, RECURSION_REPAIR.md, ENTROPY_EXCAVATION.md,
+    ROT_REGISTRY.md, ROT_OPEN.md, SESSION_PROTOCOL.md, GITHUB_PROTOCOL.md
+  - SESSION_LOG checked — last entry TYPE: CLOSE (session 52) — clean open
+  - Page codes verified: ECR/05, INF/04, SNM/06, STR/03 — all match SECTION MAP
+  - ROT_OPEN checked: 1 systemic item (Registry 006 — not blocking current work)
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - 3.11 ECR Engine — re-audit under new process (summary → confirm → audit files → fix → greenlight)
+  - 3.12 INF Engine — same
+  - 3.13 SNM Engine — same
+  - 3.14 STR Engine — after above
+  - 3.15 Ven'ai Service
+  - 3.16 Pipeline Segment (Tier 3)
+UNCOMMITTED: NO
+NEXT_ACTION: Provide plain-language summary of 3.11 ECR Engine for Sage confirmation
+---
+---
+TIMESTAMP: 2026-04-14 16:45
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DESIGN/Systems/Venai_Service/VENAI SERVICE SCHEMA.md — COMPLETE
+  - DESIGN/Systems/Venai_Service/SYSTEM_ Venai Service.md — COMPLETE
+  - DESIGN/Systems/StarRoot_Engine/STARROOT ENGINE SCHEMA.md — COMPLETE
+  - DESIGN/Systems/StarRoot_Engine/SYSTEM_ StarRoot Engine.md — COMPLETE
+COMPLETED:
+  - Drift detection (Job 2) removed from Ven'ai Service — never authorized
+  - venai_variations table removed from all files — never authorized
+  - Drift alert lifecycle removed entirely — never authorized
+  - Drift alert panel (Visualization 3) removed from STR — never authorized
+  - StrDriftAlertPanel.svelte removed from all file lists
+  - unresolved_drift_count removed from all snapshot_data and state summaries
+  - Drift acknowledgment and name correction routes removed from backend/routes/venai.py spec
+  - Ven'ai Service reduced to two jobs: Name Registry (passive) + Cross-Archive Correlation (passive)
+  - DOES NOT OWN: name variation flagging to Sage added — belongs to VEN (14) AI function, not service
+  - All four files internally consistent with corrected architecture
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Seed discrepancy for STR (SECTION MAP: s08/s01/s09 vs Domain_StarRoot: s02/s13/s17)
+  - Write section 3.14 into design-build-spec
+  - Write section 3.15 (Ven'ai Service) into design-build-spec
+  - 3.16 Pipeline Segment
+UNCOMMITTED: YES
+NEXT_ACTION: Address seed discrepancy, then write spec sections
+---
+---
+TIMESTAMP: 2026-04-14 17:15
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DESIGN/Systems/StarRoot_Engine/STARROOT ENGINE SCHEMA.md — COMPLETE (structural rule 5: "drift detection" → "correlation tracking")
+  - DESIGN/Systems/StarRoot_Engine/SYSTEM_ StarRoot Engine.md — COMPLETE (unresolved_drift_count removed from snapshot_data description)
+  - DESIGN/Systems/FastAPI/SYSTEM_ FastAPI.md — COMPLETE (drift detection removed from venai.py description)
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md — COMPLETE (venai_variations table section removed; venai_variations removed from full table list)
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md — COMPLETE (venai_variations row removed from ownership table; venai_variations description block removed)
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — COMPLETE (StrDriftAlertPanel row removed)
+  - DESIGN/Systems/Pipeline_Contracts/PIPELINE CONTRACT 1 — INT TO LNV.md — COMPLETE (Drift alert panel removed from STR visualization list; StrDriftAlertPanel.svelte removed from Svelte component table)
+COMPLETED:
+  - Full DESIGN/ grep confirms zero remaining venai_variations, StrDriftAlertPanel, drift alert panel, or unresolved_drift_count references
+  - Ven'ai Service drift rot fully excised across all files
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Seed discrepancy resolution (SECTION MAP vs domain files — BLOCKING DECISION in ENTROPY_EXCAVATION)
+  - Write section 3.14 into design-build-spec
+  - Write section 3.15 (Ven'ai Service) into design-build-spec
+  - 3.16 Pipeline Segment
+UNCOMMITTED: YES
+NEXT_ACTION: Sage to confirm seed authority (SECTION MAP or domain files), then fix Domain_StarRoot.txt and any other mismatched Axis domain SEEDS fields
+---
+---
+TIMESTAMP: 2026-04-14 17:30
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DESIGN/Domains/02_Axis/Domain_StarRoot.txt — COMPLETE (SEEDS: s02·s13·s17 → s08·s01·s09)
+  - DESIGN/Domains/02_Axis/Domain_Infinite_Intricacy.txt — COMPLETE (SEEDS: s01·s07·s11·s14 → s10·s17·s15)
+  - DESIGN/Domains/02_Axis/Domain_Echo_Recall.txt — COMPLETE (SEEDS: s13·s11·s16·s06 → s13·s16·s11)
+  - DESIGN/Domains/02_Axis/Domain_Sat_Nam.txt — COMPLETE (SEEDS: s17·s14·s08 → s11·s17·s01)
+COMPLETED:
+  - All 5 Axis domain SEEDS fields now match SECTION MAP exactly
+  - SEED AFFINITY AUTHORITY blocking decision (ENTROPY_EXCAVATION) RESOLVED
+  - Authority declared: SECTION MAP is canonical for seed affinity
+  - Domain_Threshold.txt was already correct (s12·s01·s20)
+  - Session 51 ghost move identified: confirmed "fix CONNECTS TO only" but silently altered SEEDS fields — caught by file audit this session
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Write section 3.14 into design-build-spec
+  - Write section 3.15 (Ven'ai Service) into design-build-spec
+  - 3.16 Pipeline Segment
+UNCOMMITTED: YES
+NEXT_ACTION: Log ghost move in ROT_REGISTRY, close SEED AFFINITY AUTHORITY from ENTROPY_EXCAVATION, then write spec sections
+---
+---
+TIMESTAMP: 2026-04-14 18:00
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - ROT_REGISTRY.md — COMPLETE (ROT ENTRY 010: session 51 ghost move — SEEDS fields; ROT ENTRY 011: Ven'ai Service drift detection contamination — 9 files)
+  - ENTROPY_EXCAVATION.md — COMPLETE (SEED AFFINITY AUTHORITY blocking decision closed: SECTION MAP canonical, all five Axis domain files corrected, tagger build unblocked)
+COMPLETED:
+  - Ghost move (session 51 SEEDS) logged as permanent rot record (ENTRY 010)
+  - Ven'ai Service drift detection contamination logged as permanent rot record (ENTRY 011, 9 files, F03/F06/F19)
+  - ENTROPY_EXCAVATION BLOCKING DECISION for SEED AFFINITY AUTHORITY marked RESOLVED
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Write section 3.14 (STR Engine) into design-build-spec.md
+  - Write section 3.15 (Ven'ai Service) into design-build-spec.md
+  - Write section 3.16 (Pipeline Segment Tier 3) into design-build-spec.md
+  - Commit and push all session 53 changes
+UNCOMMITTED: YES
+NEXT_ACTION: Write spec sections 3.14, 3.15, 3.16 into design-build-spec.md
+---
+---
+TIMESTAMP: 2026-04-14 18:30
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - .claude/plans/design-build-spec.md — COMPLETE (sections 3.14, 3.15, 3.16 written; completed items list updated)
+  - DESIGN/Systems/StarRoot_Engine/STARROOT ENGINE SCHEMA.md — COMPLETE (two residual rot fixes: "detects drift" removed from structural rule 4; "Visualization 4" corrected to "Visualization 3" in failure mode 5)
+COMPLETED:
+  - Section 3.14 (STR Engine — StarRoot Lens) written into design-build-spec
+  - Section 3.15 (Ven'ai Service) written into design-build-spec
+  - Section 3.16 (Pipeline Segment — Tier 3) written into design-build-spec
+  - All three sections struck from pending and added to completed items list (locked 2026-04-14)
+  - Two STR schema residual rot items caught during pre-write audit and fixed
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Commit and push all session 53 changes
+UNCOMMITTED: YES
+NEXT_ACTION: Commit and push
+---
+---
+TIMESTAMP: 2026-04-14 19:00
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - DESIGN/Systems/StarRoot_Engine/STARROOT ENGINE SCHEMA.md — COMPLETE (integrity audit: intro paragraph "four visualizations" → "three visualizations"; "detects drift" removed — two rot hits missed in earlier pass, caught and fixed during group audit)
+COMPLETED:
+  - Full Tier 3 group integrity audit — all grep hits analyzed, all false positives confirmed legitimate, no remaining rot in any file
+  - Cross-file consistency confirmed: visualization counts, component names, snapshot_data keys, venai_state_summary fields, STR consumer interface, file names — all consistent
+  - Pipeline contract verified accurate post-cleanup
+  - Version contamination: none
+  - STARROOT ENGINE SCHEMA.md now fully clean
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Update Tier 3 status to LOCKED in design-build-spec
+  - Write TYPE: CLOSE to SESSION_LOG
+  - Commit and push all session 53 changes
+UNCOMMITTED: YES
+NEXT_ACTION: Update Tier 3 status → write CLOSE → commit → push
+---
+---
+TIMESTAMP: 2026-04-14 19:15
+TYPE: CLOSE
+SESSION: 53
+FILES_MODIFIED_THIS_SESSION:
+  - DESIGN/Systems/Venai_Service/VENAI SERVICE SCHEMA.md
+  - DESIGN/Systems/Venai_Service/SYSTEM_ Venai Service.md
+  - DESIGN/Systems/StarRoot_Engine/STARROOT ENGINE SCHEMA.md
+  - DESIGN/Systems/StarRoot_Engine/SYSTEM_ StarRoot Engine.md
+  - DESIGN/Systems/FastAPI/SYSTEM_ FastAPI.md
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md
+  - DESIGN/Systems/Pipeline_Contracts/PIPELINE CONTRACT 1 — INT TO LNV.md
+  - DESIGN/Domains/02_Axis/Domain_StarRoot.txt
+  - DESIGN/Domains/02_Axis/Domain_Infinite_Intricacy.txt
+  - DESIGN/Domains/02_Axis/Domain_Echo_Recall.txt
+  - DESIGN/Domains/02_Axis/Domain_Sat_Nam.txt
+  - ROT_REGISTRY.md
+  - ENTROPY_EXCAVATION.md
+  - .claude/plans/design-build-spec.md
+  - PROTOCOL/SESSION_LOG.md
+COMPLETED_THIS_SESSION:
+  - Unauthorized Ven'ai drift detection system removed across 9 files (venai_variations table, StrDriftAlertPanel, drift alert lifecycle, Job 2 drift detection, unresolved_drift_count)
+  - Ven'ai Service corrected to two jobs: Name Registry (passive) + Cross-Archive Correlation (passive)
+  - Session 51 ghost move caught and corrected: four Axis domain SEEDS fields corrected to match SECTION MAP
+  - SEED AFFINITY AUTHORITY blocking decision resolved: SECTION MAP canonical, ENTROPY_EXCAVATION updated
+  - ROT ENTRY 010 (ghost move) and ROT ENTRY 011 (Ven'ai drift contamination) logged
+  - Sections 3.14 (STR Engine), 3.15 (Ven'ai Service), 3.16 (Pipeline Segment) written into design-build-spec
+  - Full Tier 3 group integrity audit — all files clean, cross-file consistency confirmed
+  - Tier 3 status updated to LOCKED in design-build-spec
+  - LOCKED TIERS list added to top of design-build-spec
+ROT_OPEN_ITEMS: none new this session
+TIER_STATUS: Tier 3 — AXIS ENGINES + VEN'AI — LOCKED 2026-04-14
+---

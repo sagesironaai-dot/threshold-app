@@ -325,9 +325,12 @@ STILL OPEN:
 
 BLOCKING DECISIONS (not file fixes):
 
-  SEED AFFINITY AUTHORITY
-    SECTION MAP and domain files disagree on every section's seed
-    affinity. Blocks tagger build. One must be canonical.
+  SEED AFFINITY AUTHORITY — RESOLVED 2026-04-14 (session 53)
+    SECTION MAP is canonical. All five Axis domain files corrected
+    to match SECTION MAP: Domain_StarRoot.txt, Domain_Infinite_Intricacy.txt,
+    Domain_Echo_Recall.txt, Domain_Sat_Nam.txt, Domain_THR.txt (was already
+    correct). ROT ENTRY 010 logged in ROT_REGISTRY.md. Tagger build
+    unblocked on seed affinity.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

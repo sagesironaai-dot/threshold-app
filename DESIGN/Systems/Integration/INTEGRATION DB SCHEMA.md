@@ -1549,39 +1549,6 @@ canonical_form updateable by Sage correction only.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-TABLE: venai_variations
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Drift detection records. One per detected inconsistency between
-a name form and its canonical. Full spec in VENAI SERVICE SCHEMA.md.
-
-Write authority: Ven'ai service creates records. Sage acknowledges
-(sets acknowledged = true) via STR drift alert panel.
-
-  variation_id         — text, primary key
-                         Format: 'vv_[name_id]_[rand]'
-
-  name_id              — text, NOT NULL
-                         FK → venai_names.name_id
-
-  variation_form       — text, NOT NULL
-
-  variation_type       — text, NOT NULL
-                         enum: 'casing' | 'phonetic' | 'spacing'
-                               | 'apostrophe'
-
-  first_seen_at        — timestamp, NOT NULL
-
-  first_seen_deposit_id — text, NOT NULL
-
-  acknowledged         — boolean, NOT NULL, default false
-
-  acknowledged_at      — timestamp, nullable
-
-  created_at           — timestamp, NOT NULL
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 TABLE: venai_correlations
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -2293,8 +2260,7 @@ backend/models/
   deposits, archives, prompt_versions, instances,
   annotations, aos_records, system_counters,
   engine_snapshots, visualization_snapshots,
-  snm_claude_snapshots, venai_names, venai_variations,
-  venai_correlations, inf_domain_layers, inf_layer_bridge,
+  snm_claude_snapshots, venai_names, venai_correlations, inf_domain_layers, inf_layer_bridge,
   lnv_entries, void_absence_records, void_outputs,
   wsc_entries, wsc_corrections, wsc_gaps,
   outcome_vector_history, embeddings, routine_sessions,

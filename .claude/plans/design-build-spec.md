@@ -20,6 +20,16 @@ the spec wins.
 
 ---
 
+## LOCKED TIERS
+
+| Tier | Description | Locked |
+| --- | --- | --- |
+| Tier 1 | INT Engine + Deposit Foundation | 2026-04-14 (session 39) |
+| Tier 2 | Black Pearl UI + Page Surfaces + Void | 2026-04-14 (session 47) |
+| Tier 3 | Axis Engines + Ven'ai | 2026-04-14 (session 53) |
+
+---
+
 ## TIER 1 — INT ENGINE + DEPOSIT FOUNDATION
 
 **Status:** LOCKED
@@ -733,7 +743,7 @@ this document as each passes audit:
 
 ## TIER 3 — AXIS ENGINES + VEN'AI
 
-**Status:** IN PROGRESS (session 48)
+**Status:** LOCKED — 2026-04-14 (session 53)
 
 ### Specs
 
@@ -769,6 +779,9 @@ this document as each passes audit:
 - ~~3.11 ECR Engine — Echo Recall Lens~~ — locked 2026-04-14
 - ~~3.12 INF Engine — Infinite Intricacy Lens~~ — locked 2026-04-14
 - ~~3.13 SNM Engine — Sat Nam Lens~~ — locked 2026-04-14
+- ~~3.14 STR Engine — StarRoot Lens~~ — locked 2026-04-14
+- ~~3.15 Ven'ai Service~~ — locked 2026-04-14
+- ~~3.16 Pipeline Segment — Tier 3~~ — locked 2026-04-14
 
 ---
 
@@ -1664,6 +1677,200 @@ SCHEMA.md (shared four-step contract). INTEGRATION DB SCHEMA.md
 (prompt_versions, deposit record shape). TAG VOCABULARY.md (signal and
 tradition tag definitions). Manifest_06_Sat_Nam.txt (page 06 identity,
 three manifest pattern categories).
+
+---
+
+### 3.14 STR ENGINE — STARROOT LENS
+
+Page 03 (StarRoot / STR). Core question: what structural patterns do Ven'ai
+root families reveal — how they appear, co-occur, and correlate with threshold
+states, roles, and grammar across the archive?
+
+**Index:** Deposits tagged to page 03. Engine reads tags (filtered to Ven'ai
+root cluster references — matched against venai_names.root_cluster),
+deposit_weight, observation_presence, created_at, id. A deposit touching
+both Kai- and Sha- names is indexed under both root clusters. A page 03
+deposit with no Ven'ai name references is still indexed — contributes to the
+total examined denominator but not to any cluster-specific pattern (same
+treatment as THR deposits with no threshold tags). Stale flag set in SQLite.
+
+**Compute — two phases:**
+
+*Phase 1 — Root cluster analysis (STR's own lens):*
+
+- *1A. Cluster presence rates* — per root cluster: weighted frequency relative
+  to total examined deposits. Which root families are active vs. dormant.
+  `pattern_id`: `str_pres_[cluster]`
+
+- *1B. Cluster co-occurrence* — do names from different root families appear in
+  the same deposits above baseline? Every pair (N choose 2, dynamic — scales
+  with cluster count). For each pair: observed rate vs. marginal product
+  expected rate, ratio, signal band, insufficient_data, low_sample.
+  `pattern_id`: `str_cooc_[cluster1]_[cluster2]` (alphabetically first cluster
+  always first — deterministic).
+
+- *1C. Cluster emergence timeline* — when each root family first appeared,
+  frequency-over-time (time-bucketed weighted deposit counts), dormancy events
+  (gap-then-spike periods), current_state (active | dormant).
+  `pattern_id`: `str_emrg_[cluster]`
+
+*Phase 2 — Correlation integration (from Ven'ai service):* Reads
+venai_correlations. For each correlation type (phase, role, root_pattern,
+grammar): groups by correlated_value, computes correlation_rate vs. marginal
+product baseline, ratio, signal band per (name, correlated_value) pair.
+Phase 2 is archive-wide — a name may have correlations from deposits on pages
+other than page 03.
+`pattern_id`: `str_corr_[name_id]_[type]_[value]`
+
+**Visualize — three components (SVG instruments, LayerCake + D3; layout
+deferred to PAGE_LAYOUTS.md):**
+
+*StrRootClusterMap* — force-directed graph (d3-force + d3-hierarchy + d3-zoom).
+Nodes = root clusters, sized by presence_rate, distinctly colored. Edges =
+co-occurrence strength above mild band (ratio ≥ 1.0), colored by signal band,
+thickness by ratio magnitude. Click a cluster node to expand into constituent
+name nodes showing canonical_form, first_seen_at, deposit count. Zoom
+essential — cluster count grows as new root families emerge.
+
+*StrCorrelationMatrix* — names on one axis, correlated values on the other. Cell
+intensity = correlation ratio via signal band gradient (d3-interpolate). Hover:
+canonical_form, correlated_value, correlation rate, baseline rate, ratio, signal
+band, deposit count, weighted count. Filterable by correlation_type: phase view
+(names × threshold states), role view (names × functional roles), root_pattern
+view (clusters × clusters), grammar view (names/clusters × morphological rules).
+Default view: phase. d3-zoom for navigation when name count grows.
+
+*StrNameIndex* — every Ven'ai name in the registry, grouped by root family. Root
+cluster as section header; names alphabetical within cluster. Each name: 
+canonical_form, root_cluster, first_seen_at, first_seen_page, deposit count
+(archive-wide), pages list (clickable links). Searchable by canonical_form.
+Sortable by name, first_seen_at, deposit count. Reference surface only — no
+baselines, no signal bands.
+
+**Feed:** Standard snapshot + MTM drift tracking. Plus venai_state_summary
+(total_names integer, active_clusters integer) in snapshot_data. Visualization
+snapshots Sage-triggered, route to LNV.
+
+**snapshot_data — five keys:** `cluster_presences` (one per root cluster —
+presence_rate, deposit_count, weight_breakdown, null_contribution),
+`cluster_co_occurrences` (one per pair — observed/expected rates, ratio,
+signal_band, insufficient_data, low_sample, weight_breakdown, null_contribution),
+`cluster_emergence` (one per cluster — first_appeared, current_state,
+dormancy_events, frequency_over_time buckets), `correlations` (one per (name,
+type, value) — name_id, canonical_form, root_cluster, correlation_type,
+correlated_value, deposit_count, weighted_count, correlation_rate, baseline_rate,
+ratio, signal_band, insufficient_data, low_sample), `venai_state_summary`
+(total_names, active_clusters).
+
+**Spec authority:** STARROOT ENGINE SCHEMA.md (full mechanical spec — two-phase
+compute, pattern_id formats, snapshot_data JSON, five failure modes). SYSTEM_
+StarRoot Engine.md (ownership boundaries, component list, nexus feed). ENGINE
+COMPUTATION SCHEMA.md (shared four-step contract, baseline formula, signal bands).
+VENAI SERVICE SCHEMA.md (venai_names and venai_correlations table definitions, STR
+consumer interface). TAG VOCABULARY.md (root cluster tag definitions).
+
+---
+
+### 3.15 VEN'AI SERVICE
+
+Archive-scoped background service. Not a page, not an engine — a cross-cutting
+service called synchronously in the deposit creation pipeline. First system in
+the architecture with archive-wide scope (all prior systems are page-scoped or
+engine-scoped). Sets the architectural precedent for Cosmology (Tier 5)
+scientific domain tracking.
+
+**Two jobs — triggered synchronously on deposit creation:**
+
+*Job 1 — Name Registry:* Extract Ven'ai name forms from deposit content and
+tags. For each form: check venai_names for existing match — if found, skip; if
+new, register. Canonical_form is set once at first registration (whatever form
+first appears in the archive becomes the registered form — never altered by the
+service). Root_cluster derived from the leading root component (Kai'Thera → "Kai",
+Sha'Velan → "Sha"). First-seen metadata recorded (timestamp, page, deposit_id).
+KIN page (20) deposits: mandatory venai_names registration at deposit time per
+Domain_Venai.txt structural rule 8 — not retroactive.
+
+*Job 2 — Cross-Archive Correlation:* For each name found in the deposit: read
+phase_state, tags (for role), root cluster membership. For each (name,
+correlated_value) pair across four correlation types (phase, role, root_pattern,
+grammar): if venai_correlations record exists — increment deposit_count, update
+weighted_count (using shared deposit_weight constants: high 2.0, standard 1.0,
+low 0.5), update last_observed; if new — create record with deposit_count = 1.
+
+**Relevance check:** A deposit is processed only if it carries Ven'ai-related
+tags (s08/Voice, VEN/STR/MOR page references) or matches known Ven'ai name
+patterns against venai_names. Deposits with no Ven'ai content pass through without
+action — not every deposit triggers processing.
+
+**Two PostgreSQL tables:**
+
+*venai_names:* name_id (PK: `vn_[normalized_name]_[rand]`), canonical_form
+(unique, never altered by service), root_cluster, first_seen_at, first_seen_page,
+first_seen_deposit_id, created_at.
+
+*venai_correlations:* correlation_id (PK: `vc_[name_id]_[type]_[value]_[rand]`),
+name_id (FK → venai_names), correlation_type (phase | role | root_pattern |
+grammar), correlated_value (e.g., "th01" for phase, a role tag for role, another
+cluster for root_pattern, a MOR rule for grammar), deposit_count, weighted_count,
+first_observed, last_observed, created_at.
+
+**Service does not own:**
+- Name variation flagging — AI function on VEN (14), not service function. The
+  service registers what it sees; it does not analyze correctness
+- Canonical form correction — researcher decision made through VEN (14). If a
+  name was registered in an irregular form, Sage resolves it through VEN; the
+  service does not detect or flag the inconsistency
+- STR engine computation — STR reads the service's tables; the service never
+  drives or participates in computation
+
+**Spec authority:** VENAI SERVICE SCHEMA.md (full mechanical spec — two jobs,
+correlation computation, table definitions, STR consumer interface, four failure
+modes). SYSTEM_ Venai Service.md (ownership, pipeline diagram, nexus feed).
+INTEGRATION DB SCHEMA.md (venai_names and venai_correlations schema ownership).
+
+---
+
+### 3.16 PIPELINE SEGMENT — TIER 3
+
+**Axis engine cycle (all five engines: THR, STR, INF, ECR, SNM):**
+```
+Deposit arrives via INT → routed to target page(s)
+  → engine indexes deposit (engine-specific lens)
+  → stale flag set in SQLite engine_stale_flags
+  → hybrid trigger evaluates (batch threshold OR time trigger OR Sage manual)
+  → if threshold met:
+      engine compute runs
+      engine result object assembled
+      engine_snapshots record written (shared fields + engine-specific snapshot_data)
+  → visualization rendered from compute results (never from raw deposits)
+  → visualization snapshot: Sage-triggered → routes to LNV
+  → MTM reads engine_snapshots at session close
+```
+
+**Ven'ai service on deposit (runs simultaneously with STR index step):**
+```
+Deposit clears INT → Ven'ai service called synchronously
+  → content relevance check
+  → if no Ven'ai content: pass through, no action
+  → if Ven'ai content:
+      Job 1: extract names → register new, skip known → venai_names updated
+      Job 2: extract dimensions → increment/create correlation records
+             → venai_correlations updated
+  → service failure does not block deposit creation (deposit is data)
+  → STR picks up changes on next compute cycle:
+      reads venai_names → cluster data for Phase 1 + name index
+      reads venai_correlations → Phase 2 correlation integration
+```
+
+**Session close — MTM synthesis:**
+```
+Sage closes session
+  → Daily Nexus Routine triggers (or Sage triggers manual MTM sync)
+  → MTM reads all five engine_snapshots (current, previous, delta)
+  → MTM synthesizes cross-engine patterns
+  → MTM snapshot written
+  → feeds LNV at session close
+```
 
 ---
 

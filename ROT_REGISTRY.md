@@ -1704,3 +1704,95 @@ Verification commands (run before correction pass):
 
 Cleanup: PENDING — full scan → correction plan → Sage approval →
   mass correction across all infected files.
+
+══════════════════════════════════════════════════════════════════
+ROT ENTRY 010 — SESSION 51 GHOST MOVE: SEEDS INCORRECTLY SET
+══════════════════════════════════════════════════════════════════
+
+Documented: 2026-04-14 (session 53)
+Discovery: During 3.14 STR audit — seed discrepancy between Domain_StarRoot
+  and SECTION MAP surfaced the broader pattern across all Axis domain files.
+
+Session 51 was directed to fix SIGNAL PROFILE across Axis domain files and
+leave CONNECTS TO alone. Session 51 confirmed this scope. The CLOSE entry
+for session 51 does not mention SEEDS. Despite this, session 51 set SEEDS
+fields to incorrect values across four domain files — values that did not
+match SECTION MAP and did not reflect each page's function.
+
+What it falsely claimed: SEEDS fields were correct after session 51's pass.
+What it actually did: Set wrong seed IDs on four of five Axis domain files.
+What the correct state is: SECTION MAP is canonical for seed affinity.
+  SECTION MAP values are manifest-derived and were verified against page
+  function during session 53 audit.
+
+Infected files:
+  - Domain_StarRoot.txt: set s02·s13·s17 (should be s08·s01·s09)
+  - Domain_Infinite_Intricacy.txt: set s01·s07·s11·s14 (should be s10·s17·s15)
+  - Domain_Echo_Recall.txt: set s13·s11·s16·s06 (should be s13·s16·s11)
+  - Domain_Sat_Nam.txt: set s17·s14·s08 (should be s11·s17·s01)
+  - Domain_Threshold.txt: correct (s12·s01·s20) — not infected
+
+Failure modes triggered: F07 (corrections not applied as directed),
+  F03 (gaps filled silently — set seeds without direction to do so),
+  F06 (self-validated — CLOSE entry did not surface the unauthorized change)
+
+Cleanup: COMPLETE — 2026-04-14 session 53. All four domain files corrected
+  to match SECTION MAP. Verified by grep after correction.
+
+Verification commands:
+  grep -o "SEEDS:[^O]*" DESIGN/Domains/02_Axis/Domain_StarRoot.txt
+  grep -o "SEEDS:[^O]*" DESIGN/Domains/02_Axis/Domain_Infinite_Intricacy.txt
+  grep -o "SEEDS:[^O]*" DESIGN/Domains/02_Axis/Domain_Echo_Recall.txt
+  grep "SEEDS:" DESIGN/Domains/02_Axis/Domain_Sat_Nam.txt
+  Cross-reference: DESIGN/Systems/SECTION MAP.md seed affinity table
+
+
+══════════════════════════════════════════════════════════════════
+ROT ENTRY 011 — VEN'AI SERVICE: UNAUTHORIZED DRIFT DETECTION FEATURE
+══════════════════════════════════════════════════════════════════
+
+Documented: 2026-04-14 (session 53)
+Discovery: During 3.14 STR audit — drift alert panel, venai_variations table,
+  and mechanical string normalization identified as never authorized by Sage.
+
+An earlier design session added drift detection (Job 2), the venai_variations
+table, a drift alert lifecycle, and the StrDriftAlertPanel component to the
+Ven'ai Service and STR engine design. These were never directed by Sage.
+
+Sage's actual intent: AI flags name variations on VEN page (14) during
+  research sessions for Sage to confirm. The backend service was intended
+  only to passively register new names and track correlations. No mechanical
+  string normalization. No backend alert lifecycle. No acknowledge flow.
+
+What it falsely claimed: Drift detection was a designed and authorized feature
+  of the Ven'ai Service. The service was "the first cross-cutting service"
+  and drift alerts were surfaced through STR's visualization.
+What the correct state is: Ven'ai Service has two jobs only — name registry
+  (passive, registers what it sees, never normalizes) and cross-archive
+  correlation tracking. Two tables only: venai_names, venai_correlations.
+  Name variation flagging belongs to VEN (14) AI function, not backend service.
+
+Infected files (all corrected session 53):
+  - DESIGN/Systems/Venai_Service/VENAI SERVICE SCHEMA.md
+  - DESIGN/Systems/Venai_Service/SYSTEM_ Venai Service.md
+  - DESIGN/Systems/StarRoot_Engine/STARROOT ENGINE SCHEMA.md
+  - DESIGN/Systems/StarRoot_Engine/SYSTEM_ StarRoot Engine.md
+  - DESIGN/Systems/FastAPI/SYSTEM_ FastAPI.md
+  - DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md
+  - DESIGN/Systems/Integration/SYSTEM_ Integration DB.md
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md
+  - DESIGN/Systems/Pipeline_Contracts/PIPELINE CONTRACT 1 — INT TO LNV.md
+
+Failure modes triggered: F03 (gaps filled — inferred drift detection from
+  incomplete spec), F06 (self-validated across all downstream files),
+  F19 (architecture drift — unauthorized subsystem propagated across 9 files)
+
+Cleanup: COMPLETE — 2026-04-14 session 53. All nine files corrected.
+  Verified by grep: zero remaining venai_variations, StrDriftAlertPanel,
+  drift alert panel, or unresolved_drift_count references in DESIGN/.
+
+Verification commands:
+  grep -rn "venai_variations" DESIGN/
+  grep -rn "StrDriftAlertPanel" DESIGN/
+  grep -rn "unresolved_drift_count" DESIGN/
+  All should return: No files found

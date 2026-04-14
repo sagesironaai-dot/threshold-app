@@ -2,7 +2,7 @@
 DOMAIN: Sat Nam · SNM · 06
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 GROUP: Axis
-SEEDS: s17 · s14 · s08
+SEEDS: s11 · s17 · s01
 ORIGIN AFFINITY: null
 THRESHOLD AFFINITY: th10 · th02 · th09
 PILLAR: p03 primary · p02 secondary
