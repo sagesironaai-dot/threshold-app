@@ -416,6 +416,81 @@ Full mechanical spec in VOID ENGINE SCHEMA.md.
 
 ---
 
+### 2.7 BLACK PEARL PANEL — INTERACTION SPEC
+
+**Status:** LOCKED
+**Audited:** Session 47. Source: design-session-plan.md (BLACK PEARL —
+GLOBAL CAPTURE SYSTEM, BLACK PEARL UI, BLACK PEARL PANEL — INTERACTION
+SPEC). Four design decisions resolved with Sage before lock.
+
+**Spec authority:** BLACK PEARL SCHEMA.md (canonical Pearl record,
+full endpoint set, lifecycle state machine), OPERATIONAL DB SCHEMA.md
+(pearls table SQLite constraints), SYSTEM_ Black Pearl.md (ownership
+boundaries), SYSTEM_ Frontend.md (panel behavior, stores),
+INTEGRATION SCHEMA.md (promotion mechanics, provenance.source)
+
+---
+
+**Pearl record (SQLite, operational DB):**
+- pearl_id — primary key, format: prl_[timestamp]_[rand]
+- content — text, not null
+- label — text, not null. Required journal entry title. Sage-entered at
+  capture. Not AI-assigned.
+- created_at — ISO timestamp, not null. Becomes pearl_captured_at on the
+  deposit record at promotion. The gap between Pearl creation and deposit
+  creation is itself data.
+- page_context — nullable. Which page Sage was on at capture. Informational,
+  does not constrain promotion routing.
+- status — active | promoted | archived
+- promoted_deposit_id — nullable. Links Pearl to its post-promotion deposit.
+- promoted_via — nullable enum: panel | null
+
+**Trigger:**
+- Black star button in page nav (left side)
+- Keyboard shortcut: deferred to Tier 7. Unbound for now.
+
+**Panel:**
+Slides in from left (page nav). Page visible behind — overlay, does not
+push content. page_id and instance_context auto-populated silently on open.
+
+**Capture mode** (only mode — Reflect mode abandoned, not built):
+- Label input (required)
+- Expanding text area for content
+- [Save] [Close]
+- Post-save: panel stays open, inline confirmation fades 2s, text area
+  clears. No navigation away. Rapid capture — 5 Pearls in 30 seconds.
+
+**Pearl list:**
+- Keyword search input filters Pearls by content text
+- Default (no search): last 5 active Pearls
+- Search active: matching Pearls
+- Each Pearl: read-only, expandable inline, promotion button on card
+
+**Promotion:**
+- Button on Pearl card → queues for INT review queue with
+  provenance.source: black_pearl_promoted
+- INT tagger runs on content at promotion. No pre-tagging on Pearl.
+- Sage stays on current page — INT is not opened.
+
+**Provenance discoverability:**
+- Pearl-originated deposits are discoverable via provenance filter
+  (Source: Black Pearl) in the archive UI
+- Not a TAG VOCABULARY entry. provenance.source is the canonical signal.
+  Pearl origin is provenance data, not content classification.
+
+**Lifecycle:**
+- Unpromoted Pearls live in SQLite indefinitely. No auto-expiry.
+- Sage decides when or if to promote or archive.
+- archived: explicitly dismissed by Sage. Record preserved, not deleted.
+
+**What Black Pearl does not do:**
+- No Observatory integration — Tier 7 owns that surface if it exists
+- Does not deposit directly — promotes through INT only
+- Does not own any page or system
+- No Reflect mode
+
+---
+
 ### 2.3–2.18 REMAINING SECTIONS (review in progress)
 
 The following sections are pending Sage review. They will be added to
@@ -425,9 +500,9 @@ this document as each passes audit:
 - ~~Shared Shell + Navigation Contract~~ — removed, deferred to master layout doc
 - Deposit Card Component
 - ~~Page Load + Empty State~~ — removed, deferred to master layout doc
-- Black Pearl Panel Interaction Spec
-- Session Schema
-- Instance Context
+- ~~Black Pearl Panel Interaction Spec~~ — locked 2026-04-14
+- ~~Session Schema~~ — locked session 46
+- ~~Instance Context~~ — locked session 46
 - Deposit Weight AI Suggestion
 - ~~Observatory Spec~~ — audited clean 2026-04-10, no file changes needed
 - ~~Duplicate Prevention on Re-Route~~ — corrected 2026-04-10 (INTEGRATION SCHEMA + DB SCHEMA updated, duplicate_flagged field added)

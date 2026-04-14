@@ -16118,3 +16118,222 @@ NOT_STARTED:
 UNCOMMITTED: NO — all committed and pushed (d1959ca)
 NEXT_ACTION: Next session — assess remaining items or proceed to next build phase.
 ---
+
+---
+TIMESTAMP: 2026-04-10
+TYPE: OPEN
+SESSION: 47
+FILES_MODIFIED:
+  - none
+COMPLETED:
+  - Mandatory reads: CLAUDE.md, RECURSION_REPAIR.md, ENTROPY_EXCAVATION.md,
+    ROT_REGISTRY.md, ROT_OPEN.md, GITHUB_PROTOCOL.md, SESSION_PROTOCOL.md
+  - Last session (46) confirmed CLOSE — clean open
+OPEN_ROT_ITEMS:
+  - Entry 006 (systemic): entropy scan ≠ content approval. Pre-SOT gate.
+    No action at session open — addressed per-file as Tier 2 items are triaged.
+IN_PROGRESS:
+  - Tier 2 final extraction: Black Pearl Panel Interaction Spec, WSC HOLDING note,
+    Pipeline Segment (Tier 2)
+NOT_STARTED:
+  - Session close
+UNCOMMITTED: YES
+NEXT_ACTION: Sage sends first item for extraction. Extract from design-session-plan.md,
+  return plain language summary. Await confirmation before any file changes.
+---
+
+---
+TIMESTAMP: 2026-04-11
+TYPE: WORK_UNIT
+SESSION: 47
+TASK: Black Pearl extraction — paused mid-task (session interrupted, moving day)
+FILES_MODIFIED:
+  - none — extraction only, no file changes made
+COMPLETED:
+  - Black Pearl full extraction from design-session-plan.md and cross-files
+  - Plain language summary delivered to Sage
+  - Four open questions identified (tags/doc_type schema gap, Reflect mode,
+    keyboard shortcut conflict, pearls store description)
+IN_PROGRESS:
+  - Black Pearl lock — PAUSED. Awaiting Sage's answers to 4 questions before
+    any file changes. Questions:
+    (1) Tags + doc_type at capture: store on Pearl record, carry to INT only,
+        or drop on non-promotion?
+    (2) Reflect mode: real (needs spec), dropped (remove header), or deferred?
+    (3) Keyboard shortcut Ctrl+Shift+P: live in Tier 2 or deferred to Tier 7?
+    (4) Pearls store "reflective" description: needs cleanup (Reflective Pearl
+        Constellation was removed as rot session 40)
+NOT_STARTED:
+  - WSC HOLDING note
+  - Pipeline Segment (Tier 2)
+  - Session close
+UNCOMMITTED: YES — SESSION_LOG only
+NEXT_ACTION: Resume — Sage answers 4 questions, then lock Black Pearl and audit
+  affected files. This is session 47 RESUME, not a new OPEN.
+---
+
+---
+TIMESTAMP: 2026-04-13
+TYPE: RESUME
+SESSION: 47
+FILES_MODIFIED:
+  - none
+COMPLETED:
+  - Mandatory reads: CLAUDE.md, RECURSION_REPAIR.md, ENTROPY_EXCAVATION.md,
+    ROT_REGISTRY.md, ROT_OPEN.md, GITHUB_PROTOCOL.md, SESSION_PROTOCOL.md
+  - Interrupted session identified (last entry WORK_UNIT — session 47)
+  - Last entry read in full — state confirmed from disk
+  - No files were modified in the interrupted session (extraction only)
+  - SESSION_LOG uncommitted state: confirmed (SESSION_LOG only)
+OPEN_ROT_ITEMS:
+  - Entry 006 (systemic): entropy scan ≠ content approval. Pre-SOT gate.
+    No action at session open.
+CONFIRMED_STATE:
+  - Black Pearl: extracted, not locked. 4 questions outstanding.
+  - WSC HOLDING note: not started
+  - Pipeline Segment (Tier 2): not started
+IN_PROGRESS:
+  - Black Pearl lock — awaiting Sage's answers to 4 questions
+NOT_STARTED:
+  - WSC HOLDING note, Pipeline Segment (Tier 2), session close
+UNCOMMITTED: YES — SESSION_LOG only
+NEXT_ACTION: Sage answers 4 questions → lock Black Pearl → audit affected
+  files → proceed to WSC HOLDING note.
+---
+
+---
+TIMESTAMP: 2026-04-14
+TYPE: WORK_UNIT
+SESSION: 47
+TASK: Black Pearl lock — File 1 of 3 (OPERATIONAL DB SCHEMA.md)
+FILES_MODIFIED:
+  - DESIGN/Systems/Operational_DB/OPERATIONAL DB SCHEMA.md — COMPLETE
+COMPLETED:
+  - Added `label` field (text, not null) to pearls table. Required
+    journal entry title. Positioned after content field.
+  - Ghost fix confirmed: line 187, reads correctly.
+IN_PROGRESS:
+  - Black Pearl lock — File 2 of 3 (SYSTEM_ Frontend.md) next
+NOT_STARTED:
+  - design-build-spec.md (section 2.7 + list strikes)
+  - WSC HOLDING note, Pipeline Segment (Tier 2), session close
+UNCOMMITTED: YES
+NEXT_ACTION: Write SYSTEM_ Frontend.md changes (BLACK PEARL PANEL section
+  + pearls store description).
+---
+
+---
+TIMESTAMP: 2026-04-14
+TYPE: WORK_UNIT
+SESSION: 47
+TASK: Black Pearl lock — File 2 of 3 (SYSTEM_ Frontend.md)
+FILES_MODIFIED:
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — COMPLETE
+COMPLETED:
+  - BLACK PEARL PANEL section: removed Optional tags, removed Optional
+    doc_type, added label input (required), renamed "Capture mode (default)"
+    to "Capture mode", replaced Recent Pearls with Pearl list + keyword
+    search, added provenance filter note on Promotion to INT.
+  - Pearls store: "both capture and reflective" removed, replaced with
+    "last 5 active Pearls, searchable by content keyword".
+  - Ghost fix confirmed: lines 272 and 155 read correctly.
+IN_PROGRESS:
+  - Black Pearl lock — File 3 of 3 (design-build-spec.md) next
+NOT_STARTED:
+  - WSC HOLDING note, Pipeline Segment (Tier 2), session close
+UNCOMMITTED: YES
+NEXT_ACTION: Write design-build-spec.md section 2.7 and strike completed
+  items from 2.3-2.18 pending list.
+---
+
+---
+TIMESTAMP: 2026-04-14
+TYPE: WORK_UNIT
+SESSION: 47
+TASK: Black Pearl gap audit + INTEGRATION SCHEMA.md corrections
+FILES_MODIFIED:
+  - .claude/audits/black-pearl-gap-audit-2026-04-14.md — NEW, COMPLETE
+  - DESIGN/Systems/Integration/INTEGRATION SCHEMA.md — COMPLETE
+COMPLETED:
+  - Audit artifact written. 2 HIGH conflicts, 2 HIGH gaps, 3 MEDIUM gaps
+    identified. G5 (domain manifest) resolved by design decision.
+  - C1: label field added to Pearl record in INTEGRATION SCHEMA.md.
+  - C2: label added to POST /pearls/ request body.
+  - C3: "Tier 2 (per-page capture) and Tier 7 (dashboard)" corrected to
+    "Tier 2 (global panel, page nav). No Tier 7 surface."
+  - G1: GET /pearls/ endpoint added with q and status query params.
+  - G2: PATCH /pearls/{pearl_id}/archive endpoint added.
+  - Ghost fix confirmed: lines 1141-1165 and 1480-1496.
+IN_PROGRESS:
+  - SYSTEM_ Black Pearl.md — scope confirmed, not yet written
+  - BLACK PEARL SCHEMA.md — scope confirmed, not yet written
+NOT_STARTED:
+  - design-build-spec.md spec authority update (section 2.7)
+  - session close
+UNCOMMITTED: YES
+NEXT_ACTION: Write SYSTEM_ Black Pearl.md then BLACK PEARL SCHEMA.md.
+---
+
+---
+TIMESTAMP: 2026-04-14
+TYPE: WORK_UNIT
+SESSION: 47
+TASK: Black Pearl completion — new system files + build spec update
+FILES_MODIFIED:
+  - DESIGN/Systems/Black_Pearl/SYSTEM_ Black Pearl.md — NEW, COMPLETE
+  - DESIGN/Systems/Black_Pearl/BLACK PEARL SCHEMA.md — NEW, COMPLETE
+  - .claude/plans/design-build-spec.md — COMPLETE (spec authority updated)
+COMPLETED:
+  - SYSTEM_ Black Pearl.md written. Owns/does not own boundaries,
+    integration points (SQLite, INT gateway, SYSTEM_ Frontend.md),
+    schema authority, file list (4 PLANNED files).
+  - BLACK PEARL SCHEMA.md written. Canonical Pearl record (all fields
+    with constraints), lifecycle state machine (all states + invalid
+    transitions), 4 API endpoints with request/response shapes, 4
+    error cases.
+  - design-build-spec.md section 2.7 spec authority updated to
+    reference BLACK PEARL SCHEMA.md and SYSTEM_ Black Pearl.md.
+  - Ghost fixes confirmed: all files.
+  - BLACK PEARL FULLY COMPLETE across 7 files:
+      OPERATIONAL DB SCHEMA.md, INTEGRATION SCHEMA.md,
+      SYSTEM_ Frontend.md, design-build-spec.md (sections 2.1, 2.7),
+      SYSTEM_ Black Pearl.md, BLACK PEARL SCHEMA.md
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - WSC HOLDING note
+  - Pipeline Segment (Tier 2)
+  - Session close
+UNCOMMITTED: YES
+NEXT_ACTION: Commit all session 47 changes, then proceed to WSC
+  HOLDING note or close per Sage's direction.
+---
+
+---
+TIMESTAMP: 2026-04-14
+TYPE: WORK_UNIT
+SESSION: 47
+TASK: Black Pearl lock — File 3 of 3 (design-build-spec.md)
+FILES_MODIFIED:
+  - .claude/plans/design-build-spec.md — COMPLETE
+COMPLETED:
+  - Section 2.7 BLACK PEARL PANEL — INTERACTION SPEC written and locked.
+    Covers: Pearl record, trigger, panel, capture mode, Pearl list with
+    keyword search, promotion, provenance discoverability, lifecycle,
+    what Black Pearl does not do.
+  - 2.3-2.18 pending list: struck Black Pearl Panel Interaction Spec
+    (locked 2026-04-14), Session Schema (locked session 46), Instance
+    Context (locked session 46).
+  - Ghost fix confirmed: section 2.7 at line 419, three list strikes
+    at lines 501-503.
+  - Black Pearl lock COMPLETE across all 3 files.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - WSC HOLDING note
+  - Pipeline Segment (Tier 2)
+  - Session close
+UNCOMMITTED: YES
+NEXT_ACTION: Commit all changes from this session, then proceed to
+  WSC HOLDING note or close session per Sage's direction.
+---

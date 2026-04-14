@@ -152,7 +152,7 @@ frontend/
 | entries | Entry data cache — loaded entries for active section, invalidated on mutation |
 | tagger | Tagger result state — tag suggestions, phase_state, elarianAnchor, doc_type, deposit_weight |
 | ui | UI state — active filters, panel visibility, navigation state, sort overrides |
-| pearls | Recent Pearls cache — last 5, both capture and reflective |
+| pearls | Recent Pearls cache — last 5 active Pearls, searchable by content keyword |
 | assistant | Research assistant state — conversation history (synced with Redis), researcher memory snapshot, retrieval confidence, Ven'ai context status, page context, panel visibility |
 
 ### API Client Contract
@@ -269,22 +269,25 @@ not push content). Keyboard shortcut deferred to Tier 7.
 ### Context auto-capture
 page_id and instance_context pre-populated silently on open.
 
-### Capture mode (default)
-- Expanding text area
-- Optional tags (comma-separated)
-- Optional doc_type (defaults to `entry`)
+### Capture mode
+- Label input (required — journal entry title)
+- Expanding text area for content
 - [Save] [Close]
 
 ### Post-save behavior
 Panel stays open. Inline confirmation fades after 2s. Text area clears.
 Rapid capture — 5 Pearls in 30 seconds without leaving current page.
 
-### Recent Pearls
-Last 5 visible below input. Read-only, expandable inline.
+### Pearl list
+Keyword search input filters Pearls by content text. Default (no search):
+last 5 active Pearls. Search active: matching Pearls. Each Pearl is
+read-only and expandable inline.
 
 ### Promotion to INT
 Button on any Pearl card. Queues for INT review queue with
 `provenance.source: black_pearl_promoted`. Does not navigate away.
+Pearl-originated deposits are discoverable in the archive via provenance
+filter (Source: Black Pearl) — not via a tag vocabulary entry.
 
 ---
 

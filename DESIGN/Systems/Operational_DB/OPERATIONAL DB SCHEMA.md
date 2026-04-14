@@ -184,6 +184,12 @@ TABLE: pearls
                        Could be short — even a few words.
                        Pre-archive signal capture.
 
+  label              — text, not null
+                       Required journal entry title. Entered by
+                       Sage at capture. Not AI-assigned. Not a
+                       tag — a personal heading for the Pearl
+                       while it lives in the pre-archive state.
+
   created_at         — text (ISO timestamp), not null
                        When Sage captured the Pearl. This value
                        becomes pearl_captured_at on the deposit

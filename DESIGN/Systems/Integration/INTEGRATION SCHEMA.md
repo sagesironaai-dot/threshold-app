@@ -1140,6 +1140,8 @@ constraints and defaults):
 
     pearl_id             — text, primary key
     content              — text, not null
+    label                — text, not null. Journal entry title.
+                           Required at capture. Not AI-assigned.
     created_at           — timestamp
     page_context         — which page Sage was on when captured, nullable
     status               — active | promoted | archived
@@ -1160,7 +1162,7 @@ Unpromoted Pearls stay in operational DB indefinitely. No auto-expiry.
 They're pre-signal — Sage decides when (or if) they become deposits.
 archived status for Pearls Sage explicitly dismisses.
 
-UI surfaces: Tier 2 (per-page capture) and Tier 7 (dashboard).
+UI surfaces: Tier 2 (global panel, page nav). No Tier 7 surface.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1475,9 +1477,19 @@ GET /batch/{document_id}/status — batch progress
   Returns: document status, per-chunk status array, review queue
   counts, correction context summary.
 
+GET /pearls/ — list or search Pearls
+  Query params:
+    q       — keyword search on content (optional)
+    status  — filter by status (optional, default: active)
+  Returns: array of Pearl records matching params.
+
 POST /pearls/ — create Pearl
-  Receives: content, page_context.
+  Receives: label, content, page_context.
   Returns: pearl_id, created_at.
+
+PATCH /pearls/{pearl_id}/archive — archive Pearl
+  No request body. Sage explicitly dismisses Pearl.
+  Returns: pearl_id, status: archived.
 
 POST /pearls/{pearl_id}/promote — promote Pearl to deposit
   Triggers INT gateway flow with pearl_captured_at populated.
