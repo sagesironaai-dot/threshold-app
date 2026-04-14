@@ -84,7 +84,7 @@ and findings, not raw embeddings.
 
 | File | Role | Status |
 | --- | --- | --- |
-| DESIGN/Systems/Embedding_Pipeline/EMBEDDING PIPELINE SCHEMA.md | Full mechanical spec — trigger sequence, Ollama integration, metadata structure, re-embedding, sovereign retrieval, failure handling | V1 |
+| DESIGN/Systems/Embedding_Pipeline/EMBEDDING PIPELINE SCHEMA.md | Full mechanical spec — trigger sequence, Ollama integration, metadata structure, re-embedding, sovereign retrieval, failure handling | COMPLETE |
 | backend/services/embedding.py | Ollama client, async pipeline, retry logic, batch re-embedding | PLANNED |
 | backend/models/embedding.py | SQLAlchemy model for embeddings table | PLANNED |
 | backend/routes/embed.py | POST /embed/trigger, POST /embed/retry-failed, POST /embed/batch-reembed | PLANNED |

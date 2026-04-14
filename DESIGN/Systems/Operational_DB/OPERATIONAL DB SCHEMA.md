@@ -1,7 +1,5 @@
 # OPERATIONAL DB SCHEMA
 
-## V1
-
 ## /DESIGN/Systems/Operational_DB/OPERATIONAL DB SCHEMA.md
 
 SQLite · backend/db/operational.db

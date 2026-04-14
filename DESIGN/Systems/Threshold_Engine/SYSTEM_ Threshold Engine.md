@@ -71,7 +71,7 @@ captures only.
 
 | File | Role | Status |
 | --- | --- | --- |
-| DESIGN/Systems/Threshold_Engine/THRESHOLD ENGINE SCHEMA.md | Full mechanical spec — co-occurrence, presence, sequence algorithms, visualization specs, failure modes | V1 |
+| DESIGN/Systems/Threshold_Engine/THRESHOLD ENGINE SCHEMA.md | Full mechanical spec — co-occurrence, presence, sequence algorithms, visualization specs, failure modes | COMPLETE |
 | backend/services/engine_thr.py | THR computation — 66 pairs, 12 presence rates, sequence detection | PLANNED |
 | frontend/src/lib/components/ThrCooccurrenceMatrix.svelte | 12x12 grid, cell color by signal band, hover breakdown — LayerCake + d3-interpolate | PLANNED |
 | frontend/src/lib/components/ThrPresenceTimeline.svelte | Threshold rows, deposit dots — LayerCake + d3-scale | PLANNED |

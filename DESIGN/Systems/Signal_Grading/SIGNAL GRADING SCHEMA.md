@@ -1,7 +1,5 @@
 # SIGNAL GRADING SCHEMA
 
-## SGR · V1
-
 ## /DESIGN/Systems/Signal_Grading/SIGNAL GRADING SCHEMA.md
 
 Mechanical spec — four-dimension evidence-locked grading, tier derivation,

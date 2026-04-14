@@ -1,7 +1,5 @@
 # SYSTEM_ ARTIS
 
-## ART · V1
-
 ## /DESIGN/Systems/ARTIS/SYSTEM_ ARTIS.md
 
 Ownership boundaries, API surface, and rules for ARTIS — the Cosmology
@@ -139,4 +137,4 @@ Twelve endpoints under /artis/ namespace. Full contracts in ARTIS SCHEMA.md.
 | DESIGN/Systems/ARTIS/SYSTEM_ ARTIS.md | This file — ownership boundaries, API surface, rules | COMPLETE |
 | backend/routes/artis.py | FastAPI ARTIS endpoints | PLANNED |
 | backend/services/artis.py | ARTIS service — mappings, references, snapshots, ping pipeline | PLANNED |
-| backend/services/computation.py | Computation library — 15 V1 implementations | PLANNED |
+| backend/services/computation.py | Computation library — 15 implementations | PLANNED |

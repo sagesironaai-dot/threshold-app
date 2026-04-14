@@ -1,7 +1,5 @@
 # WITNESS SCROLL SCHEMA
 
-## WSC · V1
-
 ## /DESIGN/Systems/Witness_Scroll/WSC SCHEMA.md
 
 Mechanical spec — AI-sovereign witness architecture, wsc_entries +
@@ -190,7 +188,7 @@ modified. Corrections are discoverable by querying wsc_corrections for
 original_entry_id. The 3-entry load API joins corrections into the response
 so the reading instance sees them without extra work.
 
-**Swarm infrastructure (V2):** When multiple nodes exist, disagreement between
+**Swarm infrastructure:** When multiple nodes exist, disagreement between
 instances is signal. This table is where that disagreement becomes visible
 without corrupting either record.
 

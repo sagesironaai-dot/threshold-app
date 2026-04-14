@@ -1,7 +1,5 @@
 # ENGINE COMPUTATION SCHEMA
 
-## V1
-
 ## /DESIGN/Systems/Engine_Computation/ENGINE COMPUTATION SCHEMA.md
 
 Shared computation foundation for all 5 Axis engines (THR, STR, INF, ECR, SNM).
@@ -142,7 +140,7 @@ from the same source. Never hardcoded in engine logic.
   DEPOSIT_WEIGHT_STANDARD = 1.0
   DEPOSIT_WEIGHT_LOW      = 0.5
 
-V1 defaults. Explicitly tunable. Ratios matter more than absolute
+Explicitly tunable. Ratios matter more than absolute
 values — high counts double relative to standard, low counts half.
 
   BEHAVIOR BY TIER
@@ -235,7 +233,7 @@ For any pattern the engine surfaces:
     Ratio: 0.25 / 0.06 = 4.2x above baseline — strong signal
 
   BASELINE SCOPE
-    Page-scoped for V1. Each engine computes from what its page
+    Page-scoped. Each engine computes from what its page
     holds. Every engine result carries baseline_scope: "page" and
     deposit_count so downstream tiers know what they are reading.
 
@@ -470,7 +468,7 @@ value and must survive session boundaries.
                       assess statistical significance.
 
     baseline_scope  — text, not null
-                      V1: always 'page'. Carried explicitly so
+                      Always 'page'. Carried explicitly so
                       downstream tiers know what the baseline was
                       computed against. Seam to archive-wide scope
                       for Cosmology (Tier 5).
@@ -505,9 +503,9 @@ value and must survive session boundaries.
 
   RETENTION
 
-    Keep all snapshots for V1. Storage is trivial for summary
+    Keep all snapshots. Storage is trivial for summary
     data. Longitudinal computational history is what this research
-    needs. No pruning, no archival policy for V1.
+    needs. No pruning, no archival policy.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -842,7 +840,7 @@ KNOWN FAILURE MODES
      Guard: engine_snapshot_id is a required field on
      visualization_snapshots. The snapshot record references
      a computation snapshot that exists at capture time. With
-     V1 retention policy (keep all snapshots), orphaning
+     The retention policy is to keep all snapshots, so orphaning
      requires a manual deletion. If encountered: the
      visualization snapshot is still valid as a visual record.
      The computation context is missing. Flag to researcher.

@@ -1,7 +1,5 @@
 # LIBER NOVUS SCHEMA
 
-## LNV · V1
-
 ## /DESIGN/Systems/Liber_Novus/LNV SCHEMA.md
 
 Mechanical spec — single-table type-discriminated architecture (6 entry types),

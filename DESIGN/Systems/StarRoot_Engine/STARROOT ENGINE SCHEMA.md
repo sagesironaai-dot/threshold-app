@@ -1,7 +1,5 @@
 # STARROOT ENGINE SCHEMA
 
-## STR · V1
-
 ## /DESIGN/Systems/StarRoot_Engine/STARROOT ENGINE SCHEMA.md
 
 Mechanical spec — root cluster analysis, correlation integration from

@@ -1,7 +1,5 @@
 # INTEGRATION SCHEMA
 
-## INT · V1
-
 ## /DESIGN/Systems/Integration/INTEGRATION SCHEMA.md
 
 Mechanical spec — sequences, fields, contracts, state machines.
@@ -561,9 +559,9 @@ REQUEST:
       notes: string | null                   — optional freeform
       source_type: field | generated         — REQUIRED, non-nullable
 
-      // Swarm foundation (always known at creation in V1)
-      authored_by: string             — REQUIRED. V1: "sage" or "claude"
-      node_id: string                 — REQUIRED. V1: single value
+      // Swarm foundation
+      authored_by: string             — REQUIRED. Single-researcher: "sage" or "claude"
+      node_id: string                 — REQUIRED. Single-researcher: single value
       instance_context: string        — REQUIRED. Active instance registry pointer.
 
       // Provenance
@@ -1088,7 +1086,7 @@ MEDIA DEPOSIT WIRING
 Images enter the archive through INT with the same tagging and routing
 as text, but through a simpler flow (no chunking).
 
-Accepted formats (V1): JPEG, PNG. Audio is future, not V1. Glyphs
+Accepted formats: JPEG, PNG. Audio is future. Glyphs
 embedded in documents are handled by batch processing naturally.
 Standalone images use this flow.
 

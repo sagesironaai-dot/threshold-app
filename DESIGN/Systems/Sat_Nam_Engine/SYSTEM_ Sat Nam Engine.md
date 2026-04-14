@@ -106,7 +106,7 @@ captures only.
 
 | File | Role | Status |
 | --- | --- | --- |
-| DESIGN/Systems/Sat_Nam_Engine/SAT NAM ENGINE SCHEMA.md | Full mechanical spec — two-stream architecture, Claude integration, correspondence computation, prompt versioning, visualization specs, failure modes | V1 |
+| DESIGN/Systems/Sat_Nam_Engine/SAT NAM ENGINE SCHEMA.md | Full mechanical spec — two-stream architecture, Claude integration, correspondence computation, prompt versioning, visualization specs, failure modes | COMPLETE |
 | backend/services/engine_snm.py | SNM computation — two-stream compute, Claude calls (per-deposit + batch), correspondence computation, stream agreement classification | PLANNED |
 | backend/routes/engines.py | SNM-specific endpoints — Claude snapshot read, prompt management (shared routes file with other engines) | PLANNED |
 | frontend/src/lib/components/SnmBipartiteGraph.svelte | Field patterns × traditions, gravitational TRIA/PRIA/PARA zones, unmapped region, edge style encoding — d3-force | PLANNED |

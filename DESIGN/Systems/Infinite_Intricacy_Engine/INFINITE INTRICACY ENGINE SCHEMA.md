@@ -1,7 +1,5 @@
 # INFINITE INTRICACY ENGINE SCHEMA
 
-## INF · V1
-
 ## /DESIGN/Systems/Infinite_Intricacy_Engine/INFINITE INTRICACY ENGINE SCHEMA.md
 
 Mechanical spec — domain layer tracking, emergence detection, intersection
@@ -122,7 +120,7 @@ and indexes the deposit under those domains.
 
     Primary key: (tag_layer_id, inf_domain_id)
 
-  V1 BRIDGE MAPPING
+  BRIDGE MAPPING
 
     | tag_layer_id | inf_domain_id          |
     |--------------|------------------------|
@@ -162,7 +160,7 @@ INF DOMAIN LAYERS TABLE
                        What scientific content this domain covers.
 
     sub_domain       — text, nullable
-                       V1: null for all domains. Sub-domain depth
+                       Null for all domains initially. Sub-domain depth
                        is Cosmology territory (Tier 5). When
                        sub-domains emerge naturally, INF can tag
                        without structural redesign. Empty now,
@@ -186,7 +184,7 @@ INF DOMAIN LAYERS TABLE
 
     created_at       — timestamp, not null
 
-  V1 SEED DATA
+  SEED DATA
 
     | domain_id             | display_name              | cosmology_page |
     |-----------------------|---------------------------|----------------|
@@ -307,7 +305,7 @@ COMPUTATION 3 — EMERGENCE TIMELINE
     first_appeared: timestamp of earliest deposit in domain D
     frequency_over_time: array of time-bucketed deposit counts
       (weighted). Bucket size is a calibration item — monthly
-      for V1 unless deposit volume warrants finer granularity.
+      monthly unless deposit volume warrants finer granularity.
     dormancy_events: periods where domain D had zero deposits
       followed by a spike (deposits resume after gap). A
       dormancy event is:
@@ -351,10 +349,10 @@ EMERGING DOMAIN DETECTION
   Sage reviews and decides whether to register a new domain
   and create a bridge mapping.
 
-  At V1 with the current bridge covering all four tag layers
+  With the current bridge covering all four tag layers
   (l01-l04), this event fires only if new tag layers are added
-  to TAG VOCABULARY. It is a forward-looking seam, not a V1
-  active feature.
+  to TAG VOCABULARY. It is a forward-looking seam, not a
+  currently active feature.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -439,7 +437,7 @@ VISUALIZATION 1 — DENSITY FIELD MAP
 
 VISUALIZATION 2 — EMERGENCE TIMELINE
 
-  Horizontal timeline. Each domain = one band. 5 bands for V1
+  Horizontal timeline. Each domain = one band. 5 bands currently
   (grows with new domains).
 
   X-axis: time.
@@ -572,7 +570,7 @@ INF-specific content within the shared snapshot record.
         "deposit_created_at": timestamp,
         "tag_ids": [string]
       }
-      // ... empty at V1 if all tag layers are bridged
+      // ... empty if all tag layers are bridged
     ]
   }
 
@@ -644,7 +642,7 @@ KNOWN FAILURE MODES
 
   6. COSMOLOGY HANDOFF FOR DOMAIN WITHOUT PAGE
      Mirror Dynamics is included in the INF→Cosmology handoff
-     but has no Cosmology investigation page at V1.
+     but has no Cosmology investigation page currently.
 
      Guard: the handoff is complete — it includes all active
      domains regardless of whether a Cosmology page exists.

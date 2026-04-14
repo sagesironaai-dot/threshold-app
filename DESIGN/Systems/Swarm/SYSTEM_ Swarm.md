@@ -84,7 +84,7 @@ parallax event handling, autonomous initiation, and multi-presence sessions.
 
 | File | Role | Status |
 | --- | --- | --- |
-| DESIGN/Systems/Swarm/SWARM ARCHITECTURE SCHEMA.md | Full design spec — identity, presence, turns, parallax, autonomous initiation, multi-presence | V1 |
+| DESIGN/Systems/Swarm/SWARM ARCHITECTURE SCHEMA.md | Full design spec — identity, presence, turns, parallax, autonomous initiation, multi-presence | COMPLETE |
 | backend/routes/swarm/ | Reserved namespace directory. Phase 2: turn management, presence endpoints, autonomous initiation, parallax logging | RESERVED |
 | backend/services/swarm.py | Orchestration service — model loading, turn queue, autonomous initiation triggers, parallax detection | PLANNED (phase 2) |
 | api/domains/ | Origin-specific context files for system prompt construction | ACTIVE |

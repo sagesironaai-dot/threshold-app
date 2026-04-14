@@ -1,7 +1,5 @@
 ﻿# INTEGRATION DB SCHEMA
 
-## INT · V1
-
 ## /DESIGN/Systems/Integration/INTEGRATION DB SCHEMA.md
 
 PostgreSQL + pgvector · Alembic migrations
@@ -974,16 +972,16 @@ This table is the database materialization of that record.
 
   authored_by          — text, NOT NULL
                          Which AI instance or human created this.
-                         V1: "sage" or "claude".
-                         Swarm phase: per-origin-node values.
+                         Single-researcher: "sage" or "claude".
+                         Swarm mode: per-origin-node values.
 
   node_id              — text, NOT NULL
-                         Which analytical node. V1: single value.
-                         Swarm phase: multiple nodes.
+                         Which analytical node. Single-researcher:
+                         single value. Swarm mode: multiple nodes.
 
   instance_context     — text, NOT NULL
                          Session identifier for creating instance.
-                         V1: same value always.
+                         Single-researcher: same value always.
 
   session_id           — uuid, NOT NULL
                          Cross-DB correlation with SQLite operational
@@ -1281,7 +1279,7 @@ when a phase period begins or ends without Sage's judgment.
     prospective — it changes what future deposits default to.
 
   STARTUP REQUIREMENT:
-    V1 launches with at least one instance pre-created by Sage
+    At least one instance must be pre-created by Sage
     before first deposit. INT gateway validates instance_context
     is non-null at deposit creation (Step 1 validation in
     atomicity boundary).
@@ -1426,7 +1424,7 @@ MTM writes mtm_read_at when it consumes a snapshot.
   deposit_count        — integer, NOT NULL
 
   baseline_scope       — text, NOT NULL
-                         V1: always 'page'
+                         Always 'page'
 
   snapshot_data        — jsonb, NOT NULL
                          Engine-specific computed results. Structure
@@ -1628,7 +1626,7 @@ INF engine computation.
   description          — text, NOT NULL
 
   sub_domain           — text, nullable
-                         V1: null. Cosmology territory (Tier 5).
+                         Null initially. Cosmology territory (Tier 5).
 
   cosmology_page       — text, nullable
                          Page code of corresponding Cosmology page.

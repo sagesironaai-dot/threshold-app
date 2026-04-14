@@ -1,7 +1,5 @@
 # SYSTEM_ Cosmology
 
-## Group 7 · V1
-
 ## /DESIGN/Systems/Cosmology/SYSTEM_ Cosmology.md
 
 Ownership boundaries, API surface, and rules for the Cosmology investigation

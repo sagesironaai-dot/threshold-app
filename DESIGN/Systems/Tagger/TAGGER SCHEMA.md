@@ -1,4 +1,4 @@
-TAGGER SCHEMA  V1
+TAGGER SCHEMA
 /DESIGN/Systems/Tagger/TAGGER SCHEMA.md
 Mechanical spec — prompt blocks, API contract, sequences, failure modes.
 Architectural description in SYSTEM_ Tagger.md.

@@ -1,7 +1,5 @@
 # DAILY NEXUS ROUTINE SCHEMA
 
-## DNR · V1
-
 ## /DESIGN/Systems/Daily_Nexus_Routine/DAILY NEXUS ROUTINE SCHEMA.md
 
 Mechanical spec — pipeline sequence, MTM result handling, LNV routing via

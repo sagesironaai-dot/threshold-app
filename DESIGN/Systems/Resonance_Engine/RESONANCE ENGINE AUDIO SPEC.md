@@ -1,7 +1,5 @@
 # RESONANCE ENGINE AUDIO SPEC
 
-## V1
-
 ## /DESIGN/Systems/Resonance_Engine/RESONANCE ENGINE AUDIO SPEC.md
 
 Audio notification system, clip-based playback, waveform visualization,

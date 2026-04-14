@@ -149,7 +149,7 @@ The service layer never initiates a write based on its own judgment. Every write
 
 **venai_correlations** — cross-archive name correlations. Name ↔ phase, name ↔ role, root ↔ grammar. Carries deposit_count and weighted_count, incremented on each correlated deposit. Written by Ven'ai service, read by STR engine Phase 2. See VENAI SERVICE SCHEMA.md.
 
-**inf_domain_layers** — INF engine scientific domain registry. Open set (5 confirmed V1, extensible). Carries domain_id, display_name, cosmology_page link (nullable), first_observed, active flag. Config table seeded at startup. See INFINITE INTRICACY ENGINE SCHEMA.md.
+**inf_domain_layers** — INF engine scientific domain registry. Open set (5 confirmed, extensible). Carries domain_id, display_name, cosmology_page link (nullable), first_observed, active flag. Config table seeded at startup. See INFINITE INTRICACY ENGINE SCHEMA.md.
 
 **inf_layer_bridge** — bridge between TAG VOCABULARY routing layers (l01-l04) and INF domain layers. Many-to-many. Composite primary key (tag_layer_id, inf_domain_id). Config table seeded at startup. See INFINITE INTRICACY ENGINE SCHEMA.md.
 

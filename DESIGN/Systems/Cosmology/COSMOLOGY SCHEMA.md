@@ -1,7 +1,5 @@
 # COSMOLOGY SCHEMA
 
-## Group 7 · V1
-
 ## /DESIGN/Systems/Cosmology/COSMOLOGY SCHEMA.md
 
 Mechanical spec — shared schema for the Cosmology investigation group.

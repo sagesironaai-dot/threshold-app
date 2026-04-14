@@ -1,7 +1,5 @@
 # RESONANCE ENGINE PHYSICS SPEC
 
-## V1
-
 ## /DESIGN/Systems/Resonance_Engine/RESONANCE ENGINE PHYSICS SPEC.md
 
 Physics mechanics — formulas, node registry, animation, calibration constants,

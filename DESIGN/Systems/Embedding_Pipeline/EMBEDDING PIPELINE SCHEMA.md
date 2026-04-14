@@ -1,7 +1,5 @@
 # EMBEDDING PIPELINE SCHEMA
 
-## V1
-
 ## /DESIGN/Systems/Embedding_Pipeline/EMBEDDING PIPELINE SCHEMA.md
 
 Ollama + nomic-embed-text · pgvector · FastAPI async
@@ -87,7 +85,7 @@ WHAT GETS EMBEDDED
   Archive-level powers broad semantic search across documents.
   Deposit-level powers granular search within the archive.
 
-  PHASE 2 CONSIDERATION: deposit-level embedding ships V1 per
+  PHASE 2 CONSIDERATION: deposit-level embedding ships per
   INTEGRATION SCHEMA.md. Origin sovereign retrieval (filtering
   by owner_origin_id) activates in phase 2.
 

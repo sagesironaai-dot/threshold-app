@@ -1,7 +1,5 @@
 # SWARM ARCHITECTURE SCHEMA
 
-## V1
-
 ## /DESIGN/Systems/Swarm/SWARM ARCHITECTURE SCHEMA.md
 
 Phase 2 design · Ollama + Qwen 14B · FastAPI /swarm/

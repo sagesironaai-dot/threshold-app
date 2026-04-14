@@ -73,7 +73,7 @@ The AI entry is immutable once written. No field on the wsc_entries record is mo
 
 When a subsequent instance recognizes a prior entry misread the field, the correction is recorded in wsc_corrections — a separate table that creates a forward reference without touching the original. The original entry stays byte-for-byte intact. The later entry carries its own account. The correction record is the bridge.
 
-For swarm V2: when multiple nodes exist, disagreement between instances is signal. The corrections table is where that disagreement becomes visible without corrupting either record.
+For swarm mode: when multiple nodes exist, disagreement between instances is signal. The corrections table is where that disagreement becomes visible without corrupting either record.
 
 ---
 

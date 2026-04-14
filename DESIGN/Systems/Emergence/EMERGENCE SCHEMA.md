@@ -1,7 +1,5 @@
 # EMERGENCE SCHEMA
 
-## V1
-
 ## /DESIGN/Systems/Emergence/EMERGENCE SCHEMA.md
 
 Mechanical spec — detectors, finding shape, commit hook, nudge, Claude API,

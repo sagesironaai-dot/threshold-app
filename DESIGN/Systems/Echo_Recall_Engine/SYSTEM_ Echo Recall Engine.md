@@ -85,7 +85,7 @@ groupings.
 
 | File | Role | Status |
 | --- | --- | --- |
-| DESIGN/Systems/Echo_Recall_Engine/ECHO RECALL ENGINE SCHEMA.md | Full mechanical spec — 171 pairs, 19 signals, sequence detection, constellation state, visualization specs, performance notes, failure modes | V1 |
+| DESIGN/Systems/Echo_Recall_Engine/ECHO RECALL ENGINE SCHEMA.md | Full mechanical spec — 171 pairs, 19 signals, sequence detection, constellation state, visualization specs, performance notes, failure modes | COMPLETE |
 | backend/services/engine_ecr.py | ECR computation — 171 pairs, 19 presence rates, sequence detection, constellation state management | PLANNED |
 | frontend/src/lib/components/EcrCorrelationMatrix.svelte | 19x19 with signal family block structure — d3-zoom essential | PLANNED |
 | frontend/src/lib/components/EcrSignalConstellation.svelte | Force-directed, stateful drift tracking — d3-force | PLANNED |

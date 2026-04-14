@@ -1,7 +1,5 @@
 # SAT NAM ENGINE SCHEMA
 
-## SNM · V1
-
 ## /DESIGN/Systems/Sat_Nam_Engine/SAT NAM ENGINE SCHEMA.md
 
 Mechanical spec — two-stream architecture, Claude API structural analysis,

@@ -1,7 +1,5 @@
 # DRIFT TAXONOMY SCHEMA
 
-## DTX · V1
-
 ## /DESIGN/Systems/Drift_Taxonomy/DRIFT TAXONOMY SCHEMA.md
 
 Mechanical spec — drift event classification, four required dimensions,

@@ -175,7 +175,7 @@ Guard: vector and metadata are written in a single INSERT within one transaction
 | backend/services/void.py | Void service — absence detection, five-type classification, Claude tool (3 modes), PCV routing, Type E, reactivation | PLANNED |
 | backend/services/wsc.py | WSC service — payload assembly, Claude API call, entry creation, gap detection, corrections, 3-entry load, LNV routing | PLANNED |
 | backend/services/artis.py | ARTIS service — mapping management, reference registry, snapshot retrieval, science ping pipeline orchestration, Layer 2 Claude calls | PLANNED |
-| backend/services/computation.py | ARTIS computation library — 15 V1 implementations (scipy/numpy), input validation, snapshot creation | PLANNED |
+| backend/services/computation.py | ARTIS computation library — 15 implementations (scipy/numpy), input validation, snapshot creation | PLANNED |
 | backend/services/cosmology.py | Shared Cosmology findings service — create, confirm, abandon, supersede, nexus-eligible, LNV routing | PLANNED |
 | backend/services/rct.py | RCT service — residual creation, accumulation tracking, threshold prompt, LNV routing | PLANNED |
 | backend/services/hco.py | HCO investigation surface — deposit-to-finding workflow, ARTIS computation requests | PLANNED |

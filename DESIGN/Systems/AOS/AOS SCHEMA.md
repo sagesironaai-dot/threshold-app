@@ -1,7 +1,5 @@
 # AOS SCHEMA
 
-## AOS · V1
-
 ## /DESIGN/Systems/AOS/AOS SCHEMA.md
 
 Mechanical spec — Automated Observation Signal system. Signal routing,

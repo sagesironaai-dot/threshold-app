@@ -1,7 +1,5 @@
 # THRESHOLD ENGINE SCHEMA
 
-## THR · V1
-
 ## /DESIGN/Systems/Threshold_Engine/THRESHOLD ENGINE SCHEMA.md
 
 Mechanical spec — indexing, three computations, sequence detection,
@@ -189,7 +187,7 @@ COMPUTATION 2 — PRESENCE RATES
 COMPUTATION 3 — SEQUENCE DETECTION
 
   Temporal ordering across deposits. Recurring sequences — pairs
-  and triples for V1. All deposits on page 02, no windowing.
+  and triples. All deposits on page 02, no windowing.
 
   WHAT A SEQUENCE IS
 
@@ -333,7 +331,7 @@ VISUALIZATION 2 — PRESENCE TIMELINE
   row reveal when that threshold was active. Gaps reveal dormancy.
   Cross-row alignment reveals simultaneous threshold activity.
 
-  No d3-zoom required at V1 scale (12 rows). If deposit density
+  No d3-zoom required at this scale (12 rows). If deposit density
   becomes extreme, horizontal scroll with fixed row height.
 
 
@@ -356,7 +354,7 @@ VISUALIZATION 3 — SEQUENCE VIEW
 
   Visual representation of sequence paths (connecting lines
   between threshold positions) is a calibration item — not
-  required for V1 but the data structure supports it.
+  a future addition — the data structure supports it.
 
   Expand row: shows contributing deposit IDs and their timeline
   positions.
@@ -493,7 +491,7 @@ KNOWN FAILURE MODES
 
      Guard: engine only surfaces sequences that actually appear
      with recurrence >= 2. No pre-computation of all possible
-     combinations. At V1 deposit volumes, the actual sequence
+     combinations. At current deposit volumes, the actual sequence
      count will be a small fraction of the theoretical space.
 
   4. DEPOSITS WITH NO THRESHOLD TAGS

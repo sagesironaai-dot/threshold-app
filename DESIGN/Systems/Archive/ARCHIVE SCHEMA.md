@@ -1,7 +1,5 @@
 # ARCHIVE SCHEMA
 
-## ARV · V1
-
 ## /DESIGN/Systems/Archive/ARCHIVE SCHEMA.md
 
 Mechanical spec — deposit format, write sequence, sealed enforcement,

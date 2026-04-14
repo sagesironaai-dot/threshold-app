@@ -1,7 +1,5 @@
 # COMPOSITE ID SCHEMA
 
-## CID · V1
-
 ## /DESIGN/Systems/Composite_ID/COMPOSITE ID SCHEMA.md
 
 Mechanical spec — sequences, assembly, component, config.
@@ -114,9 +112,9 @@ SEQUENCE RULES:
   Child stamps from the same chunk are not guaranteed to be contiguous
   in sequence. Each deposit commit fires an independent NEXTVAL.
   Sequence gaps between sibling deposits from the same chunk are
-  expected and do not indicate data loss. In V1 (single researcher)
-  this is unlikely but architecturally possible. In V2+ (swarm with
-  multiple concurrent sessions) interleaved NEXTVAL calls across
+  expected and do not indicate data loss. With a single researcher
+  this is unlikely but architecturally possible. In swarm mode with
+  multiple concurrent sessions, interleaved NEXTVAL calls across
   sessions will produce non-contiguous sibling stamps routinely.
 
 
@@ -370,8 +368,8 @@ or operation fires a commit between two approvals, the child stamps
 for sibling deposits from the same chunk will be non-contiguous.
 This is expected behavior. Child stamps from the same chunk are not
 guaranteed to be contiguous in sequence. Sequence gaps between
-sibling deposits do not indicate data loss. In V1 (single researcher)
-this is unlikely. In V2+ (swarm with concurrent sessions) this will
+sibling deposits do not indicate data loss. With a single researcher
+this is unlikely. In swarm mode with concurrent sessions this will
 be routine.
 
 

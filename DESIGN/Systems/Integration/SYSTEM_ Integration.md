@@ -101,7 +101,7 @@ Parsing partner API contract, parse object shape, and correction propagation mec
 
 Media files arriving from the intake trigger button on any archive page are processed as source documents through the standard intake sequence.
 
-Accepted formats (V1): JPEG, PNG. Audio is future, not V1. Glyphs embedded in documents are handled by batch processing naturally. Standalone images use this flow.
+Accepted formats: JPEG, PNG. Audio is future. Glyphs embedded in documents are handled by batch processing naturally. Standalone images use this flow.
 
 Storage: Filesystem (backend/media/). Database stores metadata + file path. Media folder added to .gitignore for git, included in backup.py folder copy.
 

@@ -1,7 +1,5 @@
 # VOID ENGINE SCHEMA
 
-## VOI · V1
-
 ## /DESIGN/Systems/Void_Engine/VOID ENGINE SCHEMA.md
 
 Mechanical spec — two-layer architecture (data layer + analytical layer),

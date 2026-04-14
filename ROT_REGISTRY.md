@@ -1614,12 +1614,37 @@ Why it is pure hallucination:
     Sage's knowledge or approval — this is F57 (unauthorized
     confirmation) and F53 (plausible interpolation)
 
-Infected files:
-  .claude/plans/design-session-plan.md — lines 201-218
+Infected files (original):
+  .claude/plans/design-session-plan.md — lines 201-218 and spread throughout
+  (30+ additional lines with V1-V5 trajectory, "V1 cost:", "V2+:", "Not V1",
+  "V1 blocker", "swarm V2", "V2 definition", etc.)
+
+Infected files (spread — full-system purge completed 2026-04-14):
+  Category 1 — file headers (## XXX · V1 / ## V1 lines removed):
+    31 DESIGN/Systems/ schema and system files — all headers cleared
+  Category 2 — file table status cells (| V1 | → | COMPLETE |):
+    10 SYSTEM_ files — all status cells corrected
+  Category 3 — behavioral qualifiers ("V1 defaults", "for V1", etc.):
+    COMPOSITE ID SCHEMA.md, WSC SCHEMA.md, SYSTEM_ WSC.md,
+    METAMORPHOSIS SCHEMA.md, ECHO RECALL ENGINE SCHEMA.md,
+    THRESHOLD ENGINE SCHEMA.md, INFINITE INTRICACY ENGINE SCHEMA.md,
+    INTEGRATION DB SCHEMA.md, INTEGRATION SCHEMA.md, SYSTEM_ Integration.md,
+    EMBEDDING PIPELINE SCHEMA.md, ARTIS SCHEMA.md, SYSTEM_ ARTIS.md,
+    ENGINE COMPUTATION SCHEMA.md, SYSTEM_ Engine Computation.md,
+    SYSTEM_ Infinite Intricacy Engine.md, SYSTEM_ Integration DB.md,
+    SYSTEM_ Research Assistant.md, RESEARCH ASSISTANT ARCHIVE ACCESS.md,
+    RESEARCH ASSISTANT EMBEDDING SCOPE.md, VENAI SERVICE SCHEMA.md,
+    SYSTEM_ FastAPI.md, design-build-spec.md, infrastructure-build-plan.md
+  Remaining contamination — decision pending:
+    .claude/plans/design-session-plan.md — 30+ instances remain.
+    Origin document of the rot. Historical session working doc.
+    DESIGN/ specs are authoritative and fully clean.
 
 Verification:
-  grep -n "V1-V5\|V2:\|V3:\|V4:\|V5:" .claude/plans/design-session-plan.md
-  All matches should be in this documented section only.
+  grep -rn "V[1-5]" DESIGN/Systems/ DESIGN/Domains/
+  Should return: No matches found
+  grep -n "V[1-5]" .claude/plans/design-session-plan.md
+  Will show remaining contamination in origin doc (pending Sage decision).
 
 
 ══════════════════════════════════════════════════════════════════

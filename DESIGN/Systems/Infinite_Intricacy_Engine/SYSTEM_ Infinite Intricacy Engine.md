@@ -9,7 +9,7 @@
 ## WHAT THIS SYSTEM OWNS
 
 * INF domain layer registry — open set of scientific domains. 5
-  confirmed in V1: harmonic_cosmology, coupling_oscillation,
+  confirmed: harmonic_cosmology, coupling_oscillation,
   celestial_mechanics, neuro_harmonics, mirror_dynamics
 * INF layer bridge mapping — TAG VOCABULARY layer_ids (l01–l04) mapped
   to INF domains via inf_layer_bridge config table. l03 maps to two
@@ -21,7 +21,7 @@
   pairs). Observed vs. expected (marginal product baseline). Each
   intersection carries first_observed timestamp and deposit_ids list
 * INF emergence timeline computation — per domain: first_appeared,
-  frequency over time (bucketed monthly in V1), dormancy events
+  frequency over time (bucketed monthly), dormancy events
   (gap then spike), current state
 * INF dormancy detection — gap duration + spike count per domain
 * Emerging domain detection — deposits with layer_ids not in bridge
@@ -96,7 +96,7 @@ captures only.
 
 | File | Role | Status |
 | --- | --- | --- |
-| DESIGN/Systems/Infinite_Intricacy_Engine/INFINITE INTRICACY ENGINE SCHEMA.md | Full mechanical spec — domain registry, bridge mapping, intersection, emergence, dormancy, Cosmology boundary contract, visualization specs, failure modes | V1 |
+| DESIGN/Systems/Infinite_Intricacy_Engine/INFINITE INTRICACY ENGINE SCHEMA.md | Full mechanical spec — domain registry, bridge mapping, intersection, emergence, dormancy, Cosmology boundary contract, visualization specs, failure modes | COMPLETE |
 | backend/services/engine_inf.py | INF computation — domain presence, intersection, emergence timeline, bridge resolution, emerging domain detection | PLANNED |
 | frontend/src/lib/components/InfDensityFieldMap.svelte | Topographic contours, domain regions, overlap zones, deposit points — d3-contour | PLANNED |
 | frontend/src/lib/components/InfEmergenceTimeline.svelte | Domain bands, thickness = frequency, first-appearance markers, dormancy gaps — d3-scale | PLANNED |

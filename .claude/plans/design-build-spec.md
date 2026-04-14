@@ -178,7 +178,7 @@ SCHEMA.md (table definitions)
 
 ### 1.7 MEDIA DEPOSIT WIRING
 
-- V1 media types: JPEG, PNG
+- Media types: JPEG, PNG
 - Storage: filesystem (backend/media/), metadata to PostgreSQL
 - Simplified flow: no chunking
 - 7-step upload flow in INTEGRATION SCHEMA.md

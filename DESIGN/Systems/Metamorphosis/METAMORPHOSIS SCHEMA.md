@@ -1,7 +1,5 @@
 # METAMORPHOSIS SCHEMA
 
-## MTM · V1
-
 ## /DESIGN/Systems/Metamorphosis/METAMORPHOSIS SCHEMA.md
 
 Mechanical spec — two-pass synthesis architecture, engine output reading,
@@ -564,9 +562,8 @@ instructs accordingly:
 synthesis passes. They are downstream outputs. Do not treat them as independent
 corroboration of the patterns that generated them."
 
-This filter applies whether MTM reads PCV in V1 or in a later version. The
-constraint is specified now so the loop cannot be introduced accidentally when
-MTM's input scope expands.
+This filter applies regardless of when or how MTM's input scope expands.
+The constraint is specified now so the loop cannot be introduced accidentally.
 
 ---
 

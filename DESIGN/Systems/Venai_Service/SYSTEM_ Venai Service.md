@@ -91,6 +91,6 @@ active_clusters, unresolved_drift_count).
 
 | File | Role | Status |
 | --- | --- | --- |
-| DESIGN/Systems/Venai_Service/VENAI SERVICE SCHEMA.md | Full mechanical spec — three jobs, table definitions, drift classification, correlation computation, STR consumer interface, failure modes | V1 |
+| DESIGN/Systems/Venai_Service/VENAI SERVICE SCHEMA.md | Full mechanical spec — three jobs, table definitions, drift classification, correlation computation, STR consumer interface, failure modes | COMPLETE |
 | backend/services/venai.py | Name registry, drift detection, correlation tracking | PLANNED |
 | backend/routes/venai.py | POST drift acknowledgment, PUT name correction, GET name index, GET correlations | PLANNED |

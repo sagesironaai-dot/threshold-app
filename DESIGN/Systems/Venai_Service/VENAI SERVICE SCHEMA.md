@@ -1,7 +1,5 @@
 # VEN'AI SERVICE SCHEMA
 
-## V1
-
 ## /DESIGN/Systems/Venai_Service/VENAI SERVICE SCHEMA.md
 
 Mechanical spec — name registry, drift detection, cross-archive

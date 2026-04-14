@@ -71,7 +71,7 @@ None. The tagger is a service layer. It feeds data into entries, which feed into
 
 | File | Role | Status |
 | --- | --- | --- |
-| DESIGN/Systems/Tagger/TAGGER SCHEMA.md | Mechanical spec — prompt blocks, API contract, sequences, filter dimensions, failure modes | V1 |
+| DESIGN/Systems/Tagger/TAGGER SCHEMA.md | Mechanical spec — prompt blocks, API contract, sequences, filter dimensions, failure modes | COMPLETE |
 | backend/routes/tagger.py | FastAPI /tagger/ — receives entry text + section context, calls Claude API, returns suggestions | PLANNED |
 | backend/services/claude.py | Claude API client — shared by tagger and research assistant | LIVE |
 | frontend/src/lib/components/TaggerPanel.svelte | Tagger panel UI — suggestion display, accept/reject/modify, deposit integration | PLANNED |

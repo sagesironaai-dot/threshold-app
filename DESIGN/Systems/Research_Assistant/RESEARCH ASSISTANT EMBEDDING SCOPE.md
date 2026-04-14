@@ -47,7 +47,7 @@ determines:
 
 ---
 
-## EMBED (V1)
+## EMBED
 
 ### Deposits — at creation
 

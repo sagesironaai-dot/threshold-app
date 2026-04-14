@@ -1,7 +1,5 @@
 # ECHO RECALL ENGINE SCHEMA
 
-## ECR · V1
-
 ## /DESIGN/Systems/Echo_Recall_Engine/ECHO RECALL ENGINE SCHEMA.md
 
 Mechanical spec — indexing, three computations (scaled), signal
@@ -186,7 +184,7 @@ COMPUTATION 2 — PRESENCE RATES
 
 COMPUTATION 3 — SEQUENCE DETECTION
 
-  Temporal ordering across deposits. Pairs and triples for V1.
+  Temporal ordering across deposits. Pairs and triples.
   All deposits on page 05, no windowing. Same mechanics as THR
   sequence detection.
 
@@ -197,7 +195,7 @@ COMPUTATION 3 — SEQUENCE DETECTION
 
     Engine only surfaces sequences that actually appear in data
     with recurrence >= 2. No pre-computation of all possible
-    combinations. At V1 deposit volumes, actual sequence count
+    combinations. At current deposit volumes, actual sequence count
     will be a small fraction of the theoretical space.
 
   SEQUENCE WEIGHT — same asymmetric formula as THR:
@@ -207,7 +205,7 @@ COMPUTATION 3 — SEQUENCE DETECTION
   RECURRENCE THRESHOLD
     Minimum 2 occurrences to surface. Calibration item.
     Due to the larger combinatorial space, an increase to
-    minimum 3 may be warranted if noise is excessive at V1
+    minimum 3 may be warranted if noise is excessive at low
     deposit volumes. This is a calibration decision, not
     an architecture change.
 
@@ -478,7 +476,7 @@ PERFORMANCE CONSIDERATIONS
   computation. The hybrid compute trigger (stale flag, compute
   once, cache) is what makes this tractable.
 
-  AT V1 DEPOSIT VOLUMES
+  AT CURRENT DEPOSIT VOLUMES
 
     Expected deposit count on page 05: tens to low hundreds.
     At this scale, 171 pair computations with full breakdowns
@@ -505,12 +503,12 @@ PERFORMANCE CONSIDERATIONS
 
   CONSTELLATION POSITION HISTORY
 
-    Position history accumulates across snapshots. At V1 volumes
+    Position history accumulates across snapshots. At low volumes
     this is negligible. If the archive reaches thousands of
     snapshots, position history can be windowed (keep last N
-    snapshots). Calibration item — not a V1 concern.
+    snapshots). Calibration item — not a current concern.
 
-  NOT A V1 BLOCKER. ECR is the canary for engine performance.
+  ECR is the canary for engine performance.
   If ECR performs well, all other engines are fine (THR has 66
   pairs, INF has 6 pairs, STR and SNM are even smaller in
   combinatorial dimension).

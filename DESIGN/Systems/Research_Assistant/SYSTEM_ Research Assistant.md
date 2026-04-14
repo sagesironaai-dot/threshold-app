@@ -624,7 +624,7 @@ its own agent_id and agent_type.
 
 **Per-agent differentiation:**
 The wrapper accepts per-agent system prompt and context block. Model
-selection slot exists but is not differentiated in V1 — all agents use
+selection slot exists but is not differentiated currently — all agents use
 the shared `CLAUDE_MODEL` constant. The three page engines (SNM, MTM,
 Void) and the research assistant each pass their own system prompts
 and context through the same call interface.
@@ -842,7 +842,7 @@ All design items fully specified in standalone specs:
   naming → falsification check → corpus adequacy → ARTIS handoff.
   7 behavioral rules
 * **Embedding scope** — RESEARCH ASSISTANT EMBEDDING SCOPE.md
-  5 types embedded V1 (deposits, MTM findings, Cosmology findings,
+  5 types embedded (deposits, MTM findings, Cosmology findings,
   RCT residuals, Emergence findings). 4 excluded (WSC, schemas,
   conversation history, provenance summaries). embedding_dirty
   connection named
@@ -865,13 +865,13 @@ All design items fully specified in standalone specs:
 
 | File | Role | Status |
 | --- | --- | --- |
-| DESIGN/Systems/Research_Assistant/SYSTEM_ Research Assistant.md | Primary design doc — ownership boundaries, three-layer memory, researcher memory, conversation history, six-layer context assembly, epistemic integrity, floating panel, context budget, agent identity, Ven'ai integration | V1 |
-| DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT ARCHIVE ACCESS.md | Companion spec — query assembly, hybrid two-pass search, four-weight ranking, retrieval confidence thresholds | V1 |
-| DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT OBSERVATION ARTICULATION.md | Companion spec — noticing → listening → Pearl gate → deposit suggestion → longitudinal echo | V1 |
-| DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT HYPOTHESIS FRAMING.md | Companion spec — hypothesis detection, two-pass retrieval, falsification check, ARTIS handoff | V1 |
-| DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT EMBEDDING SCOPE.md | Companion spec — 5 types embedded V1, 4 excluded, embedding_dirty connection | V1 |
-| DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT COSMOLOGY BRIDGE.md | Companion spec — page orientation, prior computation check, plain language translation | V1 |
-| DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT RESEARCH POSTURE.md | Companion spec — 23 behavioral sections defining the assistant's epistemic and relational posture | V1 |
+| DESIGN/Systems/Research_Assistant/SYSTEM_ Research Assistant.md | Primary design doc — ownership boundaries, three-layer memory, researcher memory, conversation history, six-layer context assembly, epistemic integrity, floating panel, context budget, agent identity, Ven'ai integration | COMPLETE |
+| DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT ARCHIVE ACCESS.md | Companion spec — query assembly, hybrid two-pass search, four-weight ranking, retrieval confidence thresholds | COMPLETE |
+| DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT OBSERVATION ARTICULATION.md | Companion spec — noticing → listening → Pearl gate → deposit suggestion → longitudinal echo | COMPLETE |
+| DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT HYPOTHESIS FRAMING.md | Companion spec — hypothesis detection, two-pass retrieval, falsification check, ARTIS handoff | COMPLETE |
+| DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT EMBEDDING SCOPE.md | Companion spec — 5 types embedded, 4 excluded, embedding_dirty connection | COMPLETE |
+| DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT COSMOLOGY BRIDGE.md | Companion spec — page orientation, prior computation check, plain language translation | COMPLETE |
+| DESIGN/Systems/Research_Assistant/RESEARCH ASSISTANT RESEARCH POSTURE.md | Companion spec — 23 behavioral sections defining the assistant's epistemic and relational posture | COMPLETE |
 | backend/routes/assistant.py | FastAPI endpoints — query, memory CRUD, summary, context assembly, drift log (7 routes) | PLANNED |
 | backend/services/rag.py | RAG pipeline — query assembly, hybrid search, cross-encoder re-rank, context packaging | PLANNED |
 | backend/services/researcher_memory.py | Researcher memory read/update, history snapshot, conversation summary production, Ven'ai drift log persistence | PLANNED |

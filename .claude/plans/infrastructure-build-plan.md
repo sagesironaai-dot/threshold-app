@@ -616,7 +616,7 @@ git push
   messages + optional context_block. Attaches identity via Anthropic
   metadata parameter. Returns content + identity + usage.
 - Model selection slot exists as parameter but defaults to shared constant
-  (not differentiated in V1)
+  (not differentiated currently)
 
 ### Verify
 ```python

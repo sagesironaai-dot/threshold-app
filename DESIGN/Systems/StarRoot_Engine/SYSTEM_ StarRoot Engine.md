@@ -79,7 +79,7 @@ captures only.
 
 | File | Role | Status |
 | --- | --- | --- |
-| DESIGN/Systems/StarRoot_Engine/STARROOT ENGINE SCHEMA.md | Full mechanical spec — cluster analysis, correlation integration, Ven'ai table reads, visualization specs, failure modes | V1 |
+| DESIGN/Systems/StarRoot_Engine/STARROOT ENGINE SCHEMA.md | Full mechanical spec — cluster analysis, correlation integration, Ven'ai table reads, visualization specs, failure modes | COMPLETE |
 | backend/services/engine_str.py | STR computation — root cluster analysis, correlation integration, Ven'ai state summary | PLANNED |
 | frontend/src/lib/components/StrRootClusterMap.svelte | Force-directed graph, node size = presence_rate, edges = co-occurrence — d3-force + d3-hierarchy + d3-zoom | PLANNED |
 | frontend/src/lib/components/StrCorrelationMatrix.svelte | Names × dimensions, filterable by correlation type — d3-interpolate + d3-zoom | PLANNED |

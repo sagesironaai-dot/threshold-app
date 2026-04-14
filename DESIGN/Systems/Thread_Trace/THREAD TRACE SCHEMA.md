@@ -1,7 +1,5 @@
 # THREAD TRACE SCHEMA
 
-## V1
-
 ## /DESIGN/Systems/Thread_Trace/THREAD TRACE SCHEMA.md
 
 Mechanical spec — builders, seed resolution, filter bar, sequences, tables,

@@ -195,7 +195,7 @@ ranking_score = (
 )
 ```
 
-### Weight constants — V1 starting values
+### Weight constants — starting values
 
 ```
 WEIGHT_VECTOR_SIMILARITY  = 0.50

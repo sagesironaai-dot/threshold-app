@@ -76,7 +76,7 @@
 
 | File | Role | Status |
 | --- | --- | --- |
-| DESIGN/Systems/Operational_DB/OPERATIONAL DB SCHEMA.md | Full mechanical spec — all tables, state machines, startup recovery, session correlation | V1 |
+| DESIGN/Systems/Operational_DB/OPERATIONAL DB SCHEMA.md | Full mechanical spec — all tables, state machines, startup recovery, session correlation | COMPLETE |
 | backend/db/operational.db | SQLite file, created at FastAPI startup | PLANNED |
 | backend/db/sqlite.py | Connection management, table creation, WAL mode, startup recovery | LIVE |
 | backend/services/session.py | Session lifecycle, presence state transitions, session_id generation | PLANNED |

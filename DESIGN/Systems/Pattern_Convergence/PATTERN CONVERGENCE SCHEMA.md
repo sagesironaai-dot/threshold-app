@@ -1,7 +1,5 @@
 # PATTERN CONVERGENCE SCHEMA
 
-## PCV · V1
-
 ## /DESIGN/Systems/Pattern_Convergence/PATTERN CONVERGENCE SCHEMA.md
 
 Mechanical spec — hypothesis record shape, three provenance types (MTM, Void,

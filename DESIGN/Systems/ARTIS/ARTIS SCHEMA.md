@@ -1,11 +1,9 @@
 # ARTIS SCHEMA
 
-## ART · V1
-
 ## /DESIGN/Systems/ARTIS/ARTIS SCHEMA.md
 
 Mechanical spec — computation engine for the Cosmology group. Five PostgreSQL
-tables, twelve endpoint contracts, fifteen V1 computation implementations,
+tables, twelve endpoint contracts, fifteen computation implementations,
 three PLANNED interfaces, three-layer science ping pipeline, computation
 snapshot architecture, external reference registry, reference distribution
 registry, mapping management, validation rules, failure modes.
@@ -217,7 +215,7 @@ same registry.
 
 ## COMPUTATION LIBRARY
 
-Fifteen V1 implementations. Three PLANNED interfaces.
+Fifteen implementations. Three PLANNED interfaces.
 
 Design plan listed 13 items. This schema expands to 15: scipy.spatial.distance
 split into distance_matrix (cdist, matrix operations) and cosine_similarity
@@ -229,7 +227,7 @@ The computation_type identifier is the key. Each entry defines: what it
 computes, which scipy/numpy function it wraps, input contract, output
 contract, and which Cosmology pages use it.
 
-### V1 implementations
+### Implementations
 
 ---
 
@@ -522,7 +520,7 @@ Lagrangian framework.
 **iit_phi** — PLANNED (future)
 
 True integrated information theory phi computation. Computationally intractable
-at meaningful system sizes. Listed as future target, not V1 or V2.
+at meaningful system sizes. Listed as a future target.
 
 | Property | Value |
 | --- | --- |
@@ -707,7 +705,7 @@ computation snapshot.
 ```
 
 **Validation:**
-1. computation_type must match a registered V1 computation. PLANNED interfaces
+1. computation_type must match a registered computation. PLANNED interfaces
    return error_code: computation_not_implemented.
 2. caller_page_code must be a valid Cosmology page code or "ART" (workbench).
 3. deposit_ids must reference valid deposits. Minimum 1.
@@ -1038,7 +1036,7 @@ requires an explicit request. No background process auto-confirms.
 A caller requests tribonacci_convergence, lagrange_stability, or iit_phi.
 These are interface-only — no implementation exists.
 
-**Guard:** POST /artis/compute validates computation_type against the V1
+**Guard:** POST /artis/compute validates computation_type against the
 implementation registry. PLANNED interfaces return error_code:
 computation_not_implemented with a message naming the blocking prerequisite.
 
@@ -1144,7 +1142,7 @@ itself — each cascade file is updated as its own work unit.
 | --- | --- | --- |
 | backend/routes/artis.py | FastAPI ARTIS endpoints — 12 routes under /artis/ namespace | PLANNED |
 | backend/services/artis.py | ARTIS service — mapping management, reference registry, snapshot retrieval, science ping pipeline orchestration, Layer 2 Claude calls | PLANNED |
-| backend/services/computation.py | Computation library — 13 V1 implementations, input validation, snapshot creation, computation execution | PLANNED |
+| backend/services/computation.py | Computation library — 13 implementations, input validation, snapshot creation, computation execution | PLANNED |
 | frontend/src/lib/components/ARTISWorkbench.svelte | Zone A computation workbench | PLANNED |
 | frontend/src/lib/components/ARTISRegistryPanel.svelte | Zone B registry and health surface | PLANNED |
 | frontend/src/lib/components/ARTISPagePanel.svelte | Right-side panel for Cosmology pages | PLANNED |
