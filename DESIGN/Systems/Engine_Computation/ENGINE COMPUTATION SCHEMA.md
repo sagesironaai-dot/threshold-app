@@ -413,7 +413,8 @@ Recomputation happens on demand, not on every deposit.
 
   STALE FLAG
 
-    One boolean per engine in SQLite operational DB.
+    One row per engine in SQLite operational DB. stale stored as
+    integer (0|1) — SQLite has no native boolean type.
     Table: engine_stale_flags (see OPERATIONAL DB SCHEMA.md)
     5 rows, one per engine: thr, str, inf, ecr, snm.
     Default: true (stale on first load — forces initial compute).

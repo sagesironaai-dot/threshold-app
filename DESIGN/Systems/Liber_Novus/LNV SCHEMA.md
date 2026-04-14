@@ -112,12 +112,12 @@ eighth, and ninth entry_types respectively.
 
 ```json
 {
-  "engine":                  "thr | str | inf | ecr | snm",
-  "computation_snapshot_id": "string — links to Tier 3 computation snapshot",
-  "template_ref":            "string — which visualization component renders this",
-  "visualization_data":      "object — positions, values, scales, color mappings",
-  "deposit_count":           "integer — corpus size at capture time",
-  "baseline_scope":          "page"
+  "engine":             "thr | str | inf | ecr | snm",
+  "engine_snapshot_id": "string — links to visualization_snapshots.engine_snapshot_id (FK to engine_snapshots)",
+  "template_ref":       "string — which visualization component renders this",
+  "viz_data":           "object — positions, values, scales, color mappings",
+  "deposit_count":      "integer — corpus size at capture time",
+  "baseline_scope":     "page"
 }
 ```
 
