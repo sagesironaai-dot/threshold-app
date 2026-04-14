@@ -16768,3 +16768,121 @@ CLOSE AUDIT: No new rot introduced. V1-V5 confirmed absent from all DESIGN/
 UNCOMMITTED: YES (this entry)
 NEXT_ACTION: Session 50 — open session, resume Tier 3 at item 3.7.
 ---
+TIMESTAMP: 2026-04-14
+TYPE: OPEN
+SESSION: 50
+RESUMING_FROM: Session 49 CLOSE. Clean boundary. Session 49 locked 3.5 and 3.6.
+PRIOR_STATE:
+  - design-build-spec.md: 3.1–3.6 locked. Tier 3 items 3.7–3.16 not started.
+  - All DESIGN/ files clean (V1-V5 purge confirmed Session 49).
+FOCUS: Tier 3 items 3.7–3.8 + integrity audit of 3.6–3.7.
+NOTE: Session compressed mid-work. OPEN written retroactively at close to preserve record.
+---
+TIMESTAMP: 2026-04-14
+TYPE: WORK_UNIT
+SESSION: 50
+TASK: Tier 3 — 3.7 Engine Result Object — audit + gaps closed + build spec write
+FILES_MODIFIED:
+  - DESIGN/Systems/Engine_Computation/ENGINE COMPUTATION SCHEMA.md — 3 missing
+    fields added to FIELD NOTES (stale_warning, insufficient_data, low_sample);
+    snapshot_id and mtm_read_at lifecycle notes added; dashboard → Observatory
+    (2 instances in VISUALIZATION ARCHITECTURE); stray 'With' fragment removed
+    from FAILURE MODE 7; audio section updated (tone.js/audiomotion removed,
+    Web Audio API clip-based approach confirmed); svelte-motion clarified as
+    Svelte native motion
+  - DESIGN/Systems/Engine_Computation/SYSTEM_ Engine Computation.md — result
+    object bullet updated to include insufficient_data in field list
+  - DESIGN/Systems/Emergence/EMERGENCE SCHEMA.md — dashboard → Observatory
+  - DESIGN/Systems/Emergence/SYSTEM_ Emergence.md — dashboard → Observatory
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md — Library Requirements table
+    replaced with full visualization stack (layercake, D3 packages, GSAP,
+    Threlte, Three.js, postprocessing, umap-js, regl, simplex-noise, WebAudio
+    API, Svelte native motion)
+  - frontend/package.json — removed orphaned howler and tone dependencies
+  - frontend/package-lock.json — regenerated after package.json change
+  - .claude/plans/design-build-spec.md — section 3.7 written; completed list updated
+COMPLETED:
+  - Engine result object shape confirmed complete: all shared fields present
+    including 3 previously missing (stale_warning, insufficient_data, low_sample)
+  - snapshot_id / mtm_read_at lifecycle clarified (Feed step ordering)
+  - dashboard → Observatory drift corrected in 4 files across 3 directories
+  - howler and tone removed: orphaned deps, audio system uses Web Audio API
+  - 3.7 locked. Committed as 33ed781.
+COMMITTED: YES
+---
+TIMESTAMP: 2026-04-14
+TYPE: WORK_UNIT
+SESSION: 50
+TASK: Tier 3 — 3.8 Visualization Architecture — audit + spec verification + build spec write
+FILES_MODIFIED:
+  - .claude/plans/design-build-spec.md — section 3.8 written; completed list updated
+COMPLETED:
+  - Three rendering categories confirmed: SVG instrument (LayerCake + D3),
+    Canvas instrument (raw canvas, Resonance Engine only), WebGL spatial (Threlte)
+  - All library assignments verified against frontend/src audio files (Web Audio API
+    confirmed, tone.js and howler absent from all imports)
+  - Library Requirements table in SYSTEM_ Frontend.md confirmed accurate
+  - 3.8 locked. Committed as 86539d2.
+COMMITTED: YES
+---
+TIMESTAMP: 2026-04-14
+TYPE: WORK_UNIT
+SESSION: 50
+TASK: 3.6/3.7 integrity audit — cross-file field verification + two flags fixed
+FILES_MODIFIED:
+  - DESIGN/Systems/Liber_Novus/LNV SCHEMA.md — engine_snapshot content shape:
+    computation_snapshot_id → engine_snapshot_id; visualization_data → viz_data
+  - DESIGN/Systems/Engine_Computation/ENGINE COMPUTATION SCHEMA.md — stale flag
+    type description: 'One boolean per engine' → 'One row per engine, stale stored
+    as integer (0|1) — SQLite has no native boolean type'
+  - .claude/audits/integrity-audit-3.6-3.7-2026-04-14.md — audit artifact written
+COMPLETED:
+  - engine_snapshots table: 8 fields verified exact match across ENGINE COMPUTATION
+    SCHEMA.md and INTEGRATION DB SCHEMA.md
+  - visualization_snapshots table: 9 fields verified exact match
+  - engine_stale_flags: confirmed correct in OPERATIONAL DB SCHEMA.md
+  - MTM drift tracking: consistent across ENGINE COMPUTATION SCHEMA.md,
+    METAMORPHOSIS SCHEMA.md, and design-build-spec 3.6
+  - All 5 engine schemas (THR, STR, INF, ECR, SNM): confirmed carry all 3.7
+    shared result fields (insufficient_data, low_sample, weight_breakdown,
+    null_contribution)
+  - Flag 1 fixed: LNV content shape field naming aligned to source table
+  - Flag 2 fixed: stale flag type description corrected to SQLite integer (0|1)
+  - Tier 3 gap confirmed: 3.9–3.16 (8 sections) present in design-session-plan
+    but not yet in design-build-spec. New session required.
+  - Committed as d995957.
+COMMITTED: YES
+---
+TIMESTAMP: 2026-04-14
+TYPE: CLOSE
+SESSION: 50
+FILES_MODIFIED:
+  - DESIGN/Systems/Engine_Computation/ENGINE COMPUTATION SCHEMA.md
+  - DESIGN/Systems/Engine_Computation/SYSTEM_ Engine Computation.md
+  - DESIGN/Systems/Emergence/EMERGENCE SCHEMA.md
+  - DESIGN/Systems/Emergence/SYSTEM_ Emergence.md
+  - DESIGN/Systems/Frontend/SYSTEM_ Frontend.md
+  - DESIGN/Systems/Liber_Novus/LNV SCHEMA.md
+  - frontend/package.json
+  - frontend/package-lock.json
+  - .claude/plans/design-build-spec.md
+  - .claude/audits/integrity-audit-3.6-3.7-2026-04-14.md
+  - PROTOCOL/SESSION_LOG.md — this entry
+COMPLETED:
+  - Tier 3 items 3.7 and 3.8 locked and pushed.
+  - 3.6/3.7 integrity audit completed: 2 flags found and fixed.
+  - Tier 3 coverage gap identified: 3.9–3.16 missing from design-build-spec,
+    all 8 present in design-session-plan and ready to extract.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Tier 3 items 3.9–3.16 (Duplicate Detection, THR, ECR, INF, SNM, STR,
+    Ven'ai Service, Pipeline Segment Tier 3)
+CLOSE AUDIT: All findings are pre-existing (entropy scan is project-wide).
+  No new rot introduced this session. All session commits pushed (33ed781,
+  86539d2, d995957). Audit artifact written. Marker created with --force
+  after confirming pre-existing nature of 291 HIGH findings.
+UNCOMMITTED: YES (this entry + audit artifact)
+NEXT_ACTION: Session 51 — open session, resume Tier 3 at item 3.9
+  (Duplicate Detection in Engines). 8 sections remaining: 3.9–3.16.
+---
