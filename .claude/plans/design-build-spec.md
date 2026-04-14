@@ -754,7 +754,7 @@ this document as each passes audit:
 | VENAI SERVICE SCHEMA | DESIGN/Systems/Venai_Service/VENAI SERVICE SCHEMA.md |
 | SYSTEM_ Venai Service | DESIGN/Systems/Venai_Service/SYSTEM_ Venai Service.md |
 
-**Completed items (locked, session 48–51):**
+**Completed items (locked, session 48–52):**
 
 - ~~3.1 Shared Engine Architecture — Four-Step Contract~~ — locked 2026-04-14
 - ~~3.2 Deposit Weight Mechanics~~ — locked 2026-04-14
@@ -766,6 +766,8 @@ this document as each passes audit:
 - ~~3.8 Visualization Architecture~~ — locked 2026-04-14
 - ~~3.9 Duplicate Detection in Engines~~ — locked 2026-04-14
 - ~~3.10 THR Engine — Threshold Lens~~ — locked 2026-04-14
+- ~~3.11 ECR Engine — Echo Recall Lens~~ — locked 2026-04-14
+- ~~3.12 INF Engine — Infinite Intricacy Lens~~ — locked 2026-04-14
 
 ---
 
@@ -1154,7 +1156,7 @@ one or the other, never both.
 - layercake — Svelte-native layout, scales, responsive containers
 - d3-scale, d3-shape — quantitative scales and line/arc generators
 - d3-force — force-directed layouts (STR cluster map, SNM
-  correspondence graph)
+  correspondence graph, ECR signal constellation)
 - d3-hierarchy — tree/cluster structures within STR root families
 - d3-interpolate — color interpolation for signal gradient bands
 - d3-zoom — pan/zoom on dense matrices (ECR 19×19, INF density field)
@@ -1298,6 +1300,211 @@ Visualization snapshots Sage-triggered, route to LNV.
 algorithms, pattern_id formats, snapshot_data JSON, failure modes).
 SYSTEM_ Threshold Engine.md (ownership boundaries, component list,
 nexus feed). TAG VOCABULARY.md (th01–th12 canonical names).
+
+---
+
+### 3.11 ECR ENGINE — ECHO RECALL LENS
+
+Page 05 (`echo_recall` / `ECR`). Core question: which of the 19 field
+signals co-occur, sequence, and cluster — and how does that change over
+time?
+
+Most data-dense Axis engine. 19 signals held simultaneously. ECR is the
+canary for shared engine performance — if ECR performs well, all other
+engines perform well.
+
+**Index:**
+Reads signal seed tags (`s01`–`s19`). s20 (Rupture/Decoupling) is
+explicitly excluded from ECR's set — Rupture belongs to the Resonance
+Engine. Multiple tags routed to the same seed count as one signal
+presence (seed-level dedup). A deposit with zero signal tags is still
+indexed — it contributes to the total examined denominator for all
+baseline calculations.
+
+**Compute — three computations:**
+
+*1. Co-occurrence rates* — 19 signals = 171 unique pairs (19 choose 2).
+For each pair: observed rate vs. expected rate (marginal product
+baseline), ratio, signal band, weight breakdown, null contribution.
+`pattern_id` format: `ecr_cooc_[sXX]_[sYY]` (lower-numbered signal
+seed always first, deterministic).
+
+*2. Presence rates* — per signal: weighted frequency relative to total
+examined deposits. 19 entries, one per signal. `pattern_id` format:
+`ecr_pres_[sXX]`.
+
+*3. Sequence detection* — temporal ordering across all deposits on page
+05, no windowing. Pairs and triples with recurrence ≥ 2. Engine surfaces
+only sequences that actually appear in the data — no pre-computation of
+all possible combinations (342 pair sequences, 5,814 triple sequences
+possible). Same asymmetric position weight formula as THR. `pattern_id`
+format: `ecr_seq_[sXX]_[sYY]` (pairs), `ecr_seq_[sXX]_[sYY]_[sZZ]`
+(triples). Order preserved, deterministic.
+
+**Visualize — four components (layout deferred to PAGE_LAYOUTS.md):**
+
+*EcrCorrelationMatrix* — 19×19 grid. Symmetric — 171 unique pair cells
++ 19 diagonal cells showing per-signal presence rates from Computation
+2. Block structure by signal family: Family A (s01–s04), Family B
+(s05, s06, s08, s09), Family C (s10–s13), Family D (s14–s16), Family E
+(s17–s19), Family F (s07 — singleton). Subtle visual separators between
+family blocks. d3-zoom essential for navigation. Cell color from ratio
+via signal band using d3-interpolate gradient. Hover: full breakdown.
+Insufficient data rendered as distinct gray.
+
+*EcrSignalConstellation* — force-directed layout (d3-force). 19 nodes,
+one per signal. Node size = presence rate. Node color = dominant signal
+band among its co-occurrence pairs. Edges rendered only above mild band
+(ratio ≥ 1.0) — suppressed co-occurrences not drawn, their absence is
+the visual signal. Edge weight = co-occurrence ratio. Edge color =
+signal band. Edge thickness = ratio magnitude within band.
+
+**Constellation is stateful across time** — unique to ECR. Drift state
+accumulates at engine level, not per-snapshot. Tracks
+`current_positions`, `position_history` (indexed by snapshot_id),
+`cluster_assignments`. Constellation snapshots capturable to LNV via
+auto-trigger (band crossing) or Sage-triggered on demand. Captures node
+positions, cluster groupings, drift vectors, and force simulation state.
+The cluster movement over time — not a still frame — is the research
+value.
+
+*EcrSequenceView* — same structure as THR. Detected sequences listed
+with significance scores and recurrence counts. Filtered by recurrence
+floor and significance floor (both calibration items — the combinatorial
+space warrants these filters). Sorted by significance descending
+(default). Sortable by recurrence count or ratio.
+
+*EcrPresenceTimeline* — horizontal timeline, 19 signal rows. d3-zoom
+essential for density. Dot color = deposit_weight. Dot opacity/outline =
+observation_presence. Same dot encoding as THR.
+
+**Feed:** Standard computation snapshot + MTM drift tracking.
+Constellation drift state included in snapshot_data so MTM reads
+cluster stability as part of cross-engine synthesis. Snapshot stores
+ECR-specific `snapshot_data` with four keys: `co_occurrences` (171
+entries), `presences` (19 entries), `sequences` (recurrence ≥ threshold
+only), `constellation_state` (current_positions, position_history,
+cluster_assignments). Visualization snapshots route to LNV.
+
+**Spec authority:** ECHO RECALL ENGINE SCHEMA.md (full mechanical spec
+— 171 pairs, signal families, sequence detection, constellation state,
+snapshot_data JSON, failure modes, performance notes). ENGINE COMPUTATION
+SCHEMA.md (shared four-step contract). TAG VOCABULARY.md (s01–s19 signal
+definitions). DESIGN/Domains/02_Axis/Manifest_05_Echo_Recall.txt (page
+05 identity).
+
+---
+
+### 3.12 INF ENGINE — INFINITE INTRICACY LENS
+
+Page 04 (`infinite_intricacy` / `INF`). Core function: watching. INF
+tracks WHICH scientific domains emerge from field observations and WHERE
+they intersect. The boundary is load-bearing: **INF watches. Cosmology
+works.** If INF investigates, it steps on Cosmology. If Cosmology
+re-derives what's present, INF isn't doing its job. Direction of
+inference runs from field observation outward — never from established
+science inward.
+
+**Domain registry — open set:**
+Domains live in `inf_domain_layers` config table, not an enum. Adding
+a 6th domain is a data operation, not a code change.
+
+5 confirmed domains at V1:
+
+| domain_id | display_name | Cosmology page |
+| --- | --- | --- |
+| harmonic_cosmology | Harmonic Cosmology | HCO (34) |
+| coupling_oscillation | Coupling and Oscillation | COS (35) |
+| celestial_mechanics | Celestial Mechanics | CLM (36) |
+| neuro_harmonics | Neuro-Harmonics | NHM (37) |
+| mirror_dynamics | Mirror Dynamics | null — no page at V1 |
+
+**TAG VOCABULARY → INF bridge:**
+Tag `layer_id`s (l01–l04) resolve through `inf_layer_bridge` config
+table to INF domains. l03 (Metric) bridges to TWO domains — Celestial
+Mechanics AND Harmonic Cosmology. A deposit with l03 tags is indexed
+under both. Known artifact: their intersection rate reflects bridge
+topology, not independent scientific convergence. The marginal product
+baseline accounts for it. Bridge is a config table — updatable without
+code changes.
+
+| layer_id | INF domain(s) |
+| --- | --- |
+| l01 | coupling_oscillation |
+| l02 | neuro_harmonics |
+| l03 | celestial_mechanics AND harmonic_cosmology |
+| l04 | mirror_dynamics |
+
+**Index:**
+Reads tag `layer_id`s → resolves through bridge → indexes by domain(s).
+Multiple tags with the same layer_id = one domain presence (seed-level
+dedup). Deposits with no bridge-resolvable layer_id: still indexed
+(contribute to total denominator), logged as `unmapped_layer_event` —
+detection mechanism for new scientific domains emerging in the field.
+Does not trigger automatic domain creation. Sage reviews and decides.
+
+**Compute — three computations:**
+
+*1. Layer presence rates* — per domain: weighted frequency vs. total
+examined deposits. 5 entries (grows with open set). `pattern_id`
+format: `inf_pres_[domain_id]` — e.g. `inf_pres_harmonic_cosmology`.
+
+*2. Intersection rates* — every domain pair: 5 choose 2 = 10 pairs.
+Observed vs. expected (marginal product baseline), ratio, signal band.
+Each intersection carries `first_observed` timestamp and `deposit_ids`
+list (used by InfIntersectionDetail). `pattern_id` format:
+`inf_isct_[d1]_[d2]` — alphabetically first domain always first,
+deterministic. Example: `inf_isct_coupling_oscillation_neuro_harmonics`.
+
+*3. Emergence timeline* — per domain: `first_appeared` timestamp,
+`frequency_over_time` (time-bucketed deposit counts, default monthly),
+`dormancy_events` (gap followed by spike), `current_state`
+(active | dormant). **Signal classification does not apply to timeline
+data** — temporal tracking, not rate comparison. A domain registered
+but never observed has `first_appeared: null`, `current_state: dormant`.
+`pattern_id` format: `inf_emrg_[domain_id]`.
+
+**INF → Cosmology boundary contract:**
+Assembled from snapshot data, exposed as a read endpoint. Cosmology
+queries at its own cadence — INF does not push. Includes ALL domains
+including Mirror Dynamics (no Cosmology page). What Cosmology does with
+a domain that has no investigation page is a Tier 5 decision.
+
+**Visualize — three components (layout deferred to PAGE_LAYOUTS.md):**
+
+*InfDensityFieldMap* — NOT a Venn diagram. d3-contour generates
+topographic contours from deposit point distributions. Deposits = points
+in 2D space positioned by domain membership. Multi-domain deposits sit
+in overlap zones. Shape evolves as deposits arrive. Boundaries are
+probabilistic — literally truthful. Each domain has a distinct color;
+overlap zones blend hues. Hover on deposit: detail. Hover on overlap
+zone: intersection stats (rate, baseline, ratio, band). Click overlap
+zone → triggers InfIntersectionDetail.
+
+*InfEmergenceTimeline* — horizontal. One band per domain (5 bands,
+grows with open set). Band thickness = deposit frequency over time.
+First-appearance markers. Dormancy gaps rendered as explicit gap markers.
+Color matches density field map hues.
+
+*InfIntersectionDetail* — triggered from InfDensityFieldMap click on
+an overlap zone. Panel/modal: domain pair, rate/baseline/ratio/signal
+band, first observed timestamp, contributing deposit list (id, content
+preview, tags, weight, observation_presence).
+
+**Feed:** Standard snapshot + MTM drift tracking. INF → Cosmology
+boundary contract available as structured read endpoint (Cosmology
+pulls; INF does not push). Snapshot stores INF-specific `snapshot_data`
+with four keys: `presences` (5 entries), `intersections` (10 entries),
+`emergence_timeline` (per domain), `unmapped_layer_events` (empty if
+all tag layers are bridged). Visualization snapshots Sage-triggered,
+route to LNV.
+
+**Spec authority:** INFINITE INTRICACY ENGINE SCHEMA.md (full mechanical
+spec — domain registry, bridge mapping, three computations, Cosmology
+boundary contract, snapshot_data JSON, failure modes). ENGINE COMPUTATION
+SCHEMA.md (shared four-step contract). TAG VOCABULARY.md (l01–l04 layer
+definitions). DESIGN/Domains/02_Axis/Manifest_04_Infinite_Intricacy.txt
+(page 04 identity).
 
 ---
 

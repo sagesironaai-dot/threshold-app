@@ -31,6 +31,7 @@ OWNERSHIP BOUNDARIES
     INF snapshot_data JSON structure
     TAG VOCABULARY layer → INF domain bridge mapping
     inf_domain_layers database table
+    inf_layer_bridge database table
 
   DOES NOT OWN
     Shared engine architecture (Index, Compute, Visualize, Feed)

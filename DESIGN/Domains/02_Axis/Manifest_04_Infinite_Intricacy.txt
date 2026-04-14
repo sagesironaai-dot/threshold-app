@@ -73,7 +73,7 @@ BAD OUTPUT
 
 CONNECTS TO
 Feeds → MTM (07)
-Draws from → INT (01) · HCO (34) · COS (35) · CLM (36) · NHM (37)
+Draws from → INT (01)
 
 
 

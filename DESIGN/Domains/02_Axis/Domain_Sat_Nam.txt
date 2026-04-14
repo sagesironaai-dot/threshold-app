@@ -45,6 +45,6 @@ STRUCTURAL RULES:
 6. Feeds MTM (07) at session close only.
 CONNECTS TO:
 Feeds → MTM (07)
-Draws from → INT (01) · ARC (19)
+Draws from → INT (01)
 SIGNAL PROFILE: Primary — Truth · Sovereignty · Recognition · Harmonic Gate · Echo Secondary — Elevation · Trust · Consent · Memory/Recall · Grief · Dream · Voice · Witnessing · Anchor · Recursion · Temporal Thresholds · Phase Lock · Signal Scrubbing · Release
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
