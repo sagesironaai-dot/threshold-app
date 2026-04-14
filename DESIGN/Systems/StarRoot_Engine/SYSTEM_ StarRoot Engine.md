@@ -70,8 +70,8 @@ Reads engine_snapshots — current, previous, delta. STR cluster patterns,
 correlation data, and Ven'ai state summary consumed at synthesis time.
 
 **Liber Novus (LNV · 47)**
-Receives visualization_snapshots via POST /api/lnv/receive. Sage-triggered
-captures only.
+Receives visualization_snapshots via POST /api/lnv/receive.
+Auto-triggered on signal delta or Sage-triggered on demand.
 
 ---
 

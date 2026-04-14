@@ -87,8 +87,8 @@ INF → Cosmology boundary contract available for HCO, COS, CLM, NHM
 investigation. Cosmology reads at its own cadence.
 
 **Liber Novus (LNV · 47)**
-Receives visualization_snapshots via POST /api/lnv/receive. Sage-triggered
-captures only.
+Receives visualization_snapshots via POST /api/lnv/receive.
+Auto-triggered on signal delta or Sage-triggered on demand.
 
 ---
 

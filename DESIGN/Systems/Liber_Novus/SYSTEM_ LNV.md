@@ -63,7 +63,7 @@ Rendered images are large, non-queryable, and break if the template changes. Dat
 
 template_ref is a string identifier mapping to a Svelte visualization component. The component knows how to render from the visualization_data object. If the component is updated, all historical snapshots re-render with the improved display. The data is canonical. The rendering is current.
 
-Engine snapshots are Sage-triggered only. Session close does not automatically snapshot engine pages. The researcher decides what's worth preserving.
+Engine snapshots arrive via two paths: auto-triggered when engine_base.py detects a significant signal delta, or Sage-triggered on demand. Session close does not automatically snapshot engine pages. Auto-captures fire mid-session when the signal warrants it.
 
 ---
 
@@ -77,7 +77,7 @@ Engine snapshots are Sage-triggered only. Session close does not automatically s
 - Thread Trace processed outputs (Sage-triggered, entry_type: thread_trace)
 
 **Outside session close:**
-- Engine visualization snapshots (Sage-triggered, entry_type: engine_snapshot)
+- Engine visualization snapshots (auto on signal delta or Sage-triggered, entry_type: engine_snapshot)
 - WSC entries (after DNR completes, entry_type: wsc_entry)
 - Void on-demand read outputs (Sage-triggered, entry_type: void_output)
 - Cosmology findings (Sage-triggered on confirmed findings, entry_type: cosmology_finding)

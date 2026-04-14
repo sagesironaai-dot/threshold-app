@@ -761,6 +761,7 @@ this document as each passes audit:
 - ~~3.3 Compute Trigger — Hybrid~~ — locked 2026-04-14
 - ~~3.4 Baseline Computation~~ — locked 2026-04-14
 - ~~3.5 Null Observation Flow~~ — locked 2026-04-14
+- ~~3.6 Engine State Snapshots + MTM Drift Tracking~~ — locked 2026-04-14
 
 ---
 
@@ -1021,6 +1022,54 @@ FLOW, two-counter mechanics, null_contribution shape). TAGGER
 SCHEMA.md (OBSERVATION_PRESENCE DETECTION PROMPT, response shape,
 validation rules). INTEGRATION SCHEMA.md (RESEARCHER OBSERVATION
 FIELDS, review card layout, editable fields).
+
+---
+
+### 3.6 ENGINE STATE SNAPSHOTS + MTM DRIFT TRACKING
+
+Two snapshot types. Two jobs. Neither overlaps.
+
+**Computation snapshots** — automatic. Every engine run writes a
+timestamped record to `engine_snapshots` (PostgreSQL). Full computed
+results in `snapshot_data`, `deposit_count`, `baseline_scope`. Every
+computation is preserved regardless of whether anything changed.
+`mtm_read_at` is null until MTM consumes the record during synthesis —
+then written once. This is how MTM knows what it has already seen.
+
+**MTM drift tracking:**
+On synthesis, MTM does not just read current state. It reads the delta:
+- Current snapshot — most recent `engine_snapshots` record
+- Previous state — most recent record where `mtm_read_at IS NOT NULL`
+- Delta — what changed between the two
+
+Three outputs: what's new (patterns appeared since last synthesis),
+what shifted (rates changed direction or magnitude), what's stable
+(patterns held steady — persistence is signal too). All three travel
+into MTM's synthesis pass.
+
+**Visualization snapshots** — two triggers:
+1. **Auto-capture** — `engine_base.py` compares each new computation
+   result against the most recent `engine_snapshots` record. Fires if
+   any of: a pattern crosses into a strong band that wasn't there
+   before; an existing pattern changes band; a pattern type appears
+   for the first time in the engine's history. Requires no action from
+   Sage.
+2. **Sage-triggered** — on demand from the visualization, any time.
+
+Both write to `visualization_snapshots` and route to LNV (47).
+`trigger_source` field ('auto' | 'sage') distinguishes them — LNV
+surfaces this so system-flagged moments and researcher-flagged moments
+are readable at a glance. `note` field: Sage can add a note at
+Sage-trigger time; for auto-captures it's null by default, annotatable
+after the fact.
+
+Visualization snapshots link to their computation snapshot via
+`engine_snapshot_id` — the numbers behind what was visible when the
+capture fired.
+
+**Spec authority:** ENGINE COMPUTATION SCHEMA.md (ENGINE STATE
+SNAPSHOTS, MTM DRIFT TRACKING, VISUALIZATION SNAPSHOTS, full table
+definitions and field specs).
 
 ---
 

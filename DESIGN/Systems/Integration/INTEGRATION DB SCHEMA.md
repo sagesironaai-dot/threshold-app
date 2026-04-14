@@ -1440,12 +1440,14 @@ MTM writes mtm_read_at when it consumes a snapshot.
 TABLE: visualization_snapshots
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Sage-triggered captures of engine visualization state. Routes to
-LNV (47) with optional note. Full spec in ENGINE COMPUTATION
-SCHEMA.md.
+Captures of engine visualization state. Two triggers: (1) auto on
+significant signal delta (engine_base.py); (2) Sage-triggered on
+demand. Routes to LNV (47) with optional note. Full spec in ENGINE
+COMPUTATION SCHEMA.md.
 
-Write authority: frontend via FastAPI endpoint (Sage triggers
-capture). lnv_routed updated by LNV routing process (Tier 4).
+Write authority: engine_base.py (auto-captures) and frontend via
+FastAPI endpoint (Sage-triggered captures). lnv_routed updated by
+LNV routing process (Tier 4).
 
   viz_snapshot_id      — text, primary key
                          Format: '[engine]_viz_[timestamp]_[rand]'
@@ -1456,13 +1458,18 @@ capture). lnv_routed updated by LNV routing process (Tier 4).
   engine_snapshot_id   — text, NOT NULL
                          References engine_snapshots.snapshot_id
 
+  trigger_source       — enum: 'auto' | 'sage', NOT NULL
+                         How this capture was initiated.
+
   viz_data             — jsonb, NOT NULL
                          Rendered state — node positions, cluster
                          groupings, layout state. Structure varies
                          per engine visualization.
 
   note                 — text, nullable
-                         Sage's note at capture time.
+                         For trigger_source 'sage': Sage's note at
+                         capture time. For trigger_source 'auto':
+                         null by default; annotatable after the fact.
 
   lnv_routed           — boolean, NOT NULL, default false
                          Routing contract defined in Tier 4.

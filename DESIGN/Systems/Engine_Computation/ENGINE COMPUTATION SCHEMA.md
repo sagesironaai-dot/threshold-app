@@ -102,7 +102,8 @@ within each step is engine-specific.
     Shared behavior:
       - Visualization generated from engine result object, never
         from raw deposit data
-      - Visualization snapshots are Sage-triggered (not automatic)
+      - Visualization snapshots auto-capture on significant signal
+        delta, and are also Sage-triggerable on demand
       - Signal band determines visual weight — everything renders,
         visual weight does the filtering work
 
@@ -121,8 +122,8 @@ within each step is engine-specific.
         after every computation (see ENGINE STATE SNAPSHOTS)
       - mtm_read_at updated when MTM consumes the snapshot
       - MTM reads: current snapshot + previous snapshot + delta
-      - Visualization snapshot capturable to LNV via Sage-triggered
-        action (see VISUALIZATION SNAPSHOTS)
+      - Visualization snapshot written to LNV on significant signal
+        delta or Sage-triggered capture (see VISUALIZATION SNAPSHOTS)
 
     Engine-specific behavior:
       - snapshot_data JSON structure varies per engine
@@ -512,10 +513,12 @@ value and must survive session boundaries.
 VISUALIZATION SNAPSHOTS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Sage-triggered captures of engine visualization state. Not
-automatic — Sage decides when a visualization state is worth
-preserving. Routes to LNV (47) with optional note. Distinct from
-computation snapshots (which are automatic and feed MTM).
+Captures of engine visualization state. Two triggers: (1) automatic
+on significant signal delta — new strong pattern, band change, or new
+pattern type detected by engine_base.py comparing computation result
+to most recent engine_snapshot; (2) Sage-triggered on demand. Routes
+to LNV (47) with optional note. Distinct from computation snapshots
+(which are automatic and feed MTM).
 
   TABLE: visualization_snapshots (PostgreSQL)
 
@@ -531,14 +534,26 @@ computation snapshots (which are automatic and feed MTM).
                           state it was generated from. The numbers
                           behind what Sage saw.
 
+    trigger_source      — enum: 'auto' | 'sage', not null
+                          How this capture was initiated. 'auto':
+                          engine_base.py detected a significant signal
+                          delta and fired the capture. 'sage': Sage
+                          triggered manually. LNV uses this to
+                          distinguish system-flagged moments from
+                          researcher-flagged moments.
+
     viz_data            — jsonb, not null
                           The rendered state — node positions, cluster
                           groupings, drift vectors, layout state.
                           Structure varies per engine visualization.
 
     note                — text, nullable
-                          Sage's optional note at capture time.
-                          Why this moment was worth preserving.
+                          Optional note on this capture. For
+                          trigger_source 'sage': Sage's note at
+                          capture time — why this moment was worth
+                          preserving. For trigger_source 'auto': null
+                          by default; Sage can annotate after the fact
+                          if she wants to record what the system caught.
 
     lnv_routed          — boolean, not null, default false
                           Set true when successfully routed to LNV.
@@ -546,7 +561,7 @@ computation snapshots (which are automatic and feed MTM).
                           receive contract).
 
     captured_at         — timestamp, not null
-                          When Sage triggered the capture.
+                          When the capture was created.
 
     created_at          — timestamp, not null
                           Written once at record creation.

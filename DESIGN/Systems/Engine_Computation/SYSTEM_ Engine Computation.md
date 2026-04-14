@@ -30,8 +30,8 @@
   One row per engine per computation. Carries baseline_scope, timestamp,
   snapshot_data (engine-specific JSON), mtm_read_at for drift tracking
 * Visualization snapshot writes — visualization_snapshots table
-  (PostgreSQL). Sage-triggered captures linked to engine_snapshots.
-  Route to LNV
+  (PostgreSQL). Auto-triggered on signal delta or Sage-triggered on
+  demand. trigger_source field distinguishes the two. Route to LNV
 * Shared engine result object structure — standardized shape for
   computation output including weight_breakdown, null_contribution,
   low_sample, and stale_warning fields
@@ -96,8 +96,8 @@ tracks consumption for drift detection.
 
 **Liber Novus (LNV · 47)**
 Receives visualization_snapshots via POST /api/lnv/receive
-(entry_type: visualization_snapshot). Sage-triggered captures only —
-not automatic.
+(entry_type: visualization_snapshot). Auto-triggered on signal delta
+or Sage-triggered on demand.
 
 ---
 

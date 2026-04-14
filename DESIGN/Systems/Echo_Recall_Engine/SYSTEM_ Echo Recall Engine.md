@@ -75,9 +75,9 @@ patterns, sequence data, and constellation drift state (cluster
 stability) consumed at synthesis time.
 
 **Liber Novus (LNV · 47)**
-Receives visualization_snapshots via POST /api/lnv/receive. Sage-triggered
-captures only. Constellation snapshots carry drift vectors and cluster
-groupings.
+Receives visualization_snapshots via POST /api/lnv/receive.
+Auto-triggered on signal delta or Sage-triggered on demand.
+Constellation snapshots carry drift vectors and cluster groupings.
 
 ---
 

@@ -139,7 +139,7 @@ The service layer never initiates a write based on its own judgment. Every write
 
 **engine_snapshots** — timestamped computation snapshots from the 5 Axis engines. One per computation. Carries engine identifier, deposit_count, baseline_scope, snapshot_data (jsonb, engine-specific), and mtm_read_at for MTM drift tracking. See ENGINE COMPUTATION SCHEMA.md.
 
-**visualization_snapshots** — Sage-triggered captures of engine visualization state. Links to engine_snapshots via engine_snapshot_id. Carries viz_data (jsonb), optional note, lnv_routed flag. Routes to LNV (Tier 4). See ENGINE COMPUTATION SCHEMA.md.
+**visualization_snapshots** — Captures of engine visualization state. Auto-triggered on significant signal delta or Sage-triggered on demand. trigger_source field ('auto' | 'sage') distinguishes the two. Links to engine_snapshots via engine_snapshot_id. Carries viz_data (jsonb), optional note, lnv_routed flag. Routes to LNV (Tier 4). See ENGINE COMPUTATION SCHEMA.md.
 
 **snm_claude_snapshots** — immutable Claude structural analysis snapshots for the SNM engine. One per Claude API call (per-deposit or batch). Carries prompt_version, prompt_text (defensive copy), analysis_mode, response (jsonb), and engine_snapshot_id link. Never overwritten. See SAT NAM ENGINE SCHEMA.md.
 

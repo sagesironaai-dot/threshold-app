@@ -62,8 +62,8 @@ Reads engine_snapshots — current, previous, delta. THR co-occurrence
 patterns and sequence data consumed at synthesis time.
 
 **Liber Novus (LNV · 47)**
-Receives visualization_snapshots via POST /api/lnv/receive. Sage-triggered
-captures only.
+Receives visualization_snapshots via POST /api/lnv/receive.
+Auto-triggered on signal delta or Sage-triggered on demand.
 
 ---
 
