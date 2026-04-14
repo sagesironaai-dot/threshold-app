@@ -168,18 +168,27 @@ Rules:
 
 ### Library Requirements (BUILD TIME)
 
-Libraries not yet installed. Required at core files phase (step 4), not now.
+Visualization libraries not yet installed — required at core files phase
+(step 4). WebAudio API and Svelte native motion are browser/framework
+native and need no install.
 
-| Library | Purpose | When needed |
+| Library | Purpose | Install |
 | --- | --- | --- |
-| LayerCake | Svelte-native chart/viz framework | Tier 3+ engine visualizations |
-| D3 | Data-driven transforms, scales, layouts | Tier 3+ (used with LayerCake) |
-| Audio API (Web Audio) | Resonance sonification | Tier 6 (browser-native, no install) |
+| layercake | Svelte-native chart layout, scales, responsive containers — SVG instrument visualizations | Yes |
+| D3 utilities (d3-scale, d3-shape, d3-force, d3-hierarchy, d3-interpolate, d3-zoom, d3-contour) | Scales, shapes, force layouts, hierarchy, color interpolation, zoom, contours — used with LayerCake | Yes |
+| GSAP | Advanced animation where Svelte native motion is insufficient | Yes |
+| @threlte/core | Three.js with Svelte-native bindings — Node Spiral, embedding constellation | Yes |
+| three | 3D rendering engine — used with Threlte | Yes |
+| postprocessing | Bloom and depth-of-field — node glow effects | Yes |
+| umap-js | 768-dim embedding projection to 2D/3D — embedding constellation | Yes |
+| regl | WebGL particle rendering at scale | Yes |
+| simplex-noise | Organic noise for movement — spirals and constellations | Yes |
+| WebAudio API | Audio playback, spatial panning, waveform analysis via AnalyserNode | Browser-native |
+| Svelte native motion | svelte/motion, svelte/transition, svelte/animate — animation primitives | Framework-native |
 
-No other runtime dependencies identified. SvelteKit + TypeScript + Vite
-handle routing, bundling, and component rendering without additional
-libraries. Virtualized list rendering is achievable with a small utility
-or Svelte action — no heavy library needed.
+SvelteKit + TypeScript + Vite handle routing, bundling, and component
+rendering without additional libraries. Virtualized list rendering is
+achievable with a small utility or Svelte action — no heavy library needed.
 
 ---
 

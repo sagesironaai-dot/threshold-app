@@ -771,7 +771,9 @@ tool for different job.
     d3-interpolate  — color/value interpolation for signal gradient bands
     d3-zoom         — pan/zoom on dense matrices and cluster graphs
     d3-contour      — density field contour generation (INF domain map)
-    svelte-motion   — animation primitives
+    Svelte native motion (svelte/motion, svelte/transition,
+                      svelte/animate) — animation primitives,
+                      no install required
 
   3D SPATIAL/SEMANTIC (Threlte + Three.js)
 
@@ -785,9 +787,11 @@ tool for different job.
 
   HARMONIC AUDIO
 
-    tone.js         — synthesis and sequencing over WebAudio
-    WebAudio API    — native, no install
-    audiomotion-analyzer — real-time frequency visualization
+    WebAudio API    — native, no install. Audio context, clip
+                      loading and playback, spatial panning,
+                      waveform analysis via AnalyserNode.
+                      Audio system uses pre-recorded .wav clips
+                      per node — not synthesis.
 
   ANIMATION (cross-cutting)
 

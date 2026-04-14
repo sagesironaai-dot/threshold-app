@@ -763,6 +763,7 @@ this document as each passes audit:
 - ~~3.5 Null Observation Flow~~ — locked 2026-04-14
 - ~~3.6 Engine State Snapshots + MTM Drift Tracking~~ — locked 2026-04-14
 - ~~3.7 Engine Result Object~~ — locked 2026-04-14
+- ~~3.8 Visualization Architecture~~ — locked 2026-04-14
 
 ---
 
@@ -1128,6 +1129,61 @@ or rename shared fields.
 
 **Spec authority:** ENGINE COMPUTATION SCHEMA.md (ENGINE RESULT
 OBJECT, WEIGHT BREAKDOWN AND NULL CONTRIBUTION sections, FIELD NOTES).
+
+---
+
+### 3.8 VISUALIZATION ARCHITECTURE
+
+Global rendering decision — applies across all tiers. Three categories
+assigned by visualization purpose, not preference. A component belongs
+to exactly one category. Never mixed.
+
+| Category | Stack | Purpose |
+| --- | --- | --- |
+| SVG instrument | LayerCake + D3 utilities | Engine data viz — Axis (Tier 3), Nexus (Tier 4), Cosmology (Tier 5) |
+| Canvas instrument | Raw canvas + Svelte lifecycle | Resonance Engine only — 62 nodes, 2D force-directed physics |
+| WebGL spatial | Threlte + Three.js | Node Spiral, embedding constellation (3D) |
+
+**Hard boundary:** 2D instrument visualizations live in LayerCake.
+3D spatial/semantic visualizations live in Threlte. A component is
+one or the other, never both.
+
+**SVG instrument libraries (LayerCake + D3):**
+- layercake — Svelte-native layout, scales, responsive containers
+- d3-scale, d3-shape — quantitative scales and line/arc generators
+- d3-force — force-directed layouts (STR cluster map, SNM
+  correspondence graph)
+- d3-hierarchy — tree/cluster structures within STR root families
+- d3-interpolate — color interpolation for signal gradient bands
+- d3-zoom — pan/zoom on dense matrices (ECR 19×19, INF density field)
+- d3-contour — topographic density contours for INF domain map
+- Svelte native motion (svelte/motion, svelte/transition,
+  svelte/animate) — animation primitives, no install
+
+**WebGL spatial libraries (Threlte + Three.js):**
+- @threlte/core, three — 3D rendering with Svelte-native bindings
+- postprocessing — bloom and depth-of-field (node glow)
+- umap-js — 768-dim embeddings projected to 2D/3D for constellation
+- regl — WebGL particle rendering at scale
+- simplex-noise — organic movement for spirals and constellations
+- Custom GLSL shaders — glow and drift effects (authored, not a package)
+
+**Animation (cross-cutting):**
+- GSAP — advanced animation control where Svelte native motion is
+  insufficient
+
+**Audio (cross-cutting):**
+- WebAudio API — browser-native, no install. Audio context, clip
+  loading, spatial panning, waveform analysis via AnalyserNode.
+  Audio system uses pre-recorded .wav clips per node.
+
+**Resonance Engine placement:** Embedded on Observatory as visual
+heartbeat (not full-size). Full experience on a dedicated page
+accessible from Observatory.
+
+**Spec authority:** ENGINE COMPUTATION SCHEMA.md (VISUALIZATION
+ARCHITECTURE section). SYSTEM_ Frontend.md (Library Requirements,
+component list with per-component rendering category).
 
 ---
 
