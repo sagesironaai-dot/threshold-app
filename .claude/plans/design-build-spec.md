@@ -768,6 +768,7 @@ this document as each passes audit:
 - ~~3.10 THR Engine — Threshold Lens~~ — locked 2026-04-14
 - ~~3.11 ECR Engine — Echo Recall Lens~~ — locked 2026-04-14
 - ~~3.12 INF Engine — Infinite Intricacy Lens~~ — locked 2026-04-14
+- ~~3.13 SNM Engine — Sat Nam Lens~~ — locked 2026-04-14
 
 ---
 
@@ -1505,6 +1506,164 @@ boundary contract, snapshot_data JSON, failure modes). ENGINE COMPUTATION
 SCHEMA.md (shared four-step contract). TAG VOCABULARY.md (l01–l04 layer
 definitions). DESIGN/Domains/02_Axis/Manifest_04_Infinite_Intricacy.txt
 (page 04 identity).
+
+---
+
+### 3.13 SNM ENGINE — SAT NAM LENS
+
+Page 06, Sat Nam. Most complex Axis engine. Claude API embedded in the
+compute step as a structural analysis function — not a tagger, not a
+renderer. The external knowledge problem: no tag list can hold every
+spiritual and philosophical tradition simultaneously. Claude is the
+living reference framework.
+
+**The engine's purpose:** X uses religious symbols — what are they,
+where do they touch, why, and how does this arc through the Cosmology
+group and other groups. SNM is a pattern mapper for the symbolic
+substrate of the field.
+
+**Index.** Reads deposits tagged to page 06. Engine reads: tags filtered
+for tradition references, pattern category signals, structural markers;
+deposit content (fed to Claude in Stream 2); deposit_weight;
+observation_presence; created_at; id. Indexes by: which tradition
+references are present (from tags), which pattern categories are signaled
+(ancient_philosophy, triadic_architecture, celestial, or uncategorized),
+which structural markers Sage applied. Traditions are an open set — new
+ones emerge as Sage deposits. Pattern categories are a closed set (three
+manifest categories + uncategorized). Stale flag set in SQLite.
+
+**Compute — two streams.**
+
+*Stream 1 — Sage's observations.* Standard shared baseline. Three
+computations:
+
+- *1A. Tradition presence rates* — per tradition: weighted frequency
+  relative to total examined deposits. `pattern_id`:
+  `snm_s1_pres_[tradition]`
+
+- *1B. Tradition co-occurrence* — per tradition pair: observed rate vs.
+  expected rate. Do traditions surface together above baseline?
+  `pattern_id`: `snm_s1_cooc_[tradition_a]_[tradition_b]`
+
+- *1C. Pattern category rates* — per manifest category
+  (ancient_philosophy, triadic_architecture, celestial, uncategorized):
+  what fraction of deposits reference traditions from each category.
+  Weight breakdown and null contribution per category. Celestial category
+  rate is the structural bridge to the Cosmology group. `pattern_id`:
+  `snm_s1_cat_[ancient_philosophy|triadic_architecture|celestial|uncategorized]`
+
+*Stream 2 — Claude structural analysis.* Two modes:
+
+- *Per-deposit*: immediate and contextual — one deposit, one Claude call.
+  Input: deposit content, tradition references, pattern category signals,
+  structural markers, active prompt version.
+- *Batch*: deposits sent with relational context. Claude analyzes
+  cross-deposit patterns, not just individual observations. Prompt:
+  "What structural patterns emerge across this set, and what traditions
+  map to the pattern?" Qualitatively richer than per-deposit.
+
+Claude response shape — `correspondences` array, each entry:
+tradition, framework, structural_match, confidence (high/moderate/low),
+reasoning, pattern_category (ancient_philosophy | triadic_architecture |
+celestial | null). `pattern_category: null` = correspondence outside all
+three manifest categories — potentially the most important finding SNM
+can produce. Active research surface.
+
+Every Claude response is stored immutably in `snm_claude_snapshots`
+(PostgreSQL). Never overwritten. Re-analysis after a prompt version bump
+creates a new snapshot alongside the old one. Analysis history is data —
+drift between snapshots is research signal.
+
+**snm_claude_snapshots table (PostgreSQL):**
+`snapshot_id` (`snm_cs_[timestamp]_[rand]`), `deposit_id` (nullable —
+per-deposit mode), `batch_id` (nullable — batch mode), `prompt_version`,
+`prompt_text` (full prompt stored per snapshot, not a reference),
+`analysis_mode` (per_deposit | batch), `batch_context` (deposit_id array,
+nullable), `response` (jsonb, immutable — stored as received),
+`engine_snapshot_id` (populated when engine consumes this snapshot),
+`created_at`.
+
+**Prompt versioning.** Shared prompt_versions table (INTEGRATION DB
+SCHEMA.md), `prompt_type: 'snm'`. Three changelog triggers: (a)
+sage_directed, (b) calibration_triggered — fires when Sage's override/
+dismissal rate of Claude's correspondences for the same tradition crosses
+threshold, signaling the prompt is over-reaching; (c) manual. All bumps
+create a changelog entry tracing what changed and why. Prompt version is
+load-bearing metadata — a correspondence surfaced under v1 and v3 are not
+the same finding. v3 carries more precision and evidential weight.
+
+**Stream agreement classification.** After both streams complete:
+
+| Sage sees | Claude sees | Classification |
+| --- | --- | --- |
+| Yes | Yes | Convergent — strongest evidence |
+| Yes | No | Researcher-led — Sage sees what Claude does not |
+| No | Yes | Knowledge-led — Claude surfaces the unseen |
+
+Classification travels with the correspondence in all result metadata.
+MTM, Nexus, and Cosmology can read it.
+
+**Correspondence computation.** Strength: weighted deposit count adjusted
+by confidence, baseline comparison, ratio, signal band. `pattern_id`:
+`snm_corr_[field_pattern]_[tradition]`. Clustering: correspondences
+grouped by pattern_category — within each category, traditions that
+appear across multiple field patterns form structural clusters.
+Uncategorized cluster (`pattern_category: null`) is the active research
+surface. Genuine vs. surface: 2.0x+ = genuine structural correspondence,
+1.0–2.0x = mild/possible, below 1.0x = suppressed. Correspondence drift
+is data — temporal tracking is where the depth lives.
+
+**Visualize — two components (SVG instruments, LayerCake + D3; layout
+deferred to PAGE_LAYOUTS.md):**
+
+*SnmBipartiteGraph* — bipartite force-directed graph (d3-force). Left:
+field pattern nodes positioned by mutual relationships. Right:
+tradition/framework nodes colored by pattern_category (distinct color per
+manifest category; neutral for uncategorized), grouped visually by
+category — shows which category cluster carries the most correspondence
+weight and which arcs toward Cosmology (celestial cluster). Edges: weight
+= correspondence strength, color = signal band, style = solid/dashed/
+faint dotted (2.0x+ / 1.0–2.0x / below 1.0x), thickness = stream
+classification (convergent = thickest, knowledge-led = distinct
+suggestions, researcher-led = Sage's territory). d3-zoom for navigation.
+Hover on nodes and edges surfaces full detail.
+
+*SnmTemporalCorrespondence* — correspondence strength over time (d3-scale).
+X-axis: time. Y-axis: strength. One line per correspondence pair. Prompt
+version changes marked as vertical boundaries — a correspondence that
+strengthens after a bump held up under sharper questioning; weakens = only
+appeared under broad prompting. Filterable by tradition, pattern category,
+stream classification, signal band.
+
+**Feed.** Standard snapshot + MTM drift tracking. Plus `claude_snapshot_summary`
+in snapshot_data. MTM reads engine_snapshots (current, previous, delta)
+plus Claude summary. LNV receives visualization_snapshots via
+POST /api/lnv/receive.
+
+**snapshot_data — five keys:** `stream_1` (tradition_presences,
+tradition_co_occurrences, pattern_category_rates), `stream_2`
+(claude_snapshot_ids, correspondences_summary with pattern_category per
+entry), `correspondences` (full computation results — strength,
+baseline_rate, ratio, signal_band, pattern_category, stream_classification,
+first_observed, last_observed, prompt_version_at_first/latest),
+`clustering` (ancient_philosophy / triadic_architecture / celestial /
+uncategorized — traditions list + correspondence_count per bucket),
+`claude_snapshot_summary` (total_snapshots, latest_prompt_version,
+per_deposit_count, batch_count, unique_traditions, uncategorized_count).
+
+**Design carries to Cosmology (Tier 5).** Same Claude-as-analyst pattern
+for scientific correspondence. The celestial pattern_category is the
+structural bridge. External knowledge problem is identical. Claude belongs
+in the compute step when the engine needs knowledge the deposits don't
+contain.
+
+**Spec authority:** SAT NAM ENGINE SCHEMA.md (full mechanical spec —
+two-stream architecture, Claude integration, correspondence computation,
+prompt versioning, visualization specs, failure modes). ENGINE COMPUTATION
+SCHEMA.md (shared four-step contract). INTEGRATION DB SCHEMA.md
+(prompt_versions, deposit record shape). TAG VOCABULARY.md (signal and
+tradition tag definitions). Manifest_06_Sat_Nam.txt (page 06 identity,
+three manifest pattern categories).
 
 ---
 
