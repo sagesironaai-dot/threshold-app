@@ -18211,3 +18211,48 @@ COMPLETED:
 UNCOMMITTED: backblaze_state.json + this entry
 NEXT_ACTION: Commit and push; session remains open
 ---
+TIMESTAMP: 2026-04-15
+SESSION: 60
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - backup.py — COMPLETE (signal files + ground zero layers, manifest-based deduplication)
+  - .gitignore — COMPLETE (backup_manifest.json + backblaze_state.json added)
+  - PROTOCOL/SESSION_LOG.md — IN_PROGRESS
+COMPLETED:
+  - backup_signal_files(): walks To_Parse, manifest filepath→mtime tracking, per-file
+    try/except with continue, 200MB size gate, uploads to threshold-backups under
+    signal-files/ prefix. First run: 1,100+ files uploaded cleanly.
+  - backup_ground_zero(): walks AICompanionBot, same pattern, uploads to
+    aelarian-ground-zero bucket under ground-zero/ prefix. First run: 4,678 files
+    uploaded cleanly. Exit code 0.
+  - backblaze_state.json removed from disk and git (git rm --cached). Replaced by
+    backup_manifest.json (filepath→mtime, handles changed files, gitignored).
+  - Manifest deduplication confirmed: second run skipped all previously uploaded
+    signal files, only uploaded new DB dump.
+  - Task Scheduler tasks confirmed firing (every 4h + startup). Both tasks registered.
+  - All backup layers verified end-to-end: Postgres dump → signal files → ground zero
+    → USB (skipped, no drive) → GitHub push → Backblaze .sql upload.
+UNCOMMITTED: none — auto-backup committed and pushed (fb1c8f0)
+NEXT_ACTION: Session close
+---
+TIMESTAMP: 2026-04-15
+SESSION: 60
+TYPE: CLOSE
+COMMIT: fb1c8f0
+FILES_THIS_SESSION:
+  - backup.py — COMPLETE (full backup stack: pg_dump, signal files, ground zero,
+    manifest deduplication, encoding fix, Task Scheduler automation)
+  - .gitignore — COMPLETE (db-dumps/, backup_manifest.json, backblaze_state.json)
+  - create_backup_tasks.bat — COMPLETE (Task Scheduler setup, runs as admin)
+  - PROTOCOL/SESSION_LOG.md — this file
+PRE_CLOSE_AUDIT:
+  - entropy_scan.py --close-audit run: 299 HIGH, 152 MEDIUM findings. All pre-existing.
+    No findings in files modified this session (backup.py, .gitignore, create_backup_tasks.bat).
+    SESSION_LOG.md findings are historical log entries referencing old architecture — not
+    rot introduced this session. --force applied. No new rot to log.
+  - git status: clean. All changes committed and pushed (fb1c8f0).
+PUSHED: YES — fb1c8f0 → origin/main
+NEXT_SESSION:
+  - Tier 6 build spec write (Research Assistant + Audio)
+  - ROT 006 (SYSTEM_ content review) — ongoing pre-SOT item, address before build phase
+---
