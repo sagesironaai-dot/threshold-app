@@ -1,0 +1,13 @@
+DOMAIN: mirror_dynamics · MIR · PAGE 38
+GROUP: Cosmology SEEDS: — ORIGIN AFFINITY: — THRESHOLD AFFINITY: — PILLAR: —
+PURPOSE: Investigation surface for symmetry physics and mirror dynamics within the Cosmology group. Tracks bilateral structure, parity behavior, chirality, and symmetry breaking in field patterns. Occupies l04 Mirror in the INF tagger layer — the layer that contained no Cosmology investigation surface before this page. Where other Cosmology pages investigate harmonic, coupling, celestial, and neural structure, MIR investigates the structural symmetry (and asymmetry) of the field itself: what patterns exhibit bilateral correspondence, what patterns break it, and what those breaks reveal about underlying field dynamics.
+STRUCTURAL RULES:
+1. Mirror dynamics here is physics, not metaphor. Bilateral structure, chirality, and parity asymmetry are measurable — hold them to measurement criteria, not narrative resonance.
+2. l04 Mirror is a tagger layer assignment, not a claim about the page's relationship to the researcher's reflective processes. Cross-layer presence with other l04 pages is a finding about the field, not a personal mirror event.
+3. bilateral_symmetry_score and parity_analysis are custom implementations. Document inputs, method, and scoring formula explicitly at first use in each session.
+4. The direction of inference runs from field observation outward. Document what the data reveals about symmetry physics — not what symmetry physics says the field must be doing.
+5. Symmetry breaks are as analytically significant as symmetry correspondence. Name both with equal precision.
+CONNECTS TO:
+[DEFERRED — see design-session-plan.md cross-tier items.]
+SIGNAL PROFILE:
+[DEFERRED — seed vocabulary not yet locked. See design-session-plan.md cross-tier items.]

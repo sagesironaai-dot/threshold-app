@@ -1,0 +1,85 @@
+PAGE 38 · mirror_dynamics · MIR · Group 7 · Cosmology
+
+
+VISION
+  Investigation surface for symmetry and mirror physics.
+  This page asks: what bilateral structure, parity behavior,
+  and chirality are measurably present in field patterns —
+  and where do they break? CPT symmetry, parity, and
+  chirality are testable against actual observations.
+  This page tests them through ARTIS computation, not
+  through narrative parallel.
+
+
+RESEARCHER TASK
+  Investigate · Compute · Compare · Deposit · Retrieve
+
+
+OBJECTIVE
+
+Investigate field patterns through the lens of symmetry physics and mirror dynamics — using ARTIS as the computation engine. MIR is one of six parallel Cosmology investigation surfaces. Its lens is bilateral structure, parity, and chirality: how field patterns exhibit or break mirror symmetry, and what that structure reveals about the field's underlying architecture.
+
+The sciences this page draws from: symmetry breaking, parity, CPT symmetry, chirality, bilateral structure.
+
+MIR spans l04 Mirror in the tagger — the INF layer that contained no Cosmology investigation surface until this page. Cross-layer scientific connections between mirror dynamics and other l04 pages are findings about the field, not schema problems.
+
+The investigation workflow: select deposits showing bilateral structure, mirror correspondence, or asymmetry patterns, request ARTIS computation (bilateral_symmetry_score, parity_analysis, pearsonr, chi2_contingency), review results with full methodology visible, produce findings with computation snapshot references.
+
+bilateral_symmetry_score and parity_analysis are custom implementations — inputs, method, and scoring formula must be documented explicitly at first use. pearsonr and chi2_contingency are reused from the existing ARTIS library.
+
+Deposits with mirror dynamics content enter through this page. But the page's primary function is investigation — determining whether symmetry and parity correspondences are statistically present. Where field patterns exhibit chirality or bilateral structure, document them with precision. Where they break, name the break: what was expected, what was observed, what the delta is. Symmetry breaks are as analytically significant as symmetry correspondence.
+
+When a finding is strong enough, Sage marks it nexus_eligible for PCV pipeline entry.
+
+
+AI ROLE
+  Surface ARTIS computation results with symmetry-physics
+  precision — bilateral symmetry scores with methodology
+  documented, parity analysis results with parameter
+  values explicit, pearson correlation coefficients with
+  sample size and confidence interval, chi-squared with
+  degrees of freedom and p-values. Present findings in
+  the MirrorSymmetryDisplay layout. Hold the distinction
+  between structural symmetry (what is measurable) and
+  mirror as metaphor (what is narrative). Conflating them
+  destroys what makes the correspondence worth documenting.
+
+
+AI FUNCTIONS
+  Compute · Compare · Validate · Surface · Snapshot · Deposit · Tag
+
+
+GOOD OUTPUT
+  Returns symmetry analysis with visible methodology —
+  bilateral symmetry scores with input specification and
+  scoring formula documented, parity analysis results
+  with parameter values, pearson values with sample size
+  and confidence interval, chi-squared with degrees of
+  freedom and p-value. Every result carries a computation
+  snapshot ID. MirrorSymmetryDisplay shows bilateral
+  structure explicitly. Symmetry breaks are named with
+  precision — "left-side variance exceeds right by N%
+  above threshold" not "appears asymmetric." Chirality
+  is characterized structurally — direction, magnitude,
+  and measurement basis stated.
+
+
+BAD OUTPUT
+  Collapses mirror physics into spiritual reflection
+  metaphor. Parity becomes "balance" without
+  quantification. CPT symmetry becomes philosophical
+  reversal without structural measurement. Chirality
+  becomes aesthetic handedness without testable criteria.
+  Bilateral structure described narratively instead of
+  scored. Computations run without snapshots.
+  MirrorSymmetryDisplay used for decoration rather than
+  structural mapping. Fails when symmetry dissolves into
+  the researcher seeing themselves reflected — when the
+  mirror becomes a lens for self-observation rather than
+  a measurement of field structure.
+
+
+CONNECTS TO
+[DEFERRED — full CONNECTS TO pass scheduled after all schemas
+and manifests are complete. See design-session-plan.md cross-tier items.]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
