@@ -1,14 +1,18 @@
 import os
+import sys
 import shutil
 import subprocess
 from datetime import datetime
 import logging
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 # === YOUR SETTINGS ===
 PROJECT_FOLDER = r"C:\Users\sasir\Desktop\Aelarian\Archives"
 USB_DRIVE = "D:\\"
 USB_BACKUP_FOLDER = "threshold-backups"
 B2_BUCKET = "threshold-backups"
+DB_DUMPS_FOLDER = os.path.join(PROJECT_FOLDER, "db-dumps")
 
 # === LOAD CREDENTIALS FROM .env ===
 # Credentials are never hardcoded. See GITHUB_PROTOCOL.md section 5.
@@ -34,6 +38,27 @@ logging.basicConfig(filename=log_path, level=logging.INFO,
 def log(msg):
     print(msg)
     logging.info(msg)
+
+# === LAYER 0: POSTGRES DUMP ===
+def backup_postgres():
+    try:
+        os.makedirs(DB_DUMPS_FOLDER, exist_ok=True)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"aelarian_{timestamp}.sql"
+        filepath = os.path.join(DB_DUMPS_FOLDER, filename)
+        result = subprocess.run(
+            ["docker", "exec", "aelarian-postgres", "pg_dump",
+             "-U", "aelarian", "aelarian_archives"],
+            capture_output=True, text=True, encoding="utf-8"
+        )
+        if result.returncode != 0:
+            log(f"Postgres: Failed — {result.stderr.strip()}")
+            return
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(result.stdout)
+        log(f"Postgres: Dump complete → {filepath}")
+    except Exception as e:
+        log(f"Postgres: Failed — {e}")
 
 # === LAYER 1: USB BACKUP ===
 def backup_to_usb():
@@ -75,21 +100,31 @@ def backup_to_backblaze():
         api = B2Api(info)
         api.authorize_account("production", B2_KEY_ID, B2_APP_KEY)
         bucket = api.get_bucket_by_name(B2_BUCKET)
+        uploaded = 0
         exports_folder = os.path.join(PROJECT_FOLDER, "exports")
-        if not os.path.exists(exports_folder):
-            log("Backblaze: No exports folder found, skipping.")
-            return
-        for filename in os.listdir(exports_folder):
-            if filename.endswith(".json"):
-                filepath = os.path.join(exports_folder, filename)
-                bucket.upload_local_file(local_file=filepath, file_name=filename)
-                log(f"Backblaze: Uploaded {filename}")
+        if os.path.exists(exports_folder):
+            for filename in os.listdir(exports_folder):
+                if filename.endswith(".json"):
+                    filepath = os.path.join(exports_folder, filename)
+                    bucket.upload_local_file(local_file=filepath, file_name=filename)
+                    log(f"Backblaze: Uploaded {filename}")
+                    uploaded += 1
+        if os.path.exists(DB_DUMPS_FOLDER):
+            for filename in os.listdir(DB_DUMPS_FOLDER):
+                if filename.endswith(".sql"):
+                    filepath = os.path.join(DB_DUMPS_FOLDER, filename)
+                    bucket.upload_local_file(local_file=filepath, file_name=filename)
+                    log(f"Backblaze: Uploaded {filename}")
+                    uploaded += 1
+        if uploaded == 0:
+            log("Backblaze: No files to upload (exports/ and db-dumps/ both empty or missing).")
     except Exception as e:
         log(f"Backblaze: Failed — {e}")
 
-# === RUN ALL THREE ===
+# === RUN ALL ===
 if __name__ == "__main__":
     log("=== BACKUP STARTED ===")
+    backup_postgres()
     backup_to_usb()
     backup_to_github()
     backup_to_backblaze()

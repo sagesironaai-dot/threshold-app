@@ -18177,3 +18177,15 @@ NEXT_SESSION:
   - Tier 6 build spec write (Research Assistant + Audio)
   - ROT 006 (SYSTEM_ content review) — ongoing pre-SOT item, address before build phase
 ---
+TIMESTAMP: 2026-04-15
+SESSION: 60
+TYPE: OPEN
+FILES_MODIFIED: none yet
+COMPLETED: none yet
+IN_PROGRESS:
+  - backup.py — adding pg_dump, Backblaze .sql scan, sys.stdout encoding fix
+NOT_STARTED:
+  - Windows Task Scheduler task for backup.py automation
+RESUMING_FROM: Session 59 TYPE: CLOSE (90ed20b). Session 60 infrastructure work.
+NEXT_ACTION: Write backup.py changes
+---
