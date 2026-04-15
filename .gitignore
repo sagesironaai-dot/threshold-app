@@ -36,6 +36,9 @@ build/
 *.pkg
 *.msi
 
+# Database dumps
+db-dumps/
+
 # Audio and media assets (large binaries)
 Audio/
 BackGround/
