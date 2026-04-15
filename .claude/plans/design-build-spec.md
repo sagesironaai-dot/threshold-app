@@ -370,10 +370,10 @@ nav, left side. Panel opens from left side.
 
 ---
 
-### 2.2 VOID — PAGE 51
+### 2.2 VOID — PAGE 52
 
 page_code: VOI. section_id: void. Standalone page 52.
-Promoted from Nexus group. Nexus retains WSC, LNV, DTX, SGR, PCV (46–50).
+Promoted from Nexus group. Nexus retains WSC, LNV, DTX, SGR, PCV (47–51).
 
 Aggregates all null observations across the archive — where the
 researcher looked and found nothing. Without this surface, the system
@@ -388,7 +388,7 @@ is architecturally biased toward confirmation.
 
 **Build-time artifacts (all complete on disk):**
 - Domain_Void.txt — DESIGN/Domains/11_Void/
-- Manifest_51_Void.txt — DESIGN/Domains/11_Void/
+- Manifest_52_Void.txt — DESIGN/Domains/11_Void/
 - SECTION MAP entry — line 66, standalone
 - VOID ENGINE SCHEMA.md — DESIGN/Systems/Void_Engine/
 - SYSTEM_ Void.md — DESIGN/Systems/Void_Engine/
