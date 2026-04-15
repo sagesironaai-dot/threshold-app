@@ -88,16 +88,17 @@ wsc_write_payload:
     findings_total:          integer
 
   void_pulse:
-    systemic_observations:   array
-    absence_flags:           array
-    session_delta:           string
+    trigger:               "session_close"
+    void_output_id:        string — references void_outputs table
+    prose_output:          string — Claude's full analytical text from session-close pulse check
+    engines_read:          string[]
 
   engine_state:
     recomputed:              string[] — engines that recomputed
     still_stale:             string[] — engines still stale
     new_strong_signals:      integer
     engines_evaluated:       string[] — all engines checked at session close
-    engines_snapshotted:     string[] — engines Sage captured to LNV
+    engines_snapshotted:     string[] — engines snapshotted to LNV this session
 
   nexus_summary:
     pcv_active:              integer

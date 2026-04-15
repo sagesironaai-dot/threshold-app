@@ -285,8 +285,11 @@ DETECTION SEQUENCE (when significance filter passes):
    Includes the just-committed entry (CORPUS FRESHNESS RULE).
 5. All detectors run against tags and fresh corpus. Findings
    written to emergence_findings with detection_config_version.
-6. If overlay is open, frontend refreshes with new findings.
-7. Proactive nudge evaluated (see PROACTIVE NUDGE below).
+6. Each finding routed to LNV via POST /api/lnv/receive
+   (entry_type: emergence_finding). LNV routing is non-blocking —
+   does not gate step 7. LNV failure logged; detection not retried.
+7. If overlay is open, frontend refreshes with new findings.
+8. Proactive nudge evaluated (see PROACTIVE NUDGE below).
 
 CORPUS FRESHNESS RULE:
 

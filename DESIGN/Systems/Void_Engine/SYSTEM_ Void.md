@@ -37,7 +37,7 @@
 Reads computed null signals from all 5 Axis engines. Applies the examination floor filter (VOID_EXAMINATION_FLOOR) to exclude low-examination noise. Classifies absence patterns across five types. Types A and D (cross-engine validated) route to PCV as hypotheses. Types B and C stay on Void's page unless secondary thresholds are exceeded. Type E (hypothesis attrition) is detected from PCV activity monitoring — research-system-level absence, not field-level.
 
 **Analytical layer — Claude interpretive intelligence:**
-Nexus-level Claude tool that reads across all Nexus outputs (PCV, DTX, SGR, MTM, Void's own absence data) and names the systemic shape of the research, including its silences. Three trigger modes: session-close pulse check (automatic, lightweight), on-demand open read (full Nexus state, no scope constraint), on-demand targeted investigation (scoped by Sage). All outputs stored permanently with prompt version.
+Research-system-level Claude tool that reads across all Nexus outputs (PCV, DTX, SGR, MTM, Void's own absence data) and names the systemic shape of the research, including its silences. Three trigger modes: session-close pulse check (automatic, lightweight), on-demand open read (full Nexus state, no scope constraint), on-demand targeted investigation (scoped by Sage). All outputs stored permanently with prompt version.
 
 **Why two layers:** The data layer detects WHERE absence is. The analytical layer asks WHAT the pattern of absence means systemically. Neither can substitute for the other. Detection without interpretation is a heatmap. Interpretation without detection is speculation. Together they make absence a first-class analytical instrument.
 

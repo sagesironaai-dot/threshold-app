@@ -95,8 +95,8 @@ All 5 engine snapshots consumed at synthesis time. mtm_read_at field
 tracks consumption for drift detection.
 
 **Liber Novus (LNV · 47)**
-Receives visualization_snapshots via POST /api/lnv/receive
-(entry_type: visualization_snapshot). Auto-triggered on signal delta
+Receives visualization snapshots via POST /api/lnv/receive
+(entry_type: engine_snapshot). Auto-triggered on signal delta
 or Sage-triggered on demand.
 
 ---

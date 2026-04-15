@@ -326,8 +326,11 @@ visual weight does the filtering.
 | ECR | Correlation matrix (19x19, d3-zoom), Signal constellation (d3-force, stateful drift), Presence timeline, Sequence view |
 | SNM | Bipartite force-directed graph (field patterns ↔ traditions, tradition nodes colored by pattern_category, uncategorized cluster explicit), Temporal correspondence view |
 
-Visualization snapshots are Sage-triggered (not automatic). Captured to LNV
-via `POST /api/lnv/receive` with `entry_type: engine_snapshot`.
+Visualization snapshots have two triggers: (1) automatic — engine_base.py
+detects a significant signal delta and fires the capture; (2) Sage-triggered
+on demand. Both routes use `POST /api/lnv/receive` with
+`entry_type: engine_snapshot`. `trigger_source` on the
+`visualization_snapshots` record distinguishes auto from Sage-captured.
 
 ### Step 4 — FEED
 

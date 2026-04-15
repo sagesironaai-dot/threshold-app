@@ -23,7 +23,7 @@
 * Engine computation — owned by individual engine services (Tier 3). LNV stores snapshots of computed visualizations; it does not trigger or own computation.
 * WSC entry production — owned by WSC. LNV receives entries after WSC write path completes. LNV does not produce or modify WSC entries.
 * Void analytical output — owned by Void. LNV receives outputs after Void session-close or on-demand analysis completes.
-* Thread Trace sequence and visualization production — owned by Thread Trace. LNV receives processed outputs after Sage triggers deposit at session close. LNV does not build or own threads.
+* Thread Trace sequence and visualization production — owned by Thread Trace. LNV receives outputs automatically on thread save. LNV does not build or own threads.
 * Emergence finding production — owned by Emergence service. LNV receives findings after detection completes. LNV does not run detectors or own the emergence_findings table.
 * Archive sealed record production — owned by Archive (ARV). LNV receives sealed records via INT post-retirement sequence after authentication threshold is met. LNV does not seal, authenticate, or modify archive records.
 * Routing decisions — DNR routes MTM Findings. WSC routes its own entries. Void routes its own outputs. Engine visualization capture routes snapshots. Thread Trace routes its own outputs. Emergence routes findings. INT post-retirement sequence routes archive records. LNV does not pull from any system — it receives.
@@ -63,7 +63,7 @@ Rendered images are large, non-queryable, and break if the template changes. Dat
 
 template_ref is a string identifier mapping to a Svelte visualization component. The component knows how to render from the visualization_data object. If the component is updated, all historical snapshots re-render with the improved display. The data is canonical. The rendering is current.
 
-Engine snapshots arrive via two paths: auto-triggered when engine_base.py detects a significant signal delta, or Sage-triggered on demand. Session close does not automatically snapshot engine pages. Auto-captures fire mid-session when the signal warrants it.
+Engine snapshots have two triggers: automatic when engine_base.py detects a significant signal delta, and Sage-triggered on demand. Auto-captures fire mid-session when the signal warrants it. Sage-triggered captures let Sage flag a moment the auto-threshold didn't catch. Both routes produce the same entry_type. trigger_source on the visualization_snapshots record distinguishes them.
 
 ---
 
@@ -73,16 +73,14 @@ Engine snapshots arrive via two paths: auto-triggered when engine_base.py detect
 - MTM Findings (entry_type: mtm_finding)
 - Void session-close pulse check output (entry_type: void_output)
 
-**Sage-triggered at session close (Daily Nexus Routine):**
-- Thread Trace processed outputs (Sage-triggered, entry_type: thread_trace)
-
 **Outside session close:**
-- Engine visualization snapshots (auto on signal delta or Sage-triggered, entry_type: engine_snapshot)
-- WSC entries (after DNR completes, entry_type: wsc_entry)
-- Void on-demand read outputs (Sage-triggered, entry_type: void_output)
-- Cosmology findings (Sage-triggered on confirmed findings, entry_type: cosmology_finding)
+- Engine visualization snapshots (automatic on signal delta via engine_base.py, or Sage-triggered on demand; entry_type: engine_snapshot)
+- WSC entries (automatic after WSC write, entry_type: wsc_entry)
+- Void on-demand read outputs (Sage triggers void analysis; automatic LNV routing follows, entry_type: void_output)
+- Thread Trace outputs (automatic on thread save, entry_type: thread_trace)
+- Cosmology findings (Sage triggers route from finding card; automatic LNV routing follows, entry_type: cosmology_finding)
 - RCT residuals (automatic on residual creation, entry_type: rct_residual)
-- Emergence findings (automatic on significant tag commit or on-demand, entry_type: emergence_finding)
+- Emergence findings (automatic on significant tag commit or on-demand detection run, entry_type: emergence_finding)
 - Archive sealed records (automatic on retirement via INT post-retirement sequence, entry_type: archive_record)
 
 ---

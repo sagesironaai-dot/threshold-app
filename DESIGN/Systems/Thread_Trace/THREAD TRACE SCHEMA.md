@@ -563,7 +563,15 @@ SEQUENCES
   3. Receive thread name from user.
   4. POST /threads/ — write saved_threads record with all
      fields, created_at = timestamp, last_accessed = timestamp.
-  5. Return thread id.
+  5. POST /api/lnv/receive — route thread trace to LNV.
+     entry_type: thread_trace. Content assembled from the saved
+     record: thread_id, thread_name, thread_type, seed,
+     entry_ids, routing_snapshot, annotation_types: [],
+     visualization_type: sequence.
+     LNV routing is non-blocking — does not gate step 6.
+     On LNV failure: thread save is not rolled back. Failure
+     logged. Thread is persisted in PostgreSQL regardless.
+  6. Return thread id.
   Failure at step 4: API call fails. No partial record written.
     Surface error. Retry permitted.
 
@@ -636,14 +644,13 @@ NEXUS FEED
 
   LIBER NOVUS (LNV · 47)
   ━━━━━━━━━━━━━━━━━━━━━━━
-  Receives: processed Thread Trace outputs — sequence traces
-  and structural visualizations built from thread data.
+  Receives: thread trace outputs automatically on thread save.
+  Every saved thread routes to LNV immediately after the
+  saved_threads record is written (step 5 of THREAD SAVE).
 
-  Thread Trace outputs that have been processed into findings
-  land on LNV as part of the Daily Nexus Routine. They arrive
-  with provenance intact: thread type, seed, routing snapshot,
-  and entry set are all traceable. LNV holds them without
-  editorializing.
+  Content: thread_id, thread_name, thread_type, seed, entry_ids,
+  routing_snapshot. Thread type, seed, and entry set are all
+  traceable. LNV holds them without editorializing.
 
   DRIFT TAXONOMY (DTX · 48)
   ━━━━━━━━━━━━━━━━━━━━━━━━━

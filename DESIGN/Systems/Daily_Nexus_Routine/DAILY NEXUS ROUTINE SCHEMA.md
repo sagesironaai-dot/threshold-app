@@ -186,8 +186,7 @@ independent of synthesis.
    pattern detection from engine null signals).
 2. Trigger: POST /void/analyze with trigger: session_close — runs Void
    analytical layer (Claude pulse check with session delta payload).
-3. Void returns output with trigger: session_close shape (systemic_observations,
-   absence_flags, session_delta).
+3. Void returns prose output (session-close trigger shape — see VOID ENGINE SCHEMA).
 4. Route Void output to LNV:
    ```json
    {
@@ -195,14 +194,12 @@ independent of synthesis.
      "source_system":  "void",
      "source_page":    "VOI",
      "session_ref":    "[current session]",
-     "prompt_version": "[from Void output metadata]",
+     "prompt_version": "[from void_outputs record]",
      "content": {
-       "trigger":               "session_close",
-       "scope":                 null,
-       "systemic_observations": [],
-       "absence_flags":         [],
-       "session_delta":         "string",
-       "engines_read":          []
+       "trigger":        "session_close",
+       "void_output_id": "[void_outputs.id from Void analyze response]",
+       "prose_output":   "[prose_output from Void analyze response]",
+       "engines_read":   []
      },
      "sage_note":      null
    }

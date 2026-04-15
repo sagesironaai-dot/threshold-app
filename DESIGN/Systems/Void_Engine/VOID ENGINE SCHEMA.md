@@ -221,9 +221,9 @@ attrition-reactivation cycle is its own record in Void.
 
 ## ANALYTICAL LAYER — CLAUDE INTERPRETIVE INTELLIGENCE
 
-Nexus-level Claude tool. Reads across all Nexus outputs and asks the question
-none of the engines ask individually: what does the systemic shape of this
-research reveal, including its silences?
+Research-system-level Claude tool. Reads across all Nexus outputs and asks the
+question none of the engines ask individually: what does the systemic shape of
+this research reveal, including its silences?
 
 NOT a function MTM can perform. MTM operates at pattern level. Void operates
 at research-system level.
@@ -244,25 +244,15 @@ Payload:
 
 Output (compact, storable, readable at a glance):
 
-```json
-{
-  "systemic_observations": [
-    {
-      "observation": "string",
-      "evidence_sources": ["string"],
-      "signal_strength": "notable | emerging | ambient"
-    }
-  ],
-  "absence_flags": [
-    {
-      "flag": "string",
-      "absence_type": "A | B | C | D | E",
-      "engines_involved": ["string"]
-    }
-  ],
-  "session_delta": "string — one sentence, how this session changed the systemic picture"
-}
-```
+Prose. Claude writes flowing analytical text covering:
+- Systemic observations from this session's absence patterns (with signal strength
+  characterized inline: notable, emerging, or ambient)
+- Notable absence flags and the engines involved
+- One-sentence session delta closing the output: how this session changed the
+  systemic picture
+
+Stored as `prose_output` string. Sage reads directly. No structured field
+parsing on receive — the full prose is what is stored and what displays.
 
 **2. On-demand open read (Sage-triggered)**
 
@@ -289,63 +279,35 @@ travels with output.
 
 ### On-demand output format (both open and targeted)
 
-```json
-{
-  "analysis": {
-    "systemic_shape": "string — the core read",
-    "convergences_detected": [
-      {
-        "description": "string",
-        "evidence": [{ "source_system": "string", "reference": "string", "contribution": "string" }]
-      }
-    ],
-    "silences_detected": [
-      {
-        "description": "string",
-        "absence_type": "A | B | C | D | E",
-        "evidence": [{ "source_system": "string", "reference": "string", "contribution": "string" }]
-      }
-    ],
-    "contradictions": [
-      {
-        "description": "string",
-        "systems_in_tension": ["string"],
-        "intensity": "nominal | significant | irreconcilable",
-        "resolution_path": "string | null"
-      }
-    ],
-    "open_edges": [
-      {
-        "question": "string",
-        "why": "string",
-        "edge_type": "data_gap | interpretive_limit"
-      }
-    ]
-  },
-  "metadata": {
-    "trigger": "session_close | on_demand_open | on_demand_targeted",
-    "scope": "object | null",
-    "prompt_version": "string",
-    "nexus_state_timestamp": "timestamp",
-    "engines_read": ["string"]
-  }
-}
-```
+Prose. Claude writes a full analytical read covering:
+- The systemic shape of the research: the core read across all systems
+- Convergences detected: where multiple systems point the same direction
+- Silences detected: which absence types are present and what they suggest
+- Contradictions between systems, characterized by intensity (see below)
+- Open edges: questions the system generates but cannot close (see below)
 
-**Contradiction intensity values:**
+Stored as `prose_output` string. Sage reads directly. No structured field
+parsing on receive. The trigger value, scope, and engines_read are stored as
+separate fields on the void_outputs record — not inside the Claude output.
 
-| Value | Meaning |
+**Contradiction intensity vocabulary (used in prose, not as JSON fields):**
+
+| Term | Meaning |
 | --- | --- |
 | nominal | Mild disagreement between system outputs |
 | significant | Material tension requiring investigation |
-| irreconcilable | Two Nexus systems produce outputs that cannot both be true. A research finding about the field itself, not a data quality issue. |
+| irreconcilable | Two systems produce outputs that cannot both be true. A research finding about the field itself, not a data quality issue. |
 
-**Open edge types:**
+**Open edge vocabulary (used in prose, not as JSON fields):**
 
-| Value | Meaning |
+| Term | Meaning |
 | --- | --- |
 | data_gap | Closeable. More deposits, more examination, more sessions would resolve this. |
 | interpretive_limit | NOT closeable by data. Questions the system generates that only the researcher can answer. Ontological boundaries, not task items. |
+
+The versioned prompt instructs Claude to use this vocabulary when naming
+contradictions and open edges within the prose. The vocabulary is part of
+the prompt, not enforced by output structure.
 
 ### Prompt constraint (versioned artifact)
 
@@ -446,7 +408,7 @@ sources. The prompt constraint above includes this explicitly.
 | id | auto | Primary key |
 | trigger | enum | `session_close`, `on_demand_open`, `on_demand_targeted` |
 | scope | jsonb / null | For on_demand_targeted: Sage's scope constraint (engines, time windows, absence types). Null for session_close and on_demand_open. |
-| output | jsonb | Full output from Claude tool. Shape depends on trigger: session-close shape (systemic_observations, absence_flags, session_delta) or on-demand shape (analysis with systemic_shape, convergences, silences, contradictions, open_edges + metadata). |
+| output | jsonb | Full output from Claude tool. Contains `prose_output` (string — Claude's analytical text) and `engines_read` (string[]). On-demand records additionally contain `scope` (object or null). Sage reads prose_output directly. |
 | prompt_version | string | Version of the Void prompt used. |
 | nexus_state_timestamp | timestamp | When the Nexus state was read for this output. |
 | engines_read | array of strings | Which engines/systems were read for this output. |

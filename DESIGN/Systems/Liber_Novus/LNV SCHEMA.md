@@ -2,7 +2,7 @@
 
 ## /DESIGN/Systems/Liber_Novus/LNV SCHEMA.md
 
-Mechanical spec — single-table type-discriminated architecture (6 entry types),
+Mechanical spec — single-table type-discriminated architecture (9 entry types),
 receive contract, read contract, content shapes per entry type, snapshot
 storage, session-close policy, gallery display, validation, failure modes.
 Architectural description in SYSTEM_ LNV.md.
@@ -57,8 +57,9 @@ Architectural description in SYSTEM_ LNV.md.
    thumbnail generates at display time from stored data. The data is
    canonical. The rendering is current.
 
-6. Session close does NOT automatically snapshot all engine pages. Only
-   Sage-triggered captures enter LNV as engine_snapshot entries.
+6. Engine snapshot entries are not triggered at session close. Auto-captures
+   fire mid-session when engine_base.py detects a significant signal delta.
+   Session close does not sweep all engines automatically.
 
 ---
 
@@ -154,17 +155,34 @@ What was stored is what displays, permanently.
 
 ### void_output
 
+Trigger-discriminated. Two content shapes depending on trigger value.
+
+**Session-close:**
+
 ```json
 {
-  "trigger":               "session_close | on_demand_open | on_demand_targeted",
-  "scope":                 "object | null — for targeted reads",
-  "systemic_observations": "array",
-  "absence_flags":         "array",
-  "contradictions":        "array",
-  "open_edges":            "array",
-  "engines_read":          "string[]"
+  "trigger":        "session_close",
+  "void_output_id": "string — references void_outputs table",
+  "prose_output":   "string — Claude's full analytical text, written in flowing prose",
+  "engines_read":   "string[]"
 }
 ```
+
+**On-demand (open and targeted):**
+
+```json
+{
+  "trigger":        "on_demand_open | on_demand_targeted",
+  "void_output_id": "string — references void_outputs table",
+  "scope":          "object | null — Sage's scope constraint. Null for open reads.",
+  "prose_output":   "string — Claude's full analytical text, written in flowing prose",
+  "engines_read":   "string[]"
+}
+```
+
+Validation checks trigger value first, then requires the correct field set for
+that shape. Gallery card shows a prose excerpt from prose_output. Expand on click
+shows the full prose.
 
 ### cosmology_finding
 
@@ -227,14 +245,12 @@ the processed Thread Trace output — sequence trace or structural visualization
 
 ```json
 {
-  "thread_id":          "string | null — null if unsaved thread",
-  "thread_name":        "string | null — null if unsaved",
-  "thread_type":        "temporal | relational | cluster | emergence",
-  "seed":               "object — { type, id, threadTypes }",
-  "entry_ids":          "string[] — entries in the thread at deposit time",
-  "routing_snapshot":   "object — dominant routing dimensions and distributions",
-  "annotation_types":   "string[] — note | observation | question types present",
-  "visualization_type": "sequence | graph"
+  "thread_id":        "string — references saved_threads table",
+  "thread_name":      "string",
+  "thread_type":      "temporal | relational | cluster | emergence",
+  "seed":             "object — { type, id, threadTypes }",
+  "entry_ids":        "string[] — entries in the thread at save time",
+  "routing_snapshot": "object — dominant routing dimensions and distributions"
 }
 ```
 
@@ -242,9 +258,10 @@ source_system: ttr.
 source_page: null (Thread Trace is a cross-cutting system, not page-scoped).
 prompt_version: null (not AI-authored — algorithmic thread building).
 
-annotation_types lists the annotation categories present in the thread (not
-the annotation text — that stays in the thread_annotations table). LNV holds
-the category summary so annotation types display distinctly in the gallery card.
+Routing is automatic on thread save. annotation_types and visualization_type
+were removed from this shape: routing fires at save time before any annotations
+exist, and the view at that moment is always the default sequence view. Neither
+field carries information.
 
 ### emergence_finding
 
@@ -254,9 +271,12 @@ run. Carries the Emergence finding with full provenance intact.
 ```json
 {
   "finding_id":               "string — references emergence_findings table",
-  "detector_type":            "cluster | bridge | high_influence | cross_category | drift | void_zone | npa_spike | null_cluster",
-  "severity":                 "string — per-detector severity criteria (see EMERGENCE SCHEMA.md)",
-  "involved_tags":            "string[] — tag IDs involved in the finding",
+  "type":                     "cluster | bridge | high_influence | cross_category | drift | void_zone | npa_spike | null_cluster",
+  "title":                    "string",
+  "description":              "string",
+  "severity":                 "low | medium | high",
+  "metrics":                  "object — includes doc_type_distribution and detector-specific values",
+  "involvedTags":             "object[] — tag objects involved in the finding",
   "detection_config_version": "string — version of detector config at detection time"
 }
 ```
@@ -351,13 +371,14 @@ Type-shape mismatch is a hard failure, not a warning.
 | Caller | entry_type | Trigger |
 | --- | --- | --- |
 | DNR | mtm_finding | After MTM synthesis at session close |
-| Engine visualization capture | engine_snapshot | Sage-triggered from any Axis or Nexus engine page |
+| Engine visualization capture (auto) | engine_snapshot | Automatic on signal delta (engine_base.py) |
+| Engine visualization capture (Sage) | engine_snapshot | Sage-triggered on demand |
 | WSC write path | wsc_entry | After WSC entry written |
 | Void session-close | void_output | Automatic at session close |
 | Void on-demand | void_output | Sage-triggered |
 | Cosmology page service | cosmology_finding | Sage-triggered from finding card (confirmed findings only) |
 | RCT residual service | rct_residual | Automatic on residual creation |
-| Thread Trace | thread_trace | Sage-triggered at session close (Daily Nexus Routine) |
+| Thread Trace | thread_trace | Automatic on thread save (step 5 of Thread Trace save sequence) |
 | Emergence service | emergence_finding | Automatic on significant tag commit; on-demand detection run |
 | Integration post-retirement | archive_record | Automatic on retirement after authentication threshold met |
 
@@ -417,34 +438,39 @@ The gallery thumbnail generates at display time from stored data — not a store
 file. This is the right call for a system intended to feed model training
 downstream.
 
-### "Generated on view, snapshot to LNV" flow
+### Auto-capture on signal delta flow
 
-1. Sage views an engine page → visualization renders from computed data
-   (Tier 3 hybrid compute)
-2. Sage triggers capture (button on visualization)
-3. System serializes: visualization_data + template_ref +
-   computation_snapshot_id + optional sage_note
+1. Engine computation runs (triggered by page view, batch window close, or MTM pull)
+2. engine_base.py compares new results to previous snapshot
+3. If signal delta exceeds threshold (calibration item): system serializes
+   visualization_data + template_ref + computation_snapshot_id
 4. POST /api/lnv/receive with entry_type: engine_snapshot
 5. LNV entry created. Gallery card shows thumbnail re-rendered from stored data.
 
-Not automatic at session close. Sage-triggered only. The researcher decides
-what's worth preserving — the system doesn't fill LNV with noise.
+Auto-trigger fires mid-session when signal warrants it. Session close does not
+trigger engine snapshots.
 
 ---
 
 ## SESSION-CLOSE SNAPSHOT POLICY
 
-Session close does NOT automatically snapshot all engine pages. Only
-Sage-triggered captures enter LNV as engine_snapshot entries.
+Session close does NOT automatically snapshot all engine pages. Auto-captures
+fire mid-session when engine_base.py detects a significant signal delta —
+not at session close, not on every computation.
 
 **What DOES enter LNV at session close (via DNR):**
 - MTM Findings (automatic, via DNR two-step sequence)
-- Void session-close pulse check output (automatic)
+- Void session-close pulse check output (automatic, via DNR)
 
 **What enters LNV outside session close:**
-- Engine visualization snapshots (Sage-triggered, any time)
-- WSC entries (after DNR completes, via WSC write path)
-- Void on-demand read outputs (Sage-triggered)
+- Engine visualization snapshots (automatic on signal delta, triggered by engine_base.py)
+- WSC entries (automatic after WSC write, via WSC write path)
+- Void on-demand read outputs (Sage triggers void analysis; automatic LNV routing follows)
+- Thread Trace outputs (automatic on thread save, via Thread Trace save sequence)
+- Cosmology findings (Sage triggers route from finding card on confirmed findings; automatic LNV routing follows)
+- RCT residuals (automatic on residual creation)
+- Emergence findings (automatic on significant tag commit or on-demand detection run)
+- Archive records (automatic on retirement, via INT post-retirement sequence)
 
 ---
 
@@ -474,9 +500,12 @@ Full content per type:
 - engine_snapshot: full-size visualization re-rendered from data
 - mtm_finding: full Finding with provenance chain
 - wsc_entry: full WSC entry text
-- void_output: full analytical output with all sections
+- void_output: full analytical prose (session-close pulse check or on-demand read)
 - cosmology_finding: full finding card (framework, hypothesis, computation result, confidence, reference)
 - rct_residual: full residual card (algorithm component, prediction vs observation, delta, computation ref)
+- thread_trace: full thread snapshot (thread type, seed, entry count, routing summary)
+- emergence_finding: full finding card (title, description, type, severity, metrics, involved tags, config version)
+- archive_record: full archive record (ARC stamp, retirement timestamp, title, doc type, source origin, confirmed routing)
 
 ### Filters
 
@@ -495,10 +524,14 @@ Entry type badges with plain language:
 - void_output → "Void Analysis"
 - cosmology_finding → "Cosmology Finding"
 - rct_residual → "RCT Residual"
+- thread_trace → "Thread Trace"
+- emergence_finding → "Emergence Finding"
+- archive_record → "Archive Record"
 
 Prompt version visible on AI-authored entries (mtm_finding, wsc_entry,
-void_output). Not applicable to cosmology_finding or rct_residual (not
-AI-authored). Sage note visible when present.
+void_output). Not applicable to cosmology_finding, rct_residual, thread_trace,
+emergence_finding, or archive_record (not AI-authored). Sage note visible when
+present.
 
 ---
 

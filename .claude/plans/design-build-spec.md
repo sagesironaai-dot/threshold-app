@@ -27,6 +27,7 @@ the spec wins.
 | Tier 1 | INT Engine + Deposit Foundation | 2026-04-14 (session 39) |
 | Tier 2 | Black Pearl UI + Page Surfaces + Void | 2026-04-14 (session 47) |
 | Tier 3 | Axis Engines + Ven'ai | 2026-04-14 (session 53) |
+| Tier 4 | MTM + Nexus + WSC + LNV + Void Engine | 2026-04-14 (session 54) |
 
 ---
 
@@ -1876,7 +1877,15 @@ Sage closes session
 
 ## TIER 4 — MTM + NEXUS + WSC + LNV + VOID ENGINE
 
-**Status:** NOT STARTED (audit not reached)
+**Status:** LOCKED
+**Audited:** Session 54. Deep audit across 20 files — 12 fixed, 8 confirmed clean.
+Primary rot corrected: void_output→prose cascade (void_pulse in WSC, DNR routing
+payload, LNV content shape); thread_trace LNV routing incorrectly attributed to DNR
+(corrected across 5 files); emergence_finding content shape mismatch (3 field errors);
+engine snapshot trigger over-corrected to auto-only then restored to dual trigger
+(auto + Sage on demand) after Engine Computation SCHEMA confirmed; LNV structural
+rule 6 internal contradiction resolved; SYSTEM_ Engine Computation entry_type name
+wrong (visualization_snapshot → engine_snapshot).
 
 ---
 

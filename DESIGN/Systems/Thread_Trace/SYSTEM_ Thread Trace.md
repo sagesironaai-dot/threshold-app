@@ -107,7 +107,7 @@ The overlay header surfaces the fallback reason as a single dismissible line bel
 Reads tag_routing_snapshot from saved threads as named cross-domain signal sources. A saved thread's routing distribution is a pre-aggregated alignment axis. Snapshots carry timestamps so PCV can weight old snapshots differently from recent ones.
 
 **Liber Novus (LNV · 47)**
-Receives processed Thread Trace outputs — sequence traces and structural visualizations — as part of the Daily Nexus Routine. Provenance intact: thread type, seed, routing snapshot, annotation types.
+Receives Thread Trace outputs automatically on thread save. Provenance intact: thread type, seed, routing snapshot.
 
 **Drift Taxonomy (DTX · 48)**
 Reads phase_state sequences from Temporal threads. The phase_state transitions between cards — edge labels reading 'Solenne Arc → Aetherroot Chord' — are the state vectors DTX classifies. Thread Trace makes the trajectory legible. DTX receives it.
