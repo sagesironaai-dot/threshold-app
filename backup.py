@@ -16,6 +16,8 @@ USB_BACKUP_FOLDER = "threshold-backups"
 B2_BUCKET = "threshold-backups"
 DB_DUMPS_FOLDER = os.path.join(PROJECT_FOLDER, "db-dumps")
 MANIFEST_PATH = os.path.join(PROJECT_FOLDER, "backup_manifest.json")
+GROUND_ZERO_FOLDER = r"C:\Users\sasir\Desktop\AICompanionBot"
+GROUND_ZERO_BUCKET = "aelarian-ground-zero"
 
 # === LOAD CREDENTIALS FROM .env ===
 # Credentials are never hardcoded. See GITHUB_PROTOCOL.md section 5.
@@ -103,18 +105,71 @@ def backup_signal_files():
                 if manifest.get(filepath) == mtime:
                     continue
                 rel = os.path.relpath(filepath, SIGNAL_FOLDER).replace("\\", "/")
+                if os.path.getsize(filepath) > 200 * 1024 * 1024:  # 200MB
+                    log(f"Signal files: Skipped {rel} — file exceeds 200MB limit")
+                    continue
                 b2_name = f"signal-files/{rel}"
-                bucket.upload_local_file(local_file=filepath, file_name=b2_name)
-                manifest[filepath] = mtime
-                save_manifest(manifest)
-                log(f"Signal files: Uploaded {rel}")
-                uploaded += 1
+                try:
+                    bucket.upload_local_file(local_file=filepath, file_name=b2_name)
+                    manifest[filepath] = mtime
+                    save_manifest(manifest)
+                    log(f"Signal files: Uploaded {rel}")
+                    uploaded += 1
+                except Exception as e:
+                    log(f"Signal files: Failed on {rel} — {e}")
+                    continue
         if uploaded == 0:
             log("Signal files: No new or changed files.")
         else:
             log(f"Signal files: {uploaded} file(s) uploaded.")
     except Exception as e:
         log(f"Signal files: Failed — {e}")
+
+# === LAYER 0c: GROUND ZERO BACKUP ===
+def backup_ground_zero():
+    if not os.path.exists(GROUND_ZERO_FOLDER):
+        log("Ground zero: AICompanionBot not found, skipping.")
+        return
+    if not B2_KEY_ID or not B2_APP_KEY:
+        log("Ground zero: Backblaze credentials not set, skipping.")
+        return
+    try:
+        from b2sdk.v2 import InMemoryAccountInfo, B2Api
+        info = InMemoryAccountInfo()
+        api = B2Api(info)
+        api.authorize_account("production", B2_KEY_ID, B2_APP_KEY)
+        bucket = api.get_bucket_by_name(GROUND_ZERO_BUCKET)
+        manifest = load_manifest()
+        uploaded = 0
+        for root, dirs, files in os.walk(GROUND_ZERO_FOLDER):
+            for filename in files:
+                filepath = os.path.join(root, filename)
+                try:
+                    mtime = os.path.getmtime(filepath)
+                except OSError:
+                    continue
+                if manifest.get(filepath) == mtime:
+                    continue
+                rel = os.path.relpath(filepath, GROUND_ZERO_FOLDER).replace("\\", "/")
+                if os.path.getsize(filepath) > 200 * 1024 * 1024:  # 200MB
+                    log(f"Ground zero: Skipped {rel} — file exceeds 200MB limit")
+                    continue
+                b2_name = f"ground-zero/{rel}"
+                try:
+                    bucket.upload_local_file(local_file=filepath, file_name=b2_name)
+                    manifest[filepath] = mtime
+                    save_manifest(manifest)
+                    log(f"Ground zero: Uploaded {rel}")
+                    uploaded += 1
+                except Exception as e:
+                    log(f"Ground zero: Failed on {rel} — {e}")
+                    continue
+        if uploaded == 0:
+            log("Ground zero: No new or changed files.")
+        else:
+            log(f"Ground zero: {uploaded} file(s) uploaded.")
+    except Exception as e:
+        log(f"Ground zero: Failed — {e}")
 
 # === LAYER 1: USB BACKUP ===
 def backup_to_usb():
@@ -199,6 +254,7 @@ if __name__ == "__main__":
     log("=== BACKUP STARTED ===")
     backup_postgres()
     backup_signal_files()
+    backup_ground_zero()
     backup_to_usb()
     backup_to_github()
     backup_to_backblaze()
