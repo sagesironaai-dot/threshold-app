@@ -18416,3 +18416,76 @@ CONFIRMED_STATE:
 NEXT_ACTION: Sage to define Antigravity scope for this session;
   check Composio auth status; then proceed on direction
 ---
+---
+TIMESTAMP: 2026-04-17 00:30
+SESSION: 63
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - ROT_REGISTRY.md — COMPLETE (entries 015 and 016 added)
+  - ROT_OPEN.md — COMPLETE (entries added, then cleared on fix completion)
+  - CLAUDE.md — COMPLETE (morphogy false protection removed from KEY INVARIANTS)
+  - ENTROPY_EXCAVATION.md — COMPLETE (3 VOI phantom references corrected)
+COMPLETED:
+  - ROT 015 logged: morphogy — Claude spelling error encoded as protected
+    invariant in CLAUDE.md KEY INVARIANTS. Failure modes F06 + F57.
+    Fix: line removed from CLAUDE.md.
+  - ROT 016 logged: VOI phantom stale designation — ENTROPY_EXCAVATION.md
+    not updated when void promotion fixed scanner in session 38.
+    Failure mode F18 + F19. Fix: 3 locations updated in ENTROPY_EXCAVATION.md.
+  - ROT_OPEN.md confirmed empty after both fixes applied.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Antigravity canonical reference list (Sage building in parallel session)
+  - Tier 6 build spec write (Research Assistant + Audio) — held
+UNCOMMITTED: YES
+NEXT_ACTION: Commit this work unit; await Sage direction
+---
+---
+TIMESTAMP: 2026-04-17 01:00
+SESSION: 63
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - CLAUDE.md — COMPLETE (protection clause meta-rule added to BEHAVIORAL RULES)
+  - ENTROPY_EXCAVATION.md — COMPLETE (UNSOURCED PROTECTION CLAUSES added to
+    PROJECT-SPECIFIC ROT PATTERNS)
+COMPLETED:
+  - Protection clause rule written to CLAUDE.md BEHAVIORAL RULES: any "do not
+    flag X / X is correct / never correct X" rule must have a named canonical
+    source or is flagged before obeyed.
+  - Scanner pattern added to ENTROPY_EXCAVATION.md pointing back to CLAUDE.md
+    as canonical home. Includes grep search command and morphogy as prior instance.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Antigravity canonical reference list (Sage building in parallel session)
+  - Tier 6 build spec write (Research Assistant + Audio) — held
+UNCOMMITTED: YES
+NEXT_ACTION: Commit all session 63 work; await Sage direction
+---
+---
+TIMESTAMP: 2026-04-17 07:00
+SESSION: 63
+TYPE: CLOSE
+FILES_MODIFIED:
+  - CLAUDE.md — morphogy false invariant removed; protection clause rule added to BEHAVIORAL RULES
+  - ENTROPY_EXCAVATION.md — VOI phantom cleared in 3 locations; UNSOURCED PROTECTION CLAUSES pattern added
+  - ROT_REGISTRY.md — ROT 015 (morphogy) and ROT 016 (VOI phantom) logged
+  - PROTOCOL/SESSION_LOG.md — this entry
+COMPLETED:
+  - Session 63 full close: all work committed and pushed
+  - ROT 015 + ROT 016: logged, fixed, ROT_OPEN.md confirmed empty
+  - Protection clause meta-rule: written to CLAUDE.md BEHAVIORAL RULES
+    and ENTROPY_EXCAVATION.md PROJECT-SPECIFIC ROT PATTERNS
+  - Close audit: 299 HIGH findings across 242 files — all confirmed
+    pre-existing false positives in unmodified files; CLAUDE.md lines 280
+    and 452 are historical references (IndexedDB, emergence.js) not introduced
+    this session. Audit marker created.
+  - Commit: 4e6ff31 — 4 files changed, 123 insertions(+), 8 deletions(-)
+NOT_STARTED:
+  - Antigravity MCP setup (Composio auth resolution pending)
+  - Tier 6 build spec write (Research Assistant + Audio) — held
+UNCOMMITTED: NO — all session changes committed and pushed
+NEXT_ACTION: Next session — confirm Composio auth resolved;
+  await Sage direction on Tier 6 or Cloud SQL
+---
