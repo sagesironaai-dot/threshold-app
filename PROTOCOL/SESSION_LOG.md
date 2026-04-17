@@ -89,3 +89,97 @@ NOT_STARTED:
 UNCOMMITTED: YES — committing now
 NEXT_ACTION: Continue Stabilization Verifier section review from Drift Reporting Rules
 ---
+---
+TIMESTAMP: 2026-04-17 11:30
+SESSION: 64
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - Stabilization Verifier.md — IN_PROGRESS (13 of 16 sections reviewed)
+COMPLETED:
+  - Drift Reporting Rules: 11 fixes (cross-reference + drift-on-drift rule, neutral language
+    positive definition, no softening/amplification, banned phrase generalization, observed
+    not interpreted extended to cause/effect, equal weight, partial drift rule, beneficial
+    drift rationale, ordering additions before omissions, staged source flag, no remediation)
+  - Internal Consistency Check: subset of 15 fixes (Output Format cross-ref, check order,
+    used-as-if-defined criterion, contradiction model, forward references not flagged,
+    downstream drift reframed)
+  - External Consistency Check: subset of 15 fixes (Output Format cross-ref, CLAUDE.md
+    behavioral/factual clarification, rule vs Key Invariant conflict routing, approved drafts
+    as staged, silent assumptions, citation requirement, failure mode scan third pass)
+  - Failure mode scan: subset of 15 fixes (all 30 always applied, registry tags precedence,
+    operational definition, F## format, multiple F-codes per finding)
+  - Canonical Reference Checks: 18 fixes (per-run staging reminder, agent registry exception,
+    claude.py link artifact fixed, cascade trigger rewritten count-based, counts as snapshots,
+    ROT_REGISTRY authoritative for rot terms, 46 domains → 51 domain files, version numbers
+    scoped, box-drawing exception, SOL stamp position defined, [context-dependent] markers,
+    exact match rule, historical record document definition, dedup rule, unverified vs pending
+    canonical confirmation distinguished, both → section 7, rot terms → section 6 F09,
+    label confirmed/staged per finding)
+  - Mid-Verification Rot Discovery: 15 fixes (halts the verification pass, trigger threshold
+    F-code only, false completeness claims defined, collect-all before halting, draft format
+    modeled on recent entries with placeholder, Sage-in-the-loop → produces text ready to
+    append, proceed/halt/redirect defined, does not produce clean report, role carve-out for
+    registry drafting, neutrality + no remediation, dedup + locations linked to F-codes,
+    check existing registry, historical document exemption, SESSION_LOG TYPE: VERIFICATION
+    with OPEN_FLAGS: YES)
+IN_PROGRESS:
+  - Stabilization Verifier.md — Refusals, Uncertainty Handling, Handoff, Report as Carrier,
+    Log Entry Procedure, Output Format not yet reviewed
+NOT_STARTED:
+  - Antigravity MCP config
+  - Tier 6 build spec write (Research Assistant + Audio) — held
+UNCOMMITTED: YES
+NEXT_ACTION: Submit Refusals section findings; continue section review
+---
+---
+TIMESTAMP: 2026-04-17 12:00
+SESSION: 64
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - Stabilization Verifier.md — IN_PROGRESS (15 of 16 sections reviewed)
+COMPLETED:
+  - Refusals: 10 fixes (split voice/drift bullet + operational tightening, complete/clean/ready
+    → general principle, add "by Sage" to requested, propose fixes → draft content for artifact,
+    directive guard expanded to all inputs, protection clause extended to no-canonical-backing,
+    cross-ref to Verified Status for confirmation format, "Guess at" bullet added, pre-delivery
+    self-check sentence added) + Phase Position cross-section patch (SESSION_LOG.md entry →
+    draft SESSION_LOG.md entry, Sage appends)
+  - Uncertainty Handling: 4 fixes (third non-flagging criterion anchored to explicitly stated
+    purpose, downstream decision → not established in any confirmed canonical source, Phase
+    Position tension clarifier, safety valve for non-forkable ambiguity)
+IN_PROGRESS:
+  - Stabilization Verifier.md — Handoff, Report as Carrier, Log Entry Procedure, Output Format
+    not yet reviewed
+NOT_STARTED:
+  - Antigravity MCP config
+  - Tier 6 build spec write (Research Assistant + Audio) — held
+UNCOMMITTED: YES
+NEXT_ACTION: Submit findings for Handoff, Report as Carrier, Log Entry Procedure, Output Format
+---
+---
+TIMESTAMP: 2026-04-17 12:45
+SESSION: 64
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - Stabilization Verifier.md — COMPLETE (all 16 sections reviewed)
+COMPLETED:
+  - Handoff: 2 fixes (remove "unless explicitly requested" exception clause, role ends when
+    all outputs delivered)
+  - Report as Carrier: 3 fixes (transient → verifier does not save, environment-dependent;
+    file-ready artifacts clarifier; No restating the artifact → exempts Section 2)
+  - Log Entry Procedure: 8 fixes (NEXT_ACTION schema field clarifier, FINDINGS fields note
+    + taxonomy statement, VERIFICATION_CLOSED trigger stated, CLOSES_VERIFICATION composite
+    key, FLAGS_RESOLVED resolution label definitions, FLAGS_DEFERRED destinations named,
+    step 1 four → eight section report, step 4 artifacts → specific items)
+  - Output Format: 2 fixes (Section 6 labeled groupings note, rot discovery section 8
+    contradiction resolved — sections 1-7 replaced, section 8 VERIFICATION entry still produced)
+  - Cross-section patches: Report Structure forward reference to eight-section Output Format;
+    Uncertainty Handling section 7 routing added
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Antigravity MCP config
+  - Tier 6 build spec write (Research Assistant + Audio) — held
+UNCOMMITTED: YES
+NEXT_ACTION: Commit all session 64 changes; proceed per Sage direction
+---
