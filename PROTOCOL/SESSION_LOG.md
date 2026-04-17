@@ -220,3 +220,27 @@ UNCOMMITTED: YES — committing now
 NEXT_ACTION: Session 65 open: read mandatory files, confirm state, proceed to MCP
   config or Tier 6 build spec per Sage direction
 ---
+---
+TIMESTAMP: 2026-04-17 14:00
+SESSION: 65
+TYPE: OPEN
+FILES_MODIFIED:
+  - none
+COMPLETED:
+  - Mandatory reads: CLAUDE.md, RECURSION_REPAIR.md, ENTROPY_EXCAVATION.md,
+    ROT_REGISTRY.md (entries 001-016+), ROT_OPEN.md (empty — no open rot)
+  - SESSION_PROTOCOL.md read, GITHUB_PROTOCOL.md read
+  - SESSION_LOG.md checked — last entry TYPE: CLOSE (session 64, clean)
+  - DESIGN/Systems/ confirmed on disk — all subdirectories present
+  - DESIGN/Domains/ confirmed on disk — 11 groups (01–11); CLAUDE.md says
+    "01-10" but disk has 11 (pre-existing state, not new discrepancy)
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Antigravity MCP config — wire 14-server config to settings
+  - Tier 6 build spec write (Research Assistant + Audio) — held
+  - SCHEMA_PROTOCOL.md and PROTOCOL_TODO.md old-architecture cleanup
+  - AOS schema/system "Threshold Studies" → "Threshold Pillars" cleanup
+UNCOMMITTED: NO
+NEXT_ACTION: Hear Sage's question; proceed per direction
+---
