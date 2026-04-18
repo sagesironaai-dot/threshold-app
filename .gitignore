@@ -41,7 +41,11 @@ db-dumps/
 backup_manifest.json
 backblaze_state.json
 
-# Audio and media assets (large binaries)
+# Audio and media assets - runtime static assets curated locally,
+# not versioned in Git. See README for sync procedure.
+# Source of truth: project-root Audio/Nodes/{nodeId}.wav
+# Build target:    frontend/static/Audio/Nodes/{nodeId}.wav (bridged at build time, method TBD)
 Audio/
 BackGround/
 backups/
+frontend/static/Audio/
