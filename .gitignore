@@ -11,15 +11,54 @@ backup.log
 .DS_Store
 Thumbs.db
 desktop.ini
+$RECYCLE.BIN/
+.Trash-*
+
+# Editor swap and backup files
+*.swp
+*.swo
+*.bak
+*~
+
+# Editor / IDE settings
+# VS Code: blanket-ignore, but preserve shared project-level config files
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+
+# JetBrains (IntelliJ, PyCharm, WebStorm)
+.idea/
+*.iml
+
+# Claude Code local user settings (NOT the project-shared settings.json)
+.claude/settings.local.json
+
+# Gemini Antigravity: stores state in user home (~/.gemini/antigravity),
+# not in the repo. Listed defensively in case a future version drops
+# state inside the project folder.
+# .gemini/
 
 # Python
 __pycache__/
 *.pyc
 .venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.tox/
+*.egg-info/
+.coverage
+htmlcov/
 
-# Node
+# Node / Svelte / Vite
 node_modules/
 npm-debug.log*
+.pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.svelte-kit/
+.vite/
 
 # SQLite databases
 *.db
