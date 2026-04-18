@@ -177,7 +177,6 @@ jobs:
   # ═══════════════════════════════════════════════════════════════
   bundle-size:
     runs-on: ubuntu-latest
-    if: hashFiles('performance-budget.json') != ''
     defaults:
       run:
         working-directory: frontend
@@ -221,7 +220,6 @@ jobs:
   # ═══════════════════════════════════════════════════════════════
   lighthouse:
     runs-on: ubuntu-latest
-    if: hashFiles('.lighthouserc.json') != ''
 
     steps:
       - uses: actions/checkout@v4
@@ -234,6 +232,7 @@ jobs:
         run: npm install -g @lhci/cli
 
       - name: Run Lighthouse
+        if: hashFiles('.lighthouserc.json') != ''
         run: lhci autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
