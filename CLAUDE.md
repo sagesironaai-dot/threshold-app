@@ -396,6 +396,12 @@ backups/          — audio file backups (directory recreated by Sage post-sessi
                     Contains audio assets, not archive data. Gitignored.
 ```
 
+Audio asset paths: source of truth is `Audio/Nodes/{nodeId}.wav` at project
+root. Runtime serve path is `frontend/static/Audio/Nodes/{nodeId}.wav`. Both
+are gitignored. The mechanism that bridges source to serve path (copy script,
+symlink, build step, or other) is undecided — do not implement or assume a
+bridge without explicit direction from Sage.
+
 ---
 
 ## PLANNED FILES
@@ -497,6 +503,40 @@ CLOSE
 
 Failure to write any required entry is a session protocol violation.
 The same weight as a code rule violation. Not a missed reminder.
+
+---
+
+## PULL REQUEST FORMAT
+
+Every PR opened from this project uses this body format. No exceptions.
+
+```
+## Work Unit
+[One-sentence summary of what this PR accomplishes]
+
+## Changes
+- [bullet list of meaningful changes — what changed and why, not a file list]
+
+## Files Affected
+- [file paths touched]
+
+## SESSION_LOG Reference
+[Session number + WORK_UNIT entry timestamp]
+
+## Verification
+- [ ] Local tests passed
+- [ ] Internal gates passed (entropy_scan, ghost_fix_gate)
+- [ ] No new rot flagged
+- [ ] CodeRabbit review incorporated
+- [ ] CodeQL findings triaged
+
+## Rot / Drift Notes
+[Anything flagged during the work, with ROT_REGISTRY entry IDs if applicable.
+Write "none" if nothing was flagged.]
+
+## Co-authored-by
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+```
 
 ---
 

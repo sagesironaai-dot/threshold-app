@@ -1100,6 +1100,30 @@ NEXT_ACTION: Commit and push
 ---
 
 ---
+TIMESTAMP: 2026-04-19 00:50
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - CLAUDE.md — COMPLETE
+COMPLETED:
+  - PULL REQUEST FORMAT section added (between SESSION LOG and BEFORE
+    EVERY SESSION). Template includes Work Unit, Changes, Files Affected,
+    SESSION_LOG Reference, Verification checklist, Rot/Drift Notes,
+    Co-authored-by. Co-author format aligned to canonical:
+    Claude Sonnet 4.6 <noreply@anthropic.com>.
+  - MEDIA ASSETS section updated: audio asset paths documented
+    (Audio/Nodes/{nodeId}.wav → frontend/static/Audio/Nodes/{nodeId}.wav),
+    both gitignored, bridge mechanism stated as undecided with explicit
+    no-implement directive.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - CodeRabbit session-close hook (blocked: requires paid API key)
+  - Remaining session notes from Sage
+UNCOMMITTED: YES
+NEXT_ACTION: Commit and push
+---
+
+---
 TIMESTAMP: 2026-04-18 23:02
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.gitignore
@@ -1143,6 +1167,18 @@ FILE: C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SESSION_PROTOCOL.md
 
 ---
 TIMESTAMP: 2026-04-18 23:27
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\CLAUDE.md
+---
+
+---
+TIMESTAMP: 2026-04-18 23:30
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\CLAUDE.md
+---
+
+---
+TIMESTAMP: 2026-04-18 23:31
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\CLAUDE.md
 ---
