@@ -18,6 +18,7 @@ Exit 0 always — this hook informs, it does not block.
 import json
 import os
 import re
+import shutil
 import sys
 
 
@@ -89,6 +90,23 @@ def has_ghost_fix():
             return f.read().strip()
     except IOError:
         return None
+
+
+FRONTEND_ROOT = os.path.join(PROJECT_ROOT, "frontend")
+ESLINT_BIN = os.path.join(
+    FRONTEND_ROOT, "node_modules", ".bin",
+    "eslint.cmd" if sys.platform == "win32" else "eslint",
+)
+
+
+def check_lint_tools():
+    """Check ruff and eslint availability. Returns list of missing tool names."""
+    missing = []
+    if not shutil.which("ruff"):
+        missing.append("ruff (Python linting disabled)")
+    if not os.path.exists(ESLINT_BIN):
+        missing.append("eslint not found in frontend/node_modules/.bin/ (JS/TS/Svelte linting disabled)")
+    return missing
 
 
 REQUIRED_GITIGNORE = [
@@ -167,6 +185,16 @@ def main():
         lines.append(f"  -> Fix before any commit (GITHUB_PROTOCOL.md §1)")
     else:
         lines.append(f"  Gitignore: complete")
+
+    # Lint tools
+    lint_missing = check_lint_tools()
+    if lint_missing:
+        lines.append(f"  LINT TOOLS MISSING: {len(lint_missing)} tool(s) unavailable:")
+        for tool in lint_missing:
+            lines.append(f"    - {tool}")
+        lines.append(f"  -> Install before core files phase (lint_gate.py will skip silently)")
+    else:
+        lines.append(f"  Lint tools: ruff + eslint ready")
 
     lines.append("=" * 60)
 

@@ -1040,7 +1040,50 @@ NEXT_ACTION: Commit all changed files and push
 ---
 
 ---
+TIMESTAMP: 2026-04-19 00:00
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - hooks/session_start.py — COMPLETE
+COMPLETED:
+  - session_start.py: added check_lint_tools() — checks ruff (shutil.which)
+    and eslint (.bin/eslint.cmd on Windows, .bin/eslint on Unix). Surfaced
+    in session start summary after gitignore check. Shows "Lint tools: ruff +
+    eslint ready" when both present, lists missing tools with install reminder
+    when not. Confirmed live: both tools detected, output correct.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - CodeRabbit session-close hook (blocked: requires paid API key)
+UNCOMMITTED: YES
+NEXT_ACTION: Commit session_start.py and push
+---
+
+---
 TIMESTAMP: 2026-04-18 23:02
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.gitignore
+---
+
+---
+TIMESTAMP: 2026-04-18 23:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\session_start.py
+---
+
+---
+TIMESTAMP: 2026-04-18 23:05
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\session_start.py
+---
+
+---
+TIMESTAMP: 2026-04-18 23:06
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\hooks\session_start.py
+---
+
+---
+TIMESTAMP: 2026-04-18 23:06
+TYPE: HOOK_BASH
+COMMAND: python "C:/Users/sasir/Desktop/Aelarian/Archives/hooks/session_start.py"
 ---
