@@ -963,3 +963,84 @@ COMPLETED:
   - PR #2 closed (superseded by #11)
   - PRs...
 ---
+
+---
+TIMESTAMP: 2026-04-18 22:18
+TYPE: COMPACT_CHECKPOINT
+WORK_UNITS_TODAY: 0
+PHASE_STATE: DESIGN/Systems/Tagger/SYSTEM_ Tagger.md=audit_pass, DESIGN/Systems/TAG VOCABULARY.md=audit_pass, DESIGN/Systems/Composite_ID/COMPOSITE ID SCHEMA.md=audit_pass
+OPEN_ROT: no
+NOTE: Context compaction occurred. Re-read CLAUDE.md mandatory rules.
+---
+
+---
+TIMESTAMP: 2026-04-18 22:50
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python -m ruff --version 2>/dev/null || echo "ruff: not found via python -m" && ruff --version 2>/dev/null || echo "ruff: not in PATH"
+---
+
+---
+TIMESTAMP: 2026-04-18 23:10
+TYPE: OPEN
+FILES_MODIFIED:
+  - none
+COMPLETED:
+  - none
+IN_PROGRESS:
+  - Linter hook implementation — hooks/lint_gate.py + .claude/settings.json — spec approved, implementation beginning
+NOT_STARTED:
+  - CodeRabbit session-close hook (blocked: requires paid API key)
+UNCOMMITTED: NO
+NEXT_ACTION: Write hooks/lint_gate.py and .claude/settings.json, verify both, commit
+---
+
+---
+TIMESTAMP: 2026-04-18 23:30
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - hooks/lint_gate.py — COMPLETE
+  - .claude/settings.json — COMPLETE
+COMPLETED:
+  - hooks/lint_gate.py created: PostToolUse linter hook. Python files → py_compile
+    (syntax check; ruff not installed). TypeScript/JS/Svelte files → eslint via
+    frontend/node_modules/.bin/eslint. Skips hooks/, .claude/, PROTOCOL/, non-code
+    extensions, files that don't exist. Exit 0 always — informational only.
+  - .claude/settings.json updated: lint_gate.py added as third PostToolUse Write|Edit
+    hook, after ghost_fix_gate.py (post phase).
+  - All 6 tests passed: syntax clean, empty payload handled, Python file linted,
+    .md file skipped, eslint.cmd found, TypeScript file linted.
+  - Observation: eslint surfaced 2 pre-existing prefer-const findings in
+    frontend/src/lib/audio/engine.ts (lines 57, 69). Not fixed — named for Sage.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - CodeRabbit session-close hook (blocked: requires paid API key)
+UNCOMMITTED: YES
+NEXT_ACTION: Commit hooks/lint_gate.py and .claude/settings.json
+---
+
+---
+TIMESTAMP: 2026-04-18 23:45
+TYPE: WORK_UNIT
+FILES_MODIFIED:
+  - frontend/src/lib/audio/engine.ts — COMPLETE
+  - hooks/lint_gate.py — COMPLETE (updated)
+COMPLETED:
+  - engine.ts line 57: let → const for clipBuffers (Map never reassigned)
+  - engine.ts line 69: let → const for velocityTracker (Map never reassigned)
+  - lint_gate.py lint_python() upgraded from py_compile to ruff check
+    --output-format concise. Both confirmed working via live hook test.
+  - engine.ts now lint-clean through the hook.
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - none
+UNCOMMITTED: YES
+NEXT_ACTION: Commit all changed files and push
+---
+
+---
+TIMESTAMP: 2026-04-18 23:02
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.gitignore
+---

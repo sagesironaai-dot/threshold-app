@@ -69,6 +69,10 @@
           {
             "type": "command",
             "command": "CLAUDE_HOOK_PHASE=post python C:/Users/sasir/Desktop/Aelarian/Archives/hooks/ghost_fix_gate.py"
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/sasir/Desktop/Aelarian/Archives/hooks/lint_gate.py"
           }
         ]
       },

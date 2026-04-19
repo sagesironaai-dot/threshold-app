@@ -84,7 +84,7 @@ backblaze_state.json
 # not versioned in Git. See README for sync procedure.
 # Source of truth: project-root Audio/Nodes/{nodeId}.wav
 # Build target:    frontend/static/Audio/Nodes/{nodeId}.wav (bridged at build time, method TBD)
-Audio/
-BackGround/
-backups/
+/Audio/
+/BackGround/
+/backups/
 frontend/static/Audio/

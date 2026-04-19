@@ -54,7 +54,7 @@ export function dbToLinear(db: number): number {
 let audioCtx: AudioContext | null = null;
 let analyser: AnalyserNode | null = null;
 let masterGain: GainNode | null = null;
-let clipBuffers: Map<string, AudioBuffer> = new Map();
+const clipBuffers: Map<string, AudioBuffer> = new Map();
 let loaded = false;
 
 interface Voice {
@@ -66,7 +66,7 @@ interface Voice {
 
 let activeVoices: Voice[] = [];
 let decayingVoice: Voice | null = null;
-let velocityTracker: Map<string, number[]> = new Map();
+const velocityTracker: Map<string, number[]> = new Map();
 let fieldReadAbort: AbortController | null = null;
 let fieldReadDroneVoices: Voice[] = [];
 let eventUnsub: (() => void) | null = null;
