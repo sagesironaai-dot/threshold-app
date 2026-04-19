@@ -875,3 +875,91 @@ TIMESTAMP: 2026-04-18 22:04
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\.github\workflows\codeql.yml
 ---
+
+---
+TIMESTAMP: 2026-04-18 22:06
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python -c "
+import json
+with open('frontend/package-lock.json', encoding='utf-8') as f:
+    lock = json.load(f)
+pkgs = lock.get('packages', {})
+# Find what requires cookie and what version
+cookie_version = pkgs.get('node_modules/cookie', {}).get('vers...
+---
+
+---
+TIMESTAMP: 2026-04-18 22:06
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python -c "
+import json
+with open('frontend/package-lock.json', encoding='utf-8') as f:
+    lock = json.load(f)
+pkgs = lock.get('packages', {})
+kit = pkgs.get('node_modules/@sveltejs/kit', {})
+print('@sveltejs/kit version:', kit.get('version'))
+print(...
+---
+
+---
+TIMESTAMP: 2026-04-18 22:07
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --summary 2>&1
+---
+
+---
+TIMESTAMP: 2026-04-18 22:07
+TYPE: HOOK_BASH
+COMMAND: cd "C:\Users\sasir\Desktop\Aelarian\Archives" && python hooks/entropy_scan.py --close-audit 2>&1 | tail -5
+---
+
+---
+TIMESTAMP: 2026-04-19 00:45
+SESSION: 66
+TYPE: CLOSE
+FILES_MODIFIED:
+  - .github/workflows/codeql.yml — COMPLETE
+  - PROTOCOL/SESSION_LOG.md — COMPLETE
+COMPLETED:
+  - PR #2 closed (superseded by #11)
+  - PRs #7, #8, #9 closed with @dependabot ignore major version
+    (#7 TypeScript 6, #8 Vite 8, #9 vite-plugin-svelte 7 — peer dep conflicts)
+  - PRs #3, #4, #11, #12 rebased and merged — all CI green at merge
+  - .github/workflows/codeql.yml written — Python + JS/TS, build-mode: none,
+    security-events: write, CodeQL action v4, checkout@v6
+  - GitHub default CodeQL setup disabled via API (was conflicting with custom workflow)
+  - CodeQL confirmed working on main: both languages SUCCESS
+  - All 4 merged PRs' CI clean on main post-merge (CodeQL + CI both success)
+  - Close audit: 0 HIGH findings. Marker created.
+  - Cookie vulnerability (low severity): @sveltejs/kit@2.57.1 pins cookie@^0.6.0,
+    vulnerable version is <0.7.0. Upstream fix required — not resolvable without
+    @sveltejs/kit updating its own dep range. Alert remains open, low severity,
+    non-blocking. No production exposure (app not running).
+IN_PROGRESS:
+  - none
+NOT_STARTED:
+  - Cookie vulnerability resolution — awaiting upstream @sveltejs/kit update
+  - CodeQL check will appear on future Dependabot PRs (existing PRs ran before
+    the workflow was in place; behavior is correct going forward)
+  - Antigravity MCP config
+  - Tier 6 build spec write (Research Assistant + Audio) — held
+UNCOMMITTED: YES — committing now
+NEXT_ACTION: Next session — MCP config or Tier 6 build spec per Sage direction
+---
+
+---
+TIMESTAMP: 2026-04-18 22:08
+TYPE: HOOK_BASH
+COMMAND: cat >> "C:\Users\sasir\Desktop\Aelarian\Archives\PROTOCOL\SESSION_LOG.md" << 'ENTRY'
+
+---
+TIMESTAMP: 2026-04-19 00:45
+SESSION: 66
+TYPE: CLOSE
+FILES_MODIFIED:
+  - .github/workflows/codeql.yml â€” COMPLETE
+  - PROTOCOL/SESSION_LOG.md â€” COMPLETE
+COMPLETED:
+  - PR #2 closed (superseded by #11)
+  - PRs...
+---
