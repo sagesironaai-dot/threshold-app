@@ -28,5 +28,12 @@ When rot is fixed:
 
 ## OPEN ITEMS
 
+**"Threshold Studies" contamination — AOS files**
+Found: 2026-04-19 (session 65 close audit)
+Files: DESIGN/Systems/AOS/AOS SCHEMA.md (lines 20, 262, 278, 291, 292)
+       DESIGN/Systems/AOS/SYSTEM_ AOS.md (lines 15, 16, 45, 47, 156, 176)
+Fix: Replace all instances of "Threshold Studies" with "Threshold Pillars"
+Registry: matches existing wrong-framework-name pattern — verify ROT_REGISTRY for entry, add if not present
+
 
 

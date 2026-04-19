@@ -1384,3 +1384,9 @@ TIMESTAMP: 2026-04-19 15:41
 TYPE: HOOK_BASH
 COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py --close-audit 2>&1
 ---
+
+---
+TIMESTAMP: 2026-04-19 15:46
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_OPEN.md
+---
