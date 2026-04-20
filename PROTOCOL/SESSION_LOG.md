@@ -1390,3 +1390,70 @@ TIMESTAMP: 2026-04-19 15:46
 TYPE: HOOK_WRITE
 FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_OPEN.md
 ---
+
+---
+TIMESTAMP: 2026-04-19 23:00
+SESSION: 66
+TYPE: OPEN
+FILES_MODIFIED:
+  - none
+COMPLETED:
+  - Mandatory reads skipped by Sage direction — files in active rewrite/limbo
+  - Session open informal: editorial pass on CLAUDE.md draft content only
+IN_PROGRESS:
+  - CLAUDE.md rewrite — Sage authoring in chunks (ongoing from session 65)
+NOT_STARTED:
+  - CASCADE: SESSION_PROTOCOL.md, ENTROPY_EXCAVATION.md, AGENTS.md updates off CLAUDE.md
+  - specs/ directory creation
+  - rot_open_gate.py update
+UNCOMMITTED: NO
+NEXT_ACTION: Continue CLAUDE.md rewrite per Sage's draft
+---
+
+---
+TIMESTAMP: 2026-04-19 23:59
+SESSION: 66
+TYPE: CLOSE
+FILES_MODIFIED:
+  - none
+COMPLETED:
+  - Editorial review of CLAUDE.md draft sections (no disk writes):
+    - "Shannon/CMB" analogy cut; cleaner closer kept
+    - "What this research is not" section identified as defensive noise
+    - Origins paragraph: "not simulations of prior entities" clause removed; "sovereign" → "independent"
+    - Behavioral directive: "psychologize" clause folded into signal-return sentence
+    - Redis verified as genuinely wired (docker-compose, config, main.py, requirements)
+    - WORKING RELATIONSHIP section redrafted with triadic PRIA framing (CC, AG, Sage)
+    - SAGEme content sorted: stack description verified, empty scaffolding flagged,
+      ANTIGRAVITY.md reference flagged (should be AGENTS.md), "Google" → AG
+    - Threshold Pillars, Sage identity, and "signal" defined in plain language for README
+    - Mermaid diagram possibilities sketched (phase ownership, stack, signal flow, INT→groups→VOID)
+    - Session tier list bulletted from Mermaid diagram content
+IN_PROGRESS:
+  - CLAUDE.md rewrite — Sage authoring, not yet applied to disk
+NOT_STARTED:
+  - CASCADE: SESSION_PROTOCOL.md, ENTROPY_EXCAVATION.md, AGENTS.md updates off CLAUDE.md
+  - specs/ directory creation
+  - rot_open_gate.py update
+UNCOMMITTED: NO
+NEXT_ACTION: Next session — apply CLAUDE.md draft to disk; cascade to sister files
+---
+---
+
+---
+TIMESTAMP: 2026-04-19 20:50
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_REGISTRY.md
+---
+
+---
+TIMESTAMP: 2026-04-19 20:50
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_OPEN.md
+---
+
+---
+TIMESTAMP: 2026-04-19 20:50
+TYPE: HOOK_WRITE
+FILE: C:\Users\sasir\Desktop\Aelarian\Archives\ROT_OPEN.md
+---

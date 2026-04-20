@@ -911,6 +911,11 @@ HIGH (47 violations)
 
   Wrong framework name: 2
     "Threshold Studies" should be "Threshold Pillars"
+    RESOLVED (session 66, 2026-04-19): All 2 flagged instances were false
+    positives. "Threshold Studies" in AOS SCHEMA.md and SYSTEM_ AOS.md
+    refers to the Google account (thresholdstudies@gmail.com) — the email
+    recipient and Drive root. Not the analytical framework name. No
+    replacement needed. Files are correct as written.
 
   Backend code: 4
     Startup leak, API key validation, response bounds, git add .

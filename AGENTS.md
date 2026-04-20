@@ -126,6 +126,23 @@ When one agent completes a phase and passes work to another, a TYPE: HANDOFF
 entry is written to SESSION_LOG.md. Full format and procedure in
 SESSION_PROTOCOL.md section 8.
 
+**Swarm / Many-to-One Handoffs:** Antigravity operates as a swarm, while
+Claude Code operates as a single actor. In cases where swarm nodes distribute
+work by domain (the split-by-domain rule), they do not hand off fragmentally
+to a single receiving agent. The swarm must synthesize a single, unified
+`TYPE: HANDOFF` entry (typically managed by an Integrator node) before passing
+control to the receiving agent.
+
+---
+
+## SESSION CLOSURE RECONCILIATION
+
+Session closure is a reconciliation gate, not just an administrative status.
+An unreconciled `ROT_OPEN.md` is not a valid close. No agent is authorized
+to close a session without first verifying active items in `ROT_OPEN.md` that
+touch files modified during the session against their `ROT_REGISTRY.md` commands.
+A session closes cleanly only when this audit is passed.
+
 ---
 
 ## AGENT IDENTITY REGISTRY
