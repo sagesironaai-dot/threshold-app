@@ -34,9 +34,9 @@
 		"svelte": "^5.55.4",
 		"svelte-check": "^4.4.2",
 		"typescript": "^5.9.3",
-		"typescript-eslint": "^8.58.2",
+		"typescript-eslint": "^8.59.0",
 		"vite": "^7.3.1",
-		"vite-plugin-static-copy": "^4.0.1",
+		"vite-plugin-static-copy": "^4.1.0",
 		"vitest": "^4.1.4"
 	}
 }
