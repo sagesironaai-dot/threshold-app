@@ -1523,3 +1523,9 @@ TIMESTAMP: 2026-04-20 22:23
 TYPE: HOOK_BASH
 COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python -m pytest tests/hooks/test_status_marker.py -v 2>&1
 ---
+
+---
+TIMESTAMP: 2026-04-21 01:31
+TYPE: HOOK_BASH
+COMMAND: cd "C:/Users/sasir/Desktop/Aelarian/Archives" && python hooks/entropy_scan.py --close-audit 2>&1
+---
